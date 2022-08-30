@@ -1,16 +1,21 @@
-# thundercard
+# Thundercard
 
 A new Flutter project.
 
-## Getting Started
+## Introduction
 
-This project is a starting point for a Flutter application.
+Thundercard is a mobile application that allows users to create and share business cards. It is built with Flutter and Firebase.
 
-A few resources to get you started if this is your first Flutter project:
+- **Feature1**: Description of feature1 here
+- **Feature2**: Description of feature2 here
+- **Feature3**: Description of feature3 here
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Authors
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This application is created by team behind DevRoll:
+
+- [@notchcoder](https://github.com/notchcoder)
+- [@cardseditor](https://github.com/cardseditor)
+- [@keigomichi](https://github.com/keigomichi)
+
+[Contributors](https://github.com/Dev-roll/thundercard/graphs/contributors)
