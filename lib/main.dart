@@ -49,7 +49,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int currentPageIndex = 0;
-  String userName = 'Sam';
+  String userName = 'keigomichi';
 
   @override
   Widget build(BuildContext context) {
