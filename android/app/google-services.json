@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "277870400251",
+    "project_id": "thundercard-test",
+    "storage_bucket": "thundercard-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277870400251:android:c5dd3b9bfbe67f3c5e565e",
+        "android_client_info": {
+          "package_name": "com.example.thundercard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs7lQdIATKnpZ1MqLKhAbCnYA2Re1G68o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "277870400251-o1b5l9l83o1k239q3g4ga8m0dlsvnqoh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.thundercard"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
