@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:thundercard/Thundercard.dart';
-import 'package:thundercard/List.dart';
-import 'package:thundercard/Notifications.dart';
-import 'package:thundercard/Account.dart';
-
-const SeedColor = Color(0xFF11B4D8);
+import 'package:thundercard/variable.dart';
+import 'package:thundercard/thundercard.dart';
+import 'package:thundercard/list.dart';
+import 'package:thundercard/notifications.dart';
+import 'package:thundercard/account.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,15 +19,15 @@ class MyApp extends StatelessWidget {
       title: 'Thundercard_app',
       theme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: SeedColor,
+        colorSchemeSeed: seedColor,
         brightness: Brightness.light,
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: SeedColor,
+        colorSchemeSeed: seedColor,
         brightness: Brightness.dark,
       ),
-      home: MyHomePage(title: 'Thundercard'),
+      home: const MyHomePage(title: 'Thundercard'),
     );
   }
 }
@@ -37,12 +36,12 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
   @override
-  // _MyHomePageState createState() => _MyHomePageState();
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   int currentPageIndex = 0;
+  String userName = 'Sam';
 
   @override
   Widget build(BuildContext context) {
@@ -78,13 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: <Widget>[
-        // Container(
-        //   color: Colors.red,
-        //   alignment: Alignment.center,
-        //   child: const Text('Page 1'),
-        //   child: TestPage1(),
-        // ),
-        Thundercard(),
+        Thundercard(name: userName),
         List(),
         Notifications(),
         Account(),
