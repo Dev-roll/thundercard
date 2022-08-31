@@ -78,7 +78,15 @@ class _LoginState extends State<Login> {
                       );
                     }
                   } catch (e) {
-                    print(e);
+                    // print(e);
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: const Text('ログインに失敗しました。'),
+                      duration: const Duration(seconds: 4),
+                      action: SnackBarAction(
+                        label: 'OK',
+                        onPressed: () {},
+                      ),
+                    ));
                   }
                 },
               ),
