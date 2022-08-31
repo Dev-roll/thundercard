@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thundercard/constants.dart';
+import 'package:thundercard/login.dart';
 import 'package:thundercard/thundercard.dart';
 import 'package:thundercard/list.dart';
 import 'package:thundercard/notifications.dart';
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
         colorSchemeSeed: seedColor,
         brightness: Brightness.dark,
       ),
-      home: const MyHomePage(title: 'Thundercard'),
+      // home: const MyHomePage(title: 'Thundercard'),
+      home: const Login(),
     );
   }
 }
