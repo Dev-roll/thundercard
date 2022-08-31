@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class List extends StatelessWidget {
+  const List({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: const SafeArea(
         child: Scrollbar(
           child: SingleChildScrollView(
             child: Center(
@@ -15,7 +17,7 @@ class List extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {},
-        child: Icon(
+        child: const Icon(
           Icons.add_a_photo_rounded,
         ),
       ),
