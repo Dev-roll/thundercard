@@ -41,8 +41,12 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  MyHomePage(
+      {Key? key, required this.title, required this.type, required this.data})
+      : super(key: key);
   final String title;
+  final String type;
+  final String data;
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -85,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: <Widget>[
-        Thundercard(name: userName),
+        Thundercard(name: widget.data),
         List(),
         Notifications(),
         Account(),

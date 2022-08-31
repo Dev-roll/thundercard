@@ -73,7 +73,10 @@ class _LoginState extends State<Login> {
                       print("ログインしました　${user.email} , ${user.uid}");
                       await Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: (context) {
-                          return const MyHomePage(title: 'John');
+                          return MyHomePage(
+                              title: 'John',
+                              type: 'initialType',
+                              data: 'initialData');
                         }),
                       );
                     }

@@ -6,9 +6,12 @@ import 'widgets/my_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Thundercard extends StatefulWidget {
-  Thundercard({Key? key, required this.name}) : super(key: key);
-
+  const Thundercard({Key? key, required this.name}) : super(key: key);
+  // {Key? key, required this.name, required this.type, required this.data})
+  // : super(key: key);
   final String name;
+  // final String type;
+  // final String data;
 
   @override
   State<Thundercard> createState() => _ThundercardState();
@@ -46,6 +49,9 @@ class _ThundercardState extends State<Thundercard> {
                     Text(
                       'hello, ${widget.name}',
                     ),
+                    // Text(
+                    //   '${widget.type}: ${widget.data}',
+                    // ),
                     const MyQrCode(name: 'cardseditor')
                   ],
                 ),
