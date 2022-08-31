@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:thundercard/constants.dart';
+import 'package:thundercard/widgets/my_qr_code.dart';
 import 'widgets/my_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -45,10 +46,7 @@ class _ThundercardState extends State<Thundercard> {
                     Text(
                       'hello, ${widget.name}',
                     ),
-                    QrImage(
-                      data: 'https://github.com/${widget.name}',
-                      size: 200,
-                    ),
+                    const MyQrCode(name: 'cardseditor')
                   ],
                 ),
               ),
