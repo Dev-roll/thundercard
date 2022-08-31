@@ -1,7 +1,5 @@
 # Thundercard
 
-A new Flutter project.
-
 ## Introduction
 
 Thundercard is a mobile application that allows users to create and share business cards. It is built with Flutter and Firebase.
