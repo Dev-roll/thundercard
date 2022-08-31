@@ -38,7 +38,7 @@ class _MyQrCodeState extends State<MyQrCode> {
                 builder: (context) => const QRViewExample(),
               ));
             },
-            child: const Text('Button'),
+            child: const Text('Scan'),
           ),
         ],
       ),
