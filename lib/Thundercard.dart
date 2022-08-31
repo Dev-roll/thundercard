@@ -1,13 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:thundercard/constants.dart';
 import 'widgets/my_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Thundercard extends StatelessWidget {
+class Thundercard extends StatefulWidget {
   Thundercard({Key? key, required this.name}) : super(key: key);
 
   final String name;
-  String returnVal = '';
+
+  @override
+  State<Thundercard> createState() => _ThundercardState();
+}
+
+class _ThundercardState extends State<Thundercard> {
+  String _returnVal = '';
+
+  void fetch_name() async {
+    FirebaseFirestore.instance
+        .collection('autoCollection1')
+        .doc('autoDocument1')
+        .get()
+        .then((ref) {
+      _returnVal = ref.get("userName");
+      print(_returnVal);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +43,11 @@ class Thundercard extends StatelessWidget {
                       child: MyCard(),
                     ),
                     Text(
-                      'hello, $name',
+                      'hello, ${widget.name}',
+                    ),
+                    QrImage(
+                      data: 'https://github.com/${widget.name}',
+                      size: 200,
                     ),
                   ],
                 ),
@@ -36,18 +58,18 @@ class Thundercard extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          FirebaseFirestore.instance
-              .doc('autoCollection1/autoDocument1')
-              .set({'userName': name});
+          // FirebaseFirestore.instance
+          //     .doc('autoCollection1/autoDocument1')
+          //     .set({'userName': widget.name});
 
-          FirebaseFirestore.instance
-              .collection('autoCollection1')
-              .doc('autoDocument1')
-              .get()
-              .then((ref) {
-            returnVal = ref.get("userName");
-            print(returnVal);
-          });
+          // FirebaseFirestore.instance
+          //     .collection('autoCollection1')
+          //     .doc('autoDocument1')
+          //     .get()
+          //     .then((ref) {
+          //   returnVal = ref.get("userName");
+          //   print(returnVal);
+          // });
         },
         icon: const Icon(
           Icons.swap_horiz_rounded,
