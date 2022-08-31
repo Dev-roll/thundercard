@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thundercard/variable.dart';
+import 'package:thundercard/constants.dart';
 import 'package:thundercard/thundercard.dart';
 import 'package:thundercard/list.dart';
 import 'package:thundercard/notifications.dart';

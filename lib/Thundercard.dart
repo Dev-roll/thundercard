@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:thundercard/variable.dart';
-import 'widgets/card.dart';
+import 'package:thundercard/constants.dart';
+import 'widgets/my_card.dart';
 
 class Thundercard extends StatelessWidget {
   const Thundercard({Key? key, required this.name}) : super(key: key);
