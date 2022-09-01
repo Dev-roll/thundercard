@@ -43,6 +43,10 @@ dependencies:
   cloud_firestore: ^3.4.6
   qr_flutter: ^4.0.0
   qr_code_scanner: ^1.0.1
+  provider: ^6.0.3
+  flutter_chat_ui: ^1.6.4
+  flutter_chat_types: ^3.4.5
+  uuid: ^3.0.6
 
 dev_dependencies:
   flutter_test:
