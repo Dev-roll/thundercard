@@ -6,10 +6,9 @@ import 'widgets/my_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Thundercard extends StatefulWidget {
-  const Thundercard({Key? key, required this.name}) : super(key: key);
-  // {Key? key, required this.name, required this.type, required this.data})
-  // : super(key: key);
-  final String name;
+  const Thundercard({Key? key, required this.uid}) : super(key: key);
+  final String? uid;
+
   // final String type;
   // final String data;
 
@@ -19,6 +18,7 @@ class Thundercard extends StatefulWidget {
 
 class _ThundercardState extends State<Thundercard> {
   String _returnVal = '';
+  
 
   void fetch_name() async {
     FirebaseFirestore.instance
@@ -39,7 +39,7 @@ class _ThundercardState extends State<Thundercard> {
           child: SingleChildScrollView(
             child: Center(
               child: Container(
-                color: white,
+                // color: white,
                 child: Column(
                   children: [
                     const Padding(
@@ -47,7 +47,7 @@ class _ThundercardState extends State<Thundercard> {
                       child: MyCard(),
                     ),
                     Text(
-                      'hello, ${widget.name}',
+                      'uid: ${widget.uid}',
                     ),
                     // Text(
                     //   '${widget.type}: ${widget.data}',

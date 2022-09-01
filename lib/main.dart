@@ -7,6 +7,7 @@ import 'package:thundercard/notifications.dart';
 import 'package:thundercard/account.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,18 +43,24 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   MyHomePage(
-      {Key? key, required this.title, required this.type, required this.data})
+      {Key? key,
+      required this.title,
+      required this.type,
+      required this.data,
+      this.user})
       : super(key: key);
   final String title;
   final String type;
   final String data;
+  final User? user;
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   int currentPageIndex = 0;
-  String userName = 'keigomichi';
+  final uid = FirebaseAuth.instance.currentUser?.uid;
+  // String userName = 'keigomichi';
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: <Widget>[
-        Thundercard(name: widget.data),
+        Thundercard(uid: uid),
         List(),
         Notifications(),
         Account(),
@@ -97,4 +104,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
