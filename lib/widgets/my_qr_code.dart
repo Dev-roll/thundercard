@@ -13,6 +13,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
+import '../main.dart';
+
 class MyQrCode extends StatefulWidget {
   const MyQrCode({Key? key, required this.name}) : super(key: key);
 
@@ -57,6 +59,7 @@ class _QRViewExampleState extends State<QRViewExample> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  bool _isScanned = false;
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -182,9 +185,51 @@ class _QRViewExampleState extends State<QRViewExample> {
     );
   }
 
+  void _onQRViewCreated(QRViewController controller) {
+    this.controller = controller;
+    controller.resumeCamera();
+    controller.scannedDataStream.listen((scanData) {
+      log(scanData.code.toString());
+      HapticFeedback.vibrate();
+      setState(() {
+        result = scanData;
+      });
+      if (scanData.code == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("This QR code is invalid.")));
+      } else {
+        _transitionToNextPage(
+            describeEnum(scanData.format), scanData.code.toString());
+      }
+    });
+    this.controller!.pauseCamera();
+    this.controller!.resumeCamera();
+  }
+
+  Future<void> _transitionToNextPage(String type, String data) async {
+    if (!_isScanned) {
+      this.controller?.pauseCamera();
+      _isScanned = true;
+    }
+
+    await Navigator.of(context)
+        .push(MaterialPageRoute(
+      builder: (context) => MyHomePage(
+        title: 'John',
+        type: type,
+        data: data,
+      ),
+    ))
+        .then((value) {
+      this.controller?.resumeCamera();
+      _isScanned = false;
+    });
+  }
+
+  // 変更前
   // void _onQRViewCreated(QRViewController controller) {
   //   this.controller = controller;
-  //   log("Hello");
+  //   controller.resumeCamera();
   //   controller.scannedDataStream.listen((scanData) {
   //     log(scanData.code.toString());
   //     HapticFeedback.vibrate();
@@ -195,20 +240,6 @@ class _QRViewExampleState extends State<QRViewExample> {
   //   this.controller!.pauseCamera();
   //   this.controller!.resumeCamera();
   // }
-
-  void _onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
-    controller.resumeCamera();
-    controller.scannedDataStream.listen((scanData) {
-      log(scanData.code.toString());
-      HapticFeedback.vibrate();
-      setState(() {
-        result = scanData;
-      });
-    });
-    this.controller!.pauseCamera();
-    this.controller!.resumeCamera();
-  }
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
     log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
