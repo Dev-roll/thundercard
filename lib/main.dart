@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
           NavigationDestination(
             selectedIcon: Icon(Icons.contact_mail),
             icon: Icon(Icons.contact_mail_outlined),
-            label: 'Tundercard',
+            label: 'Thundercard',
           ),
           NavigationDestination(
             selectedIcon: Icon(Icons.view_list_outlined),
