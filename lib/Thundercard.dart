@@ -18,7 +18,6 @@ class Thundercard extends StatefulWidget {
 
 class _ThundercardState extends State<Thundercard> {
   String _returnVal = '';
-  
 
   void fetch_name() async {
     FirebaseFirestore.instance
@@ -62,9 +61,10 @@ class _ThundercardState extends State<Thundercard> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          // FirebaseFirestore.instance
-          //     .doc('autoCollection1/autoDocument1')
-          //     .set({'userName': widget.name});
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc('${widget.uid}')
+              .set({'username': widget.uid});
 
           // FirebaseFirestore.instance
           //     .collection('autoCollection1')
