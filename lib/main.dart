@@ -8,6 +8,7 @@ import 'package:thundercard/account.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +31,15 @@ class MyApp extends StatelessWidget {
         colorSchemeSeed: seedColor,
         brightness: Brightness.light,
       ),
+      locale: Locale('ja', 'JP'),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('ja', 'JP'),
+      ],
       darkTheme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: seedColor,
