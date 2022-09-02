@@ -76,7 +76,8 @@ class _LoginState extends State<Login> {
                           return MyHomePage(
                               title: 'John',
                               type: 'initialType',
-                              data: 'initialData');
+                              data: 'initialData',
+                              user: user);
                         }),
                       );
                     }

@@ -6,10 +6,9 @@ import 'widgets/my_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Thundercard extends StatefulWidget {
-  const Thundercard({Key? key, required this.name}) : super(key: key);
-  // {Key? key, required this.name, required this.type, required this.data})
-  // : super(key: key);
-  final String name;
+  const Thundercard({Key? key, required this.uid}) : super(key: key);
+  final String? uid;
+
   // final String type;
   // final String data;
 
@@ -39,7 +38,7 @@ class _ThundercardState extends State<Thundercard> {
           child: SingleChildScrollView(
             child: Center(
               child: Container(
-                color: white,
+                // color: white,
                 child: Column(
                   children: [
                     const Padding(
@@ -47,7 +46,7 @@ class _ThundercardState extends State<Thundercard> {
                       child: MyCard(),
                     ),
                     Text(
-                      'hello, ${widget.name}',
+                      'uid: ${widget.uid}',
                     ),
                     // Text(
                     //   '${widget.type}: ${widget.data}',
@@ -62,9 +61,10 @@ class _ThundercardState extends State<Thundercard> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          // FirebaseFirestore.instance
-          //     .doc('autoCollection1/autoDocument1')
-          //     .set({'userName': widget.name});
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc('${widget.uid}')
+              .set({'username': widget.uid});
 
           // FirebaseFirestore.instance
           //     .collection('autoCollection1')
@@ -76,11 +76,11 @@ class _ThundercardState extends State<Thundercard> {
           // });
         },
         icon: const Icon(
-          Icons.swap_horiz_rounded,
-          size: 32,
+          Icons.qr_code_scanner,
+          size: 24,
         ),
         label: Text(
-          'EXCHANGE',
+          '名刺交換',
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
