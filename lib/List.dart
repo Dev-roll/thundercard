@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,8 @@ class List extends StatefulWidget {
 
 class _ListState extends State<List> {
   File? image;
+  Map<String, dynamic>? data;
+
   Future pickImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -49,11 +52,47 @@ class _ListState extends State<List> {
       // final XFile? image = await picker.pickImage(source: ImageSource.gallery);
       File file = File(image!.path);
 
-      /// Firebase Cloud Storageにアップロード
       String uploadName = 'image.jpg';
-      final storageRef =
-          FirebaseStorage.instance.ref().child('cards/${uid}/images/$uploadName');
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child('cards/${uid}/images/$uploadName');
       final task = await storageRef.putFile(file);
+      final String imageURL = await task.ref.getDownloadURL();
+      print('ここ大事 -> $imageURL');
+      // final String imagePath = task.ref.fullPath;
+
+      // final data = {
+      //   'imageURL': imageURL,
+      //   // 'imagePath': imagePath,
+      //   // 'createdAt': Timestamp.now(), // 現在時刻
+      // };
+      //     await FirebaseFirestore.instance
+      //         .collection('users')
+      //         .doc('${uid}')
+      //         .collection('cards') // コレクション
+      //         .doc('example')
+      //         .collection('exchange')
+      //         .get()
+      //         .then((querySnapshot) {
+      //       print(querySnapshot.docs[0].data());
+      //     }); // データ
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc('${uid}')
+          .collection('cards') // コレクション
+          .doc('example')
+          .get()
+          .then(
+        (ref) {
+          print(ref.get('bio'));
+        },
+        // (DocumentSnapshot doc) {
+        //   data = doc.data() as Map<String, dynamic>;
+        //   print(data?.get('bio'));
+        // },
+        onError: (e) => print("Error getting document: $e"),
+      );
     } catch (e) {
       print(e);
     }
@@ -81,6 +120,7 @@ class _ListState extends State<List> {
                     onPressed: uploadPic,
                     child: const Text('Upload'),
                   ),
+                  // Text(widget.data.toString()),
                   image != null
                       ? Image.file(image!)
                       : Text("No image selected"),
