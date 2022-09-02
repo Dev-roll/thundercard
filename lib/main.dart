@@ -100,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
         List(),
         // List(uid: uid),
         Notifications(),
-        Account(),
+        Account(uid: uid),
       ][currentPageIndex],
     );
   }
