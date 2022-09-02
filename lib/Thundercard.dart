@@ -76,11 +76,11 @@ class _ThundercardState extends State<Thundercard> {
           // });
         },
         icon: const Icon(
-          Icons.swap_horiz_rounded,
-          size: 32,
+          Icons.qr_code_scanner,
+          size: 24,
         ),
         label: Text(
-          'EXCHANGE',
+          '名刺交換',
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
