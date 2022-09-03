@@ -12,41 +12,10 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:thundercard/widgets/my_qr_code_.dart';
 
+import '../constants.dart';
 import '../main.dart';
-
-class MyQrCode extends StatefulWidget {
-  const MyQrCode({Key? key, required this.name}) : super(key: key);
-
-  final String name;
-
-  @override
-  State<MyQrCode> createState() => _MyQrCodeState();
-}
-
-class _MyQrCodeState extends State<MyQrCode> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          QrImage(
-            data: 'https://github.com/${widget.name}',
-            size: 200,
-          ),
-          OutlinedButton(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const QRViewExample(),
-              ));
-            },
-            child: const Text('Scan'),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class QRViewExample extends StatefulWidget {
   const QRViewExample({Key? key}) : super(key: key);
@@ -75,21 +44,59 @@ class _QRViewExampleState extends State<QRViewExample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Expanded(flex: 4, child: _buildQrView(context)),
-          Expanded(
-            flex: 1,
-            child: FittedBox(
-              fit: BoxFit.contain,
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+                flex: 3,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          width: 60,
+                          child: Column(
+                            children: [],
+                          ),
+                        ),
+                        const MyQrCode(name: 'cardseditor'),
+                        Container(
+                          width: 60,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.share_rounded)),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(Icons.open_in_full_rounded)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )),
+            Expanded(flex: 6, child: _buildQrView(context)),
+            Expanded(
+              flex: 2,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   if (result != null)
                     Text(
-                        'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
-                  else
-                    const Text('Scan a code'),
+                        'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}'),
+                  // else
+                  //   const Text('Scan a code'),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -104,82 +111,77 @@ class _QRViewExampleState extends State<QRViewExample> {
                             child: FutureBuilder(
                               future: controller?.getFlashStatus(),
                               builder: (context, snapshot) {
-                                return Text('Flash: ${snapshot.data}');
-                              },
-                            )),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                            onPressed: () async {
-                              await controller?.flipCamera();
-                              setState(() {});
-                            },
-                            child: FutureBuilder(
-                              future: controller?.getCameraInfo(),
-                              builder: (context, snapshot) {
-                                if (snapshot.data != null) {
-                                  return Text(
-                                      'Camera facing ${describeEnum(snapshot.data!)}');
+                                if (snapshot.data != null &&
+                                    snapshot.data == true) {
+                                  return const Icon(
+                                      Icons.flashlight_on_rounded);
+                                  // return const Text('ON');
                                 } else {
-                                  return const Text('loading');
+                                  return const Icon(
+                                      Icons.flashlight_off_rounded);
+                                  // return const Text('OFF');
                                 }
                               },
                             )),
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            await controller?.pauseCamera();
-                          },
-                          child: const Text('pause',
-                              style: TextStyle(fontSize: 20)),
-                        ),
                       ),
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            await controller?.resumeCamera();
-                          },
-                          child: const Text('resume',
-                              style: TextStyle(fontSize: 20)),
-                        ),
-                      )
                     ],
                   ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   crossAxisAlignment: CrossAxisAlignment.center,
+                  //   children: <Widget>[
+                  //     Container(
+                  //       margin: const EdgeInsets.all(8),
+                  //       child: IconButton(
+                  //         onPressed: () async {
+                  //           await controller?.pauseCamera();
+                  //         },
+                  //         icon: const Icon(Icons.pause_circle_rounded),
+                  //       ),
+                  //     ),
+                  //     // Switch(value: value, onChanged: onChanged)
+                  //     Container(
+                  //       margin: const EdgeInsets.all(8),
+                  //       child: IconButton(
+                  //         onPressed: () async {
+                  //           await controller?.resumeCamera();
+                  //         },
+                  //         icon: const Icon(Icons.play_circle_rounded),
+                  //       ),
+                  //     )
+                  //   ],
+                  // ),
                 ],
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildQrView(BuildContext context) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
-    var scanArea = (MediaQuery.of(context).size.width < 400 ||
-            MediaQuery.of(context).size.height < 400)
-        ? 150.0
-        : 300.0;
+    // var scanArea = (MediaQuery.of(context).size.width < 400 ||
+    //         MediaQuery.of(context).size.height < 400)
+    //     ? 150.0
+    //     : 300.0;
+    // var scanArea = min(
+    //     MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
+    var scanArea =
+        (MediaQuery.of(context).size.width < MediaQuery.of(context).size.height)
+            ? MediaQuery.of(context).size.width * 0.75
+            : MediaQuery.of(context).size.height * 0.75;
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
     return QRView(
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
       overlay: QrScannerOverlayShape(
-          borderColor: Colors.red,
+          borderColor: white,
           borderRadius: 10,
           borderLength: 30,
-          borderWidth: 10,
+          borderWidth: 8,
           cutOutSize: scanArea),
       onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
     );

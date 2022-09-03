@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:thundercard/constants.dart';
 import 'package:thundercard/login.dart';
 import 'package:thundercard/thundercard.dart';
@@ -12,6 +14,15 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+        systemNavigationBarColor: Color(0xff1e2b2f),
+        // systemNavigationBarIconBrightness: ThemeData(),
+        statusBarColor: Color(0x00000000)),
+    // SystemUiOverlayStyle.dark,
+  );
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -28,8 +39,14 @@ class MyApp extends StatelessWidget {
       title: 'Thundercard_app',
       theme: ThemeData(
         useMaterial3: true,
+        fontFamily: '',
         colorSchemeSeed: seedColor,
         brightness: Brightness.light,
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: seedColor,
+        brightness: Brightness.dark,
       ),
       locale: Locale('ja', 'JP'),
       localizationsDelegates: const [
@@ -40,11 +57,6 @@ class MyApp extends StatelessWidget {
       supportedLocales: const [
         Locale('ja', 'JP'),
       ],
-      darkTheme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: seedColor,
-        brightness: Brightness.dark,
-      ),
       // home: const MyHomePage(title: 'Thundercard'),
       home: const Login(),
     );
@@ -106,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: <Widget>[
-        Thundercard(uid: uid),
+        Thundercard(uid: uid, type: widget.type, data: widget.data),
         List(),
         // List(uid: uid),
         Notifications(),
