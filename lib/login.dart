@@ -50,8 +50,7 @@ class _LoginState extends State<Login> {
                   try {
                     final User? user = (await FirebaseAuth.instance
                             .createUserWithEmailAndPassword(
-                                // email: _email, password: _password))
-                                email: 'example@example.com', password: 'hogehoge'))
+                                email: _email, password: _password))
                         .user;
                     if (user != null)
                       print("ユーザ登録しました ${user.email} , ${user.uid}");
