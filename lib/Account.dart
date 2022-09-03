@@ -24,17 +24,22 @@ class _AccountState extends State<Account> {
 
   @override
   Widget build(BuildContext context) {
+    // final example = FirebaseFirestore.instance
+    // .collection('users')
+    // .doc('${widget.uid}')
+    // .collection('cards')
+    // .doc('example');
+
     return Scaffold(
+      // stream: example.snapshots(),
+      // builder: (context, snapshot) {
+      //   return Text(snapshot.data['title'] as String);
+      // },
       appBar: AppBar(
         title: Text('Flutter × Firestore'),
       ),
       body: Column(
         children: [
-          OutlinedButton(
-              onPressed: (() {
-                setState(() {});
-              }),
-              child: Icon(Icons.replay)),
           FutureBuilder(
             future: getDocumentData(),
             builder: (context, snapshot) {
@@ -55,8 +60,9 @@ class _AccountState extends State<Account> {
                 return Text('データがない');
               }
 
+              dynamic hoge = snapshot.data;
               // 取得したデータを表示するWidget
-              return Text('${snapshot.data}');
+              return Text(hoge['bio']);
             },
           ),
         ],
