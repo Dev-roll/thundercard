@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:thundercard/constants.dart';
-import 'package:thundercard/widgets/my_qr_code.dart';
+import 'package:thundercard/widgets/scan_qr_code.dart';
 import 'widgets/my_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Thundercard extends StatefulWidget {
-  const Thundercard({Key? key, required this.uid}) : super(key: key);
+  const Thundercard(
+      {Key? key, required this.uid, required this.type, required this.data})
+      : super(key: key);
   final String? uid;
 
-  // final String type;
-  // final String data;
+  final String type;
+  final String data;
 
   @override
   State<Thundercard> createState() => _ThundercardState();
@@ -48,10 +50,10 @@ class _ThundercardState extends State<Thundercard> {
                     Text(
                       'uid: ${widget.uid}',
                     ),
-                    // Text(
-                    //   '${widget.type}: ${widget.data}',
-                    // ),
-                    const MyQrCode(name: 'cardseditor')
+                    Text(
+                      '${widget.type}: ${widget.data}',
+                    ),
+                    // const MyQrCode(name: 'cardseditor'),
                   ],
                 ),
               ),
@@ -60,23 +62,28 @@ class _ThundercardState extends State<Thundercard> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          FirebaseFirestore.instance
-              .collection('users')
-              .doc('${widget.uid}')
-              .set({'username': widget.uid});
-
-          // FirebaseFirestore.instance
-          //     .collection('autoCollection1')
-          //     .doc('autoDocument1')
-          //     .get()
-          //     .then((ref) {
-          //   returnVal = ref.get("userName");
-          //   print(returnVal);
-          // });
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const QRViewExample(),
+          ));
         },
+        // onPressed: () async {
+        //   FirebaseFirestore.instance
+        //       .collection('users')
+        //       .doc('${widget.uid}')
+        //       .set({'username': widget.uid});
+
+        // FirebaseFirestore.instance
+        //     .collection('autoCollection1')
+        //     .doc('autoDocument1')
+        //     .get()
+        //     .then((ref) {
+        //   returnVal = ref.get("userName");
+        //   print(returnVal);
+        // });
+        // },
         icon: const Icon(
-          Icons.qr_code_scanner,
+          Icons.qr_code_scanner_rounded,
           size: 24,
         ),
         label: Text(

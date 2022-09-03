@@ -10,34 +10,14 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
-  // 階層構造の参考用
-  //       await FirebaseFirestore.instance
-  //           .collection('users')
-  //           .doc('${FirebaseAuth.instance.currentUser?.uid}')
-  //           .collection('cards') // コレクション
-  //           .doc('example')
-  //           .get()
-
-  var bio = '';
-  hoge () async {
-    await FirebaseFirestore.instance
+  Future<Map<String, dynamic>> getDocumentData() async {
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
         .collection('users')
-        .doc('${FirebaseAuth.instance.currentUser?.uid}')
+        .doc('${widget.uid}')
         .collection('cards')
         .doc('example')
-        .get()
-        .then((ref) {
-      // dynamicならいけた
-      dynamic data = ref.data();
-
-      // これだと無限ループ
-      // setState(() {
-      //   bio = data['bio'];
-      // });
-
-      print('important: ${bio}');
-      // return bio;
-    });
+        .get();
+    return snapshot.data() as Map<String, dynamic>;
   }
 
   // 良さそうなので残しとく
@@ -59,11 +39,92 @@ class _AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('${hoge()}'),
+      appBar: AppBar(
+        title: Text('Flutter × Firestore'),
+      ),
+      body: Column(
+        children: [
+          OutlinedButton(
+              onPressed: (() {
+                setState(() {});
+              }),
+              child: Icon(Icons.replay)),
+          FutureBuilder(
+            future: getDocumentData(),
+            builder: (context, snapshot) {
+              // 取得が完了していないときに表示するWidget
+              if (snapshot.connectionState != ConnectionState.done) {
+                // インジケーターを回しておきます
+                return const CircularProgressIndicator();
+              }
+
+              // エラー時に表示するWidget
+              if (snapshot.hasError) {
+                print(snapshot.error);
+                return Text('エラー');
+              }
+
+              // データが取得できなかったときに表示するWidget
+              if (!snapshot.hasData) {
+                return Text('データがない');
+              }
+
+              // 取得したデータを表示するWidget
+              return Text('${snapshot.data}');
+            },
+          ),
+        ],
       ),
     );
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     body: SafeArea(
+  //       child: Scrollbar(
+  //         child: SingleChildScrollView(
+  //             child: Center(
+  //           child: Padding(
+  //             padding: const EdgeInsets.all(16.0),
+  //             child: Column(
+  //               children: <Widget>[
+  //                 TextField(
+  //                   onChanged: (value) {
+  //                     setState(() {
+  //                       _inputVal = value;
+  //                     });
+  //                   },
+  //                   // obscureText: true,
+  //                   decoration: const InputDecoration(
+  //                     border: OutlineInputBorder(),
+  //                     labelText: 'Your Name',
+  //                     hintText: 'Enter your name',
+  //                   ),
+  //                 ),
+  //                 OutlinedButton(
+  //                     onPressed: () {
+  //                       connectData();
+  //                       setState(() {});
+  //                     },
+  //                     child: const Text('Renew')),
+  //                 Text('username: ${data['username']}'),
+  //                 Text('bio: ${data['bio']}'),
+  //                 Text('url: ${data['url']}'),
+  //                 Text('twitter: ${data['twitter']}'),
+  //                 Text('github: ${data['github']}'),
+  //                 Text('company: ${data['company']}'),
+  //                 Text('email: ${data['email']}'),
+  //                 Text('thumbnail: ${data['thumbnail']}'),
+  //                 Image.network("${data['thumbnail']}")
+  //               ],
+  //             ),
+  //           ),
+  //         )),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
 
 // class Account extends StatefulWidget {
