@@ -12,15 +12,15 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
-  Future<Map<String, dynamic>> getDocumentData() async {
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc('${widget.uid}')
-        .collection('cards')
-        .doc('example')
-        .get();
-    return snapshot.data() as Map<String, dynamic>;
-  }
+  // Future<Map<String, dynamic>> getDocumentData() async {
+  //   DocumentSnapshot snapshot = await FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc('${widget.uid}')
+  //       .collection('cards')
+  //       .doc('example')
+  //       .get();
+  //   return snapshot.data() as Map<String, dynamic>;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +40,19 @@ class _AccountState extends State<Account> {
       ),
       body: Column(
         children: [
-          FutureBuilder(
-            future: getDocumentData(),
+          StreamBuilder(
+            stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc('${widget.uid}')
+            .collection('cards')
+            .doc('example')
+            .snapshots(),
             builder: (context, snapshot) {
               // 取得が完了していないときに表示するWidget
-              if (snapshot.connectionState != ConnectionState.done) {
-                // インジケーターを回しておきます
-                return const CircularProgressIndicator();
-              }
+              // if (snapshot.connectionState != ConnectionState.done) {
+              //   // インジケーターを回しておきます
+              //   return const CircularProgressIndicator();
+              // }
 
               // エラー時に表示するWidget
               if (snapshot.hasError) {
@@ -62,9 +67,41 @@ class _AccountState extends State<Account> {
 
               dynamic hoge = snapshot.data;
               // 取得したデータを表示するWidget
-              return Text(hoge['bio']);
+              return Column(
+                children: [
+                  Text('ユーザーネーム: ${hoge?['username']}'),
+                  Text('自己紹介: ${hoge?['bio']}'),
+                  Text('SNS: ${hoge?['social']}'),
+                  Image.network(hoge?['thumbnail']),
+                ],
+              );
             },
           ),
+          // FutureBuilder(
+          //   future: getDocumentData(),
+          //   builder: (context, snapshot) {
+          //     // 取得が完了していないときに表示するWidget
+          //     if (snapshot.connectionState != ConnectionState.done) {
+          //       // インジケーターを回しておきます
+          //       return const CircularProgressIndicator();
+          //     }
+
+          //     // エラー時に表示するWidget
+          //     if (snapshot.hasError) {
+          //       print(snapshot.error);
+          //       return Text('エラー');
+          //     }
+
+          //     // データが取得できなかったときに表示するWidget
+          //     if (!snapshot.hasData) {
+          //       return Text('データがない');
+          //     }
+
+          //     dynamic hoge = snapshot.data;
+          //     // 取得したデータを表示するWidget
+          //     return Text(hoge['bio']);
+          //   },
+          // ),
         ],
       ),
     );
