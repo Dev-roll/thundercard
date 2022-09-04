@@ -12,15 +12,7 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
-  Future<Map<String, dynamic>> getDocumentData() async {
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc('${widget.uid}')
-        .collection('cards')
-        .doc('example')
-        .get();
-    return snapshot.data() as Map<String, dynamic>;
-  }
+  String _inputVal = '';
 
   @override
   Widget build(BuildContext context) {
@@ -28,87 +20,80 @@ class _AccountState extends State<Account> {
       appBar: AppBar(
         title: Text('Flutter × Firestore'),
       ),
-      body: Column(
-        children: [
-          OutlinedButton(
-              onPressed: (() {
-                setState(() {});
-              }),
-              child: Icon(Icons.replay)),
-          FutureBuilder(
-            future: getDocumentData(),
-            builder: (context, snapshot) {
-              // 取得が完了していないときに表示するWidget
-              if (snapshot.connectionState != ConnectionState.done) {
-                // インジケーターを回しておきます
-                return const CircularProgressIndicator();
-              }
+      body: SafeArea(
+        child: Scrollbar(
+          child: SingleChildScrollView(
+              child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: <Widget>[
+                  StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('users')
+                        .doc('${widget.uid}')
+                        .collection('cards')
+                        .doc('example')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      // 取得が完了していないときに表示するWidget
+                      // if (snapshot.connectionState != ConnectionState.done) {
+                      //   // インジケーターを回しておきます
+                      //   return const CircularProgressIndicator();
+                      // }
 
-              // エラー時に表示するWidget
-              if (snapshot.hasError) {
-                print(snapshot.error);
-                return Text('エラー');
-              }
+                      // エラー時に表示するWidget
+                      if (snapshot.hasError) {
+                        print(snapshot.error);
+                        return Text('エラー');
+                      }
 
-              // データが取得できなかったときに表示するWidget
-              if (!snapshot.hasData) {
-                return Text('データがない');
-              }
+                      // データが取得できなかったときに表示するWidget
+                      if (!snapshot.hasData) {
+                        return Text('データがない');
+                      }
 
-              // 取得したデータを表示するWidget
-              return Text('${snapshot.data}');
-            },
-          ),
-        ],
+                      dynamic hoge = snapshot.data;
+                      // 取得したデータを表示するWidget
+                      return Column(
+                        children: [
+                          Text('ユーザーネーム: ${hoge?['username']}'),
+                          Text('自己紹介: ${hoge?['bio']}'),
+                          Text('SNS: ${hoge?['social']}'),
+                          Image.network(hoge?['thumbnail']),
+                        ],
+                      );
+                    },
+                  ),
+                  TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        _inputVal = value;
+                      });
+                    },
+                    // obscureText: true,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Your Name',
+                      hintText: 'Enter your name',
+                    ),
+                  ),
+                  OutlinedButton(
+                      onPressed: () {
+                        FirebaseFirestore.instance
+                            .collection('users')
+                            .doc('${widget.uid}')
+                            .collection('cards')
+                            .doc('example')
+                            .update({'bio': _inputVal});
+                      },
+                      child: const Text('Renew')),
+                ],
+              ),
+            ),
+          )),
+        ),
       ),
     );
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     body: SafeArea(
-  //       child: Scrollbar(
-  //         child: SingleChildScrollView(
-  //             child: Center(
-  //           child: Padding(
-  //             padding: const EdgeInsets.all(16.0),
-  //             child: Column(
-  //               children: <Widget>[
-  //                 TextField(
-  //                   onChanged: (value) {
-  //                     setState(() {
-  //                       _inputVal = value;
-  //                     });
-  //                   },
-  //                   // obscureText: true,
-  //                   decoration: const InputDecoration(
-  //                     border: OutlineInputBorder(),
-  //                     labelText: 'Your Name',
-  //                     hintText: 'Enter your name',
-  //                   ),
-  //                 ),
-  //                 OutlinedButton(
-  //                     onPressed: () {
-  //                       connectData();
-  //                       setState(() {});
-  //                     },
-  //                     child: const Text('Renew')),
-  //                 Text('username: ${data['username']}'),
-  //                 Text('bio: ${data['bio']}'),
-  //                 Text('url: ${data['url']}'),
-  //                 Text('twitter: ${data['twitter']}'),
-  //                 Text('github: ${data['github']}'),
-  //                 Text('company: ${data['company']}'),
-  //                 Text('email: ${data['email']}'),
-  //                 Text('thumbnail: ${data['thumbnail']}'),
-  //                 Image.network("${data['thumbnail']}")
-  //               ],
-  //             ),
-  //           ),
-  //         )),
-  //       ),
-  //     ),
-  //   );
-  // }
 }
