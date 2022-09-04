@@ -41,11 +41,13 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: '',
         colorSchemeSeed: seedColor,
+        visualDensity: VisualDensity.standard,
         brightness: Brightness.light,
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: seedColor,
+        visualDensity: VisualDensity.standard,
         brightness: Brightness.dark,
       ),
       locale: Locale('ja', 'JP'),
