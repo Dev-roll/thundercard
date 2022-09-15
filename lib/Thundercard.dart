@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:thundercard/constants.dart';
+import 'package:thundercard/widgets/my_cards.dart';
 import 'package:thundercard/widgets/scan_qr_code.dart';
 import 'widgets/my_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -47,6 +48,7 @@ class _ThundercardState extends State<Thundercard> {
                       padding: EdgeInsets.all(16.0),
                       child: MyCard(),
                     ),
+                    MyCards(uid: widget.uid),
                     Text(
                       'uid: ${widget.uid}',
                     ),
