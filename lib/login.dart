@@ -68,7 +68,7 @@ class _LoginState extends State<Login> {
                     final User? user = (await FirebaseAuth.instance
                             .signInWithEmailAndPassword(
                                 // email: _email, password: _password))
-                                email: 'example@example.com', password: 'hogehoge'))
+                                email: _email == '' ? _email : 'example@example.com', password: _password == '' ? _password : 'hogehoge'))
                         .user;
                     if (user != null) {
                       print("ログインしました　${user.email} , ${user.uid}");
