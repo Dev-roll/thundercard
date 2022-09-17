@@ -50,9 +50,9 @@ class _MyQrCodeState extends State<MyQrCode> {
                 size: 200,
                 // foregroundColor: white,
                 eyeStyle: QrEyeStyle(
-                    color: Colors.white70, eyeShape: QrEyeShape.square),
+                    color: Color(0xFFCCCCCC), eyeShape: QrEyeShape.square),
                 dataModuleStyle: QrDataModuleStyle(
-                    color: Colors.white70,
+                    color: Color(0xFFCCCCCC),
                     dataModuleShape: QrDataModuleShape.circle),
                 backgroundColor: seedColorDark,
                 errorCorrectionLevel: QrErrorCorrectLevel.M,
