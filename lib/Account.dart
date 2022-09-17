@@ -30,8 +30,6 @@ class _AccountState extends State<Account> {
                 children: <Widget>[
                   StreamBuilder(
                     stream: FirebaseFirestore.instance
-                        .collection('users')
-                        .doc('${widget.uid}')
                         .collection('cards')
                         .doc('example')
                         .snapshots(),
@@ -57,9 +55,13 @@ class _AccountState extends State<Account> {
                       // 取得したデータを表示するWidget
                       return Column(
                         children: [
-                          Text('ユーザーネーム: ${hoge?['username']}'),
+                          Text('ユーザーネーム: ${hoge?['name']}'),
                           Text('自己紹介: ${hoge?['bio']}'),
-                          Text('SNS: ${hoge?['social']}'),
+                          Text('URL: ${hoge?['url']}'),
+                          Text('Twitter: ${hoge?['twitter']}'),
+                          Text('GitHub: ${hoge?['github']}'),
+                          Text('所属: ${hoge?['company']}'),
+                          Text('メールアドレス: ${hoge?['email']}'),
                           Image.network(hoge?['thumbnail']),
                         ],
                       );
@@ -74,20 +76,18 @@ class _AccountState extends State<Account> {
                     // obscureText: true,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Your Name',
-                      hintText: 'Enter your name',
+                      labelText: '自己紹介を変更',
+                      hintText: '新しい自己紹介を入力してください',
                     ),
                   ),
                   OutlinedButton(
                       onPressed: () {
                         FirebaseFirestore.instance
-                            .collection('users')
-                            .doc('${widget.uid}')
                             .collection('cards')
                             .doc('example')
                             .update({'bio': _inputVal});
                       },
-                      child: const Text('Renew')),
+                      child: const Text('更新')),
                 ],
               ),
             ),
