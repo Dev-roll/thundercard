@@ -42,6 +42,7 @@ class _MyCardsState extends State<MyCards> {
             ? const Text('No data')
             : ListView.builder(
                 shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: data['my_cards'].length,
                 itemBuilder: (context, index) {
                   final cardId = data['my_cards'][index];
