@@ -43,25 +43,25 @@ class _AccountState extends State<Account> {
                       // エラー時に表示するWidget
                       if (snapshot.hasError) {
                         print(snapshot.error);
-                        return Text('エラー');
+                        return Text('error');
                       }
 
                       // データが取得できなかったときに表示するWidget
                       if (!snapshot.hasData) {
-                        return Text('データがない');
+                        return Text('no data');
                       }
 
                       dynamic hoge = snapshot.data;
                       // 取得したデータを表示するWidget
                       return Column(
                         children: [
-                          Text('ユーザーネーム: ${hoge?['name']}'),
-                          Text('自己紹介: ${hoge?['bio']}'),
+                          Text('username: ${hoge?['name']}'),
+                          Text('bio: ${hoge?['bio']}'),
                           Text('URL: ${hoge?['url']}'),
                           Text('Twitter: ${hoge?['twitter']}'),
                           Text('GitHub: ${hoge?['github']}'),
-                          Text('所属: ${hoge?['company']}'),
-                          Text('メールアドレス: ${hoge?['email']}'),
+                          Text('company: ${hoge?['company']}'),
+                          Text('email: ${hoge?['email']}'),
                           Image.network(hoge?['thumbnail']),
                         ],
                       );
@@ -76,8 +76,8 @@ class _AccountState extends State<Account> {
                     // obscureText: true,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: '自己紹介を変更',
-                      hintText: '新しい自己紹介を入力してください',
+                      labelText: 'bio',
+                      hintText: 'enter new bio',
                     ),
                   ),
                   OutlinedButton(
@@ -87,7 +87,7 @@ class _AccountState extends State<Account> {
                             .doc('example')
                             .update({'bio': _inputVal});
                       },
-                      child: const Text('更新')),
+                      child: const Text('renew')),
                 ],
               ),
             ),
