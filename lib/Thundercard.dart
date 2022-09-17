@@ -42,6 +42,7 @@ class _ThundercardState extends State<Thundercard> {
             child: Center(
               child: Container(
                 // color: white,
+                padding: EdgeInsets.only(bottom: 60),
                 child: Column(
                   children: [
                     const Padding(
