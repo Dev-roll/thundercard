@@ -53,10 +53,8 @@ class _ListState extends State<List> {
 
   void updateDocumentData(String imageURL) {
     final doc = FirebaseFirestore.instance
-        .collection('users')
-        .doc('${widget.uid}')
         .collection('cards')
-        .doc('example');
+        .doc(handleAccount);
     doc.update({'thumbnail': '$imageURL'}).then(
         (value) => print("DocumentSnapshot successfully updated!"),
         onError: (e) => print("Error updating document $e"));
