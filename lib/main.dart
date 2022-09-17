@@ -37,12 +37,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Thundercard_app',
+      // theme: ThemeData(
+      //   useMaterial3: true,
+      //   fontFamily: '',
+      //   colorSchemeSeed: seedColor,
+      //   visualDensity: VisualDensity.standard,
+      //   brightness: Brightness.light,
+      // ),
       theme: ThemeData(
         useMaterial3: true,
         fontFamily: '',
         colorSchemeSeed: seedColor,
         visualDensity: VisualDensity.standard,
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
@@ -98,23 +105,51 @@ class _MyHomePageState extends State<MyHomePage> {
         selectedIndex: currentPageIndex,
         destinations: const <Widget>[
           NavigationDestination(
-            selectedIcon: Icon(Icons.contact_mail),
-            icon: Icon(Icons.contact_mail_outlined),
+            selectedIcon: Icon(
+              Icons.contact_mail,
+              size: 26,
+              color: seedColorLightE,
+            ),
+            icon: Icon(
+              Icons.contact_mail_outlined,
+              color: seedColorLightA,
+            ),
             label: 'Thundercard',
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.view_list_outlined),
-            icon: Icon(Icons.list_alt_rounded),
+            selectedIcon: Icon(
+              Icons.ballot_rounded,
+              size: 26,
+              color: seedColorLightE,
+            ),
+            icon: Icon(
+              Icons.ballot_outlined,
+              color: seedColorLightA,
+            ),
             label: 'List',
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.notifications_rounded),
-            icon: Icon(Icons.notifications_none_rounded),
+            selectedIcon: Icon(
+              Icons.notifications_rounded,
+              size: 26,
+              color: seedColorLightE,
+            ),
+            icon: Icon(
+              Icons.notifications_none_rounded,
+              color: seedColorLightA,
+            ),
             label: 'Notifications',
           ),
           NavigationDestination(
-            selectedIcon: Icon(Icons.account_circle_rounded),
-            icon: Icon(Icons.account_circle_outlined),
+            selectedIcon: Icon(
+              Icons.account_circle_rounded,
+              size: 26,
+              color: seedColorLightE,
+            ),
+            icon: Icon(
+              Icons.account_circle_outlined,
+              color: seedColorLightA,
+            ),
             label: 'Account',
           ),
         ],
