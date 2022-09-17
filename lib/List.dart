@@ -52,9 +52,8 @@ class _ListState extends State<List> {
   final uid = FirebaseAuth.instance.currentUser?.uid ?? '';
 
   void updateDocumentData(String imageURL) {
-    final doc = FirebaseFirestore.instance
-        .collection('cards')
-        .doc(handleAccount);
+    final doc =
+        FirebaseFirestore.instance.collection('cards').doc(handleAccount);
     doc.update({'thumbnail': '$imageURL'}).then(
         (value) => print("DocumentSnapshot successfully updated!"),
         onError: (e) => print("Error updating document $e"));
@@ -131,78 +130,49 @@ class _ListState extends State<List> {
                       dynamic hoge = snapshot.data;
                       final exchangedCards = hoge?['exchanged_cards'];
                       String exchangedCard0 = exchangedCards[0];
-                      String exchangedCard1 = exchangedCards[1];
                       // 取得したデータを表示するWidget
                       return Column(
                         children: [
-                          Text('exchanged cards: $exchangedCards'),
-                          Text('username: $exchangedCard0'),
-                          StreamBuilder(
-                            stream: FirebaseFirestore.instance
-                                .collection('cards')
-                                .doc(exchangedCard0)
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              // 取得が完了していないときに表示するWidget
-                              // if (snapshot.connectionState != ConnectionState.done) {
-                              //   // インジケーターを回しておきます
-                              //   return const CircularProgressIndicator();
-                              // }
+                          Container(
+                            height: 300,
+                            child: ListView.builder(
+                              itemCount: exchangedCards.length,
+                              itemBuilder: (context, index) {
+                                return StreamBuilder(
+                                  stream: FirebaseFirestore.instance
+                                      .collection('cards')
+                                      .doc(exchangedCards[index])
+                                      .snapshots(),
+                                  builder: (context, snapshot) {
+                                    // 取得が完了していないときに表示するWidget
+                                    // if (snapshot.connectionState != ConnectionState.done) {
+                                    //   // インジケーターを回しておきます
+                                    //   return const CircularProgressIndicator();
+                                    // }
 
-                              // エラー時に表示するWidget
-                              if (snapshot.hasError) {
-                                print(snapshot.error);
-                                return Text('error');
-                              }
+                                    // エラー時に表示するWidget
+                                    if (snapshot.hasError) {
+                                      print(snapshot.error);
+                                      return Text('error');
+                                    }
 
-                              // データが取得できなかったときに表示するWidget
-                              if (!snapshot.hasData) {
-                                return Text('no data');
-                              }
+                                    // データが取得できなかったときに表示するWidget
+                                    if (!snapshot.hasData) {
+                                      return Text('no data');
+                                    }
 
-                              dynamic piyo = snapshot.data;
-                              // 取得したデータを表示するWidget
-                              return Column(
-                                children: [
-                                  Text('username: ${piyo?['name']}'),
-                                  Image.network(piyo?['thumbnail']),
-                                ],
-                              );
-                            },
-                          ),
-                          Text('username: $exchangedCard1'),
-                          StreamBuilder(
-                            stream: FirebaseFirestore.instance
-                                .collection('cards')
-                                .doc(exchangedCard1)
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              // 取得が完了していないときに表示するWidget
-                              // if (snapshot.connectionState != ConnectionState.done) {
-                              //   // インジケーターを回しておきます
-                              //   return const CircularProgressIndicator();
-                              // }
-
-                              // エラー時に表示するWidget
-                              if (snapshot.hasError) {
-                                print(snapshot.error);
-                                return Text('error');
-                              }
-
-                              // データが取得できなかったときに表示するWidget
-                              if (!snapshot.hasData) {
-                                return Text('no data');
-                              }
-
-                              dynamic piyo = snapshot.data;
-                              // 取得したデータを表示するWidget
-                              return Column(
-                                children: [
-                                  Text('username: ${piyo?['name']}'),
-                                  Image.network(piyo?['thumbnail']),
-                                ],
-                              );
-                            },
+                                    dynamic piyo = snapshot.data;
+                                    // 取得したデータを表示するWidget
+                                    return Column(
+                                      children: [
+                                        Text('username: ${piyo?['name']}'),
+                                        Image.network(piyo?['thumbnail']),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            ),
                           ),
                         ],
                       );
