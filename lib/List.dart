@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -20,6 +22,9 @@ class List extends StatefulWidget {
 class _ListState extends State<List> {
   File? image;
   Map<String, dynamic>? data;
+  String _inputVal = '';
+  String handleAccount = 'handle';
+  String uploadName = 'card.jpg';
 
   Future pickImage() async {
     try {
@@ -64,10 +69,9 @@ class _ListState extends State<List> {
       // final XFile? image = await picker.pickImage(source: ImageSource.gallery);
       File file = File(image!.path);
 
-      String uploadName = 'image.jpg';
       final storageRef = FirebaseStorage.instance
           .ref()
-          .child('cards/${uid}/images/$uploadName');
+          .child('cards/$handleAccount/$uploadName');
       final task = await storageRef.putFile(file);
       final String imageURL = await task.ref.getDownloadURL();
       print('ここ大事 -> $imageURL');
@@ -103,6 +107,109 @@ class _ListState extends State<List> {
                   image != null
                       ? Image.file(image!)
                       : Text("No image selected"),
+                  StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('cards')
+                        .doc('example')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      // 取得が完了していないときに表示するWidget
+                      // if (snapshot.connectionState != ConnectionState.done) {
+                      //   // インジケーターを回しておきます
+                      //   return const CircularProgressIndicator();
+                      // }
+
+                      // エラー時に表示するWidget
+                      if (snapshot.hasError) {
+                        print(snapshot.error);
+                        return Text('error');
+                      }
+
+                      // データが取得できなかったときに表示するWidget
+                      if (!snapshot.hasData) {
+                        return Text('no data');
+                      }
+
+                      dynamic hoge = snapshot.data;
+                      final exchangedCards = hoge?['exchanged_cards'];
+                      String exchangedCard0 = exchangedCards[0];
+                      String exchangedCard1 = exchangedCards[1];
+                      // 取得したデータを表示するWidget
+                      return Column(
+                        children: [
+                          Text('exchanged cards: $exchangedCards'),
+                          Text('username: $exchangedCard0'),
+                          StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection('cards')
+                                .doc(exchangedCard0)
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              // 取得が完了していないときに表示するWidget
+                              // if (snapshot.connectionState != ConnectionState.done) {
+                              //   // インジケーターを回しておきます
+                              //   return const CircularProgressIndicator();
+                              // }
+
+                              // エラー時に表示するWidget
+                              if (snapshot.hasError) {
+                                print(snapshot.error);
+                                return Text('error');
+                              }
+
+                              // データが取得できなかったときに表示するWidget
+                              if (!snapshot.hasData) {
+                                return Text('no data');
+                              }
+
+                              dynamic piyo = snapshot.data;
+                              // 取得したデータを表示するWidget
+                              return Column(
+                                children: [
+                                  Text('username: ${piyo?['name']}'),
+                                  Image.network(piyo?['thumbnail']),
+                                ],
+                              );
+                            },
+                          ),
+                          Text('username: $exchangedCard1'),
+                          StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection('cards')
+                                .doc(exchangedCard1)
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              // 取得が完了していないときに表示するWidget
+                              // if (snapshot.connectionState != ConnectionState.done) {
+                              //   // インジケーターを回しておきます
+                              //   return const CircularProgressIndicator();
+                              // }
+
+                              // エラー時に表示するWidget
+                              if (snapshot.hasError) {
+                                print(snapshot.error);
+                                return Text('error');
+                              }
+
+                              // データが取得できなかったときに表示するWidget
+                              if (!snapshot.hasData) {
+                                return Text('no data');
+                              }
+
+                              dynamic piyo = snapshot.data;
+                              // 取得したデータを表示するWidget
+                              return Column(
+                                children: [
+                                  Text('username: ${piyo?['name']}'),
+                                  Image.network(piyo?['thumbnail']),
+                                ],
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ]),
               ),
             ),
