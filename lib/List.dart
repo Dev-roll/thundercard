@@ -22,7 +22,7 @@ class List extends StatefulWidget {
 class _ListState extends State<List> {
   File? image;
   Map<String, dynamic>? data;
-  String currentAccount = 'keigomichi';
+  String currentAccount = 'example';
   String handleAccount = 'handle';
   String uploadName = 'card.jpg';
 
@@ -122,6 +122,10 @@ class _ListState extends State<List> {
                         return Text('error');
                       }
 
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Text("Loading");
+                      }
+
                       // データが取得できなかったときに表示するWidget
                       if (!snapshot.hasData) {
                         return Text('no data');
@@ -130,50 +134,50 @@ class _ListState extends State<List> {
                       dynamic hoge = snapshot.data;
                       final exchangedCards = hoge?['exchanged_cards'];
                       // 取得したデータを表示するWidget
-                      return Column(
-                        children: [
-                          Container(
-                            height: 300,
-                            child: ListView.builder(
-                              itemCount: exchangedCards.length,
-                              itemBuilder: (context, index) {
-                                return StreamBuilder(
-                                  stream: FirebaseFirestore.instance
-                                      .collection('cards')
-                                      .doc(exchangedCards[index])
-                                      .snapshots(),
-                                  builder: (context, snapshot) {
-                                    // 取得が完了していないときに表示するWidget
-                                    // if (snapshot.connectionState != ConnectionState.done) {
-                                    //   // インジケーターを回しておきます
-                                    //   return const CircularProgressIndicator();
-                                    // }
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: exchangedCards.length,
+                        itemBuilder: (context, index) {
+                          return StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection('cards')
+                                .doc(exchangedCards[index])
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              // 取得が完了していないときに表示するWidget
+                              // if (snapshot.connectionState != ConnectionState.done) {
+                              //   // インジケーターを回しておきます
+                              //   return const CircularProgressIndicator();
+                              // }
 
-                                    // エラー時に表示するWidget
-                                    if (snapshot.hasError) {
-                                      print(snapshot.error);
-                                      return Text('error');
-                                    }
+                              // エラー時に表示するWidget
+                              if (snapshot.hasError) {
+                                print(snapshot.error);
+                                return Text('error');
+                              }
 
-                                    // データが取得できなかったときに表示するWidget
-                                    if (!snapshot.hasData) {
-                                      return Text('no data');
-                                    }
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Text("Loading");
+                              }
 
-                                    dynamic piyo = snapshot.data;
-                                    // 取得したデータを表示するWidget
-                                    return Column(
-                                      children: [
-                                        Text('username: ${piyo?['name']}'),
-                                        Image.network(piyo?['thumbnail']),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                        ],
+                              // データが取得できなかったときに表示するWidget
+                              if (!snapshot.hasData) {
+                                return Text('no data');
+                              }
+
+                              dynamic piyo = snapshot.data;
+                              // 取得したデータを表示するWidget
+                              return Column(
+                                children: [
+                                  Text('username: ${piyo?['name']}'),
+                                  Image.network(piyo?['thumbnail']),
+                                ],
+                              );
+                            },
+                          );
+                        },
                       );
                     },
                   ),

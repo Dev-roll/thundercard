@@ -46,6 +46,10 @@ class _AccountState extends State<Account> {
                         return Text('error');
                       }
 
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Text("Loading");
+                      }
+
                       // データが取得できなかったときに表示するWidget
                       if (!snapshot.hasData) {
                         return Text('no data');
