@@ -22,7 +22,7 @@ class List extends StatefulWidget {
 class _ListState extends State<List> {
   File? image;
   Map<String, dynamic>? data;
-  String _inputVal = '';
+  String currentAccount = 'keigomichi';
   String handleAccount = 'handle';
   String uploadName = 'card.jpg';
 
@@ -107,7 +107,7 @@ class _ListState extends State<List> {
                   StreamBuilder(
                     stream: FirebaseFirestore.instance
                         .collection('cards')
-                        .doc('example')
+                        .doc(currentAccount)
                         .snapshots(),
                     builder: (context, snapshot) {
                       // 取得が完了していないときに表示するWidget
@@ -129,7 +129,6 @@ class _ListState extends State<List> {
 
                       dynamic hoge = snapshot.data;
                       final exchangedCards = hoge?['exchanged_cards'];
-                      String exchangedCard0 = exchangedCards[0];
                       // 取得したデータを表示するWidget
                       return Column(
                         children: [
