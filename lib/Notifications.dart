@@ -16,96 +16,102 @@ class _NotificationsState extends State<Notifications> {
       initialIndex: 0,
       child: Scaffold(
         appBar: AppBar(
-          flexibleSpace: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                // decoration: BoxDecoration(
-                //   border: Border(
-                //     bottom: BorderSide(
-                //       width: 4,
-                //       color: Colors.transparent,
-                //     ),
-                //   ),
-                // ),
-                child: TabBar(
-                  indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(40),
-                    color: seedColor4,
-                    // border: Border.all(color: seedColor),
-                    // border: const Border(
-                    //   bottom: BorderSide(
-                    //     color: seedColor,
-                    //     width: 2,
-                    //   ),
-                    // ),
-                  ),
-                  indicatorSize: TabBarIndicatorSize.label,
-                  // indicatorColor: seedColor,
-                  tabs: [
-                    Tab(
-                      // child: Icon(Icons.notifications_on_rounded),
-                      child: Container(
-                        width: 120,
-                        height: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.handshake_outlined,
-                              // Icons.mail_rounded,
-                              // Icons.swap_horiz_rounded,
-                              // Icons.swap_horizontal_circle_rounded,
-                              size: 22,
-                              color: seedColorLightA,
-                            ),
-                            SizedBox(
-                              width: 6,
-                            ),
-                            Text('交流'),
-                            // Text('つながり'),
-                            // Text('やりとり'),
-                            SizedBox(
-                              width: 2,
-                            ),
-                          ],
-                        ),
-                      ),
+          flexibleSpace: Theme(
+            data: ThemeData(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  // decoration: BoxDecoration(
+                  //   border: Border(
+                  //     bottom: BorderSide(
+                  //       width: 4,
+                  //       color: Colors.transparent,
+                  //     ),
+                  //   ),
+                  // ),
+                  child: TabBar(
+                    indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(40),
+                      color: seedColor4,
+                      // border: Border.all(color: seedColor),
+                      // border: const Border(
+                      //   bottom: BorderSide(
+                      //     color: seedColor,
+                      //     width: 2,
+                      //   ),
+                      // ),
                     ),
-                    Tab(
-                      child: Container(
-                        width: 152,
-                        height: double.infinity,
-                        // decoration: BoxDecoration(
-                        //   // color: seedColorLight1,
-                        //   border: Border.all(color: seedColor2, width: 4),
-                        //   borderRadius: BorderRadius.all(
-                        //     Radius.circular(40),
-                        //   ),
-                        // ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.campaign_rounded,
-                              size: 22,
-                              color: seedColorLightA,
-                            ),
-                            SizedBox(
-                              width: 6,
-                            ),
-                            Text('お知らせ'),
-                            SizedBox(
-                              width: 2,
-                            ),
-                          ],
+                    indicatorSize: TabBarIndicatorSize.label,
+                    // indicatorColor: seedColor,
+                    tabs: [
+                      Tab(
+                        // child: Icon(Icons.notifications_on_rounded),
+                        child: Container(
+                          width: 120,
+                          height: double.infinity,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.handshake_outlined,
+                                // Icons.mail_rounded,
+                                // Icons.swap_horiz_rounded,
+                                // Icons.swap_horizontal_circle_rounded,
+                                size: 22,
+                                color: seedColorLightA,
+                              ),
+                              SizedBox(
+                                width: 6,
+                              ),
+                              Text('交流'),
+                              // Text('つながり'),
+                              // Text('やりとり'),
+                              SizedBox(
+                                width: 2,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    )
-                  ],
-                ),
-              )
-            ],
+                      Tab(
+                        child: Container(
+                          width: 152,
+                          height: double.infinity,
+                          // decoration: BoxDecoration(
+                          //   // color: seedColorLight1,
+                          //   border: Border.all(color: seedColor2, width: 4),
+                          //   borderRadius: BorderRadius.all(
+                          //     Radius.circular(40),
+                          //   ),
+                          // ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.campaign_rounded,
+                                size: 22,
+                                color: seedColorLightA,
+                              ),
+                              SizedBox(
+                                width: 6,
+                              ),
+                              Text('お知らせ'),
+                              SizedBox(
+                                width: 2,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
         body: TabBarView(
