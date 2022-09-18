@@ -1,8 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'account_editor.dart';
+import 'api/firebase_auth.dart';
 
 class Account extends StatefulWidget {
   const Account({
@@ -15,6 +14,7 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
+  final String? uid = getUid();
   final cardId = 'keigomichi';
 
   @override
