@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:thundercard/upload_image_page.dart';
 import 'package:thundercard/widgets/chat/room_list_page.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
@@ -23,60 +24,6 @@ class _ListState extends State<List> {
   File? image;
   Map<String, dynamic>? data;
   String currentAccount = 'example';
-  String handleAccount = 'handle';
-  String uploadName = 'card.jpg';
-
-  Future pickImage() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) return;
-      final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
-    } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
-    }
-  }
-
-  // カメラを使う関数
-  Future pickImageC() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.camera);
-      if (image == null) return;
-      final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
-    } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
-    }
-  }
-
-  final uid = FirebaseAuth.instance.currentUser?.uid ?? '';
-
-  void updateDocumentData(String imageURL) {
-    final doc =
-        FirebaseFirestore.instance.collection('cards').doc(handleAccount);
-    doc.update({'thumbnail': '$imageURL'}).then(
-        (value) => print("DocumentSnapshot successfully updated!"),
-        onError: (e) => print("Error updating document $e"));
-  }
-
-  void uploadPic() async {
-    try {
-      /// 画像を選択
-      // final ImagePicker picker = ImagePicker();
-      // final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-      File file = File(image!.path);
-
-      final storageRef = FirebaseStorage.instance
-          .ref()
-          .child('cards/$handleAccount/$uploadName');
-      final task = await storageRef.putFile(file);
-      final String imageURL = await task.ref.getDownloadURL();
-      print('ここ大事 -> $imageURL');
-      updateDocumentData(imageURL);
-    } catch (e) {
-      print(e);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +34,6 @@ class _ListState extends State<List> {
             child: Center(
               child: Container(
                 child: Column(children: [
-                  Text('data'),
                   OutlinedButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -96,14 +42,6 @@ class _ListState extends State<List> {
                     },
                     child: const Text('Chat'),
                   ),
-                  OutlinedButton(
-                    onPressed: uploadPic,
-                    child: const Text('Upload'),
-                  ),
-                  // Text(widget.data.toString()),
-                  image != null
-                      ? Image.file(image!)
-                      : Text("No image selected"),
                   StreamBuilder(
                     stream: FirebaseFirestore.instance
                         .collection('cards')
@@ -150,6 +88,7 @@ class _ListState extends State<List> {
                               //   // インジケーターを回しておきます
                               //   return const CircularProgressIndicator();
                               // }
+                              dynamic data = snapshot.data;
 
                               // エラー時に表示するWidget
                               if (snapshot.hasError) {
@@ -167,12 +106,13 @@ class _ListState extends State<List> {
                                 return Text('no data');
                               }
 
-                              dynamic piyo = snapshot.data;
                               // 取得したデータを表示するWidget
                               return Column(
                                 children: [
-                                  Text('username: ${piyo?['name']}'),
-                                  Image.network(piyo?['thumbnail']),
+                                  Text('username: ${data?['name']}'),
+                                  data?['thumbnail'] != null
+                                      ? Image.network(data?['thumbnail'])
+                                      : const Text('Loading...'),
                                 ],
                               );
                             },
@@ -188,7 +128,13 @@ class _ListState extends State<List> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: pickImageC,
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => UploadImagePage(
+              data: data,
+            ),
+          ));
+        },
         // onPressed: getImage,
         child: const Icon(
           Icons.add_a_photo_rounded,
