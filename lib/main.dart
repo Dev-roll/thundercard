@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:thundercard/api/firebase_auth.dart';
 import 'package:thundercard/constants.dart';
 import 'package:thundercard/login.dart';
 import 'package:thundercard/thundercard.dart';
@@ -90,8 +91,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int currentPageIndex = 0;
-  final uid = FirebaseAuth.instance.currentUser?.uid;
-  // String userName = 'keigomichi';
+  final String? uid = getUid();
 
   @override
   Widget build(BuildContext context) {
