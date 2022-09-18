@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:thundercard/constants.dart';
+import 'package:thundercard/widgets/notification_item.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);
@@ -9,564 +12,373 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationsState extends State<Notifications> {
+  final _notificationPrivate = 'hoge';
+  final _notificationPublic = '1 2 3 4';
+  final _notificationPrivateData = 1;
+  final _notificationPublicData = null;
+  final _notificationPrivateNum = 3;
+  final _notificationPublicNum = 0;
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       initialIndex: 0,
       child: Scaffold(
-        appBar: AppBar(
-          flexibleSpace: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                // decoration: BoxDecoration(
-                //   border: Border(
-                //     bottom: BorderSide(
-                //       width: 4,
-                //       color: Colors.transparent,
-                //     ),
-                //   ),
-                // ),
-                child: TabBar(
-                  indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(40),
-                    color: seedColor4,
-                    // border: Border.all(color: seedColor),
-                    // border: const Border(
-                    //   bottom: BorderSide(
-                    //     color: seedColor,
-                    //     width: 2,
-                    //   ),
-                    // ),
-                  ),
-                  indicatorSize: TabBarIndicatorSize.label,
-                  // indicatorColor: seedColor,
-                  tabs: [
-                    Tab(
-                      // child: Icon(Icons.notifications_on_rounded),
-                      child: Container(
-                        width: 120,
-                        height: double.infinity,
-                        child: Row(
+        appBar: PreferredSize(
+          preferredSize:
+              Size.fromHeight(40 + MediaQuery.of(context).padding.top),
+          child: AppBar(
+            flexibleSpace: Theme(
+              data: ThemeData(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          width: 8,
+                          color: Colors.transparent,
+                        ),
+                      ),
+                    ),
+                    child: TabBar(
+                      indicator: BoxDecoration(
+                        borderRadius: BorderRadius.circular(40),
+                        color: Theme.of(context).colorScheme.secondaryContainer,
+                      ),
+                      indicatorSize: TabBarIndicatorSize.label,
+                      tabs: [
+                        Tab(
+                          // child: Icon(Icons.notifications_on_rounded),
+                          child: Container(
+                            width: 120,
+                            height: double.infinity,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.handshake_outlined,
+                                  // Icons.mail_rounded,
+                                  // Icons.swap_horiz_rounded,
+                                  // Icons.swap_horizontal_circle_rounded,
+                                  size: 22,
+                                  color: seedColorLightA,
+                                ),
+                                SizedBox(
+                                  width: 6,
+                                ),
+                                Text('交流'),
+                                // Text('つながり'),
+                                // Text('やりとり'),
+                                SizedBox(
+                                  width: 2,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Tab(
+                          child: Container(
+                            width: 152,
+                            height: double.infinity,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.campaign_rounded,
+                                  size: 22,
+                                  color: seedColorLightA,
+                                ),
+                                SizedBox(
+                                  width: 6,
+                                ),
+                                Text('お知らせ'),
+                                SizedBox(
+                                  width: 2,
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            (_notificationPrivateData != null)
+                ? SingleChildScrollView(
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(0, 12, 0, 16),
+                      child: Center(
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
-                              Icons.handshake_outlined,
-                              // Icons.mail_rounded,
-                              // Icons.swap_horiz_rounded,
-                              // Icons.swap_horizontal_circle_rounded,
-                              size: 22,
-                              color: seedColorLightA,
+                            StreamBuilder(
+                              stream: FirebaseFirestore.instance
+                                  .collection('chat_room')
+                                  .doc(_notificationPrivate)
+                                  .collection('contents')
+                                  .doc('cLNIkm5mn0Ul7mKidrOK')
+                                  .snapshots(),
+                              builder: (context, snapshot) {
+                                // 取得が完了していないときに表示するWidget
+                                // if (snapshot.connectionState != ConnectionState.done) {
+                                //   // インジケーターを回しておきます
+                                //   return const CircularProgressIndicator();
+                                // }
+
+                                // エラー時に表示するWidget
+                                if (snapshot.hasError) {
+                                  print(snapshot.error);
+                                  return Text('error');
+                                }
+
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Text("Loading");
+                                }
+
+                                // データが取得できなかったときに表示するWidget
+                                if (!snapshot.hasData) {
+                                  return Text('no data');
+                                }
+
+                                dynamic hoge = snapshot.data;
+                                DateTime time =
+                                    DateTime.fromMillisecondsSinceEpoch(
+                                        hoge['createdAt']);
+                                // 取得したデータを表示するWidget
+                                return NotificationItem(
+                                  title: hoge?['name'],
+                                  content: hoge?['text'],
+                                  createdAt: time.toString(),
+                                  read: false,
+                                  index: 0,
+                                );
+                                // return Column(
+                                //   children: [
+                                // Text(hoge),
+                                // ListView.builder(itemBuilder: hoge),
+                                // Text('username: ${hoge?['text']}'),
+                                // Text('username: ${hoge?['name']}'),
+                                // Text('bio: ${hoge?['bio']}'),
+                                // Text('URL: ${hoge?['url']}'),
+                                // Text('Twitter: ${hoge?['twitter']}'),
+                                // Text('GitHub: ${hoge?['github']}'),
+                                // Text('company: ${hoge?['company']}'),
+                                // Text('email: ${hoge?['email']}'),
+                                // Image.network(hoge?['thumbnail']),
+                                // ],
+                                // );
+                              },
                             ),
-                            SizedBox(
-                              width: 6,
+                            NotificationItem(
+                              title: 'タイトル',
+                              content: '通知の内容が書かれています。カードをタップして、内容を見てみましょう！',
+                              createdAt: '2022-09-19 20:06:43.946',
+                              read: false,
+                              index: 0,
                             ),
-                            Text('交流'),
-                            // Text('つながり'),
-                            // Text('やりとり'),
-                            SizedBox(
-                              width: 2,
+                            NotificationItem(
+                              title: '○○について- abcdefghijklmnopqrstuvwxyz',
+                              content: '○○についての通知が10件あります。詳細はこちらから。',
+                              createdAt: '2022-09-18 20:06:43.946',
+                              read: false,
+                              index: 0,
+                            ),
+                            NotificationItem(
+                              title: 'CardsEditorさんが追加されました！',
+                              content: 'QRコードでCardsEditorさんと名刺交換されました！',
+                              createdAt: '2021-09-15 20:06:43.946',
+                              read: true,
+                              index: 0,
+                            ),
+                            NotificationItem(
+                              title: 'hogehogeさんからの申請',
+                              content:
+                                  'hogehogeさんから、名刺交換の申請が届きました。申請を確認してみましょう。※なりすましの申請に注意してください。報告はこちらから。',
+                              createdAt: '2021-04-18 20:06:43.946',
+                              read: true,
+                              index: 0,
+                            ),
+                            NotificationItem(
+                              title: 'piyopiyoさんからのメッセージ',
+                              content:
+                                  'piyopiyoさんから、メッセージが届きました。メッセージを確認してください。',
+                              createdAt: '2020-09-18 20:06:43.946',
+                              read: false,
+                              index: 0,
+                            ),
+                            NotificationItem(
+                              title: 'title',
+                              content: 'content',
+                              createdAt: '2020-09-18 20:06:43.946',
+                              read: true,
+                              index: 0,
+                            ),
+                            NotificationItem(
+                              title:
+                                  'super_____long_____usernameさんから、非常に長いメッセージが届きました',
+                              content:
+                                  'super_____long_____usernameさんから、非常に長いメッセージが届きました。\nsuper_____long_____usernameさんから、非常に長いメッセージが届きました。\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n私は一生おっつけ同じ出入り院というののためにするただろ。はなはだ時間に安住通りはほぼその学習うたばかりを潜んがいますにも反対思っないならて、それだけにはなっでなたた。本位を伺いた点もまあ今日をけっしてんたろない。ひょろひょろ木下さんに奨励ただはっきり攻撃で使うあり春この個人私か病気でってご学習たないだろますて、その元来はよそか本位肴をあるて、久原さんの訳へ議会の誰が同時に同研究と突き破って何礼よりお学問を云っようにかつてご希望へ過ぎでたので、よく何でもかでも話がいうましからいるでものが云うたな。またはただお自分があるものは多少自然と参りですて、そのベンチへは認めるたてという中腰からなっば行くましです。\n\nsuper_____long_____usernameさんからのメッセージ。',
+                              createdAt: '2020-09-18 20:06:43.946',
+                              read: true,
+                              index: 0,
+                            ),
+                            NotificationItem(
+                              title: 'title',
+                              content: 'content',
+                              createdAt: '2020-09-18 20:06:43.946',
+                              read: true,
+                              index: 0,
+                            ),
+                            NotificationItem(
+                              title: 'title',
+                              content: 'content',
+                              createdAt: '2020-09-18 20:06:43.946',
+                              read: true,
+                              index: 0,
                             ),
                           ],
                         ),
                       ),
                     ),
-                    Tab(
-                      child: Container(
-                        width: 152,
-                        height: double.infinity,
-                        // decoration: BoxDecoration(
-                        //   // color: seedColorLight1,
-                        //   border: Border.all(color: seedColor2, width: 4),
-                        //   borderRadius: BorderRadius.all(
-                        //     Radius.circular(40),
-                        //   ),
-                        // ),
-                        child: Row(
+                  )
+                : Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.notifications_paused_rounded,
+                          size: 120,
+                          color: white5,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'まだ交流の通知はありません',
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).colorScheme.onBackground),
+                        ),
+                      ],
+                    ),
+                  ),
+            (_notificationPublicData != null)
+                ? SingleChildScrollView(
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(0, 12, 0, 16),
+                      child: Center(
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
-                              Icons.campaign_rounded,
-                              size: 22,
-                              color: seedColorLightA,
+                            NotificationItem(
+                              title: 'タイトル',
+                              content: '通知の内容が書かれています。カードをタップして、内容を見てみましょう！',
+                              createdAt: '2022-09-19 20:06:43.946',
+                              read: false,
+                              index: 1,
                             ),
-                            SizedBox(
-                              width: 6,
+                            NotificationItem(
+                              title: '○○について- abcdefghijklmnopqrstuvwxyz',
+                              content: '○○についての通知が10件あります。詳細はこちらから。',
+                              createdAt: '2022-09-18 20:06:43.946',
+                              read: false,
+                              index: 1,
                             ),
-                            Text('お知らせ'),
-                            SizedBox(
-                              width: 2,
+                            NotificationItem(
+                              title: 'CardsEditorさんが追加されました！',
+                              content: 'QRコードでCardsEditorさんと名刺交換されました！',
+                              createdAt: '2021-09-15 20:06:43.946',
+                              read: true,
+                              index: 1,
+                            ),
+                            NotificationItem(
+                              title: 'hogehogeさんからの申請',
+                              content:
+                                  'hogehogeさんから、名刺交換の申請が届きました。申請を確認してみましょう。※なりすましの申請に注意してください。報告はこちらから。',
+                              createdAt: '2021-04-18 20:06:43.946',
+                              read: true,
+                              index: 1,
+                            ),
+                            NotificationItem(
+                              title: 'piyopiyoさんからのメッセージ',
+                              content:
+                                  'piyopiyoさんから、メッセージが届きました。メッセージを確認してください。',
+                              createdAt: '2020-09-18 20:06:43.946',
+                              read: false,
+                              index: 1,
+                            ),
+                            NotificationItem(
+                              title: 'title',
+                              content: 'content',
+                              createdAt: '2020-09-18 20:06:43.946',
+                              read: true,
+                              index: 1,
+                            ),
+                            NotificationItem(
+                              title:
+                                  'super_____long_____usernameさんから、非常に長いメッセージが届きました',
+                              content:
+                                  'super_____long_____usernameさんから、非常に長いメッセージが届きました。\nsuper_____long_____usernameさんから、非常に長いメッセージが届きました。\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n私は一生おっつけ同じ出入り院というののためにするただろ。はなはだ時間に安住通りはほぼその学習うたばかりを潜んがいますにも反対思っないならて、それだけにはなっでなたた。本位を伺いた点もまあ今日をけっしてんたろない。ひょろひょろ木下さんに奨励ただはっきり攻撃で使うあり春この個人私か病気でってご学習たないだろますて、その元来はよそか本位肴をあるて、久原さんの訳へ議会の誰が同時に同研究と突き破って何礼よりお学問を云っようにかつてご希望へ過ぎでたので、よく何でもかでも話がいうましからいるでものが云うたな。またはただお自分があるものは多少自然と参りですて、そのベンチへは認めるたてという中腰からなっば行くましです。\n\nsuper_____long_____usernameさんからのメッセージ。',
+                              createdAt: '2020-09-18 20:06:43.946',
+                              read: true,
+                              index: 1,
+                            ),
+                            NotificationItem(
+                              title: 'title',
+                              content: 'content',
+                              createdAt: '2020-09-18 20:06:43.946',
+                              read: true,
+                              index: 1,
+                            ),
+                            NotificationItem(
+                              title: 'title',
+                              content: 'content',
+                              createdAt: '2020-09-18 20:06:43.946',
+                              read: true,
+                              index: 1,
                             ),
                           ],
                         ),
                       ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [
-            Container(
-              child: Center(
-                child: Text('hoge'),
-              ),
-            ),
-            Center(
-              child: Text('piyo'),
-            ),
+                    ),
+                  )
+                : Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.notifications_paused_rounded,
+                          size: 120,
+                          color: white5,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'まだお知らせはありません',
+                          style: TextStyle(
+                              color:
+                                  Theme.of(context).colorScheme.onBackground),
+                        ),
+                      ],
+                    ),
+                  ),
           ],
         ),
       ),
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import 'package:flutter/material.dart';
-// import 'package:thundercard/constants.dart';
-
-// class Notifications extends StatefulWidget {
-//   const Notifications({Key? key}) : super(key: key);
-
-//   @override
-//   State<Notifications> createState() => _NotificationsState();
-// }
-
-// class _NotificationsState extends State<Notifications>
-//     with SingleTickerProviderStateMixin {
-//   late TabController _tabController;
-//   // int _selectedIndex = 0;
-//   // NavigationRailLabelType labelType = NavigationRailLabelType.all;
-//   // bool showLeading = false;
-//   // bool showTrailing = false;
-//   // double groupAligment = 1.0;
-
-//   @override
-//   void initState() {
-//     _tabController = TabController(length: 3, vsync: this);
-//     super.initState();
-//   }
-
-//   @override
-//   void dispose() {
-//     super.dispose();
-//     _tabController.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     SizeConfig().init(context);
-//     return Scaffold(
-//       body: NestedScrollView(
-//         headerSliverBuilder: (context, value) {
-//           return [
-//             SliverAppBar(
-//                 // title: Text('Library'),
-//                 bottom: PreferredSize(
-//                     preferredSize: Size.fromHeight(getProportionHeight(24)),
-//                     child: _buildTabsRow())),
-//           ];
-//         },
-//         body: _tabBody(),
-//       ),
-//     );
-//     // return Scaffold(
-//     //   body: SafeArea(
-//     //     child: Row(
-//     //       children: <Widget>[
-//     //         NavigationRail(
-//     //           backgroundColor: seedColorDark,
-//     //           selectedIndex: _selectedIndex,
-//     //           groupAlignment: 0,
-//     //           onDestinationSelected: (int index) {
-//     //             setState(() {
-//     //               _selectedIndex = index;
-//     //             });
-//     //           },
-//     //           labelType: NavigationRailLabelType.all,
-//     //           leading: const SizedBox(),
-//     //           trailing: const SizedBox(),
-//     //           destinations: const <NavigationRailDestination>[
-//     //             NavigationRailDestination(
-//     //               icon: Icon(Icons.mail_outline_rounded),
-//     //               selectedIcon: Icon(Icons.mail_rounded),
-//     //               label: Text('お知らせ'),
-//     //             ),
-//     //             NavigationRailDestination(
-//     //               icon: Icon(Icons.campaign_outlined),
-//     //               selectedIcon: Icon(Icons.campaign_rounded),
-//     //               label: Text('ニュース'),
-//     //             ),
-//     //           ],
-//     //         ),
-//     //         const VerticalDivider(
-//     //           thickness: 1,
-//     //           width: 1,
-//     //           color: Color(0x44888888),
-//     //         ),
-//     //         // This is the main content.
-//     //         // Expanded(
-//     //         //   child: Column(
-//     //         //     mainAxisAlignment: MainAxisAlignment.center,
-//     //         //     children: <Widget>[
-//     //         //       Text('selectedIndex: $_selectedIndex'),
-//     //         //       const SizedBox(height: 20),
-//     //         //       Text('Label type: ${labelType.name}'),
-//     //         //       const SizedBox(height: 10),
-//     //         //       OverflowBar(
-//     //         //         spacing: 10.0,
-//     //         //         children: <Widget>[
-//     //         //           ElevatedButton(
-//     //         //             onPressed: () {
-//     //         //               setState(() {
-//     //         //                 labelType = NavigationRailLabelType.none;
-//     //         //               });
-//     //         //             },
-//     //         //             child: const Text('None'),
-//     //         //           ),
-//     //         //           ElevatedButton(
-//     //         //             onPressed: () {
-//     //         //               setState(() {
-//     //         //                 labelType = NavigationRailLabelType.selected;
-//     //         //               });
-//     //         //             },
-//     //         //             child: const Text('Selected'),
-//     //         //           ),
-//     //         //           ElevatedButton(
-//     //         //             onPressed: () {
-//     //         //               setState(() {
-//     //         //                 labelType = NavigationRailLabelType.all;
-//     //         //               });
-//     //         //             },
-//     //         //             child: const Text('All'),
-//     //         //           ),
-//     //         //         ],
-//     //         //       ),
-//     //         //       const SizedBox(height: 20),
-//     //         //       Text('Group alignment: $groupAligment'),
-//     //         //       const SizedBox(height: 10),
-//     //         //       OverflowBar(
-//     //         //         spacing: 10.0,
-//     //         //         children: <Widget>[
-//     //         //           ElevatedButton(
-//     //         //             onPressed: () {
-//     //         //               setState(() {
-//     //         //                 groupAligment = -1.0;
-//     //         //               });
-//     //         //             },
-//     //         //             child: const Text('Top'),
-//     //         //           ),
-//     //         //           ElevatedButton(
-//     //         //             onPressed: () {
-//     //         //               setState(() {
-//     //         //                 groupAligment = 0.0;
-//     //         //               });
-//     //         //             },
-//     //         //             child: const Text('Center'),
-//     //         //           ),
-//     //         //           ElevatedButton(
-//     //         //             onPressed: () {
-//     //         //               setState(() {
-//     //         //                 groupAligment = 1.0;
-//     //         //               });
-//     //         //             },
-//     //         //             child: const Text('Bottom'),
-//     //         //           ),
-//     //         //         ],
-//     //         //       ),
-//     //         //       const SizedBox(height: 20),
-//     //         //       OverflowBar(
-//     //         //         spacing: 10.0,
-//     //         //         children: <Widget>[
-//     //         //           ElevatedButton(
-//     //         //             onPressed: () {
-//     //         //               setState(() {
-//     //         //                 showLeading = !showLeading;
-//     //         //               });
-//     //         //             },
-//     //         //             child:
-//     //         //                 Text(showLeading ? 'Hide Leading' : 'Show Leading'),
-//     //         //           ),
-//     //         //           ElevatedButton(
-//     //         //             onPressed: () {
-//     //         //               setState(() {
-//     //         //                 showTrailing = !showTrailing;
-//     //         //               });
-//     //         //             },
-//     //         //             child: Text(
-//     //         //                 showTrailing ? 'Hide Trailing' : 'Show Trailing'),
-//     //         //           ),
-//     //         //         ],
-//     //         //       ),
-//     //         //     ],
-//     //         //   ),
-//     //         // ),
-//     //       ],
-//     //     ),
-//     //   ),
-//     // );
-//     // return DefaultTabController(
-//     //   initialIndex: 0,
-//     //   length: 2,
-//     //   child: Scaffold(
-//     //     appBar: AppBar(
-//     //       title: const Text('datadatadatadata'),
-//     //       bottom: TabBar(
-//     //         tabs: [
-//     //           Tab(
-//     //             child: Row(
-//     //               children: [
-//     //                 Icon(Icons.notifications_on_rounded),
-//     //                 Text('あなたへの通知'),
-//     //               ],
-//     //             ),
-//     //           ),
-//     //           Tab(
-//     //             child: Row(
-//     //               children: [
-//     //                 Icon(Icons.notifications_on_rounded),
-//     //                 Text('あなたへの通知'),
-//     //               ],
-//     //             ),
-//     //           )
-//     //         ],
-//     //       ),
-//     //     ),
-//     //     body: TabBarView(
-//     //       children: [
-//     //         Center(
-//     //           child: Text('hoge'),
-//     //         ),
-//     //         Center(
-//     //           child: Text('piyo'),
-//     //         ),
-//     //       ],
-//     //     ),
-//     //   ),
-//     // );
-//   }
-
-//   Widget _tabBody() {
-//     return TabBarView(
-//       controller: _tabController,
-//       children: [
-//         Container(child: Center(child: Icon(Icons.car_rental))),
-//         Container(child: Center(child: Icon(Icons.car_rental))),
-//         Container(child: Center(child: Icon(Icons.car_rental))),
-//       ],
-//     );
-//   }
-
-//   Widget _buildTabsRow() {
-//     return Stack(
-//       children: [
-//         _buildTabTitles(),
-//         _buildTabActions() // 並び替えとフィルターのactions
-//       ],
-//     );
-//   }
-
-//   // タブの左寄せタイトル郡
-//   Widget _buildTabTitles() {
-//     return Row(
-//       children: [
-//         Expanded(
-//           flex: 3,
-//           child: TabBar(
-//             controller: _tabController,
-//             indicator: BoxDecoration(
-//               border: Border(
-//                   bottom: BorderSide(
-//                 width: getProportionWidth(3),
-//                 color: Colors.black,
-//               )),
-//             ),
-//             labelColor: Colors.white,
-//             unselectedLabelColor: Colors.grey,
-//             tabs: [
-//               _tabTitle('Car'),
-//               _tabTitle('Bike'),
-//               _tabTitle('Walk'),
-//             ],
-//           ),
-//         ),
-//         Expanded(flex: 2, child: Container()),
-//       ],
-//     );
-//   }
-
-//   Widget _buildTabActions() {
-//     return Container(
-//       // tab height
-//       height: getProportionWidth(40),
-//       child: Row(
-//         crossAxisAlignment: CrossAxisAlignment.center,
-//         mainAxisAlignment: MainAxisAlignment.end,
-//         children: [
-//           _tabAction(
-//               icon: const Icon(Icons.sort_outlined, color: Colors.white),
-//               onTap: () {}),
-//           _tabAction(
-//               icon: const Icon(Icons.filter_alt_outlined, color: Colors.white),
-//               onTap: () {}),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget _tabAction({required Icon icon, required Function onTap}) {
-//     return Padding(
-//       padding: EdgeInsets.only(right: getProportionWidth(20)),
-//       child: GestureDetector(
-//         onTap: () => onTap,
-//         child: icon,
-//       ),
-//     );
-//   }
-
-//   Widget _tabTitle(String title) {
-//     return Padding(
-//       padding: EdgeInsets.symmetric(horizontal: getProportionWidth(6)),
-//       child: Container(
-//         height: getProportionHeight(40),
-//         width: getProportionWidth(132),
-//         child: Tab(text: title),
-//       ),
-//     );
-//   }
-
-//   double getProportionHeight(double inputHeight) {
-//     final screenHeight = SizeConfig.screenHeight;
-//     return (inputHeight / 812.0) * screenHeight;
-//   }
-
-//   double getProportionWidth(double inputWidth) {
-//     final screenWidth = SizeConfig.screenWidth;
-//     return (inputWidth / 375.0) * screenWidth;
-//   }
-// }
-
-// class SizeConfig {
-//   late MediaQueryData _mediaQueryData;
-//   static double screenWidth = 80;
-//   static double screenHeight = 80;
-//   static double blockSizeHorizontal = 80;
-//   static double blockSizeVertical = 80;
-
-//   void init(BuildContext context) {
-//     _mediaQueryData = MediaQuery.of(context);
-//     screenWidth = _mediaQueryData.size.width;
-//     screenHeight = _mediaQueryData.size.height;
-//     blockSizeHorizontal = screenWidth / 100;
-//     blockSizeVertical = screenHeight / 100;
-//   }
-// }
