@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'account_editor.dart';
+import 'api/firebase_auth.dart';
 
 class Account extends StatefulWidget {
   const Account({
@@ -12,13 +14,14 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
-  String _inputVal = '';
+  final String? uid = getUid();
+  final cardId = 'keigomichi';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter × Firestore'),
+        title: const Text('アカウント'),
       ),
       body: SafeArea(
         child: Scrollbar(
@@ -28,70 +31,42 @@ class _AccountState extends State<Account> {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: <Widget>[
-                  StreamBuilder(
+                  StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
                     stream: FirebaseFirestore.instance
                         .collection('cards')
-                        .doc('example')
+                        .doc(cardId)
                         .snapshots(),
-                    builder: (context, snapshot) {
-                      // 取得が完了していないときに表示するWidget
-                      // if (snapshot.connectionState != ConnectionState.done) {
-                      //   // インジケーターを回しておきます
-                      //   return const CircularProgressIndicator();
-                      // }
-
-                      // エラー時に表示するWidget
+                    builder: (BuildContext context,
+                        AsyncSnapshot<DocumentSnapshot> snapshot) {
                       if (snapshot.hasError) {
-                        print(snapshot.error);
-                        return Text('error');
+                        return const Text('Something went wrong');
                       }
-
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Text("Loading");
                       }
-
-                      // データが取得できなかったときに表示するWidget
-                      if (!snapshot.hasData) {
-                        return Text('no data');
-                      }
-
-                      dynamic hoge = snapshot.data;
-                      // 取得したデータを表示するWidget
+                      dynamic data = snapshot.data;
                       return Column(
                         children: [
-                          Text('username: ${hoge?['name']}'),
-                          Text('bio: ${hoge?['bio']}'),
-                          Text('URL: ${hoge?['url']}'),
-                          Text('Twitter: ${hoge?['twitter']}'),
-                          Text('GitHub: ${hoge?['github']}'),
-                          Text('company: ${hoge?['company']}'),
-                          Text('email: ${hoge?['email']}'),
-                          Image.network(hoge?['thumbnail']),
+                          OutlinedButton(
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      AccountEditor(data: data, cardId: cardId),
+                                ));
+                              },
+                              child: const Text('プロフィールを編集')),
+                          Text('username: ${data?['name']}'),
+                          Text('bio: ${data?['bio']}'),
+                          Text('URL: ${data?['url']}'),
+                          Text('Twitter: ${data?['twitter']}'),
+                          Text('GitHub: ${data?['github']}'),
+                          Text('company: ${data?['company']}'),
+                          Text('email: ${data?['email']}'),
+                          Image.network(data?['thumbnail']),
                         ],
                       );
                     },
                   ),
-                  TextField(
-                    onChanged: (value) {
-                      setState(() {
-                        _inputVal = value;
-                      });
-                    },
-                    // obscureText: true,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'bio',
-                      hintText: 'enter new bio',
-                    ),
-                  ),
-                  OutlinedButton(
-                      onPressed: () {
-                        FirebaseFirestore.instance
-                            .collection('cards')
-                            .doc('example')
-                            .update({'bio': _inputVal});
-                      },
-                      child: const Text('renew')),
                 ],
               ),
             ),
