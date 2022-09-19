@@ -17,7 +17,5 @@ class MyCard extends StatelessWidget {
           color: gray,
           child: Column(children: [Text('$cardId')]),
         ));
-    //   },
-    // );
   }
 }
