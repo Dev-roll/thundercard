@@ -16,11 +16,13 @@ class _AddCardState extends State<AddCard> {
       appBar: AppBar(title: Text('名刺を追加')),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              MyCard(uid: widget.cardId),
-              Text('この名刺を追加しますか？'),
-            ],
+          child: Center(
+            child: Column(
+              children: [
+                MyCard(cardId: widget.cardId),
+                Text('この名刺を追加しますか？'),
+              ],
+            ),
           ),
         ),
       ),
