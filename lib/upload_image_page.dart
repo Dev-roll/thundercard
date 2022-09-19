@@ -73,8 +73,11 @@ class _UploadImagePageState extends State<UploadImagePage> {
     void updateDocumentData(String imageURL) {
       final doc =
           FirebaseFirestore.instance.collection('cards').doc(handleAccount);
-      doc.set({'thumbnail': '$imageURL', 'name': _nameController.text}).then(
-          (value) => print("DocumentSnapshot successfully updated!"),
+      doc.set({
+        'thumbnail': '$imageURL',
+        'name': _nameController.text,
+        'is_user': false,
+      }).then((value) => print("DocumentSnapshot successfully updated!"),
           onError: (e) => print("Error updating document $e"));
     }
 
