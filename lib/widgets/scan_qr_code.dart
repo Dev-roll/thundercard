@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -28,6 +29,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../Notifications.dart';
+import '../api/firebase_auth.dart';
 import '../constants.dart';
 import '../main.dart';
 
@@ -61,392 +63,407 @@ class _QRViewExampleState extends State<QRViewExample> {
 
   @override
   Widget build(BuildContext context) {
-    String username = 'cardseditor';
-    String thunderCardUrl = 'https://github.com/$username';
-    final picker = ImagePicker();
     // var _screenSize = MediaQuery.of(context).size;
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    final String? uid = getUid();
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-                flex: 3,
-                child: Stack(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      color: seedColorDark,
-                      // color: white,
-                      child: FittedBox(
-                        fit: BoxFit.contain,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            Container(
-                              width: 60,
-                            ),
-                            RepaintBoundary(
-                              key: _globalKey,
-                              child: MyQrCode(name: username),
-                            ),
-                            Container(
-                              width: 60,
-                              margin: EdgeInsets.only(bottom: 32),
-                              // decoration: BoxDecoration(color: gray),
-                              child: Column(
-                                children: [
-                                  // ElevatedButton(
-                                  //   onPressed: () {
-                                  //     // ScaffoldMessenger.of(context)
-                                  //     //     .showSnackBar(const SnackBar(
-                                  //     //         content: Text(
-                                  //     //             "This QR code is invalid.")));
-                                  //     showModalBottomSheet(
-                                  //       context: context,
-                                  //       builder: (BuildContext context) {
-                                  //         return Container(
-                                  //           child: ShareQRView(),
-                                  //         );
-                                  //       },
-                                  //     );
-                                  //   },
-                                  //   child: Icon(
-                                  //     Icons.share_rounded,
-                                  //     color: white,
-                                  //   ),
-                                  //   style: ElevatedButton.styleFrom(
-                                  //     primary: seedColorDark,
-                                  //     padding: EdgeInsets.all(18),
-                                  //   ),
-                                  // ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      // ScaffoldMessenger.of(context)
-                                      //     .showSnackBar(const SnackBar(
-                                      //         content: Text(
-                                      //             "This QR code is invalid.")));
-                                      // showModalBottomSheet(
-                                      //   context: context,
-                                      //   builder: (BuildContext context) {
-                                      //     return Container(
-                                      //       child:
-                                      //           MyQrCode(name: 'cardseditor'),
-                                      //     );
-                                      //   },
-                                      // );
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                        builder: (context) => FittedBox(
-                                          child: MyQrCode(
-                                            name: username,
+        child: FutureBuilder(
+            future: users.doc(uid).get(),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              Map<String, dynamic> user =
+                  snapshot.data!.data() as Map<String, dynamic>;
+              String myCardId = user['my_cards'][0];
+              String thunderCardUrl = 'thundercard://user?card_id=$myCardId';
+              return Column(
+                children: <Widget>[
+                  Expanded(
+                      flex: 3,
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            color: seedColorDark,
+                            // color: white,
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: <Widget>[
+                                  Container(
+                                    width: 60,
+                                  ),
+                                  RepaintBoundary(
+                                    key: _globalKey,
+                                    child: MyQrCode(name: myCardId),
+                                  ),
+                                  Container(
+                                    width: 60,
+                                    margin: EdgeInsets.only(bottom: 32),
+                                    // decoration: BoxDecoration(color: gray),
+                                    child: Column(
+                                      children: [
+                                        // ElevatedButton(
+                                        //   onPressed: () {
+                                        //     // ScaffoldMessenger.of(context)
+                                        //     //     .showSnackBar(const SnackBar(
+                                        //     //         content: Text(
+                                        //     //             "This QR code is invalid.")));
+                                        //     showModalBottomSheet(
+                                        //       context: context,
+                                        //       builder: (BuildContext context) {
+                                        //         return Container(
+                                        //           child: ShareQRView(),
+                                        //         );
+                                        //       },
+                                        //     );
+                                        //   },
+                                        //   child: Icon(
+                                        //     Icons.share_rounded,
+                                        //     color: white,
+                                        //   ),
+                                        //   style: ElevatedButton.styleFrom(
+                                        //     primary: seedColorDark,
+                                        //     padding: EdgeInsets.all(18),
+                                        //   ),
+                                        // ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            // ScaffoldMessenger.of(context)
+                                            //     .showSnackBar(const SnackBar(
+                                            //         content: Text(
+                                            //             "This QR code is invalid.")));
+                                            // showModalBottomSheet(
+                                            //   context: context,
+                                            //   builder: (BuildContext context) {
+                                            //     return Container(
+                                            //       child:
+                                            //           MyQrCode(name: 'cardseditor'),
+                                            //     );
+                                            //   },
+                                            // );
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                              builder: (context) => FittedBox(
+                                                child: MyQrCode(
+                                                  name: myCardId,
+                                                ),
+                                              ),
+                                            ));
+                                          },
+                                          child: Icon(
+                                            Icons.open_in_full_rounded,
+                                            color: white,
+                                          ),
+                                          style: ElevatedButton.styleFrom(
+                                            primary: seedColorDark,
+                                            padding: EdgeInsets.all(18),
                                           ),
                                         ),
-                                      ));
-                                    },
-                                    child: Icon(
-                                      Icons.open_in_full_rounded,
-                                      color: white,
-                                    ),
-                                    style: ElevatedButton.styleFrom(
-                                      primary: seedColorDark,
-                                      padding: EdgeInsets.all(18),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(4, 8, 0, 0),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Icon(
-                            Icons.close_rounded,
-                            size: 32,
-                            color: white,
                           ),
-                          style: ElevatedButton.styleFrom(
-                              // primary: Colors.transparent,
-                              padding: EdgeInsets.all(16)),
-                        ),
-                      ),
-                    ),
-                  ],
-                )),
-            Expanded(flex: 6, child: _buildQrView(context)),
-            Expanded(
-              flex: 2,
-              child: Container(
-                color: seedColorDark,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    // if (result != null)
-                    //   Text(
-                    //       'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}'),
-                    // else
-                    //   const Text('Scan a code'),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.all(8),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    // await exportToImage(_globalKey);
-                                    // await Share.share(thunderCardUrl,
-                                    //     subject:
-                                    //         '$usernameさんのThundercardアカウントの共有');
-                                    final bytes =
-                                        await exportToImage(_globalKey);
-                                    //byte data→Uint8List
-                                    final widgetImageBytes = bytes?.buffer
-                                        .asUint8List(bytes.offsetInBytes,
-                                            bytes.lengthInBytes);
-                                    //App directoryファイルに保存
-                                    final applicationDocumentsFile =
-                                        await getApplicationDocumentsFile(
-                                            username, widgetImageBytes!);
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(4, 8, 0, 0),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Icon(
+                                  Icons.close_rounded,
+                                  size: 32,
+                                  color: white,
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                    // primary: Colors.transparent,
+                                    padding: EdgeInsets.all(16)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )),
+                  Expanded(flex: 6, child: _buildQrView(context)),
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      color: seedColorDark,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          // if (result != null)
+                          //   Text(
+                          //       'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}'),
+                          // else
+                          //   const Text('Scan a code'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                margin: const EdgeInsets.all(8),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          20, 0, 20, 0),
+                                      child: ElevatedButton(
+                                        onPressed: () async {
+                                          // await exportToImage(_globalKey);
+                                          // await Share.share(thunderCardUrl,
+                                          //     subject:
+                                          //         '$myCardIdさんのThundercardアカウントの共有');
+                                          final bytes =
+                                              await exportToImage(_globalKey);
+                                          //byte data→Uint8List
+                                          final widgetImageBytes = bytes?.buffer
+                                              .asUint8List(bytes.offsetInBytes,
+                                                  bytes.lengthInBytes);
+                                          //App directoryファイルに保存
+                                          final applicationDocumentsFile =
+                                              await getApplicationDocumentsFile(
+                                                  myCardId, widgetImageBytes!);
 
-                                    final path = applicationDocumentsFile.path;
-                                    await Share.shareFiles(
-                                      [
-                                        path,
-                                      ],
-                                      text: thunderCardUrl,
-                                      subject:
-                                          '$usernameさんのThundercardアカウントの共有',
-                                    );
-                                    applicationDocumentsFile.delete();
-                                  },
-                                  child: Icon(
-                                    Icons.share_rounded,
-                                    // size: 32,
-                                    color: white,
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                      // primary: Color(0x00000000),
-                                      padding: EdgeInsets.all(20)),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    await Clipboard.setData(
-                                        ClipboardData(text: thunderCardUrl));
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        backgroundColor: Color(0xff333333),
-                                        behavior: SnackBarBehavior.floating,
-                                        clipBehavior: Clip.antiAlias,
-                                        content: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      0, 0, 16, 0),
-                                              child: Icon(Icons
-                                                  .library_add_check_rounded),
-                                            ),
-                                            Expanded(
-                                              child: const Text(
-                                                'クリップボードにコピーしました',
-                                                style: TextStyle(
-                                                    color: white,
-                                                    overflow:
-                                                        TextOverflow.fade),
+                                          final path =
+                                              applicationDocumentsFile.path;
+                                          await Share.shareFiles(
+                                            [
+                                              path,
+                                            ],
+                                            text: thunderCardUrl,
+                                            subject:
+                                                '$myCardIdさんのThundercardアカウントの共有',
+                                          );
+                                          applicationDocumentsFile.delete();
+                                        },
+                                        child: Icon(
+                                          Icons.share_rounded,
+                                          // size: 32,
+                                          color: white,
+                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                            // primary: Color(0x00000000),
+                                            padding: EdgeInsets.all(20)),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          20, 0, 20, 0),
+                                      child: ElevatedButton(
+                                        onPressed: () async {
+                                          await Clipboard.setData(ClipboardData(
+                                              text: thunderCardUrl));
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              backgroundColor:
+                                                  Color(0xff333333),
+                                              behavior:
+                                                  SnackBarBehavior.floating,
+                                              clipBehavior: Clip.antiAlias,
+                                              content: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(0, 0, 16, 0),
+                                                    child: Icon(Icons
+                                                        .library_add_check_rounded),
+                                                  ),
+                                                  Expanded(
+                                                    child: const Text(
+                                                      'クリップボードにコピーしました',
+                                                      style: TextStyle(
+                                                          color: white,
+                                                          overflow: TextOverflow
+                                                              .fade),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              duration:
+                                                  const Duration(seconds: 2),
+                                              action: SnackBarAction(
+                                                label: 'OK',
+                                                onPressed: () {},
+                                              ),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(28),
                                               ),
                                             ),
-                                          ],
+                                          );
+                                        },
+                                        child: Icon(
+                                          Icons.copy_rounded,
+                                          // size: 32,
+                                          color: white,
                                         ),
-                                        duration: const Duration(seconds: 2),
-                                        action: SnackBarAction(
-                                          label: 'OK',
-                                          onPressed: () {},
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(28),
-                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                            // primary: Color(0x00000000),
+                                            padding: EdgeInsets.all(20)),
                                       ),
-                                    );
-                                  },
-                                  child: Icon(
-                                    Icons.copy_rounded,
-                                    // size: 32,
-                                    color: white,
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                      // primary: Color(0x00000000),
-                                      padding: EdgeInsets.all(20)),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    final bytes =
-                                        await exportToImage(_globalKey);
-                                    //byte data→Uint8List
-                                    final widgetImageBytes = bytes?.buffer
-                                        .asUint8List(bytes.offsetInBytes,
-                                            bytes.lengthInBytes);
-                                    final result =
-                                        await ImageGallerySaver.saveImage(
-                                      widgetImageBytes!,
-                                      name: username,
-                                    );
-                                    //App directoryファイルに保存
-                                    // final applicationDocumentsFile =
-                                    //     await getApplicationDocumentsFile(
-                                    //         username, widgetImageBytes!);
-                                    // final path = applicationDocumentsFile.path;
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        backgroundColor: Color(0xff333333),
-                                        behavior: SnackBarBehavior.floating,
-                                        clipBehavior: Clip.antiAlias,
-                                        content: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      0, 0, 16, 0),
-                                              child: Icon(Icons
-                                                  .file_download_done_rounded),
-                                            ),
-                                            Expanded(
-                                              child: const Text(
-                                                'QRコードをダウンロードしました',
-                                                style: TextStyle(
-                                                    color: white,
-                                                    overflow:
-                                                        TextOverflow.fade),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          20, 0, 20, 0),
+                                      child: ElevatedButton(
+                                        onPressed: () async {
+                                          final bytes =
+                                              await exportToImage(_globalKey);
+                                          //byte data→Uint8List
+                                          final widgetImageBytes = bytes?.buffer
+                                              .asUint8List(bytes.offsetInBytes,
+                                                  bytes.lengthInBytes);
+                                          final result =
+                                              await ImageGallerySaver.saveImage(
+                                            widgetImageBytes!,
+                                            name: myCardId,
+                                          );
+                                          //App directoryファイルに保存
+                                          // final applicationDocumentsFile =
+                                          //     await getApplicationDocumentsFile(
+                                          //         myCardId, widgetImageBytes!);
+                                          // final path = applicationDocumentsFile.path;
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              backgroundColor:
+                                                  Color(0xff333333),
+                                              behavior:
+                                                  SnackBarBehavior.floating,
+                                              clipBehavior: Clip.antiAlias,
+                                              content: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(0, 0, 16, 0),
+                                                    child: Icon(Icons
+                                                        .file_download_done_rounded),
+                                                  ),
+                                                  Expanded(
+                                                    child: const Text(
+                                                      'QRコードをダウンロードしました',
+                                                      style: TextStyle(
+                                                          color: white,
+                                                          overflow: TextOverflow
+                                                              .fade),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              // duration: const Duration(seconds: 12),
+                                              duration:
+                                                  const Duration(seconds: 2),
+                                              action: SnackBarAction(
+                                                // label: '開く',
+                                                label: 'OK',
+                                                onPressed: () {
+                                                  // pickImage();
+                                                  // _launchURL(
+                                                  // '',
+                                                  // 'mailto:example@gmail.com?subject=hoge&body=test',
+                                                  // thunderCardUrl,
+                                                  // 'twitter://user?screen_name=cardseditor',
+                                                  // secondUrl:
+                                                  //     'https://github.com/cardseditor',
+                                                  // );
+                                                },
+                                              ),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(28),
                                               ),
                                             ),
-                                          ],
+                                          );
+                                        },
+                                        child: Icon(
+                                          Icons.save_alt_rounded,
+                                          // size: 32,
+                                          color: white,
                                         ),
-                                        // duration: const Duration(seconds: 12),
-                                        duration: const Duration(seconds: 2),
-                                        action: SnackBarAction(
-                                          // label: '開く',
-                                          label: 'OK',
-                                          onPressed: () {
-                                            // pickImage();
-                                            // _launchURL(
-                                            // '',
-                                            // 'mailto:example@gmail.com?subject=hoge&body=test',
-                                            // thunderCardUrl,
-                                            // 'twitter://user?screen_name=cardseditor',
-                                            // secondUrl:
-                                            //     'https://github.com/cardseditor',
-                                            // );
-                                          },
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(28),
-                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                            // primary: Color(0x00000000),
+                                            padding: EdgeInsets.all(20)),
                                       ),
-                                    );
-                                  },
-                                  child: Icon(
-                                    Icons.save_alt_rounded,
-                                    // size: 32,
-                                    color: white,
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                      // primary: Color(0x00000000),
-                                      padding: EdgeInsets.all(20)),
+                                    ),
+                                    // Padding(
+                                    //   padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+                                    //   child: Center(
+                                    //     child: _image ??
+                                    //         const Icon(Icons.no_photography_rounded),
+                                    //   ),
+                                    // ),
+                                  ],
                                 ),
+                                // child: ElevatedButton(
+                                //   onPressed: () async {
+                                //     await controller?.toggleFlash();
+                                //     setState(() {});
+                                //   },
+                                //   child: FutureBuilder(
+                                //     future: controller?.getFlashStatus(),
+                                //     builder: (context, snapshot) {
+                                //       if (snapshot.data != null &&
+                                //           snapshot.data == true) {
+                                //         return const Icon(
+                                //             Icons.flashlight_on_rounded);
+                                //       } else {
+                                //         return const Icon(
+                                //             Icons.flashlight_off_rounded);
+                                //       }
+                                //     },
+                                //   ),
+                                //   style: ElevatedButton.styleFrom(
+                                //     padding: EdgeInsets.all(16),
+                                //   ),
+                                // ),
                               ),
-                              // Padding(
-                              //   padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
-                              //   child: Center(
-                              //     child: _image ??
-                              //         const Icon(Icons.no_photography_rounded),
-                              //   ),
-                              // ),
                             ],
                           ),
-                          // child: ElevatedButton(
-                          //   onPressed: () async {
-                          //     await controller?.toggleFlash();
-                          //     setState(() {});
-                          //   },
-                          //   child: FutureBuilder(
-                          //     future: controller?.getFlashStatus(),
-                          //     builder: (context, snapshot) {
-                          //       if (snapshot.data != null &&
-                          //           snapshot.data == true) {
-                          //         return const Icon(
-                          //             Icons.flashlight_on_rounded);
-                          //       } else {
-                          //         return const Icon(
-                          //             Icons.flashlight_off_rounded);
-                          //       }
-                          //     },
-                          //   ),
-                          //   style: ElevatedButton.styleFrom(
-                          //     padding: EdgeInsets.all(16),
-                          //   ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.center,
+                          //   crossAxisAlignment: CrossAxisAlignment.center,
+                          //   children: <Widget>[
+                          //     Container(
+                          //       margin: const EdgeInsets.all(8),
+                          //       child: IconButton(
+                          //         onPressed: () async {
+                          //           await controller?.pauseCamera();
+                          //         },
+                          //         icon: const Icon(Icons.pause_circle_rounded),
+                          //       ),
+                          //     ),
+                          //     // Switch(value: value, onChanged: onChanged)
+                          //     Container(
+                          //       margin: const EdgeInsets.all(8),
+                          //       child: IconButton(
+                          //         onPressed: () async {
+                          //           await controller?.resumeCamera();
+                          //         },
+                          //         icon: const Icon(Icons.play_circle_rounded),
+                          //       ),
+                          //     )
+                          //   ],
                           // ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   crossAxisAlignment: CrossAxisAlignment.center,
-                    //   children: <Widget>[
-                    //     Container(
-                    //       margin: const EdgeInsets.all(8),
-                    //       child: IconButton(
-                    //         onPressed: () async {
-                    //           await controller?.pauseCamera();
-                    //         },
-                    //         icon: const Icon(Icons.pause_circle_rounded),
-                    //       ),
-                    //     ),
-                    //     // Switch(value: value, onChanged: onChanged)
-                    //     Container(
-                    //       margin: const EdgeInsets.all(8),
-                    //       child: IconButton(
-                    //         onPressed: () async {
-                    //           await controller?.resumeCamera();
-                    //         },
-                    //         icon: const Icon(Icons.play_circle_rounded),
-                    //       ),
-                    //     )
-                    //   ],
-                    // ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+                  ),
+                ],
+              );
+            }),
       ),
     );
   }
