@@ -32,18 +32,18 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
     String _time = getDateTime.hour.toString() +
         ':' +
         getDateTime.minute.toString().padLeft(2, '0');
-    String displayDateTime = '';
-    displayDateTime +=
-        (getDateTime.year != _now.year) ? _year + ' ' + _date : '';
-    displayDateTime += (getDateTime.year == _now.year &&
-            (getDateTime.month != _now.month || getDateTime.day != _now.day))
-        ? _date
-        : '';
-    displayDateTime += (getDateTime.year == _now.year &&
-            getDateTime.month == _now.month &&
-            getDateTime.day == _now.day)
-        ? _time
-        : '';
+    String displayDateTime = _year + ' ' + _date + ' ' + _time;
+    // displayDateTime +=
+    //     (getDateTime.year != _now.year) ? _year + ' ' + _date : '';
+    // displayDateTime += (getDateTime.year == _now.year &&
+    //         (getDateTime.month != _now.month || getDateTime.day != _now.day))
+    //     ? _date
+    //     : '';
+    // displayDateTime += (getDateTime.year == _now.year &&
+    //         getDateTime.month == _now.month &&
+    //         getDateTime.day == _now.day)
+    //     ? _time
+    //     : '';
     var _screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
