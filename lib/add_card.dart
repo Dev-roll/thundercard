@@ -18,7 +18,7 @@ class _AddCardState extends State<AddCard> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              MyCard(uid: widget.cardId),
+              MyCard(cardId: widget.cardId),
               Text('この名刺を追加しますか？'),
             ],
           ),
