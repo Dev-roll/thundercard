@@ -27,27 +27,27 @@ class MyCard extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             Map<String, dynamic> user =
                 snapshot.data!.data() as Map<String, dynamic>;
-            return StreamBuilder<DocumentSnapshot<Object?>>(
-              stream: cards.doc(user['my_cards'][0]).snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return const Text('Something went wrong');
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Text("Loading");
-                }
-                dynamic data = snapshot.data;
-                return SizedBox(
-                    width: screenSize.width * 0.91,
-                    height: screenSize.width * 0.55,
-                    child: Card(
-                      elevation: 10,
-                      color: gray,
-                      child: Column(children: [Text(data?['name'])]),
-                    ));
-              },
-            );
+            // return StreamBuilder<DocumentSnapshot<Object?>>(
+            //   stream: cards.doc(user['my_cards'][0]).snapshots(),
+            //   builder: (BuildContext context,
+            //       AsyncSnapshot<DocumentSnapshot> snapshot) {
+            //     if (snapshot.hasError) {
+            //       return const Text('Something went wrong');
+            //     }
+            //     if (snapshot.connectionState == ConnectionState.waiting) {
+            //       return const Text("Loading");
+            //     }
+            //     dynamic data = snapshot.data;
+            return SizedBox(
+                width: screenSize.width * 0.91,
+                height: screenSize.width * 0.55,
+                child: Card(
+                  elevation: 10,
+                  color: gray,
+                  child: Column(children: [Text(user['my_cards'][0])]),
+                ));
+            //   },
+            // );
           }
           return const Text('loading');
         });
