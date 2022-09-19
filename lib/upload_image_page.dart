@@ -23,8 +23,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
   Map<String, dynamic>? data;
   String currentAccount = 'example';
   String uploadName = 'card.jpg';
-  late final TextEditingController _nameController =
-      TextEditingController(text: widget.data?['name']);
+  late final TextEditingController _nameController = TextEditingController();
 
   Future pickImage() async {
     try {
@@ -50,8 +49,6 @@ class _UploadImagePageState extends State<UploadImagePage> {
   }
 
   final uid = FirebaseAuth.instance.currentUser?.uid ?? '';
-
-  var _editText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +106,8 @@ class _UploadImagePageState extends State<UploadImagePage> {
         print(e);
       }
     }
+
+    var _editText = '';
 
     return Scaffold(
       body: SafeArea(
