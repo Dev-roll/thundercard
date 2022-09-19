@@ -51,6 +51,8 @@ class _UploadImagePageState extends State<UploadImagePage> {
 
   final uid = FirebaseAuth.instance.currentUser?.uid ?? '';
 
+  var _editText = '';
+
   @override
   Widget build(BuildContext context) {
     int smallLetterStart = 97;
@@ -112,28 +114,34 @@ class _UploadImagePageState extends State<UploadImagePage> {
             child: Center(
               child: Container(
                 child: Column(children: [
-                  const Text('ユーザー名'),
+                  const Text('① Enter username.'),
                   TextFormField(
-                    // onChanged: (value) {
-                    //   setState(() {});
-                    // },
+                    onChanged: (value) {
+                      setState(() {
+                        _editText = value;
+                      });
+                    },
                     controller: _nameController,
-                    decoration: InputDecoration(border: OutlineInputBorder()),
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'username',
+                      hintText: 'No name entered',
+                    ),
                     textInputAction: TextInputAction.done,
                   ),
+                  _nameController.text != ''
+                      ? Text('Name entered')
+                      : Text('No name entered'),
+                  const Text('② Take a photo.'),
+                  image != null
+                      ? Image.file(image!)
+                      : Text("No image selected"),
                   OutlinedButton(
                     onPressed: _nameController.text != '' && image != null
                         ? uploadPic
                         : null,
                     child: const Text('Upload'),
                   ),
-                  // Text(widget.data.toString()),
-                  _nameController.text != ''
-                      ? Text('')
-                      : Text('No name entered'),
-                  image != null
-                      ? Image.file(image!)
-                      : Text("No image selected"),
                 ]),
               ),
             ),
