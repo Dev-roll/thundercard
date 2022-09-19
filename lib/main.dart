@@ -155,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: <Widget>[
-        Thundercard(uid: uid, type: widget.type, data: widget.data),
+        Thundercard(type: widget.type, data: widget.data),
         List(uid: uid),
         // List(uid: uid),
         Notifications(),
