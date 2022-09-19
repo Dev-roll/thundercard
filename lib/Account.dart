@@ -19,6 +19,7 @@ class _AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
+    CollectionReference cards = FirebaseFirestore.instance.collection('cards');
 
     return Scaffold(
       appBar: AppBar(
@@ -48,11 +49,8 @@ class _AccountState extends State<Account> {
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         children: <Widget>[
-                          StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                            stream: FirebaseFirestore.instance
-                                .collection('cards')
-                                .doc(user['my_cards'][0])
-                                .snapshots(),
+                          StreamBuilder<DocumentSnapshot<Object?>>(
+                            stream: cards.doc(user['my_cards'][0]).snapshots(),
                             builder: (BuildContext context,
                                 AsyncSnapshot<DocumentSnapshot> snapshot) {
                               if (snapshot.hasError) {
