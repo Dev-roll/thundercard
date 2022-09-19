@@ -21,37 +21,36 @@ class _ListState extends State<List> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Scrollbar(
-          child: SingleChildScrollView(
-            child: Center(
-              child: Column(children: <Widget>[
-                OutlinedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => RoomListPage(),
-                    ));
-                  },
-                  child: const Text('Chat'),
-                ),
-                FutureBuilder<DocumentSnapshot>(
-                    future: users.doc(uid).get(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<DocumentSnapshot> snapshot) {
-                      if (snapshot.hasError) {
-                        return const Text("Something went wrong");
-                      }
+    return FutureBuilder<DocumentSnapshot>(
+        future: users.doc(uid).get(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return const Text("Something went wrong");
+          }
 
-                      if (snapshot.hasData && !snapshot.data!.exists) {
-                        return const Text("Document does not exist");
-                      }
+          if (snapshot.hasData && !snapshot.data!.exists) {
+            return const Text("Document does not exist");
+          }
 
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        Map<String, dynamic> user =
-                            snapshot.data!.data() as Map<String, dynamic>;
-
-                        return StreamBuilder<DocumentSnapshot<Object?>>(
+          if (snapshot.connectionState == ConnectionState.done) {
+            Map<String, dynamic> user =
+                snapshot.data!.data() as Map<String, dynamic>;
+            return Scaffold(
+              body: SafeArea(
+                child: Scrollbar(
+                  child: SingleChildScrollView(
+                    child: Center(
+                      child: Column(children: <Widget>[
+                        OutlinedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => RoomListPage(),
+                            ));
+                          },
+                          child: const Text('Chat'),
+                        ),
+                        StreamBuilder<DocumentSnapshot<Object?>>(
                           stream: cards.doc(user['my_cards'][0]).snapshots(),
                           builder: (BuildContext context,
                               AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -92,7 +91,8 @@ class _ListState extends State<List> {
                                       children: [
                                         Text('username: ${card?['name']}'),
                                         card?['is_user'] == true
-                                            ? MyCard(cardId: exchangedCards[index])
+                                            ? MyCard(
+                                                cardId: exchangedCards[index])
                                             : card?['thumbnail'] != null
                                                 ? Image.network(
                                                     card?['thumbnail'])
@@ -104,27 +104,28 @@ class _ListState extends State<List> {
                               },
                             );
                           },
-                        );
-                      }
-                      return const Text("Loading");
-                    }),
-              ]),
-            ),
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => UploadImagePage(
-              data: data,
-            ),
-          ));
-        },
-        child: const Icon(
-          Icons.add_a_photo_rounded,
-        ),
-      ),
-    );
+                        )
+                      ]),
+                    ),
+                  ),
+                ),
+              ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => UploadImagePage(
+                      cardId: user['my_cards'][0],
+                      data: data,
+                    ),
+                  ));
+                },
+                child: const Icon(
+                  Icons.add_a_photo_rounded,
+                ),
+              ),
+            );
+          }
+          return const Text("Loading");
+        });
   }
 }

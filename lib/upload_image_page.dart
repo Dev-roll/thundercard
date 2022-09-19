@@ -3,15 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:thundercard/widgets/chat/room_list_page.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math' as math;
 
 class UploadImagePage extends StatefulWidget {
-  const UploadImagePage({Key? key, required this.data}) : super(key: key);
-  // const UploadImagePage({Key? key, required this.uid}) : super(key: key);
+  const UploadImagePage({Key? key, required this.cardId, required this.data})
+      : super(key: key);
+  final String? cardId;
   final dynamic data;
 
   @override
@@ -21,7 +20,6 @@ class UploadImagePage extends StatefulWidget {
 class _UploadImagePageState extends State<UploadImagePage> {
   File? image;
   Map<String, dynamic>? data;
-  String currentAccount = 'example';
   String uploadName = 'card.jpg';
   late final TextEditingController _nameController = TextEditingController();
 
@@ -80,7 +78,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
 
     void updateExchangedCards() {
       final doc =
-          FirebaseFirestore.instance.collection('cards').doc(currentAccount);
+          FirebaseFirestore.instance.collection('cards').doc(widget.cardId);
       doc.update({
         'exchanged_cards': FieldValue.arrayUnion([handleAccount])
       }).then((value) => print("DocumentSnapshot successfully updated!"),
