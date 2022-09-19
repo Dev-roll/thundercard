@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:thundercard/widgets/scan_qr_code.dart';
 import 'api/firebase_auth.dart';
 import 'widgets/my_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Thundercard extends StatefulWidget {
   const Thundercard({Key? key, required this.type, required this.data})
@@ -15,6 +16,7 @@ class Thundercard extends StatefulWidget {
 
 class _ThundercardState extends State<Thundercard> {
   final String? uid = getUid();
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +31,26 @@ class _ThundercardState extends State<Thundercard> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: MyCard(uid: uid),
+                      child: FutureBuilder(
+                        future: users.doc(uid).get(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<DocumentSnapshot> snapshot) {
+                          if (snapshot.hasError) {
+                            return const Text('Something went wrong');
+                          }
+                          if (snapshot.hasData && !snapshot.data!.exists) {
+                            return const Text('Document does not exist');
+                          }
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            Map<String, dynamic> user =
+                                snapshot.data!.data() as Map<String, dynamic>;
+                            return MyCard(cardId: user['my_cards'][0]);
+                          }
+                          return const Text('loading');
+                        },
+                      ),
                     ),
-                    // MyCards(uid: uid),
                     Text('uid: $uid'),
                     Text('${widget.type}: ${widget.data}'),
                   ],
