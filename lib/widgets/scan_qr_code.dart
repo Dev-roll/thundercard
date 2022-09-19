@@ -22,13 +22,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:thundercard/Thundercard.dart';
+import 'package:thundercard/thundercard.dart';
 import 'package:thundercard/add_card.dart';
 import 'package:thundercard/widgets/my_qr_code.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../Notifications.dart';
+import '../notifications.dart';
 import '../api/firebase_auth.dart';
 import '../constants.dart';
 import '../main.dart';
