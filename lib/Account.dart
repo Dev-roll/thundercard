@@ -74,12 +74,24 @@ class _AccountState extends State<Account> {
                                       },
                                       child: const Text('プロフィールを編集')),
                                   Text('username: ${data?['name']}'),
-                                  Text('bio: ${data?['bio']}'),
-                                  Text('URL: ${data?['url']}'),
-                                  Text('Twitter: ${data?['twitter']}'),
-                                  Text('GitHub: ${data?['github']}'),
-                                  Text('company: ${data?['company']}'),
-                                  Text('email: ${data?['email']}'),
+                                  data?['bio'] != ''
+                                      ? Text('bio: ${data?['bio']}')
+                                      : Container(),
+                                  data?['url'] != ''
+                                      ? Text('URL: ${data?['url']}')
+                                      : Container(),
+                                  data?['twitter'] != ''
+                                      ? Text('Twitter: ${data?['twitter']}')
+                                      : Container(),
+                                  data?['github'] != ''
+                                      ? Text('GitHub: ${data?['github']}')
+                                      : Container(),
+                                  data?['company'] != ''
+                                      ? Text('company: ${data?['company']}')
+                                      : Container(),
+                                  data?['email'] != ''
+                                      ? Text('email: ${data?['email']}')
+                                      : Container(),
                                   Image.network(data?['thumbnail']),
                                 ],
                               );
@@ -92,7 +104,6 @@ class _AccountState extends State<Account> {
                 ),
               );
             }
-
             return Text("loading");
           }),
     );
