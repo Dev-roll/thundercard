@@ -22,6 +22,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/Thundercard.dart';
+import 'package:thundercard/add_card.dart';
 import 'package:thundercard/widgets/my_qr_code.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -555,18 +556,19 @@ class _QRViewExampleState extends State<QRViewExample> {
         result = scanData;
       });
       if (scanData.code == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("This QR code is invalid.")));
-      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text("QRコードを読み取れませんでした")));
+      } else if (describeEnum(scanData.format) == 'qrcode') {
         _transitionToNextPage(
-            describeEnum(scanData.format), scanData.code.toString());
+          scanData.code.toString(),
+        );
       }
     });
     this.controller!.pauseCamera();
     this.controller!.resumeCamera();
   }
 
-  Future<void> _transitionToNextPage(String type, String data) async {
+  Future<void> _transitionToNextPage(String data) async {
     if (!_isScanned) {
       this.controller?.pauseCamera();
       _isScanned = true;
@@ -574,11 +576,7 @@ class _QRViewExampleState extends State<QRViewExample> {
 
     await Navigator.of(context)
         .push(MaterialPageRoute(
-      builder: (context) => MyHomePage(
-        title: 'John',
-        type: type,
-        data: data,
-      ),
+      builder: (context) => AddCard(cardId: data),
     ))
         .then((value) {
       this.controller?.resumeCamera();
