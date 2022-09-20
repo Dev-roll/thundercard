@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'account_editor.dart';
@@ -97,6 +98,9 @@ class _AccountState extends State<Account> {
                               );
                             },
                           ),
+                          ElevatedButton(
+                              onPressed: () => FirebaseAuth.instance.signOut(),
+                              child: const Text('Sign out')),
                         ],
                       ),
                     ),

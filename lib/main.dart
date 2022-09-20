@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:thundercard/api/firebase_auth.dart';
 import 'package:thundercard/constants.dart';
-import 'package:thundercard/login.dart';
+import 'package:thundercard/auth_gate.dart';
 import 'package:thundercard/thundercard.dart';
 import 'package:thundercard/list.dart';
 import 'package:thundercard/notifications.dart';
@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
         Locale('ja', 'JP'),
       ],
       // home: const MyHomePage(title: 'Thundercard'),
-      home: const Login(),
+      home: const AuthGate(),
     );
   }
 }

@@ -5,13 +5,13 @@ import 'package:thundercard/main.dart';
 import 'firebase_options.dart';
 
 // MyApp,MyHomePageはデフォルトから変更がないため省略
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+class AuthGate extends StatefulWidget {
+  const AuthGate({Key? key}) : super(key: key);
   @override
-  State<Login> createState() => _LoginState();
+  State<AuthGate> createState() => _AuthGateState();
 }
 
-class _LoginState extends State<Login> {
+class _AuthGateState extends State<AuthGate> {
   String _email = '';
   String _password = '';
 
@@ -68,7 +68,11 @@ class _LoginState extends State<Login> {
                     final User? user = (await FirebaseAuth.instance
                             .signInWithEmailAndPassword(
                                 // email: _email, password: _password))
-                                email: _email == '' ? 'example@example.com' : _email, password: _password == '' ? 'hogehoge' : _password))
+                                email: _email == ''
+                                    ? 'example@example.com'
+                                    : _email,
+                                password:
+                                    _password == '' ? 'hogehoge' : _password))
                         .user;
                     if (user != null) {
                       print("ログインしました　${user.email} , ${user.uid}");
