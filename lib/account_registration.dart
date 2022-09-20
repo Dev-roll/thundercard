@@ -41,6 +41,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
       'github': _githubController.text,
       'company': _companyController.text,
       'email': _emailController.text,
+      'is_user': true,
       'exchanged_cards': [],
     }).then((value) {
       Navigator.push(
