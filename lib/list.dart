@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:thundercard/custom_progress_indicator.dart';
 import 'package:thundercard/upload_image_page.dart';
 import 'package:thundercard/widgets/chat/room_list_page.dart';
 import 'package:thundercard/widgets/my_card.dart';
@@ -61,7 +62,7 @@ class _ListState extends State<List> {
                             }
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return const Text("Loading");
+                              return const CustomProgressIndicator();
                             }
                             dynamic data = snapshot.data;
                             final exchangedCards = data?['exchanged_cards'];
@@ -71,8 +72,7 @@ class _ListState extends State<List> {
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: exchangedCards.length,
                               itemBuilder: (context, index) {
-                                return StreamBuilder<
-                                    DocumentSnapshot<Object?>>(
+                                return StreamBuilder<DocumentSnapshot<Object?>>(
                                   stream: cards
                                       .doc(exchangedCards[index])
                                       .snapshots(),
@@ -80,12 +80,11 @@ class _ListState extends State<List> {
                                       AsyncSnapshot<DocumentSnapshot>
                                           snapshot) {
                                     if (snapshot.hasError) {
-                                      return const Text(
-                                          'Something went wrong');
+                                      return const Text('Something went wrong');
                                     }
                                     if (snapshot.connectionState ==
                                         ConnectionState.waiting) {
-                                      return const Text("Loading");
+                                      return const CustomProgressIndicator();
                                     }
                                     dynamic card = snapshot.data;
                                     if (!snapshot.hasData) {
@@ -100,7 +99,7 @@ class _ListState extends State<List> {
                                             : card?['thumbnail'] != null
                                                 ? Image.network(
                                                     card?['thumbnail'])
-                                                : const Text('Loading...'),
+                                                : const CustomProgressIndicator(),
                                       ],
                                     );
                                   },
@@ -129,7 +128,9 @@ class _ListState extends State<List> {
               ),
             );
           }
-          return const Text("Loading");
+          return const Scaffold(
+            body: Center(child: CustomProgressIndicator()),
+          );
         });
   }
 }
