@@ -1,0 +1,107 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:thundercard/auth_gate.dart';
+
+import 'api/firebase_auth.dart';
+
+class AccountRegistration extends StatefulWidget {
+  const AccountRegistration({Key? key}) : super(key: key);
+
+  @override
+  State<AccountRegistration> createState() => _AccountRegistrationState();
+}
+
+class _AccountRegistrationState extends State<AccountRegistration> {
+  final String? uid = getUid();
+  final TextEditingController _cardIdController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _bioController = TextEditingController();
+  final TextEditingController _urlController = TextEditingController();
+  final TextEditingController _twitterController = TextEditingController();
+  final TextEditingController _githubController = TextEditingController();
+  final TextEditingController _companyController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  CollectionReference cards = FirebaseFirestore.instance.collection('cards');
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+  Future<void> registerCard() {
+    users
+        .doc(uid)
+        .set({
+          'my_cards': [_cardIdController.text]
+        })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
+
+    return cards.doc(_cardIdController.text).set({
+      'name': _nameController.text,
+      'bio': _bioController.text,
+      'url': _urlController.text,
+      'twitter': _twitterController.text,
+      'github': _githubController.text,
+      'company': _companyController.text,
+      'email': _emailController.text,
+      'exchanged_cards': [],
+    }).then((value) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => AuthGate()),
+      );
+      print('Card Registered');
+    }).catchError((error) => print('Failed to register card: $error'));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('プロフィールを登録'),
+        actions: [
+          TextButton(onPressed: registerCard, child: const Text('登録')),
+        ],
+      ),
+      body: SafeArea(
+          child: SingleChildScrollView(
+              child: Center(
+                  child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('ユーザー名'),
+                          TextField(
+                            controller: _cardIdController,
+                          ),
+                          Text('名前'),
+                          TextField(
+                            controller: _nameController,
+                          ),
+                          Text('自己紹介'),
+                          TextField(
+                            controller: _bioController,
+                          ),
+                          const Text('URL'),
+                          TextField(
+                            controller: _urlController,
+                          ),
+                          const Text('Twitter'),
+                          TextField(
+                            controller: _twitterController,
+                          ),
+                          const Text('GitHub'),
+                          TextField(
+                            controller: _githubController,
+                          ),
+                          const Text('所属'),
+                          TextField(
+                            controller: _companyController,
+                          ),
+                          const Text('メールアドレス'),
+                          TextField(
+                            controller: _emailController,
+                          ),
+                        ],
+                      ))))),
+    );
+  }
+}

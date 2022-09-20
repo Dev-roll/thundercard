@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
         Locale('ja', 'JP'),
       ],
       // home: const MyHomePage(title: 'Thundercard'),
-      home: const AuthGate(),
+      home: AuthGate(),
     );
   }
 }

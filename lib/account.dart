@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'account_editor.dart';
@@ -23,31 +24,31 @@ class _AccountState extends State<Account> {
       appBar: AppBar(
         title: const Text('アカウント'),
       ),
-      body: FutureBuilder<DocumentSnapshot>(
-          future: users.doc(uid).get(),
-          builder:
-              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return Text("Something went wrong");
-            }
+      body: Column(
+        children: [
+          FutureBuilder<DocumentSnapshot>(
+              future: users.doc(uid).get(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text("Something went wrong");
+                }
 
-            if (snapshot.hasData && !snapshot.data!.exists) {
-              return Text("Document does not exist");
-            }
+                if (snapshot.hasData && !snapshot.data!.exists) {
+                  return Text("Document does not exist");
+                }
 
-            if (snapshot.connectionState == ConnectionState.done) {
-              Map<String, dynamic> user =
-                  snapshot.data!.data() as Map<String, dynamic>;
+                if (snapshot.connectionState == ConnectionState.done) {
+                  Map<String, dynamic> user =
+                      snapshot.data!.data() as Map<String, dynamic>;
 
-              return SafeArea(
-                child: Scrollbar(
-                  child: SingleChildScrollView(
-                      child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        children: <Widget>[
-                          StreamBuilder<DocumentSnapshot<Object?>>(
+                  return SafeArea(
+                    child: Scrollbar(
+                      child: SingleChildScrollView(
+                          child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: StreamBuilder<DocumentSnapshot<Object?>>(
                             stream: cards.doc(user['my_cards'][0]).snapshots(),
                             builder: (BuildContext context,
                                 AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -90,23 +91,25 @@ class _AccountState extends State<Account> {
                                   data?['email'] != ''
                                       ? Text('email: ${data?['email']}')
                                       : Container(),
-                                  Image.network(data?['thumbnail']),
                                 ],
                               );
                             },
                           ),
-                          ElevatedButton(
-                              onPressed: () => FirebaseAuth.instance.signOut(),
-                              child: const Text('Sign out')),
-                        ],
-                      ),
+                        ),
+                      )),
                     ),
-                  )),
-                ),
-              );
-            }
-            return Text("loading");
-          }),
+                  );
+                }
+                return Text("loading");
+              }),
+          ElevatedButton(
+              // onPressed: () => FirebaseAuth.instance.signOut(),
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+              },
+              child: const Text('Sign out')),
+        ],
+      ),
     );
   }
 }
