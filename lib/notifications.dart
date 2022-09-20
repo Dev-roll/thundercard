@@ -13,8 +13,9 @@ class Notifications extends StatefulWidget {
 class _NotificationsState extends State<Notifications> {
   final _notificationPrivate = 'hoge';
   final _notificationPublic = '1 2 3 4';
+  final myCardId = 'example';
   final _notificationPrivateData = 1;
-  final _notificationPublicData = null;
+  final _notificationPublicData = 1;
   final _notificationPrivateNum = 3;
   final _notificationPublicNum = 0;
 
@@ -114,267 +115,173 @@ class _NotificationsState extends State<Notifications> {
         ),
         body: TabBarView(
           children: [
-            (_notificationPrivateData != null)
-                ? SingleChildScrollView(
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(0, 12, 0, 16),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            StreamBuilder(
-                              stream: FirebaseFirestore.instance
-                                  .collection('chat_room')
-                                  .doc(_notificationPrivate)
-                                  .collection('contents')
-                                  .doc('cLNIkm5mn0Ul7mKidrOK')
-                                  .snapshots(),
-                              builder: (context, snapshot) {
-                                // 取得が完了していないときに表示するWidget
-                                // if (snapshot.connectionState != ConnectionState.done) {
-                                //   // インジケーターを回しておきます
-                                //   return const CircularProgressIndicator();
-                                // }
+            StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('cards')
+                    .doc(myCardId)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  // 取得が完了していないときに表示するWidget
+                  // if (snapshot.connectionState != ConnectionState.done) {
+                  //   // インジケーターを回しておきます
+                  //   return const CircularProgressIndicator();
+                  // }
 
-                                // エラー時に表示するWidget
-                                if (snapshot.hasError) {
-                                  print(snapshot.error);
-                                  return Text('error');
-                                }
+                  // エラー時に表示するWidget
+                  if (snapshot.hasError) {
+                    print(snapshot.error);
+                    return Text('error');
+                  }
 
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Text("Loading");
-                                }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Text("Loading");
+                  }
 
-                                // データが取得できなかったときに表示するWidget
-                                if (!snapshot.hasData) {
-                                  return Text('no data');
-                                }
+                  // データが取得できなかったときに表示するWidget
+                  if (!snapshot.hasData) {
+                    return Text('no data');
+                  }
+                  dynamic data = snapshot.data;
+                  final interactions = data?['interactions'];
+                  final interactions_length = interactions.length;
 
-                                dynamic hoge = snapshot.data;
-                                DateTime time =
-                                    DateTime.fromMillisecondsSinceEpoch(
-                                        hoge['createdAt']);
-                                // 取得したデータを表示するWidget
-                                return NotificationItem(
-                                  title: hoge?['name'],
-                                  content: hoge?['text'],
-                                  createdAt: time.toString(),
-                                  read: false,
-                                  index: 0,
-                                );
-                                // return Column(
-                                //   children: [
-                                // Text(hoge),
-                                // ListView.builder(itemBuilder: hoge),
-                                // Text('username: ${hoge?['text']}'),
-                                // Text('username: ${hoge?['name']}'),
-                                // Text('bio: ${hoge?['bio']}'),
-                                // Text('URL: ${hoge?['url']}'),
-                                // Text('Twitter: ${hoge?['twitter']}'),
-                                // Text('GitHub: ${hoge?['github']}'),
-                                // Text('company: ${hoge?['company']}'),
-                                // Text('email: ${hoge?['email']}'),
-                                // Image.network(hoge?['thumbnail']),
-                                // ],
-                                // );
-                              },
+                  return (interactions_length != 0)
+                      ? SingleChildScrollView(
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(0, 12, 0, 16),
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ListView.builder(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount: interactions.length,
+                                      itemBuilder: (context, index) {
+                                        DateTime time = interactions[index]
+                                                ['created_at']
+                                            .toDate();
+                                        return NotificationItem(
+                                          title: interactions[index]['title'],
+                                          content: interactions[index]
+                                              ['content'],
+                                          createdAt: time.toString(),
+                                          read: interactions[index]['read'],
+                                          index: 0,
+                                        );
+                                      }),
+                                ],
+                              ),
                             ),
-                            NotificationItem(
-                              title: 'タイトル',
-                              content: '通知の内容が書かれています。カードをタップして、内容を見てみましょう！',
-                              createdAt: '2022-09-19 20:06:43.946',
-                              read: false,
-                              index: 0,
+                          ),
+                        )
+                      : Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.notifications_paused_rounded,
+                                size: 120,
+                                color: white5,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                'まだ交流の通知はありません',
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground),
+                              ),
+                            ],
+                          ),
+                        );
+                }),
+            StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('news')
+                    .doc('news_items')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  // 取得が完了していないときに表示するWidget
+                  // if (snapshot.connectionState != ConnectionState.done) {
+                  //   // インジケーターを回しておきます
+                  //   return const CircularProgressIndicator();
+                  // }
+
+                  // エラー時に表示するWidget
+                  if (snapshot.hasError) {
+                    print(snapshot.error);
+                    return Text('error');
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Text("Loading");
+                  }
+
+                  // データが取得できなかったときに表示するWidget
+                  if (!snapshot.hasData) {
+                    return Text('no data');
+                  }
+                  dynamic data = snapshot.data;
+                  final news_list = data?['news_list'];
+                  final news_list_length = news_list.length;
+
+                  return (news_list_length != 0)
+                      ? SingleChildScrollView(
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(0, 12, 0, 16),
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ListView.builder(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount: news_list.length,
+                                      itemBuilder: (context, index) {
+                                        DateTime time = news_list[index]
+                                                ['created_at']
+                                            .toDate();
+                                        return NotificationItem(
+                                          title: news_list[index]['title'],
+                                          content: news_list[index]['content'],
+                                          createdAt: time.toString(),
+                                          read: news_list[index]['read'],
+                                          index: 1,
+                                        );
+                                      }),
+                                ],
+                              ),
                             ),
-                            NotificationItem(
-                              title: '○○について- abcdefghijklmnopqrstuvwxyz',
-                              content: '○○についての通知が10件あります。詳細はこちらから。',
-                              createdAt: '2022-09-18 20:06:43.946',
-                              read: false,
-                              index: 0,
-                            ),
-                            NotificationItem(
-                              title: 'CardsEditorさんが追加されました！',
-                              content: 'QRコードでCardsEditorさんと名刺交換されました！',
-                              createdAt: '2021-09-15 20:06:43.946',
-                              read: true,
-                              index: 0,
-                            ),
-                            NotificationItem(
-                              title: 'hogehogeさんからの申請',
-                              content:
-                                  'hogehogeさんから、名刺交換の申請が届きました。申請を確認してみましょう。※なりすましの申請に注意してください。報告はこちらから。',
-                              createdAt: '2021-04-18 20:06:43.946',
-                              read: true,
-                              index: 0,
-                            ),
-                            NotificationItem(
-                              title: 'piyopiyoさんからのメッセージ',
-                              content:
-                                  'piyopiyoさんから、メッセージが届きました。メッセージを確認してください。',
-                              createdAt: '2020-09-18 20:06:43.946',
-                              read: false,
-                              index: 0,
-                            ),
-                            NotificationItem(
-                              title: 'title',
-                              content: 'content',
-                              createdAt: '2020-09-18 20:06:43.946',
-                              read: true,
-                              index: 0,
-                            ),
-                            NotificationItem(
-                              title:
-                                  'super_____long_____usernameさんから、非常に長いメッセージが届きました',
-                              content:
-                                  'super_____long_____usernameさんから、非常に長いメッセージが届きました。\nsuper_____long_____usernameさんから、非常に長いメッセージが届きました。\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n私は一生おっつけ同じ出入り院というののためにするただろ。はなはだ時間に安住通りはほぼその学習うたばかりを潜んがいますにも反対思っないならて、それだけにはなっでなたた。本位を伺いた点もまあ今日をけっしてんたろない。ひょろひょろ木下さんに奨励ただはっきり攻撃で使うあり春この個人私か病気でってご学習たないだろますて、その元来はよそか本位肴をあるて、久原さんの訳へ議会の誰が同時に同研究と突き破って何礼よりお学問を云っようにかつてご希望へ過ぎでたので、よく何でもかでも話がいうましからいるでものが云うたな。またはただお自分があるものは多少自然と参りですて、そのベンチへは認めるたてという中腰からなっば行くましです。\n\nsuper_____long_____usernameさんからのメッセージ。',
-                              createdAt: '2020-09-18 20:06:43.946',
-                              read: true,
-                              index: 0,
-                            ),
-                            NotificationItem(
-                              title: 'title',
-                              content: 'content',
-                              createdAt: '2020-09-18 20:06:43.946',
-                              read: true,
-                              index: 0,
-                            ),
-                            NotificationItem(
-                              title: 'title',
-                              content: 'content',
-                              createdAt: '2020-09-18 20:06:43.946',
-                              read: true,
-                              index: 0,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                : Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.notifications_paused_rounded,
-                          size: 120,
-                          color: white5,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          'まだ交流の通知はありません',
-                          style: TextStyle(
-                              color:
-                                  Theme.of(context).colorScheme.onBackground),
-                        ),
-                      ],
-                    ),
-                  ),
-            (_notificationPublicData != null)
-                ? SingleChildScrollView(
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(0, 12, 0, 16),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            NotificationItem(
-                              title: 'タイトル',
-                              content: '通知の内容が書かれています。カードをタップして、内容を見てみましょう！',
-                              createdAt: '2022-09-19 20:06:43.946',
-                              read: false,
-                              index: 1,
-                            ),
-                            NotificationItem(
-                              title: '○○について- abcdefghijklmnopqrstuvwxyz',
-                              content: '○○についての通知が10件あります。詳細はこちらから。',
-                              createdAt: '2022-09-18 20:06:43.946',
-                              read: false,
-                              index: 1,
-                            ),
-                            NotificationItem(
-                              title: 'CardsEditorさんが追加されました！',
-                              content: 'QRコードでCardsEditorさんと名刺交換されました！',
-                              createdAt: '2021-09-15 20:06:43.946',
-                              read: true,
-                              index: 1,
-                            ),
-                            NotificationItem(
-                              title: 'hogehogeさんからの申請',
-                              content:
-                                  'hogehogeさんから、名刺交換の申請が届きました。申請を確認してみましょう。※なりすましの申請に注意してください。報告はこちらから。',
-                              createdAt: '2021-04-18 20:06:43.946',
-                              read: true,
-                              index: 1,
-                            ),
-                            NotificationItem(
-                              title: 'piyopiyoさんからのメッセージ',
-                              content:
-                                  'piyopiyoさんから、メッセージが届きました。メッセージを確認してください。',
-                              createdAt: '2020-09-18 20:06:43.946',
-                              read: false,
-                              index: 1,
-                            ),
-                            NotificationItem(
-                              title: 'title',
-                              content: 'content',
-                              createdAt: '2020-09-18 20:06:43.946',
-                              read: true,
-                              index: 1,
-                            ),
-                            NotificationItem(
-                              title:
-                                  'super_____long_____usernameさんから、非常に長いメッセージが届きました',
-                              content:
-                                  'super_____long_____usernameさんから、非常に長いメッセージが届きました。\nsuper_____long_____usernameさんから、非常に長いメッセージが届きました。\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n私は一生おっつけ同じ出入り院というののためにするただろ。はなはだ時間に安住通りはほぼその学習うたばかりを潜んがいますにも反対思っないならて、それだけにはなっでなたた。本位を伺いた点もまあ今日をけっしてんたろない。ひょろひょろ木下さんに奨励ただはっきり攻撃で使うあり春この個人私か病気でってご学習たないだろますて、その元来はよそか本位肴をあるて、久原さんの訳へ議会の誰が同時に同研究と突き破って何礼よりお学問を云っようにかつてご希望へ過ぎでたので、よく何でもかでも話がいうましからいるでものが云うたな。またはただお自分があるものは多少自然と参りですて、そのベンチへは認めるたてという中腰からなっば行くましです。\n\nsuper_____long_____usernameさんからのメッセージ。',
-                              createdAt: '2020-09-18 20:06:43.946',
-                              read: true,
-                              index: 1,
-                            ),
-                            NotificationItem(
-                              title: 'title',
-                              content: 'content',
-                              createdAt: '2020-09-18 20:06:43.946',
-                              read: true,
-                              index: 1,
-                            ),
-                            NotificationItem(
-                              title: 'title',
-                              content: 'content',
-                              createdAt: '2020-09-18 20:06:43.946',
-                              read: true,
-                              index: 1,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                : Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.notifications_paused_rounded,
-                          size: 120,
-                          color: white5,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          'まだお知らせはありません',
-                          style: TextStyle(
-                              color:
-                                  Theme.of(context).colorScheme.onBackground),
-                        ),
-                      ],
-                    ),
-                  ),
+                          ),
+                        )
+                      : Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.notifications_paused_rounded,
+                                size: 120,
+                                color: white5,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                'まだお知らせはありません',
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground),
+                              ),
+                            ],
+                          ),
+                        );
+                }),
           ],
         ),
       ),
