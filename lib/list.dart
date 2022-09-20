@@ -6,8 +6,7 @@ import 'package:thundercard/widgets/my_card.dart';
 import 'api/firebase_auth.dart';
 
 class List extends StatefulWidget {
-  const List({Key? key, required this.uid}) : super(key: key);
-  final String? uid;
+  const List({Key? key,}) : super(key: key);
 
   @override
   State<List> createState() => _ListState();

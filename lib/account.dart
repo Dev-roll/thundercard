@@ -5,11 +5,8 @@ import 'account_editor.dart';
 import 'api/firebase_auth.dart';
 
 class Account extends StatefulWidget {
-  const Account({
-    Key? key,
-    required this.uid,
-  }) : super(key: key);
-  final String? uid;
+  const Account({Key? key}) : super(key: key);
+
   @override
   _AccountState createState() => _AccountState();
 }

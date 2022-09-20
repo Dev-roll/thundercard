@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:thundercard/api/firebase_auth.dart';
 import 'package:thundercard/constants.dart';
 import 'package:thundercard/auth_gate.dart';
@@ -74,17 +73,9 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage(
-      {Key? key,
-      required this.title,
-      required this.type,
-      required this.data,
-      this.user})
-      : super(key: key);
-  final String title;
-  final String type;
-  final String data;
+  MyHomePage({Key? key, this.user}) : super(key: key);
   final User? user;
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -155,11 +146,11 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: <Widget>[
-        Thundercard(type: widget.type, data: widget.data),
-        List(uid: uid),
+        Thundercard(),
+        List(),
         // List(uid: uid),
         Notifications(),
-        Account(uid: uid),
+        Account(),
       ][currentPageIndex],
     );
   }

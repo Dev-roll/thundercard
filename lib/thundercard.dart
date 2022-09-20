@@ -5,10 +5,7 @@ import 'widgets/my_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Thundercard extends StatefulWidget {
-  const Thundercard({Key? key, required this.type, required this.data})
-      : super(key: key);
-  final String type;
-  final String data;
+  const Thundercard({Key? key}) : super(key: key);
 
   @override
   State<Thundercard> createState() => _ThundercardState();
@@ -52,7 +49,6 @@ class _ThundercardState extends State<Thundercard> {
                       ),
                     ),
                     Text('uid: $uid'),
-                    Text('${widget.type}: ${widget.data}'),
                   ],
                 ),
               ),
