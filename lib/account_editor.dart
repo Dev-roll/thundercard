@@ -46,53 +46,56 @@ class _AccountEditorState extends State<AccountEditor> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('プロフィールを編集'),
-        actions: [
-          TextButton(onPressed: updateCard, child: const Text('保存')),
-        ],
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('プロフィールを編集'),
+          actions: [
+            TextButton(onPressed: updateCard, child: const Text('保存')),
+          ],
+        ),
+        body: SafeArea(
+            child: SingleChildScrollView(
+                child: Center(
+                    child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            const Text('ユーザー名'),
+                            TextField(
+                              controller: _nameController,
+                            ),
+                            const Text('自己紹介'),
+                            TextField(
+                              controller: _bioController,
+                            ),
+                            const Text('URL'),
+                            TextField(
+                              controller: _urlController,
+                            ),
+                            const Text('Twitter'),
+                            TextField(
+                              controller: _twitterController,
+                            ),
+                            const Text('GitHub'),
+                            TextField(
+                              controller: _githubController,
+                            ),
+                            const Text('所属'),
+                            TextField(
+                              controller: _companyController,
+                            ),
+                            const Text('メールアドレス'),
+                            TextField(
+                              controller: _emailController,
+                            ),
+                            const Text('自分の名刺'),
+                            // Image.network(data?['thumbnail']),
+                          ],
+                        ))))),
       ),
-      body: SafeArea(
-          child: SingleChildScrollView(
-              child: Center(
-                  child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          const Text('ユーザー名'),
-                          TextField(
-                            controller: _nameController,
-                          ),
-                          const Text('自己紹介'),
-                          TextField(
-                            controller: _bioController,
-                          ),
-                          const Text('URL'),
-                          TextField(
-                            controller: _urlController,
-                          ),
-                          const Text('Twitter'),
-                          TextField(
-                            controller: _twitterController,
-                          ),
-                          const Text('GitHub'),
-                          TextField(
-                            controller: _githubController,
-                          ),
-                          const Text('所属'),
-                          TextField(
-                            controller: _companyController,
-                          ),
-                          const Text('メールアドレス'),
-                          TextField(
-                            controller: _emailController,
-                          ),
-                          const Text('自分の名刺'),
-                          // Image.network(data?['thumbnail']),
-                        ],
-                      ))))),
     );
   }
 }
