@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thundercard/custom_progress_indicator.dart';
 import 'package:thundercard/widgets/scan_qr_code.dart';
 import 'api/firebase_auth.dart';
 import 'widgets/my_card.dart';
@@ -43,7 +44,7 @@ class _ThundercardState extends State<Thundercard> {
                               snapshot.data!.data() as Map<String, dynamic>;
                           return MyCard(cardId: user['my_cards'][0]);
                         }
-                        return const Text('loading');
+                        return const CustomProgressIndicator();
                       },
                     ),
                   ),

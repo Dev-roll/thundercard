@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:thundercard/custom_progress_indicator.dart';
 import 'account_editor.dart';
 import 'api/firebase_auth.dart';
 
@@ -98,7 +99,7 @@ class _AccountState extends State<Account> {
                     )),
                   );
                 }
-                return Text("loading");
+                return const Center(child: CustomProgressIndicator());
               }),
           ElevatedButton(
               // onPressed: () => FirebaseAuth.instance.signOut(),

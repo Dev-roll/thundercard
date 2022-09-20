@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:thundercard/account_registration.dart';
+import 'package:thundercard/custom_progress_indicator.dart';
 import 'package:thundercard/home_page.dart';
 import 'package:flutterfire_ui/auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -36,7 +37,11 @@ class AuthGate extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.done) {
                 return HomePage();
               }
-              return const Text('loading');
+              return const Scaffold(
+                body: Center(
+                  child: CustomProgressIndicator(),
+                ),
+              );
             });
       },
     );
