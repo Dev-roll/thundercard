@@ -109,41 +109,37 @@ class _UploadImagePageState extends State<UploadImagePage> {
 
     return Scaffold(
       body: SafeArea(
-        child: Scrollbar(
-          child: SingleChildScrollView(
-            child: Center(
-              child: Container(
-                child: Column(children: [
-                  const Text('① Enter username.'),
-                  TextFormField(
-                    onChanged: (value) {
-                      setState(() {
-                        _editText = value;
-                      });
-                    },
-                    controller: _nameController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'username',
-                      hintText: 'No name entered',
-                    ),
-                    textInputAction: TextInputAction.done,
+        child: SingleChildScrollView(
+          child: Center(
+            child: Container(
+              child: Column(children: [
+                const Text('① Enter username.'),
+                TextFormField(
+                  onChanged: (value) {
+                    setState(() {
+                      _editText = value;
+                    });
+                  },
+                  controller: _nameController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'username',
+                    hintText: 'No name entered',
                   ),
-                  _nameController.text != ''
-                      ? Text('Name entered')
-                      : Text('No name entered'),
-                  const Text('② Take a photo.'),
-                  image != null
-                      ? Image.file(image!)
-                      : Text("No image selected"),
-                  OutlinedButton(
-                    onPressed: _nameController.text != '' && image != null
-                        ? uploadPic
-                        : null,
-                    child: const Text('Upload'),
-                  ),
-                ]),
-              ),
+                  textInputAction: TextInputAction.done,
+                ),
+                _nameController.text != ''
+                    ? Text('Name entered')
+                    : Text('No name entered'),
+                const Text('② Take a photo.'),
+                image != null ? Image.file(image!) : Text("No image selected"),
+                OutlinedButton(
+                  onPressed: _nameController.text != '' && image != null
+                      ? uploadPic
+                      : null,
+                  child: const Text('Upload'),
+                ),
+              ]),
             ),
           ),
         ),

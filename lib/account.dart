@@ -43,61 +43,59 @@ class _AccountState extends State<Account> {
                       snapshot.data!.data() as Map<String, dynamic>;
 
                   return SafeArea(
-                    child: Scrollbar(
-                      child: SingleChildScrollView(
-                          child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: StreamBuilder<DocumentSnapshot<Object?>>(
-                            stream: cards.doc(user['my_cards'][0]).snapshots(),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<DocumentSnapshot> snapshot) {
-                              if (snapshot.hasError) {
-                                return const Text('Something went wrong');
-                              }
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const Text("Loading");
-                              }
-                              dynamic data = snapshot.data;
-                              return Column(
-                                children: [
-                                  OutlinedButton(
-                                      onPressed: () {
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) => AccountEditor(
-                                              data: data,
-                                              cardId: user['my_cards'][0]),
-                                        ));
-                                      },
-                                      child: const Text('プロフィールを編集')),
-                                  Text('username: ${data?['name']}'),
-                                  data?['bio'] != ''
-                                      ? Text('bio: ${data?['bio']}')
-                                      : Container(),
-                                  data?['url'] != ''
-                                      ? Text('URL: ${data?['url']}')
-                                      : Container(),
-                                  data?['twitter'] != ''
-                                      ? Text('Twitter: ${data?['twitter']}')
-                                      : Container(),
-                                  data?['github'] != ''
-                                      ? Text('GitHub: ${data?['github']}')
-                                      : Container(),
-                                  data?['company'] != ''
-                                      ? Text('company: ${data?['company']}')
-                                      : Container(),
-                                  data?['email'] != ''
-                                      ? Text('email: ${data?['email']}')
-                                      : Container(),
-                                ],
-                              );
-                            },
-                          ),
+                    child: SingleChildScrollView(
+                        child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: StreamBuilder<DocumentSnapshot<Object?>>(
+                          stream: cards.doc(user['my_cards'][0]).snapshots(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<DocumentSnapshot> snapshot) {
+                            if (snapshot.hasError) {
+                              return const Text('Something went wrong');
+                            }
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Text("Loading");
+                            }
+                            dynamic data = snapshot.data;
+                            return Column(
+                              children: [
+                                OutlinedButton(
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) => AccountEditor(
+                                            data: data,
+                                            cardId: user['my_cards'][0]),
+                                      ));
+                                    },
+                                    child: const Text('プロフィールを編集')),
+                                Text('username: ${data?['name']}'),
+                                data?['bio'] != ''
+                                    ? Text('bio: ${data?['bio']}')
+                                    : Container(),
+                                data?['url'] != ''
+                                    ? Text('URL: ${data?['url']}')
+                                    : Container(),
+                                data?['twitter'] != ''
+                                    ? Text('Twitter: ${data?['twitter']}')
+                                    : Container(),
+                                data?['github'] != ''
+                                    ? Text('GitHub: ${data?['github']}')
+                                    : Container(),
+                                data?['company'] != ''
+                                    ? Text('company: ${data?['company']}')
+                                    : Container(),
+                                data?['email'] != ''
+                                    ? Text('email: ${data?['email']}')
+                                    : Container(),
+                              ],
+                            );
+                          },
                         ),
-                      )),
-                    ),
+                      ),
+                    )),
                   );
                 }
                 return Text("loading");
