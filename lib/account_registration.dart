@@ -43,6 +43,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
       'email': _emailController.text,
       'is_user': true,
       'exchanged_cards': [],
+      'interactions': [],
     }).then((value) {
       Navigator.push(
         context,
