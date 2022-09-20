@@ -19,38 +19,36 @@ class _ThundercardState extends State<Thundercard> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Scrollbar(
-          child: SingleChildScrollView(
-            child: Center(
-              child: Container(
-                padding: const EdgeInsets.only(bottom: 100),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: FutureBuilder(
-                        future: users.doc(uid).get(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<DocumentSnapshot> snapshot) {
-                          if (snapshot.hasError) {
-                            return const Text('Something went wrong');
-                          }
-                          if (snapshot.hasData && !snapshot.data!.exists) {
-                            return const Text('Document does not exist');
-                          }
-                          if (snapshot.connectionState ==
-                              ConnectionState.done) {
-                            Map<String, dynamic> user =
-                                snapshot.data!.data() as Map<String, dynamic>;
-                            return MyCard(cardId: user['my_cards'][0]);
-                          }
-                          return const Text('loading');
-                        },
-                      ),
+        child: SingleChildScrollView(
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.only(bottom: 100),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: FutureBuilder(
+                      future: users.doc(uid).get(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.hasError) {
+                          return const Text('Something went wrong');
+                        }
+                        if (snapshot.hasData && !snapshot.data!.exists) {
+                          return const Text('Document does not exist');
+                        }
+                        if (snapshot.connectionState ==
+                            ConnectionState.done) {
+                          Map<String, dynamic> user =
+                              snapshot.data!.data() as Map<String, dynamic>;
+                          return MyCard(cardId: user['my_cards'][0]);
+                        }
+                        return const Text('loading');
+                      },
                     ),
-                    Text('uid: $uid'),
-                  ],
-                ),
+                  ),
+                  Text('uid: $uid'),
+                ],
               ),
             ),
           ),

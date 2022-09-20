@@ -41,6 +41,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
       'github': _githubController.text,
       'company': _companyController.text,
       'email': _emailController.text,
+      'is_user': true,
       'exchanged_cards': [],
     }).then((value) {
       Navigator.push(
@@ -53,55 +54,58 @@ class _AccountRegistrationState extends State<AccountRegistration> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('プロフィールを登録'),
-        actions: [
-          TextButton(onPressed: registerCard, child: const Text('登録')),
-        ],
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('プロフィールを登録'),
+          actions: [
+            TextButton(onPressed: registerCard, child: const Text('登録')),
+          ],
+        ),
+        body: SafeArea(
+            child: SingleChildScrollView(
+                child: Center(
+                    child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text('ユーザー名'),
+                            TextField(
+                              controller: _cardIdController,
+                            ),
+                            Text('名前'),
+                            TextField(
+                              controller: _nameController,
+                            ),
+                            Text('自己紹介'),
+                            TextField(
+                              controller: _bioController,
+                            ),
+                            const Text('URL'),
+                            TextField(
+                              controller: _urlController,
+                            ),
+                            const Text('Twitter'),
+                            TextField(
+                              controller: _twitterController,
+                            ),
+                            const Text('GitHub'),
+                            TextField(
+                              controller: _githubController,
+                            ),
+                            const Text('所属'),
+                            TextField(
+                              controller: _companyController,
+                            ),
+                            const Text('メールアドレス'),
+                            TextField(
+                              controller: _emailController,
+                            ),
+                          ],
+                        ))))),
       ),
-      body: SafeArea(
-          child: SingleChildScrollView(
-              child: Center(
-                  child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('ユーザー名'),
-                          TextField(
-                            controller: _cardIdController,
-                          ),
-                          Text('名前'),
-                          TextField(
-                            controller: _nameController,
-                          ),
-                          Text('自己紹介'),
-                          TextField(
-                            controller: _bioController,
-                          ),
-                          const Text('URL'),
-                          TextField(
-                            controller: _urlController,
-                          ),
-                          const Text('Twitter'),
-                          TextField(
-                            controller: _twitterController,
-                          ),
-                          const Text('GitHub'),
-                          TextField(
-                            controller: _githubController,
-                          ),
-                          const Text('所属'),
-                          TextField(
-                            controller: _companyController,
-                          ),
-                          const Text('メールアドレス'),
-                          TextField(
-                            controller: _emailController,
-                          ),
-                        ],
-                      ))))),
     );
   }
 }
