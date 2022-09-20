@@ -22,7 +22,7 @@ class _ThundercardState extends State<Thundercard> {
         child: SingleChildScrollView(
           child: Center(
             child: Container(
-              padding: const EdgeInsets.only(bottom: 60),
+              padding: const EdgeInsets.only(bottom: 100),
               child: Column(
                 children: [
                   Padding(

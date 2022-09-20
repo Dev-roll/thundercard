@@ -6,7 +6,9 @@ import 'package:thundercard/widgets/my_card.dart';
 import 'api/firebase_auth.dart';
 
 class List extends StatefulWidget {
-  const List({Key? key,}) : super(key: key);
+  const List({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<List> createState() => _ListState();
@@ -39,71 +41,76 @@ class _ListState extends State<List> {
               body: SafeArea(
                 child: SingleChildScrollView(
                   child: Center(
-                    child: Column(children: <Widget>[
-                      OutlinedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => RoomListPage(),
-                          ));
-                        },
-                        child: const Text('Chat'),
-                      ),
-                      StreamBuilder<DocumentSnapshot<Object?>>(
-                        stream: cards.doc(user['my_cards'][0]).snapshots(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<DocumentSnapshot> snapshot) {
-                          if (snapshot.hasError) {
-                            return const Text('Something went wrong');
-                          }
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Text("Loading");
-                          }
-                          dynamic data = snapshot.data;
-                          final exchangedCards = data?['exchanged_cards'];
+                    child: Container(
+                      padding: const EdgeInsets.only(bottom: 100),
+                      child: Column(children: <Widget>[
+                        OutlinedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => RoomListPage(),
+                            ));
+                          },
+                          child: const Text('Chat'),
+                        ),
+                        StreamBuilder<DocumentSnapshot<Object?>>(
+                          stream: cards.doc(user['my_cards'][0]).snapshots(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<DocumentSnapshot> snapshot) {
+                            if (snapshot.hasError) {
+                              return const Text('Something went wrong');
+                            }
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Text("Loading");
+                            }
+                            dynamic data = snapshot.data;
+                            final exchangedCards = data?['exchanged_cards'];
 
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: exchangedCards.length,
-                            itemBuilder: (context, index) {
-                              return StreamBuilder<DocumentSnapshot<Object?>>(
-                                stream: cards
-                                    .doc(exchangedCards[index])
-                                    .snapshots(),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot<DocumentSnapshot>
-                                        snapshot) {
-                                  if (snapshot.hasError) {
-                                    return const Text('Something went wrong');
-                                  }
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return const Text("Loading");
-                                  }
-                                  dynamic card = snapshot.data;
-                                  if (!snapshot.hasData) {
-                                    return Text('no data');
-                                  }
-                                  return Column(
-                                    children: [
-                                      Text('username: ${card?['name']}'),
-                                      card?['is_user'] == true
-                                          ? MyCard(
-                                              cardId: exchangedCards[index])
-                                          : card?['thumbnail'] != null
-                                              ? Image.network(
-                                                  card?['thumbnail'])
-                                              : const Text('Loading...'),
-                                    ],
-                                  );
-                                },
-                              );
-                            },
-                          );
-                        },
-                      )
-                    ]),
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: exchangedCards.length,
+                              itemBuilder: (context, index) {
+                                return StreamBuilder<
+                                    DocumentSnapshot<Object?>>(
+                                  stream: cards
+                                      .doc(exchangedCards[index])
+                                      .snapshots(),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<DocumentSnapshot>
+                                          snapshot) {
+                                    if (snapshot.hasError) {
+                                      return const Text(
+                                          'Something went wrong');
+                                    }
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const Text("Loading");
+                                    }
+                                    dynamic card = snapshot.data;
+                                    if (!snapshot.hasData) {
+                                      return Text('no data');
+                                    }
+                                    return Column(
+                                      children: [
+                                        Text('username: ${card?['name']}'),
+                                        card?['is_user'] == true
+                                            ? MyCard(
+                                                cardId: exchangedCards[index])
+                                            : card?['thumbnail'] != null
+                                                ? Image.network(
+                                                    card?['thumbnail'])
+                                                : const Text('Loading...'),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            );
+                          },
+                        )
+                      ]),
+                    ),
                   ),
                 ),
               ),
