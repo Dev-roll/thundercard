@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:thundercard/home_page.dart';
 import 'package:thundercard/widgets/my_card.dart';
 
 import 'api/firebase_auth.dart';
@@ -72,6 +73,9 @@ class _AddCardState extends State<AddCard> {
                                 onPressed: () {
                                   updateExchangedCards1(myCardId, addCardId);
                                   updateExchangedCards2(myCardId, addCardId);
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => HomePage(index: 1),
+                                  ));
                                 },
                                 child: const Text('追加'),
                               ),

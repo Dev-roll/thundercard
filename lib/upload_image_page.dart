@@ -7,6 +7,8 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'dart:math' as math;
 
+import 'package:thundercard/home_page.dart';
+
 class UploadImagePage extends StatefulWidget {
   const UploadImagePage({Key? key, required this.cardId, required this.data})
       : super(key: key);
@@ -100,6 +102,9 @@ class _UploadImagePageState extends State<UploadImagePage> {
         print('ここ大事 -> $imageURL');
         updateDocumentData(imageURL);
         updateExchangedCards();
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => HomePage(index: 1),
+        ));
       } catch (e) {
         print(e);
       }
