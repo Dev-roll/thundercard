@@ -58,8 +58,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
       'is_user': true,
       'exchanged_cards': [],
     }).then((value) {
-      Navigator.push(
-        context,
+      Navigator.of(context).push(
         MaterialPageRoute(builder: (context) => AuthGate()),
       );
       print('Card Registered');
