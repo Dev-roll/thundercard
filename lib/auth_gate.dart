@@ -35,7 +35,9 @@ class AuthGate extends StatelessWidget {
                 return AccountRegistration();
               }
               if (snapshot.connectionState == ConnectionState.done) {
-                return HomePage();
+                return HomePage(
+                  index: 0,
+                );
               }
               return const Scaffold(
                 body: Center(
