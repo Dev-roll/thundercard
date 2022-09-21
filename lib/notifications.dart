@@ -139,7 +139,8 @@ class _NotificationsState extends State<Notifications> {
                         stream: FirebaseFirestore.instance
                             .collection('cards')
                             .doc(myCardId)
-                            .collection('interactions')
+                            .collection('notifications')
+                            .where('tags', arrayContains: 'interaction')
                             .orderBy('created_at', descending: true)
                             .snapshots(),
                         builder: (context, snapshot) {
@@ -169,7 +170,7 @@ class _NotificationsState extends State<Notifications> {
                           final interactions = data.docs;
                           final interactions_length = interactions.length;
 
-                          return (true)
+                          return (interactions_length != 0)
                               ? SingleChildScrollView(
                                   child: Container(
                                     padding: EdgeInsets.fromLTRB(0, 12, 0, 16),
@@ -232,7 +233,10 @@ class _NotificationsState extends State<Notifications> {
                         }),
                     StreamBuilder(
                         stream: FirebaseFirestore.instance
-                            .collection('news')
+                            .collection('cards')
+                            .doc(myCardId)
+                            .collection('notifications')
+                            .where('tags', arrayContains: 'news')
                             .orderBy('created_at', descending: true)
                             .snapshots(),
                         builder: (context, snapshot) {

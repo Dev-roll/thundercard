@@ -54,20 +54,12 @@ class _NotificationItemState extends State<NotificationItem> {
     return GestureDetector(
       onTap: () {
         print(widget.notificationId);
-        if (widget.index == 0) {
-          FirebaseFirestore.instance
-              .collection('cards')
-              .doc(widget.myCardId)
-              .collection('interactions')
-              .doc(widget.notificationId)
-              .update({'read': true});
-        }
-        if (widget.index == 1) {
-          FirebaseFirestore.instance
-              .collection('news')
-              .doc(widget.notificationId)
-              .update({'read': true});
-        }
+        FirebaseFirestore.instance
+            .collection('cards')
+            .doc(widget.myCardId)
+            .collection('notifications')
+            .doc(widget.notificationId)
+            .update({'read': true});
 
         Navigator.of(context).push(
           MaterialPageRoute(
