@@ -33,6 +33,15 @@ class _AccountRegistrationState extends State<AccountRegistration> {
         .then((value) => print("User Added"))
         .catchError((error) => print("Failed to add user: $error"));
 
+    final registerNotificationData = {
+      'title': '登録完了のお知らせ',
+      'content': '$_nameControllerさんのアカウント登録が完了しました',
+      'created_at': DateTime.now(),
+      'read': false
+    };
+
+    cards.doc();
+
     return cards.doc(_cardIdController.text).set({
       'name': _nameController.text,
       'bio': _bioController.text,
@@ -43,7 +52,6 @@ class _AccountRegistrationState extends State<AccountRegistration> {
       'email': _emailController.text,
       'is_user': true,
       'exchanged_cards': [],
-      'interactions': [],
     }).then((value) {
       Navigator.push(
         context,

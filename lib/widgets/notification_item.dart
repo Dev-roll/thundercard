@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:thundercard/constants.dart';
@@ -11,12 +12,16 @@ class NotificationItem extends StatefulWidget {
     required String this.createdAt,
     required bool this.read,
     int this.index = -1,
+    required String this.myCardId,
+    required String this.notificationId,
   }) : super(key: key);
   final String title;
   final String content;
   final String createdAt;
   final bool read;
   final int index;
+  final String myCardId;
+  final String notificationId;
 
   @override
   State<NotificationItem> createState() => _NotificationItemState();
@@ -48,6 +53,22 @@ class _NotificationItemState extends State<NotificationItem> {
     var _screenSize = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
+        print(widget.notificationId);
+        if (widget.index == 0) {
+          FirebaseFirestore.instance
+              .collection('cards')
+              .doc(widget.myCardId)
+              .collection('interactions')
+              .doc(widget.notificationId)
+              .update({'read': true});
+        }
+        if (widget.index == 1) {
+          FirebaseFirestore.instance
+              .collection('news')
+              .doc(widget.notificationId)
+              .update({'read': true});
+        }
+
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => NotificationItemPage(
