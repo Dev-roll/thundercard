@@ -9,15 +9,15 @@ import 'package:thundercard/account.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key, this.user}) : super(key: key);
+  HomePage({Key? key, this.user, required this.index}) : super(key: key);
   final User? user;
+  int index;
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int currentPageIndex = 0;
   final String? uid = getUid();
   DocumentReference user =
       FirebaseFirestore.instance.collection('users').doc(getUid());
@@ -28,10 +28,10 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
           setState(() {
-            currentPageIndex = index;
+            widget.index = index;
           });
         },
-        selectedIndex: currentPageIndex,
+        selectedIndex: widget.index,
         destinations: const <Widget>[
           NavigationDestination(
             selectedIcon: Icon(
@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
         // List(uid: uid),
         Notifications(),
         Account(),
-      ][currentPageIndex],
+      ][widget.index],
     );
   }
 }
