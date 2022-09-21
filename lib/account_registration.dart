@@ -40,7 +40,11 @@ class _AccountRegistrationState extends State<AccountRegistration> {
       'read': false
     };
 
-    cards.doc();
+    FirebaseFirestore.instance
+        .collection('cards')
+        .doc(_cardIdController.text)
+        .collection('interactions')
+        .add(registerNotificationData);
 
     return cards.doc(_cardIdController.text).set({
       'name': _nameController.text,
