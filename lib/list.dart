@@ -92,7 +92,6 @@ class _ListState extends State<List> {
                                     }
                                     return Column(
                                       children: [
-                                        Text('username: ${card?['name']}'),
                                         card?['is_user'] == true
                                             ? MyCard(
                                                 cardId: exchangedCards[index])
