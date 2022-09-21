@@ -38,13 +38,14 @@ class _AccountRegistrationState extends State<AccountRegistration> {
       'content':
           '${_nameController.text}(@${_cardIdController.text})さんのアカウント登録が完了しました',
       'created_at': DateTime.now(),
-      'read': false
+      'read': false,
+      'tags': ['news'],
     };
 
     FirebaseFirestore.instance
         .collection('cards')
         .doc(_cardIdController.text)
-        .collection('interactions')
+        .collection('notifications')
         .add(registerNotificationData);
 
     return cards.doc(_cardIdController.text).set({
