@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thundercard/widgets/card_element.dart';
+import 'package:thundercard/widgets/open_app.dart';
 
 class MyCardData extends StatelessWidget {
   const MyCardData({Key? key, required this.cardId}) : super(key: key);
@@ -23,10 +24,23 @@ class MyCardData extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            padding: EdgeInsets.fromLTRB(4 * vw, 4 * vw, 4 * vw, 4 * vw),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(3 * vw),
               color: Theme.of(context).colorScheme.secondaryContainer,
+            ),
+          ),
+          Align(
+            alignment: const Alignment(1.6, 2.8),
+            child: Icon(
+              Icons.bolt_rounded,
+              color: Theme.of(context).colorScheme.secondary.withOpacity(0.08),
+              size: 52 * vw,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.fromLTRB(4 * vw, 4 * vw, 4 * vw, 4 * vw),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(3 * vw),
             ),
             child: Column(
               children: [
@@ -44,13 +58,35 @@ class MyCardData extends StatelessWidget {
                               shape: BoxShape.circle,
                             ),
                           ),
+                          Align(
+                            alignment: const Alignment(0, 0),
+                            child: Padding(
+                              padding: EdgeInsets.all(2 * vw),
+                              child: Container(
+                                width: 12 * vw,
+                                height: 12 * vw,
+                                decoration: BoxDecoration(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Icon(
+                            Icons.account_circle_rounded,
+                            size: 16 * vw,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
+                          ),
                           Icon(
                             Icons.account_circle_rounded,
                             size: 16 * vw,
                             color: Theme.of(context)
                                 .colorScheme
                                 .onSecondary
-                                .withOpacity(0.7),
+                                .withOpacity(0.25),
                           ),
                         ],
                       ),
@@ -114,21 +150,34 @@ class MyCardData extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              CardElement(
-                                txt: url,
-                                type: IconType.url,
+                              OpenApp(
+                                url: 'https://keigomichi.dev/',
+                                child: CardElement(
+                                  txt: url,
+                                  type: IconType.url,
+                                ),
                               ),
-                              CardElement(
-                                txt: twitterId,
-                                type: IconType.twitter,
+                              OpenApp(
+                                url: 'https://twitter.com/chnotchy',
+                                child: CardElement(
+                                  txt: twitterId,
+                                  type: IconType.twitter,
+                                ),
                               ),
-                              CardElement(
-                                txt: gitHubId,
-                                type: IconType.github,
+                              OpenApp(
+                                url: 'https://github.com/notchcoder',
+                                child: CardElement(
+                                  txt: gitHubId,
+                                  type: IconType.github,
+                                ),
                               ),
-                              CardElement(
-                                txt: email,
-                                type: IconType.email,
+                              OpenApp(
+                                url:
+                                    'mailto:example@example.com?subject=hoge&body=test',
+                                child: CardElement(
+                                  txt: email,
+                                  type: IconType.email,
+                                ),
                               ),
                             ],
                           ),
@@ -138,14 +187,6 @@ class MyCardData extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-          ),
-          Align(
-            alignment: const Alignment(1.6, 2.8),
-            child: Icon(
-              Icons.bolt_rounded,
-              color: Theme.of(context).colorScheme.secondary.withOpacity(0.08),
-              size: 52 * vw,
             ),
           ),
         ],
