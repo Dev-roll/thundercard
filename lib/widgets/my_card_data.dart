@@ -6,13 +6,6 @@ import 'package:thundercard/widgets/open_app.dart';
 class MyCardData extends StatelessWidget {
   const MyCardData({Key? key, required this.cardId}) : super(key: key);
   final String cardId;
-  final String? userName = 'no username';
-  final String? bio = 'no bio';
-  final String? url = 'no url';
-  final String? twitterId = 'no twitter id';
-  final String? gitHubId = 'no github id';
-  final String? company = 'no company';
-  final String? email = 'no email';
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +103,7 @@ class MyCardData extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     CardElement(
-                                      txt: cardInfo?['name'] ?? userName,
+                                      txt: cardInfo?['name'] ?? '',
                                       size: 3,
                                     ),
                                     CardElement(
@@ -140,13 +133,12 @@ class MyCardData extends StatelessWidget {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     CardElement(
-                                      txt: cardInfo?['company'] ?? company,
+                                      txt: cardInfo?['company'] ?? '',
                                       type: IconType.company,
                                       size: 1.5,
                                     ),
                                     CardElement(
-                                      txt:
-                                          '$bio Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                                      txt: cardInfo?['bio'] ?? '',
                                       line: 3,
                                       height: 1.4,
                                       size: 1.5,
@@ -166,21 +158,21 @@ class MyCardData extends StatelessWidget {
                                     OpenApp(
                                       url: 'https://keigomichi.dev/',
                                       child: CardElement(
-                                        txt: cardInfo?['url'] ?? url,
+                                        txt: cardInfo?['url'] ?? '',
                                         type: IconType.url,
                                       ),
                                     ),
                                     OpenApp(
                                       url: 'https://twitter.com/chnotchy',
                                       child: CardElement(
-                                        txt: cardInfo?['twitter'] ?? twitterId,
+                                        txt: cardInfo?['twitter'] ?? '',
                                         type: IconType.twitter,
                                       ),
                                     ),
                                     OpenApp(
                                       url: 'https://github.com/notchcoder',
                                       child: CardElement(
-                                        txt: cardInfo?['github'] ?? gitHubId,
+                                        txt: cardInfo?['github'] ?? '',
                                         type: IconType.github,
                                       ),
                                     ),
@@ -188,7 +180,7 @@ class MyCardData extends StatelessWidget {
                                       url:
                                           'mailto:example@example.com?subject=hoge&body=test',
                                       child: CardElement(
-                                        txt: cardInfo?['email'] ?? email,
+                                        txt: cardInfo?['email'] ?? '',
                                         type: IconType.email,
                                       ),
                                     ),

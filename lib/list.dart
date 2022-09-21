@@ -92,6 +92,9 @@ class _ListState extends State<List> {
                                     }
                                     return Column(
                                       children: [
+                                        SizedBox(
+                                          height: 24,
+                                        ),
                                         card?['is_user'] == true
                                             ? MyCard(
                                                 cardId: exchangedCards[index])
