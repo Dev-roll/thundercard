@@ -139,6 +139,8 @@ class _NotificationsState extends State<Notifications> {
                         stream: FirebaseFirestore.instance
                             .collection('cards')
                             .doc(myCardId)
+                            .collection('interactions')
+                            .orderBy('created_at', descending: true)
                             .snapshots(),
                         builder: (context, snapshot) {
                           // 取得が完了していないときに表示するWidget
@@ -162,11 +164,12 @@ class _NotificationsState extends State<Notifications> {
                           if (!snapshot.hasData) {
                             return Text('no data');
                           }
+
                           dynamic data = snapshot.data;
-                          final interactions = data?['interactions'];
+                          final interactions = data.docs;
                           final interactions_length = interactions.length;
 
-                          return (interactions_length != 0)
+                          return (true)
                               ? SingleChildScrollView(
                                   child: Container(
                                     padding: EdgeInsets.fromLTRB(0, 12, 0, 16),
@@ -179,7 +182,7 @@ class _NotificationsState extends State<Notifications> {
                                               shrinkWrap: true,
                                               physics:
                                                   const NeverScrollableScrollPhysics(),
-                                              itemCount: interactions.length,
+                                              itemCount: interactions_length,
                                               itemBuilder: (context, index) {
                                                 DateTime time =
                                                     interactions[index]
@@ -194,6 +197,9 @@ class _NotificationsState extends State<Notifications> {
                                                   read: interactions[index]
                                                       ['read'],
                                                   index: 0,
+                                                  myCardId: myCardId,
+                                                  notificationId:
+                                                      interactions[index].id,
                                                 );
                                               }),
                                         ],
@@ -227,7 +233,7 @@ class _NotificationsState extends State<Notifications> {
                     StreamBuilder(
                         stream: FirebaseFirestore.instance
                             .collection('news')
-                            .doc('news_items')
+                            .orderBy('created_at', descending: true)
                             .snapshots(),
                         builder: (context, snapshot) {
                           // 取得が完了していないときに表示するWidget
@@ -252,10 +258,10 @@ class _NotificationsState extends State<Notifications> {
                             return Text('no data');
                           }
                           dynamic data = snapshot.data;
-                          final news_list = data?['news_list'];
-                          final news_list_length = news_list.length;
+                          final news = data.docs;
+                          final news_length = news.length;
 
-                          return (news_list_length != 0)
+                          return (news_length != 0)
                               ? SingleChildScrollView(
                                   child: Container(
                                     padding: EdgeInsets.fromLTRB(0, 12, 0, 16),
@@ -268,20 +274,21 @@ class _NotificationsState extends State<Notifications> {
                                               shrinkWrap: true,
                                               physics:
                                                   const NeverScrollableScrollPhysics(),
-                                              itemCount: news_list.length,
+                                              itemCount: news.length,
                                               itemBuilder: (context, index) {
-                                                DateTime time = news_list[index]
+                                                DateTime time = news[index]
                                                         ['created_at']
                                                     .toDate();
                                                 return NotificationItem(
-                                                  title: news_list[index]
-                                                      ['title'],
-                                                  content: news_list[index]
+                                                  title: news[index]['title'],
+                                                  content: news[index]
                                                       ['content'],
                                                   createdAt: time.toString(),
-                                                  read: news_list[index]
-                                                      ['read'],
+                                                  read: news[index]['read'],
                                                   index: 1,
+                                                  myCardId: myCardId,
+                                                  notificationId:
+                                                      news[index].id,
                                                 );
                                               }),
                                         ],
