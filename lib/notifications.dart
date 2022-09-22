@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:thundercard/constants.dart';
+import 'package:thundercard/custom_progress_indicator.dart';
 import 'package:thundercard/widgets/notification_item.dart';
 
 import 'api/firebase_auth.dart';
@@ -158,7 +159,7 @@ class _NotificationsState extends State<Notifications> {
 
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return const Text("Loading");
+                            return const CustomProgressIndicator();
                           }
 
                           // データが取得できなかったときに表示するWidget
@@ -254,7 +255,7 @@ class _NotificationsState extends State<Notifications> {
 
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return const Text("Loading");
+                            return const CustomProgressIndicator();
                           }
 
                           // データが取得できなかったときに表示するWidget
@@ -328,7 +329,9 @@ class _NotificationsState extends State<Notifications> {
               ),
             );
           }
-          return const Text("Loading");
+          return const Scaffold(
+            body: Center(child: CustomProgressIndicator()),
+          );
         });
   }
 }
