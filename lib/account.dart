@@ -57,7 +57,7 @@ class _AccountState extends State<Account> {
                             }
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return const Text("Loading");
+                              return const CustomProgressIndicator();
                             }
                             dynamic data = snapshot.data;
                             return Column(
