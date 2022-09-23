@@ -125,7 +125,7 @@ class _ListState extends State<List> {
                   ),
                 ),
               ),
-              floatingActionButton: FloatingActionButton(
+              floatingActionButton: FloatingActionButton.extended(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => UploadImagePage(
@@ -134,9 +134,11 @@ class _ListState extends State<List> {
                           ),
                       fullscreenDialog: true));
                 },
-                child: const Icon(
+                icon: const Icon(
                   Icons.add_a_photo_rounded,
+                  size: 24,
                 ),
+                label: const Text('紙の名刺を追加'),
               ),
             );
           }
