@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:thundercard/card_details.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
 import 'package:thundercard/upload_image_page.dart';
 import 'package:thundercard/widgets/chat/room_list_page.dart';
@@ -90,19 +91,28 @@ class _ListState extends State<List> {
                                     if (!snapshot.hasData) {
                                       return Text('no data');
                                     }
-                                    return Column(
-                                      children: [
-                                        SizedBox(
-                                          height: 24,
-                                        ),
-                                        card?['is_user'] == true
-                                            ? MyCard(
-                                                cardId: exchangedCards[index])
-                                            : card?['thumbnail'] != null
-                                                ? Image.network(
-                                                    card?['thumbnail'])
-                                                : const CustomProgressIndicator(),
-                                      ],
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                          builder: (context) => CardDetails(
+                                              cardId: exchangedCards[index]),
+                                        ));
+                                      },
+                                      child: Column(
+                                        children: [
+                                          SizedBox(
+                                            height: 24,
+                                          ),
+                                          card?['is_user'] == true
+                                              ? MyCard(
+                                                  cardId: exchangedCards[index])
+                                              : card?['thumbnail'] != null
+                                                  ? Image.network(
+                                                      card?['thumbnail'])
+                                                  : const CustomProgressIndicator(),
+                                        ],
+                                      ),
                                     );
                                   },
                                 );
@@ -118,11 +128,11 @@ class _ListState extends State<List> {
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => UploadImagePage(
-                      cardId: user['my_cards'][0],
-                      data: data,
-                    ),
-                  ));
+                      builder: (context) => UploadImagePage(
+                            cardId: user['my_cards'][0],
+                            data: data,
+                          ),
+                      fullscreenDialog: true));
                 },
                 child: const Icon(
                   Icons.add_a_photo_rounded,
