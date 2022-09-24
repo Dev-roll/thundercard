@@ -125,12 +125,17 @@ class _UploadImagePageState extends State<UploadImagePage> {
                   drawGap: true,
                   width: 30,
                   height: 30,
-                  indicator: _nameController.text == ''
-                      ? const Icon(Icons.circle_outlined)
-                      : Icon(
-                          Icons.check_circle,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+                  indicator: _nameController.text == '' && image != null
+                      ? Icon(
+                          Icons.error_outline,
+                          color: Theme.of(context).colorScheme.error,
+                        )
+                      : _nameController.text == ''
+                          ? const Icon(Icons.circle_outlined)
+                          : Icon(
+                              Icons.check_circle,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                 ),
                 startChild: Padding(
                   padding: const EdgeInsets.only(
@@ -178,7 +183,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
                 hasIndicator: false,
                 endChild: Padding(
                   padding: const EdgeInsets.only(
-                      left: 28, right: 32, top: 24, bottom: 26),
+                      left: 28, right: 32, top: 24, bottom: 36),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -196,21 +201,6 @@ class _UploadImagePageState extends State<UploadImagePage> {
                         ),
                         textInputAction: TextInputAction.done,
                       ),
-                      _nameController.text == '' && image != null
-                          ? Column(
-                              children: [
-                                const SizedBox(height: 12),
-                                const Text(
-                                  '* No name entered',
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.redAccent,
-                                    // fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            )
-                          : const SizedBox(height: 38),
                     ],
                   ),
                 ),
@@ -262,7 +252,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       const Text(
-                        'Take a photo',
+                        'Pick a card image',
                         style: TextStyle(
                           fontSize: 20,
                           // fontWeight: FontWeight.bold,
@@ -284,51 +274,26 @@ class _UploadImagePageState extends State<UploadImagePage> {
                 hasIndicator: false,
                 endChild: Padding(
                   padding: const EdgeInsets.only(
-                      left: 28, right: 32, top: 24, bottom: 22),
+                      left: 28, right: 32, top: 24, bottom: 36),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      if (image != null)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.file(image!),
-                            const SizedBox(height: 12),
-                            ElevatedButton(
-                              onPressed: pickImageC,
-                              child: const Text('Take a photo again'),
-                            ),
-                          ],
-                        )
-                      else if (_nameController.text != '')
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ElevatedButton(
-                              onPressed: pickImageC,
-                              child: const Text('Take a photo'),
-                            ),
-                            const SizedBox(height: 12),
-                            const Text(
-                              '* No image selected',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.redAccent,
-                                // fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        )
-                      else
-                        Column(
-                          children: [
-                            ElevatedButton(
-                              onPressed: pickImageC,
-                              child: const Text('Take a photo'),
-                            ),
-                            const SizedBox(height: 38),
-                          ],
-                        )
+                    children: [
+                      image != null ? Image.file(image!) : Container(),
+                      const SizedBox(height: 6),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ElevatedButton(
+                            onPressed: pickImageC,
+                            child: const Text('Take a photo'),
+                          ),
+                          SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: pickImage,
+                            child: const Text('Pick image from gallery'),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
