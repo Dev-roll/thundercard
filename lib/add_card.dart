@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:thundercard/custom_progress_indicator.dart';
 import 'package:thundercard/home_page.dart';
 import 'package:thundercard/widgets/my_card.dart';
 
@@ -97,7 +98,7 @@ class _AddCardState extends State<AddCard> {
                             ],
                           );
                         }
-                        return const Text('loading');
+                        return const CustomProgressIndicator();
                       },
                     ),
                   ],

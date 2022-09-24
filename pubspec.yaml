@@ -57,6 +57,9 @@ dependencies:
   image_gallery_saver: ^1.7.1
   url_launcher: ^6.1.5
   flutterfire_ui: ^0.4.3+9
+  timelines: ^0.1.0
+  timeline_tile: ^2.0.0
+  google_mlkit_text_recognition: ^0.4.0
   # flutter_launcher_icons: ^0.10.0
 
 dev_dependencies:

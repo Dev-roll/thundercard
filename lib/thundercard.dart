@@ -38,8 +38,7 @@ class _ThundercardState extends State<Thundercard> {
                         if (snapshot.hasData && !snapshot.data!.exists) {
                           return const Text('Document does not exist');
                         }
-                        if (snapshot.connectionState ==
-                            ConnectionState.done) {
+                        if (snapshot.connectionState == ConnectionState.done) {
                           Map<String, dynamic> user =
                               snapshot.data!.data() as Map<String, dynamic>;
                           return MyCard(cardId: user['my_cards'][0]);
@@ -48,7 +47,6 @@ class _ThundercardState extends State<Thundercard> {
                       },
                     ),
                   ),
-                  Text('uid: $uid'),
                 ],
               ),
             ),

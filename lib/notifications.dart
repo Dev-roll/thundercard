@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:thundercard/constants.dart';
+import 'package:thundercard/custom_progress_indicator.dart';
 import 'package:thundercard/widgets/notification_item.dart';
 
 import 'api/firebase_auth.dart';
@@ -140,7 +141,8 @@ class _NotificationsState extends State<Notifications> {
                         stream: FirebaseFirestore.instance
                             .collection('cards')
                             .doc(myCardId)
-                            .collection('interactions')
+                            .collection('notifications')
+                            .where('tags', arrayContains: 'interaction')
                             .orderBy('created_at', descending: true)
                             .snapshots(),
                         builder: (context, snapshot) {
@@ -158,7 +160,7 @@ class _NotificationsState extends State<Notifications> {
 
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return const Text("Loading");
+                            return const CustomProgressIndicator();
                           }
 
                           // データが取得できなかったときに表示するWidget
@@ -170,7 +172,7 @@ class _NotificationsState extends State<Notifications> {
                           final interactions = data.docs;
                           final interactions_length = interactions.length;
 
-                          return (true)
+                          return (interactions_length != 0)
                               ? SingleChildScrollView(
                                   child: Container(
                                     padding: EdgeInsets.fromLTRB(0, 12, 0, 16),
@@ -233,7 +235,10 @@ class _NotificationsState extends State<Notifications> {
                         }),
                     StreamBuilder(
                         stream: FirebaseFirestore.instance
-                            .collection('news')
+                            .collection('cards')
+                            .doc(myCardId)
+                            .collection('notifications')
+                            .where('tags', arrayContains: 'news')
                             .orderBy('created_at', descending: true)
                             .snapshots(),
                         builder: (context, snapshot) {
@@ -251,7 +256,7 @@ class _NotificationsState extends State<Notifications> {
 
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return const Text("Loading");
+                            return const CustomProgressIndicator();
                           }
 
                           // データが取得できなかったときに表示するWidget
@@ -325,7 +330,9 @@ class _NotificationsState extends State<Notifications> {
               ),
             );
           }
-          return const Text("Loading");
+          return const Scaffold(
+            body: Center(child: CustomProgressIndicator()),
+          );
         });
   }
 }
