@@ -26,6 +26,8 @@ class _UploadImagePageState extends State<UploadImagePage> {
   Map<String, dynamic>? data;
   String uploadName = 'card.jpg';
   late final TextEditingController _nameController = TextEditingController();
+  late final TextEditingController _recognizedTextController =
+      TextEditingController();
   var _editText = '';
   var isCompleted = false;
 
@@ -34,7 +36,12 @@ class _UploadImagePageState extends State<UploadImagePage> {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
       final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
+      final recognizedTextTemp = await recognizeText(imageTemp.path);
+      this.image = imageTemp;
+      setState(() {
+        this.image = imageTemp;
+        _recognizedTextController.text = recognizedTextTemp;
+      });
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
@@ -46,7 +53,12 @@ class _UploadImagePageState extends State<UploadImagePage> {
       final image = await ImagePicker().pickImage(source: ImageSource.camera);
       if (image == null) return;
       final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
+      final recognizedTextTemp = await recognizeText(imageTemp.path);
+      this.image = imageTemp;
+      setState(() {
+        this.image = imageTemp;
+        _recognizedTextController.text = recognizedTextTemp;
+      });
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
@@ -67,12 +79,11 @@ class _UploadImagePageState extends State<UploadImagePage> {
   Widget build(BuildContext context) {
     final docId = FirebaseFirestore.instance.collection('cards').doc().id;
 
-    void updateDocumentData(String email, imageURL) {
+    void updateDocumentData(String imageURL) {
       final doc = FirebaseFirestore.instance.collection('cards').doc(docId);
       doc.set({
         'thumbnail': '$imageURL',
         'name': _nameController.text,
-        'email': email,
         'is_user': false,
       }).then((value) => print("DocumentSnapshot successfully updated!"),
           onError: (e) => print("Error updating document $e"));
@@ -96,14 +107,13 @@ class _UploadImagePageState extends State<UploadImagePage> {
         // final ImagePicker picker = ImagePicker();
         // final XFile? image = await picker.pickImage(source: ImageSource.gallery);
         File file = File(image!.path);
-        String email = await recognizeText(image!.path);
 
         final storageRef =
             FirebaseStorage.instance.ref().child('cards/$docId/$uploadName');
         final task = await storageRef.putFile(file);
         final String imageURL = await task.ref.getDownloadURL();
         print('ここ大事 -> $imageURL');
-        updateDocumentData(email, imageURL);
+        updateDocumentData(imageURL);
         updateExchangedCards();
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => HomePage(index: 1),
@@ -304,7 +314,13 @@ class _UploadImagePageState extends State<UploadImagePage> {
                             onPressed: pickImage,
                             child: const Text('Pick image from gallery'),
                           ),
+                          const Text('検出されたテキスト'),
                         ],
+                      ),
+                      TextField(
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                        controller: _recognizedTextController,
                       ),
                     ],
                   ),
