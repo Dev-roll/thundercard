@@ -73,9 +73,24 @@ class _AddCardState extends State<AddCard> {
                                 onPressed: () {
                                   updateExchangedCards1(myCardId, addCardId);
                                   updateExchangedCards2(myCardId, addCardId);
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => HomePage(index: 1),
-                                  ));
+                                  // Navigator.of(context).push(
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => HomePage(index: 1),
+                                  //   ),
+                                  // );
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                      builder: (context) => HomePage(index: 1),
+                                    ),
+                                    (_) => false,
+                                  );
+                                  // Navigator.of(context).pop();
+                                  // Navigator.of(context).pop();
+                                  // Navigator.of(context).push(
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => HomePage(index: 1),
+                                  //   ),
+                                  // );
                                 },
                                 child: const Text('追加'),
                               ),
