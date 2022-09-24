@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
@@ -51,17 +52,27 @@ class _UploadImagePageState extends State<UploadImagePage> {
     }
   }
 
+  Future<String> recognizeText(String filePath) async {
+    final InputImage imageFile = InputImage.fromFilePath(filePath);
+    final textRecognizer =
+        TextRecognizer(script: TextRecognitionScript.japanese);
+    final RecognizedText recognizedText =
+        await textRecognizer.processImage(imageFile);
+    return recognizedText.text;
+  }
+
   final uid = FirebaseAuth.instance.currentUser?.uid ?? '';
 
   @override
   Widget build(BuildContext context) {
     final docId = FirebaseFirestore.instance.collection('cards').doc().id;
 
-    void updateDocumentData(String imageURL) {
+    void updateDocumentData(String email, imageURL) {
       final doc = FirebaseFirestore.instance.collection('cards').doc(docId);
       doc.set({
         'thumbnail': '$imageURL',
         'name': _nameController.text,
+        'email': email,
         'is_user': false,
       }).then((value) => print("DocumentSnapshot successfully updated!"),
           onError: (e) => print("Error updating document $e"));
@@ -85,13 +96,14 @@ class _UploadImagePageState extends State<UploadImagePage> {
         // final ImagePicker picker = ImagePicker();
         // final XFile? image = await picker.pickImage(source: ImageSource.gallery);
         File file = File(image!.path);
+        String email = await recognizeText(image!.path);
 
         final storageRef =
             FirebaseStorage.instance.ref().child('cards/$docId/$uploadName');
         final task = await storageRef.putFile(file);
         final String imageURL = await task.ref.getDownloadURL();
         print('ここ大事 -> $imageURL');
-        updateDocumentData(imageURL);
+        updateDocumentData(email, imageURL);
         updateExchangedCards();
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => HomePage(index: 1),
