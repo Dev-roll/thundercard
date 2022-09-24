@@ -314,14 +314,20 @@ class _UploadImagePageState extends State<UploadImagePage> {
                             onPressed: pickImage,
                             child: const Text('Pick image from gallery'),
                           ),
-                          const Text('検出されたテキスト'),
                         ],
                       ),
-                      TextField(
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        controller: _recognizedTextController,
-                      ),
+                      image != null
+                          ? Column(
+                              children: [
+                                const Text('検出されたテキスト'),
+                                TextField(
+                                  keyboardType: TextInputType.multiline,
+                                  maxLines: null,
+                                  controller: _recognizedTextController,
+                                ),
+                              ],
+                            )
+                          : Container(),
                     ],
                   ),
                 ),
