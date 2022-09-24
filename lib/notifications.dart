@@ -46,6 +46,7 @@ class _NotificationsState extends State<Notifications> {
                   preferredSize:
                       Size.fromHeight(40 + MediaQuery.of(context).padding.top),
                   child: AppBar(
+                    automaticallyImplyLeading: false,
                     flexibleSpace: Theme(
                       data: ThemeData(
                         splashColor: Colors.transparent,

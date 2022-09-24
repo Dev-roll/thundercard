@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:thundercard/auth_gate.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
 import 'package:thundercard/widgets/card_info.dart';
 import 'api/firebase_auth.dart';
@@ -20,9 +21,6 @@ class _AccountState extends State<Account> {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('アカウント'),
-      ),
       body: Column(
         children: [
           FutureBuilder<DocumentSnapshot>(
@@ -57,6 +55,12 @@ class _AccountState extends State<Account> {
           ElevatedButton(
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => AuthGate(),
+                  ),
+                  (_) => false,
+                );
               },
               child: const Text('Sign out')),
         ],
