@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
@@ -25,6 +26,8 @@ class _UploadImagePageState extends State<UploadImagePage> {
   Map<String, dynamic>? data;
   String uploadName = 'card.jpg';
   late final TextEditingController _nameController = TextEditingController();
+  late final TextEditingController _recognizedTextController =
+      TextEditingController();
   var _editText = '';
   var isCompleted = false;
 
@@ -33,7 +36,12 @@ class _UploadImagePageState extends State<UploadImagePage> {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
       final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
+      final recognizedTextTemp = await recognizeText(imageTemp.path);
+      this.image = imageTemp;
+      setState(() {
+        this.image = imageTemp;
+        _recognizedTextController.text = recognizedTextTemp;
+      });
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
@@ -45,10 +53,24 @@ class _UploadImagePageState extends State<UploadImagePage> {
       final image = await ImagePicker().pickImage(source: ImageSource.camera);
       if (image == null) return;
       final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
+      final recognizedTextTemp = await recognizeText(imageTemp.path);
+      this.image = imageTemp;
+      setState(() {
+        this.image = imageTemp;
+        _recognizedTextController.text = recognizedTextTemp;
+      });
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
+  }
+
+  Future<String> recognizeText(String filePath) async {
+    final InputImage imageFile = InputImage.fromFilePath(filePath);
+    final textRecognizer =
+        TextRecognizer(script: TextRecognitionScript.japanese);
+    final RecognizedText recognizedText =
+        await textRecognizer.processImage(imageFile);
+    return recognizedText.text;
   }
 
   final uid = FirebaseAuth.instance.currentUser?.uid ?? '';
@@ -292,7 +314,13 @@ class _UploadImagePageState extends State<UploadImagePage> {
                             onPressed: pickImage,
                             child: const Text('Pick image from gallery'),
                           ),
+                          const Text('検出されたテキスト'),
                         ],
+                      ),
+                      TextField(
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                        controller: _recognizedTextController,
                       ),
                     ],
                   ),
