@@ -168,7 +168,7 @@ class _NotificationsState extends State<Notifications> {
                           }
 
                           dynamic data = snapshot.data;
-                          final interactions = data.docs;
+                          final interactions = data?.docs;
                           final interactions_length = interactions.length;
 
                           return (interactions_length != 0)
@@ -263,7 +263,7 @@ class _NotificationsState extends State<Notifications> {
                             return Text('no data');
                           }
                           dynamic data = snapshot.data;
-                          final news = data.docs;
+                          final news = data?.docs;
                           final news_length = news.length;
 
                           return (news_length != 0)

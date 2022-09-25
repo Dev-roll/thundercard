@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:thundercard/widgets/card_element.dart';
 import 'package:thundercard/widgets/open_app.dart';
+import 'package:thundercard/widgets/return_url.dart';
 
 class MyCardData extends StatelessWidget {
   const MyCardData({Key? key, required this.cardId}) : super(key: key);
@@ -31,170 +32,219 @@ class MyCardData extends StatelessWidget {
               size: 52 * vw,
             ),
           ),
-          StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection('cards')
-                  .doc(cardId)
-                  .snapshots(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot> snapshot) {
-                dynamic cardInfo = snapshot.data;
-                return Container(
-                  padding: EdgeInsets.fromLTRB(4 * vw, 4 * vw, 4 * vw, 4 * vw),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(3 * vw),
-                  ),
-                  child: Column(
+          Container(
+            padding: EdgeInsets.fromLTRB(4 * vw, 4 * vw, 4 * vw, 4 * vw),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(3 * vw),
+            ),
+            child: Column(
+              children: [
+                Flexible(
+                  flex: 16,
+                  child: Row(
                     children: [
-                      Flexible(
-                        flex: 16,
-                        child: Row(
-                          children: [
-                            Stack(
-                              children: [
-                                Container(
-                                  width: 16 * vw,
-                                  height: 16 * vw,
-                                  decoration: BoxDecoration(
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                    shape: BoxShape.circle,
-                                  ),
-                                ),
-                                Align(
-                                  alignment: const Alignment(0, 0),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(2 * vw),
-                                    child: Container(
-                                      width: 12 * vw,
-                                      height: 12 * vw,
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary,
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.account_circle_rounded,
-                                  size: 16 * vw,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .secondaryContainer,
-                                ),
-                                Icon(
-                                  Icons.account_circle_rounded,
-                                  size: 16 * vw,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSecondary
-                                      .withOpacity(0.25),
-                                ),
-                              ],
+                      Stack(
+                        children: [
+                          Container(
+                            width: 16 * vw,
+                            height: 16 * vw,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.secondary,
+                              shape: BoxShape.circle,
                             ),
-                            Flexible(
+                          ),
+                          Align(
+                            alignment: const Alignment(0, 0),
+                            child: Padding(
+                              padding: EdgeInsets.all(2 * vw),
                               child: Container(
-                                padding: EdgeInsets.fromLTRB(
-                                    2 * vw, 0 * vw, 0 * vw, 0 * vw),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CardElement(
-                                      txt: cardInfo?['name'] ?? '',
-                                      size: 3,
-                                    ),
-                                    CardElement(
-                                      txt: '@$cardId',
-                                      size: 1.5,
-                                      opacity: 0.5,
-                                    ),
-                                  ],
+                                width: 12 * vw,
+                                height: 12 * vw,
+                                decoration: BoxDecoration(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  shape: BoxShape.circle,
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                          Icon(
+                            Icons.account_circle_rounded,
+                            size: 16 * vw,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
+                          ),
+                          Icon(
+                            Icons.account_circle_rounded,
+                            size: 16 * vw,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSecondary
+                                .withOpacity(0.25),
+                          ),
+                        ],
                       ),
+                      // name etc
                       Flexible(
-                        flex: 31,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Flexible(
-                              child: Container(
-                                padding: EdgeInsets.fromLTRB(
-                                    1 * vw, 0 * vw, 0 * vw, 0 * vw),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    CardElement(
-                                      txt: cardInfo?['company'] ?? '',
-                                      type: IconType.company,
-                                      size: 1.5,
-                                    ),
-                                    CardElement(
-                                      txt: cardInfo?['bio'] ?? '',
-                                      line: 3,
-                                      height: 1.4,
-                                      size: 1.5,
-                                    ),
-                                  ],
-                                ),
+                        child: StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('cards')
+                              .doc(cardId)
+                              .collection('account')
+                              .where('key', isEqualTo: 'name')
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            dynamic data = snapshot.data;
+                            final name = data?.docs[0]['value'];
+
+                            return Container(
+                              padding: EdgeInsets.fromLTRB(
+                                  2 * vw, 0 * vw, 0 * vw, 0 * vw),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CardElement(
+                                    txt: name ?? '',
+                                    size: 3,
+                                  ),
+                                  CardElement(
+                                    txt: '@$cardId',
+                                    size: 1.5,
+                                    opacity: 0.5,
+                                  ),
+                                ],
                               ),
-                            ),
-                            Flexible(
-                              child: Container(
-                                padding: EdgeInsets.fromLTRB(
-                                    1 * vw, 1 * vw, 1 * vw, 1 * vw),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    OpenApp(
-                                      url: 'https://keigomichi.dev/',
-                                      child: CardElement(
-                                        txt: cardInfo?['url'] ?? '',
-                                        type: IconType.url,
-                                      ),
-                                    ),
-                                    OpenApp(
-                                      url: 'https://twitter.com/chnotchy',
-                                      child: CardElement(
-                                        txt: cardInfo?['twitter'] ?? '',
-                                        type: IconType.twitter,
-                                      ),
-                                    ),
-                                    OpenApp(
-                                      url: 'https://github.com/notchcoder',
-                                      child: CardElement(
-                                        txt: cardInfo?['github'] ?? '',
-                                        type: IconType.github,
-                                      ),
-                                    ),
-                                    OpenApp(
-                                      url:
-                                          'mailto:example@example.com?subject=hoge&body=test',
-                                      child: CardElement(
-                                        txt: cardInfo?['email'] ?? '',
-                                        type: IconType.email,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
+                            );
+                          },
                         ),
                       ),
                     ],
                   ),
-                );
-              }),
+                ),
+                Flexible(
+                  flex: 31,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // left
+                      Flexible(
+                        child: StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('cards')
+                              .doc(cardId)
+                              .collection('account')
+                              .where('display.card', isEqualTo: true)
+                              .where('tag', isEqualTo: 'profile')
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            dynamic data = snapshot.data;
+                            final cardInfo = data?.docs;
+
+                            return Container(
+                              padding: EdgeInsets.fromLTRB(
+                                  1 * vw, 0 * vw, 0 * vw, 0 * vw),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: cardInfo?.length ?? 0,
+                                    itemBuilder: (context, index) {
+                                      return cardInfo[index]['key'] ==
+                                                  'company' &&
+                                              cardInfo[index]['display']['card']
+                                          ? CardElement(
+                                              txt: cardInfo[index]['value'] ??
+                                                  '',
+                                              type: IconType.company,
+                                              size: 1.5,
+                                            )
+                                          : Container();
+                                    },
+                                  ),
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: cardInfo?.length ?? 0,
+                                    itemBuilder: (context, index) {
+                                      return cardInfo[index]['key'] == 'bio' &&
+                                              cardInfo[index]['display']['card']
+                                          ? CardElement(
+                                              txt: cardInfo[index]['value'] ??
+                                                  '',
+                                              line: 3,
+                                              height: 1.4,
+                                              size: 1.5,
+                                            )
+                                          : Container();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      // right
+                      Flexible(
+                        child: StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('cards')
+                              .doc(cardId)
+                              .collection('account')
+                              .where('display.card', isEqualTo: true)
+                              .where('tag', isEqualTo: 'link')
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            dynamic data = snapshot.data;
+                            final cardInfo = data?.docs;
+
+                            return Container(
+                              padding: EdgeInsets.fromLTRB(
+                                  1 * vw, 1 * vw, 1 * vw, 1 * vw),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: cardInfo?.length ?? 0,
+                                    itemBuilder: (context, index) {
+                                      return cardInfo[index]['display']['card']
+                                          ? OpenApp(
+                                              url: returnUrl(
+                                                  cardInfo[index]['key'],
+                                                  cardInfo[index]['value']),
+                                              child: CardElement(
+                                                txt: cardInfo[index]['value'] ??
+                                                    '',
+                                                type: IconType.url,
+                                              ),
+                                            )
+                                          : Container();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );

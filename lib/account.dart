@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
 import 'package:thundercard/widgets/card_info.dart';
+import 'package:thundercard/widgets/maintenance.dart';
 import 'api/firebase_auth.dart';
 
 class Account extends StatefulWidget {
@@ -47,7 +48,9 @@ class _AccountState extends State<Account> {
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: CardInfo(
-                            cardId: user['my_cards'][0], editable: true),
+                            cardId: user['my_cards'][0],
+                            display: 'all',
+                            editable: true),
                       ),
                     )),
                   );
@@ -59,6 +62,9 @@ class _AccountState extends State<Account> {
                 await FirebaseAuth.instance.signOut();
               },
               child: const Text('Sign out')),
+          // メンテナンス
+          SizedBox(height: 40),
+          OutlinedButton(onPressed: maintenance, child: Text('実行'))
         ],
       ),
     );
