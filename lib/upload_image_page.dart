@@ -12,10 +12,8 @@ import 'package:thundercard/home_page.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class UploadImagePage extends StatefulWidget {
-  const UploadImagePage({Key? key, required this.cardId, required this.data})
-      : super(key: key);
+  const UploadImagePage({Key? key, required this.cardId}) : super(key: key);
   final String? cardId;
-  final dynamic data;
 
   @override
   State<UploadImagePage> createState() => _UploadImagePageState();
@@ -23,7 +21,6 @@ class UploadImagePage extends StatefulWidget {
 
 class _UploadImagePageState extends State<UploadImagePage> {
   File? image;
-  Map<String, dynamic>? data;
   String uploadName = 'card.jpg';
   late final TextEditingController _nameController = TextEditingController();
   late final TextEditingController _recognizedTextController =
