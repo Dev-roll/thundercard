@@ -130,7 +130,6 @@ class _ListState extends State<List> {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => UploadImagePage(
                             cardId: user['my_cards'][0],
-                            data: data,
                           ),
                       fullscreenDialog: true));
                 },
