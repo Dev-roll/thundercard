@@ -30,41 +30,40 @@ class _MyQrCodeState extends State<MyQrCode> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.fromLTRB(8, 32, 8, 32),
-            // padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              border: Border.all(color: white, width: 3),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            // foregroundDecoration:
-            //     BoxDecoration(borderRadius: BorderRadius.circular(30)),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(13),
-              clipBehavior: Clip.hardEdge,
-              child: QrImage(
-                data: 'thundercard://user?card_id=${widget.name}',
-                version: QrVersions.auto,
-                size: 200,
-                // foregroundColor: white,
-                eyeStyle: QrEyeStyle(
-                    color: Color(0xFFCCCCCC), eyeShape: QrEyeShape.square),
-                dataModuleStyle: QrDataModuleStyle(
-                    color: Color(0xFFCCCCCC),
-                    dataModuleShape: QrDataModuleShape.circle),
-                backgroundColor: seedColorDark,
-                errorCorrectionLevel: QrErrorCorrectLevel.M,
-                padding: const EdgeInsets.all(20),
-                embeddedImage: Image.asset('images/icon.png').image,
-                embeddedImageStyle: QrEmbeddedImageStyle(size: Size(36, 36)),
-              ),
-            ),
-            // decoration: BoxDecoration(
-            //     color: white, borderRadius: BorderRadius.circular(16)),
+      alignment: Alignment.center,
+      width: 216,
+      height: 216,
+      margin: const EdgeInsets.fromLTRB(4, 4, 4, 4),
+      // padding: const EdgeInsets.all(16),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Color(0xFFCCCCCC), width: 3),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        // foregroundDecoration:
+        //     BoxDecoration(borderRadius: BorderRadius.circular(30)),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(13),
+          clipBehavior: Clip.hardEdge,
+          child: QrImage(
+            data: 'thundercard://user?card_id=${widget.name}',
+            version: QrVersions.auto,
+            size: 200,
+            // foregroundColor: white,
+            eyeStyle: QrEyeStyle(
+                color: Color(0xFFCCCCCC), eyeShape: QrEyeShape.square),
+            dataModuleStyle: QrDataModuleStyle(
+                color: Color(0xFFCCCCCC),
+                dataModuleShape: QrDataModuleShape.circle),
+            backgroundColor: seedColorDark,
+            errorCorrectionLevel: QrErrorCorrectLevel.M,
+            padding: const EdgeInsets.all(20),
+            embeddedImage: Image.asset('images/icon.png').image,
+            embeddedImageStyle: QrEmbeddedImageStyle(size: Size(36, 36)),
           ),
-        ],
+        ),
+        // decoration: BoxDecoration(
+        //     color: white, borderRadius: BorderRadius.circular(16)),
       ),
     );
   }

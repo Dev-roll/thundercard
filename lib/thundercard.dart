@@ -53,17 +53,26 @@ class _ThundercardState extends State<Thundercard> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: ElevatedButton.icon(
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => const QRViewExample(),
           ));
         },
-        icon: const Icon(
+        icon: Icon(
           Icons.qr_code_scanner_rounded,
-          size: 24,
+          size: 26,
         ),
-        label: const Text('名刺交換'),
+        label: Text(
+          '名刺交換',
+          style: TextStyle(fontSize: 16),
+        ),
+        style: ElevatedButton.styleFrom(
+          elevation: 0,
+          fixedSize: Size(MediaQuery.of(context).size.width * 0.7, 56),
+          primary: Theme.of(context).colorScheme.primaryContainer,
+          onPrimary: Theme.of(context).colorScheme.onPrimaryContainer,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
