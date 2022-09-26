@@ -42,6 +42,7 @@ enum IconType {
   sketch,
   mastodon,
   spotify,
+  usertie,
 }
 
 class CardElement extends StatelessWidget {
@@ -101,6 +102,7 @@ class CardElement extends StatelessWidget {
     IconType.sketch: FontAwesomeIcons.sketch,
     IconType.mastodon: FontAwesomeIcons.mastodon,
     IconType.spotify: FontAwesomeIcons.spotify,
+    IconType.usertie: FontAwesomeIcons.userTie,
   };
 
   @override

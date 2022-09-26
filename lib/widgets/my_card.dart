@@ -2,11 +2,15 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:thundercard/widgets/my_card_data.dart';
+import 'package:thundercard/card_details.dart';
+import 'package:thundercard/constants.dart';
+import 'package:thundercard/widgets/switch_card.dart';
 
 class MyCard extends StatelessWidget {
-  const MyCard({Key? key, required this.cardId}) : super(key: key);
+  const MyCard({Key? key, required this.cardId, required this.cardType})
+      : super(key: key);
   final String cardId;
+  final CardType cardType;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,10 @@ class MyCard extends StatelessWidget {
         colorSchemeSeed: Color(colorNum),
         brightness: Brightness.light,
       ),
-      child: MyCardData(cardId: cardId),
+      child: SwitchCard(
+        cardId: cardId,
+        cardType: cardType,
+      ),
     );
   }
 }
