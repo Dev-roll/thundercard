@@ -21,10 +21,9 @@ class CardInfo extends StatelessWidget {
     CollectionReference cards = FirebaseFirestore.instance.collection('cards');
 
     return StreamBuilder(
-      stream: cards
+      stream: FirebaseFirestore.instance
+          .collection('cards')
           .doc(cardId)
-          .collection('account')
-          .where('display.$display', isEqualTo: true)
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -35,7 +34,7 @@ class CardInfo extends StatelessWidget {
         }
 
         dynamic data = snapshot.data;
-        final profiles = data?.docs;
+        final account = data?['account'];
 
         return Column(
           children: [
@@ -44,24 +43,26 @@ class CardInfo extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
-                            AccountEditor(data: profiles, cardId: cardId),
+                            AccountEditor(data: account, cardId: cardId),
                       ));
                     },
                     child: const Text('プロフィールを編集'))
                 : Container(),
+            Text('id（変更不可）: @$cardId'),
+            Text('name: ${account['profiles']['name']}'),
+            Text('bio: ${account['profiles']['bio']['value']}'),
+            Text('company: ${account['profiles']['company']['value']}'),
+            Text('position: ${account['profiles']['position']['value']}'),
+            Text('address: ${account['profiles']['address']['value']}'),
             ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: profiles.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      profiles[index]['display'][display]
-                          ? Text('${profiles[index]['key']}: ${profiles[index]['value']}')
-                          : Container(),
-                    ],
-                  );
-                }),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: account['links'].length ?? 0,
+              itemBuilder: (context, index) {
+                return Text(
+                    '${account['links'][index]['key']}: ${account['links'][index]['value']}');
+              },
+            ),
           ],
         );
       },

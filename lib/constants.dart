@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+enum CardType {
+  normal,
+  extended,
+}
+
 const gray = Color(0xFF7F7F7F);
 const white = Color(0xFFFAFAFA);
 const white1 = Color(0x11FAFAFA);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thundercard/api/firebase_firestore.dart';
+import 'package:thundercard/constants.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
 import 'package:thundercard/home_page.dart';
 import 'package:thundercard/widgets/card_info.dart';
@@ -70,9 +71,9 @@ class CardDetails extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: MyCard(cardId: cardId),
+                    child: MyCard(cardId: cardId, cardType: CardType.extended,),
                   ),
-                  CardInfo(cardId: cardId, display: 'profile', editable: false)
+                  // CardInfo(cardId: cardId, display: 'profile', editable: false)
                 ],
               ),
             ),

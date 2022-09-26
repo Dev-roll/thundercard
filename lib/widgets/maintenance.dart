@@ -8,7 +8,6 @@ maintenance() {
 
   const cardIds = [
     'cardseditor',
-    // '2209211828',
     // 'example',
     // 'fuga',
     // 'keigomichi',
@@ -18,7 +17,7 @@ maintenance() {
   cardIds.forEach((currentCardId) {
     // data
 
-    //通知用map
+    // 通知用map
     // final notification = {
     //   'title': 'テスト2',
     //   'content': '2番目のテスト用通知です。',
@@ -28,15 +27,62 @@ maintenance() {
     //   'message_id': '220926news03-test'
     // };
 
+    // 特定位置の更新用
+    // final profiles = {
+    //   'account.profiles': {
+    //     'name': 'CE',
+    //     // 'bio.value': 'Hi',
+    //   }
+    // };
+
     // 単純なデータ
     // final public = {'public': false};
 
     // アカウント情報
     // final account = {
-    //   'display': {'all': true, 'card': true, 'profile': true},
-    //   'key': 'name',
-    //   'value': currentCardId,
-    //   'tag': 'profile'
+    //   'account': {
+    //     'profiles': {
+    //       'name': 'CardsEditor',
+    //       'bio': {
+    //         'value': 'I\'m cardseditor.',
+    //         'display': {'extended': true, 'normal': true},
+    //       },
+    //       'company': {
+    //         'value': 'company',
+    //         'display': {'extended': true, 'normal': true},
+    //       },
+    //       'position': {
+    //         'value': '',
+    //         'display': {'extended': true, 'normal': true},
+    //       },
+    //       'address': {
+    //         'value': '',
+    //         'display': {'extended': true, 'normal': true},
+    //       },
+    //     },
+    //     // 'links': [
+    //     //   {
+    //     //     'key': 'email',
+    //     //     'value': 'example@example.com',
+    //     //     'display': {'extended': true, 'normal': true},
+    //     //   },
+    //     //   {
+    //     //     'key': 'github',
+    //     //     'value': 'example',
+    //     //     'display': {'extended': true, 'normal': true},
+    //     //   },
+    //     //   {
+    //     //     'key': 'twitter',
+    //     //     'value': 'example',
+    //     //     'display': {'extended': true, 'normal': true},
+    //     //   },
+    //     //   {
+    //     //     'key': 'url',
+    //     //     'value': 'https://github.com/',
+    //     //     'display': {'extended': true, 'normal': true},
+    //     //   },
+    //     // ],
+    //   }
     // };
 
     // function
@@ -55,9 +101,19 @@ maintenance() {
     // FirebaseFirestore.instance
     //     .collection('cards')
     //     .doc(currentCardId)
-    //     .collection('notifications')
-    //     // .doc(currentDocId)
-    //     .update(data);
+    //     .update(account)
+    //     .then((element) {
+    //   print('completed');
+    // });
+
+    // set
+    // FirebaseFirestore.instance
+    //     .collection('cards')
+    //     .doc(currentCardId)
+    //     .set(account)
+    //     .then((element) {
+    //   print('completed');
+    // });
 
     // add
     // FirebaseFirestore.instance
