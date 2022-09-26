@@ -20,12 +20,12 @@ maintenance() {
 
     //通知用map
     // final notification = {
-    //   'title': '【重要】アカウント情報の追加・更新について',
-    //   'content': 'データ構造を変更した影響により、現時点では新規のアカウント登録及びアカウント情報の更新の機能を修正できておりません。これらの操作はFirebase管理画面から手動で行ってください。',
+    //   'title': 'テスト2',
+    //   'content': '2番目のテスト用通知です。',
     //   'created_at': DateTime.now(),
     //   'read': false,
     //   'tags': ['news'],
-    //   'message_id': '220926news01'
+    //   'message_id': '220926news03-test'
     // };
 
     // 単純なデータ
@@ -65,7 +65,10 @@ maintenance() {
     //     .doc(currentCardId)
     //     .collection('notifications')
     //     // .doc(currentDocId)
-    //     .add(notification);
+    //     .add(notification)
+    //     .then((element) {
+    //   print('completed');
+    // });
 
     // queryを使って削除
     // num seconds;
@@ -89,8 +92,34 @@ maintenance() {
     //   });
     // });
 
+    // idを使って更新
+    // const messageId = '220926news01-test';
+
+    // FirebaseFirestore.instance
+    //     .collection('cards')
+    //     .doc(currentCardId)
+    //     .collection('notifications')
+    //     .where('message_id', isEqualTo: messageId)
+    //     .get()
+    //     .then((snapshot) {
+    //   snapshot.docs.forEach((element) {
+    //     print(
+    //         '$currentCardId / ${element['title']} / ${element['content']} / ${element['created_at']} / ${element['read']} / ${element['message_id']}');
+    //     element.reference.update({
+    //       'title': '【更新】アカウント情報の追加・更新について',
+    //       'content':
+    //           '更新　\nデータ構造を変更した影響により、現時点では新規のアカウント登録及びアカウント情報の更新の機能を修正できておりません。これらの操作はFirebase管理画面から手動で行ってください。',
+    //       'created_at': DateTime.now(),
+    //       'read': false,
+    //       'tags': ['news'],
+    //       'message_id': '220926news01-test'
+    //     });
+    //     // element.reference.delete();
+    //   });
+    // });
+
     // idを使って削除
-    // const messageId = '220925test';
+    // const messageId = '220926news01-test';
 
     // FirebaseFirestore.instance
     //     .collection('cards')
@@ -103,6 +132,7 @@ maintenance() {
     //     print(
     //         '$currentCardId / ${element['title']} / ${element['content']} / ${element['created_at']} / ${element['read']} / ${element['message_id']}');
     //     element.reference.delete();
+    //     // element.reference.delete();
     //   });
     // });
 
