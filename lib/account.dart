@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:thundercard/auth_gate.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
+import 'package:thundercard/functions.dart';
 import 'package:thundercard/widgets/card_info.dart';
 import 'package:thundercard/widgets/maintenance.dart';
 import 'api/firebase_auth.dart';
@@ -19,6 +21,22 @@ class _AccountState extends State<Account> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        systemNavigationBarColor: alphaBlend(
+            Theme.of(context).colorScheme.primary.withOpacity(0.08),
+            Theme.of(context).colorScheme.surface),
+        statusBarIconBrightness:
+            Theme.of(context).colorScheme.background.computeLuminance() < 0.5
+                ? Brightness.light
+                : Brightness.dark,
+        statusBarBrightness:
+            Theme.of(context).colorScheme.background.computeLuminance() < 0.5
+                ? Brightness.dark
+                : Brightness.light,
+        statusBarColor: Colors.transparent,
+      ),
+    );
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     return Scaffold(

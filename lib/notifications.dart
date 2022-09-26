@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:thundercard/constants.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
+import 'package:thundercard/functions.dart';
 import 'package:thundercard/widgets/notification_item.dart';
 
 import 'api/firebase_auth.dart';
@@ -22,6 +26,14 @@ class _NotificationsState extends State<Notifications> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        systemNavigationBarColor: alphaBlend(
+            Theme.of(context).colorScheme.primary.withOpacity(0.08),
+            Theme.of(context).colorScheme.surface),
+        statusBarColor: Colors.transparent,
+      ),
+    );
     return FutureBuilder<DocumentSnapshot>(
         future: users.doc(uid).get(),
         builder:
@@ -43,8 +55,9 @@ class _NotificationsState extends State<Notifications> {
               initialIndex: 0,
               child: Scaffold(
                 appBar: PreferredSize(
-                  preferredSize:
-                      Size.fromHeight(40 + MediaQuery.of(context).padding.top),
+                  preferredSize: Size.fromHeight(Platform.isAndroid
+                      ? 40 + MediaQuery.of(context).padding.top
+                      : MediaQuery.of(context).padding.top),
                   child: AppBar(
                     automaticallyImplyLeading: false,
                     flexibleSpace: Theme(
@@ -88,12 +101,23 @@ class _NotificationsState extends State<Notifications> {
                                           // Icons.swap_horiz_rounded,
                                           // Icons.swap_horizontal_circle_rounded,
                                           size: 22,
-                                          color: seedColorLightA,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSecondaryContainer
+                                              .withOpacity(0.75),
                                         ),
                                         SizedBox(
                                           width: 6,
                                         ),
-                                        Text('交流'),
+                                        Text(
+                                          '交流',
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSecondaryContainer
+                                                .withOpacity(0.75),
+                                          ),
+                                        ),
                                         // Text('つながり'),
                                         // Text('やりとり'),
                                         SizedBox(
@@ -114,12 +138,23 @@ class _NotificationsState extends State<Notifications> {
                                         Icon(
                                           Icons.campaign_rounded,
                                           size: 22,
-                                          color: seedColorLightA,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSecondaryContainer
+                                              .withOpacity(0.75),
                                         ),
                                         SizedBox(
                                           width: 6,
                                         ),
-                                        Text('お知らせ'),
+                                        Text(
+                                          'お知らせ',
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSecondaryContainer
+                                                .withOpacity(0.75),
+                                          ),
+                                        ),
                                         SizedBox(
                                           width: 2,
                                         ),
@@ -217,7 +252,10 @@ class _NotificationsState extends State<Notifications> {
                                       Icon(
                                         Icons.notifications_paused_rounded,
                                         size: 120,
-                                        color: white5,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground
+                                            .withOpacity(0.3),
                                       ),
                                       SizedBox(
                                         height: 20,
@@ -227,7 +265,7 @@ class _NotificationsState extends State<Notifications> {
                                         style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme
-                                                .onBackground),
+                                                .onSurfaceVariant),
                                       ),
                                     ],
                                   ),
@@ -309,7 +347,10 @@ class _NotificationsState extends State<Notifications> {
                                       Icon(
                                         Icons.notifications_paused_rounded,
                                         size: 120,
-                                        color: white5,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground
+                                            .withOpacity(0.3),
                                       ),
                                       SizedBox(
                                         height: 20,
@@ -319,7 +360,7 @@ class _NotificationsState extends State<Notifications> {
                                         style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme
-                                                .onBackground),
+                                                .onSurfaceVariant),
                                       ),
                                     ],
                                   ),

@@ -75,7 +75,7 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
                   padding: EdgeInsets.fromLTRB(6, 16, 6, 6),
                   child: Text(
                     style: TextStyle(
-                      color: white,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                       fontSize: 20,
                       height: 1.4,
                       fontWeight: FontWeight.w600,

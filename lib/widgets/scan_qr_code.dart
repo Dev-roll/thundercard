@@ -22,6 +22,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:thundercard/home_page.dart';
 import 'package:thundercard/thundercard.dart';
 import 'package:thundercard/add_card.dart';
 import 'package:thundercard/widgets/fullscreen_qr_code.dart';
@@ -64,6 +65,17 @@ class _QRViewExampleState extends State<QRViewExample> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        systemNavigationBarColor: Theme.of(context).colorScheme.onSecondary,
+        // systemNavigationBarIconBrightness: ThemeData(),
+        // statusBarColor: Theme.of(context).colorScheme.onSecondary,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
+      ),
+      // SystemUiOverlayStyle.dark,
+    );
+
     // var _screenSize = MediaQuery.of(context).size;
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     final String? uid = getUid();
@@ -86,7 +98,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                     children: [
                       Container(
                         width: double.infinity,
-                        color: seedColorDark,
+                        color: Theme.of(context).colorScheme.onSecondary,
                         // color: white,
                         child: FittedBox(
                           fit: BoxFit.contain,
@@ -113,7 +125,15 @@ class _QRViewExampleState extends State<QRViewExample> {
                                           controller?.pauseCamera();
                                           await Navigator.of(context).push(
                                             MaterialPageRoute(
-                                              builder: (context) => FittedBox(
+                                              builder: (context) => Theme(
+                                                data: ThemeData(
+                                                  colorSchemeSeed:
+                                                      Theme.of(context)
+                                                          .colorScheme
+                                                          .primary,
+                                                  brightness: Brightness.dark,
+                                                  useMaterial3: true,
+                                                ),
                                                 child: FullscreenQrCode(
                                                   name: myCardId,
                                                 ),
@@ -158,7 +178,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                                     //     color: white,
                                     //   ),
                                     //   style: ElevatedButton.styleFrom(
-                                    //     primary: seedColorDark,
+                                    //     primary: Theme.of(context).colorScheme.onSecondary,
                                     //     padding: EdgeInsets.all(18),
                                     //   ),
                                     // ),
@@ -167,7 +187,15 @@ class _QRViewExampleState extends State<QRViewExample> {
                                         controller?.pauseCamera();
                                         await Navigator.of(context).push(
                                           MaterialPageRoute(
-                                            builder: (context) => FittedBox(
+                                            builder: (context) => Theme(
+                                              data: ThemeData(
+                                                colorSchemeSeed:
+                                                    Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
+                                                brightness: Brightness.dark,
+                                                useMaterial3: true,
+                                              ),
                                               child: FullscreenQrCode(
                                                 name: myCardId,
                                               ),
@@ -181,7 +209,9 @@ class _QRViewExampleState extends State<QRViewExample> {
                                         color: white,
                                       ),
                                       style: ElevatedButton.styleFrom(
-                                        primary: seedColorDark,
+                                        primary: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondary,
                                         elevation: 0,
                                         padding: EdgeInsets.all(18),
                                       ),
@@ -201,7 +231,13 @@ class _QRViewExampleState extends State<QRViewExample> {
                             tag: 'close_button',
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).pop();
+                                Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                    builder: (context) => HomePage(index: 0),
+                                  ),
+                                  (_) => false,
+                                );
+                                // Navigator.of(context).pop();
                               },
                               child: Icon(
                                 Icons.close_rounded,
@@ -210,7 +246,8 @@ class _QRViewExampleState extends State<QRViewExample> {
                               ),
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
-                                primary: seedColorDark,
+                                primary:
+                                    Theme.of(context).colorScheme.onSecondary,
                                 padding: EdgeInsets.all(16),
                               ),
                             ),
@@ -224,7 +261,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                 Expanded(
                   flex: 2,
                   child: Container(
-                    color: seedColorDark,
+                    color: Theme.of(context).colorScheme.onSecondary,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
@@ -280,7 +317,9 @@ class _QRViewExampleState extends State<QRViewExample> {
                                       ),
                                       style: ElevatedButton.styleFrom(
                                         elevation: 0,
-                                        primary: seedColorDark,
+                                        primary: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondary,
                                         padding: EdgeInsets.all(20),
                                       ),
                                     ),
@@ -341,7 +380,9 @@ class _QRViewExampleState extends State<QRViewExample> {
                                       ),
                                       style: ElevatedButton.styleFrom(
                                         elevation: 0,
-                                        primary: seedColorDark,
+                                        primary: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondary,
                                         padding: EdgeInsets.all(20),
                                       ),
                                     ),
@@ -427,7 +468,9 @@ class _QRViewExampleState extends State<QRViewExample> {
                                       ),
                                       style: ElevatedButton.styleFrom(
                                         elevation: 0,
-                                        primary: seedColorDark,
+                                        primary: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondary,
                                         padding: EdgeInsets.all(20),
                                       ),
                                     ),
