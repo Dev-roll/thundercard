@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:thundercard/account_registration.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
 import 'package:thundercard/home_page.dart';
@@ -13,6 +14,20 @@ class AuthGate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        systemNavigationBarColor: Theme.of(context).colorScheme.background,
+        statusBarIconBrightness:
+            Theme.of(context).colorScheme.background.computeLuminance() < 0.5
+                ? Brightness.light
+                : Brightness.dark,
+        statusBarBrightness:
+            Theme.of(context).colorScheme.background.computeLuminance() < 0.5
+                ? Brightness.dark
+                : Brightness.light,
+        statusBarColor: Colors.transparent,
+      ),
+    );
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {

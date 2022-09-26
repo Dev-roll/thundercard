@@ -12,7 +12,7 @@ class FullscreenQrCode extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       child: Scaffold(
-        backgroundColor: seedColorDark,
+        backgroundColor: Theme.of(context).colorScheme.onSecondary,
         body: SafeArea(
           child: Center(
             child: Stack(
@@ -35,7 +35,8 @@ class FullscreenQrCode extends StatelessWidget {
                       ),
                       Text(
                         '@$name',
-                        style: TextStyle(fontSize: 32),
+                        style:
+                            TextStyle(fontSize: 32, color: Color(0xFFCCCCCC)),
                       ),
                     ],
                   ),
@@ -57,7 +58,7 @@ class FullscreenQrCode extends StatelessWidget {
                         ),
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
-                          primary: seedColorDark,
+                          primary: Theme.of(context).colorScheme.onSecondary,
                           padding: EdgeInsets.all(16),
                         ),
                       ),

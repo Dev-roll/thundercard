@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:thundercard/constants.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
+import 'package:thundercard/functions.dart';
 import 'package:thundercard/widgets/scan_qr_code.dart';
 import 'api/firebase_auth.dart';
 import 'widgets/my_card.dart';
@@ -19,6 +21,23 @@ class _ThundercardState extends State<Thundercard> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        systemNavigationBarColor: alphaBlend(
+            Theme.of(context).colorScheme.primary.withOpacity(0.08),
+            Theme.of(context).colorScheme.surface),
+        statusBarIconBrightness:
+            Theme.of(context).colorScheme.background.computeLuminance() < 0.5
+                ? Brightness.light
+                : Brightness.dark,
+        statusBarBrightness:
+            Theme.of(context).colorScheme.background.computeLuminance() < 0.5
+                ? Brightness.dark
+                : Brightness.light,
+        statusBarColor: Colors.transparent,
+      ),
+    );
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -57,7 +76,14 @@ class _ThundercardState extends State<Thundercard> {
       floatingActionButton: ElevatedButton.icon(
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const QRViewExample(),
+            builder: (context) => Theme(
+              data: ThemeData(
+                colorSchemeSeed: Theme.of(context).colorScheme.primary,
+                brightness: Brightness.dark,
+                useMaterial3: true,
+              ),
+              child: const QRViewExample(),
+            ),
           ));
         },
         icon: Icon(

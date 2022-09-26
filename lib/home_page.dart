@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:thundercard/api/firebase_auth.dart';
 import 'package:thundercard/constants.dart';
+import 'package:thundercard/functions.dart';
 import 'package:thundercard/thundercard.dart';
 import 'package:thundercard/list.dart';
 import 'package:thundercard/notifications.dart';
@@ -24,6 +26,16 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        systemNavigationBarColor: alphaBlend(
+            Theme.of(context).colorScheme.primary.withOpacity(0.08),
+            Theme.of(context).colorScheme.surface),
+        // systemNavigationBarIconBrightness: ThemeData(),
+        statusBarColor: Colors.transparent,
+      ),
+    );
+
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
@@ -37,11 +49,9 @@ class _HomePageState extends State<HomePage> {
             selectedIcon: Icon(
               Icons.contact_mail,
               size: 26,
-              color: seedColorLightE,
             ),
             icon: Icon(
               Icons.contact_mail_outlined,
-              color: seedColorLightA,
             ),
             label: 'Thundercard',
           ),
@@ -49,11 +59,9 @@ class _HomePageState extends State<HomePage> {
             selectedIcon: Icon(
               Icons.ballot_rounded,
               size: 26,
-              color: seedColorLightE,
             ),
             icon: Icon(
               Icons.ballot_outlined,
-              color: seedColorLightA,
             ),
             label: 'List',
           ),
@@ -61,11 +69,9 @@ class _HomePageState extends State<HomePage> {
             selectedIcon: Icon(
               Icons.notifications_rounded,
               size: 26,
-              color: seedColorLightE,
             ),
             icon: Icon(
               Icons.notifications_none_rounded,
-              color: seedColorLightA,
             ),
             label: 'Notifications',
           ),
@@ -73,11 +79,9 @@ class _HomePageState extends State<HomePage> {
             selectedIcon: Icon(
               Icons.account_circle_rounded,
               size: 26,
-              color: seedColorLightE,
             ),
             icon: Icon(
               Icons.account_circle_outlined,
-              color: seedColorLightA,
             ),
             label: 'Account',
           ),

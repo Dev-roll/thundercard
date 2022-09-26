@@ -145,7 +145,10 @@ class _UploadImagePageState extends State<UploadImagePage> {
                 beforeLineStyle: LineStyle(
                   color: _nameController.text != ''
                       ? Theme.of(context).colorScheme.primary
-                      : Colors.white.withOpacity(0.7),
+                      : Theme.of(context)
+                          .colorScheme
+                          .onBackground
+                          .withOpacity(0.7),
                   thickness: 2,
                 ),
                 indicatorStyle: IndicatorStyle(
@@ -205,7 +208,10 @@ class _UploadImagePageState extends State<UploadImagePage> {
                 beforeLineStyle: LineStyle(
                   color: _nameController.text != ''
                       ? Theme.of(context).colorScheme.primary
-                      : Colors.white.withOpacity(0.7),
+                      : Theme.of(context)
+                          .colorScheme
+                          .onBackground
+                          .withOpacity(0.7),
                   thickness: 2,
                 ),
                 hasIndicator: false,
@@ -241,7 +247,10 @@ class _UploadImagePageState extends State<UploadImagePage> {
                 beforeLineStyle: LineStyle(
                   color: image != null
                       ? Theme.of(context).colorScheme.primary
-                      : Colors.white.withOpacity(0.7),
+                      : Theme.of(context)
+                          .colorScheme
+                          .onBackground
+                          .withOpacity(0.7),
                   thickness: 2,
                 ),
                 indicatorStyle: IndicatorStyle(
@@ -296,7 +305,10 @@ class _UploadImagePageState extends State<UploadImagePage> {
                 beforeLineStyle: LineStyle(
                   color: image != null
                       ? Theme.of(context).colorScheme.primary
-                      : Colors.white.withOpacity(0.7),
+                      : Theme.of(context)
+                          .colorScheme
+                          .onBackground
+                          .withOpacity(0.7),
                   thickness: 2,
                 ),
                 hasIndicator: false,
@@ -346,7 +358,10 @@ class _UploadImagePageState extends State<UploadImagePage> {
                 beforeLineStyle: LineStyle(
                   color: isCompleted
                       ? Theme.of(context).colorScheme.primary
-                      : Colors.white.withOpacity(0.7),
+                      : Theme.of(context)
+                          .colorScheme
+                          .onBackground
+                          .withOpacity(0.7),
                   thickness: 2,
                 ),
                 indicatorStyle: IndicatorStyle(
@@ -401,7 +416,10 @@ class _UploadImagePageState extends State<UploadImagePage> {
                 beforeLineStyle: LineStyle(
                   color: isCompleted
                       ? Theme.of(context).colorScheme.primary
-                      : Colors.white.withOpacity(0.7),
+                      : Theme.of(context)
+                          .colorScheme
+                          .onBackground
+                          .withOpacity(0.7),
                   thickness: 2,
                 ),
                 hasIndicator: false,
@@ -430,7 +448,10 @@ class _UploadImagePageState extends State<UploadImagePage> {
                 beforeLineStyle: LineStyle(
                   color: _nameController.text != ''
                       ? Theme.of(context).colorScheme.primary
-                      : Colors.white.withOpacity(0.7),
+                      : Theme.of(context)
+                          .colorScheme
+                          .onBackground
+                          .withOpacity(0.7),
                   thickness: 2,
                 ),
                 indicatorStyle: IndicatorStyle(

@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:thundercard/card_details.dart';
 import 'package:thundercard/constants.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
+import 'package:thundercard/functions.dart';
 import 'package:thundercard/upload_image_page.dart';
 import 'package:thundercard/widgets/chat/room_list_page.dart';
 import 'package:thundercard/widgets/my_card.dart';
@@ -25,6 +27,22 @@ class _ListState extends State<List> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        systemNavigationBarColor: alphaBlend(
+            Theme.of(context).colorScheme.primary.withOpacity(0.08),
+            Theme.of(context).colorScheme.surface),
+        statusBarIconBrightness:
+            Theme.of(context).colorScheme.background.computeLuminance() < 0.5
+                ? Brightness.light
+                : Brightness.dark,
+        statusBarBrightness:
+            Theme.of(context).colorScheme.background.computeLuminance() < 0.5
+                ? Brightness.dark
+                : Brightness.light,
+        statusBarColor: Colors.transparent,
+      ),
+    );
     return FutureBuilder<DocumentSnapshot>(
         future: users.doc(uid).get(),
         builder:

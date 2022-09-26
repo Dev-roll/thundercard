@@ -91,7 +91,12 @@ class _NotificationItemState extends State<NotificationItem> {
                         child: Container(
                           child: Text(
                             style: TextStyle(
-                              color: widget.read ? white7 : white,
+                              color: widget.read
+                                  ? Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withOpacity(0.5)
+                                  : Theme.of(context).colorScheme.onBackground,
                               fontSize: 16,
                               height: 1.2,
                               fontWeight: widget.read
@@ -112,7 +117,10 @@ class _NotificationItemState extends State<NotificationItem> {
                         displayDateTime,
                         style: TextStyle(
                           color: widget.read
-                              ? white7
+                              ? Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withOpacity(0.5)
                               : Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
@@ -121,7 +129,10 @@ class _NotificationItemState extends State<NotificationItem> {
                   DefaultTextStyle(
                     style: TextStyle(
                       color: widget.read
-                          ? white7
+                          ? Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.5)
                           : Theme.of(context).colorScheme.onSurfaceVariant,
                       fontSize: 13,
                       height: 1.5,

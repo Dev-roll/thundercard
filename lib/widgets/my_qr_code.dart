@@ -55,7 +55,7 @@ class _MyQrCodeState extends State<MyQrCode> {
             dataModuleStyle: QrDataModuleStyle(
                 color: Color(0xFFCCCCCC),
                 dataModuleShape: QrDataModuleShape.circle),
-            backgroundColor: seedColorDark,
+            backgroundColor: Theme.of(context).colorScheme.onSecondary,
             errorCorrectionLevel: QrErrorCorrectLevel.M,
             padding: const EdgeInsets.all(20),
             embeddedImage: Image.asset('images/icon.png').image,
