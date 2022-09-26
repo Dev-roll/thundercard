@@ -68,7 +68,7 @@ class _AccountState extends State<Account> {
               child: const Text('Sign out')),
           // メンテナンス
           SizedBox(height: 40),
-          OutlinedButton(onPressed: maintenance, child: Text('実行'))
+          OutlinedButton(onPressed: maintenance, child: Text('maintenance'))
         ],
       ),
     );
