@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:thundercard/constants.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
 import 'package:thundercard/functions.dart';
 import 'package:thundercard/widgets/scan_qr_code.dart';
@@ -60,7 +61,7 @@ class _ThundercardState extends State<Thundercard> {
                         if (snapshot.connectionState == ConnectionState.done) {
                           Map<String, dynamic> user =
                               snapshot.data!.data() as Map<String, dynamic>;
-                          return MyCard(cardId: user['my_cards'][0]);
+                          return MyCard(cardId: user['my_cards'][0], cardType: CardType.normal,);
                         }
                         return const CustomProgressIndicator();
                       },

@@ -13,32 +13,26 @@ class AccountEditor extends StatefulWidget {
 
 class _AccountEditorState extends State<AccountEditor> {
   late final TextEditingController _nameController =
-      TextEditingController(text: widget.data?['name']);
+      TextEditingController(text: widget.data?['profiles']['name']['value']);
   late final TextEditingController _bioController =
-      TextEditingController(text: widget.data?['bio']);
-  late final TextEditingController _urlController =
-      TextEditingController(text: widget.data?['url']);
-  late final TextEditingController _twitterController =
-      TextEditingController(text: widget.data?['twitter']);
-  late final TextEditingController _githubController =
-      TextEditingController(text: widget.data?['github']);
+      TextEditingController(text: widget.data?['profiles']['bio']['value']);
   late final TextEditingController _companyController =
-      TextEditingController(text: widget.data?['company']);
-  late final TextEditingController _emailController =
-      TextEditingController(text: widget.data?['email']);
+      TextEditingController(text: widget.data?['profiles']['company']['value']);
+  late final TextEditingController _positionController =
+      TextEditingController(text: widget.data?['profiles']['position']['value']);
+  late final TextEditingController _addressController =
+      TextEditingController(text: widget.data?['profiles']['address']['value']);
   late DocumentReference card =
       FirebaseFirestore.instance.collection('cards').doc(widget.cardId);
 
   Future<void> updateCard() {
-    return card.update({
+    return card.update({'account.profiles':{
       'name': _nameController.text,
-      'bio': _bioController.text,
-      'url': _urlController.text,
-      'twitter': _twitterController.text,
-      'github': _githubController.text,
-      'company': _companyController.text,
-      'email': _emailController.text
-    }).then((value) {
+      'bio.value': _bioController.text,
+      'company.value': _companyController.text,
+      'position.value': _positionController.text,
+      'address.value': _addressController.text,
+    }}).then((value) {
       Navigator.of(context).pop();
       print('Card Updated');
     }).catchError((error) => print('Failed to update card: $error'));
@@ -50,7 +44,7 @@ class _AccountEditorState extends State<AccountEditor> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('プロフィールを編集'),
+          title: const Text('プロフィールを編集（禁止）'),
           actions: [
             TextButton(onPressed: updateCard, child: const Text('保存')),
           ],
@@ -71,25 +65,17 @@ class _AccountEditorState extends State<AccountEditor> {
                             TextField(
                               controller: _bioController,
                             ),
-                            const Text('URL'),
-                            TextField(
-                              controller: _urlController,
-                            ),
-                            const Text('Twitter'),
-                            TextField(
-                              controller: _twitterController,
-                            ),
-                            const Text('GitHub'),
-                            TextField(
-                              controller: _githubController,
-                            ),
                             const Text('所属'),
                             TextField(
                               controller: _companyController,
                             ),
-                            const Text('メールアドレス'),
+                            const Text('position'),
                             TextField(
-                              controller: _emailController,
+                              controller: _positionController,
+                            ),
+                            const Text('address'),
+                            TextField(
+                              controller: _addressController,
                             ),
                             const Text('自分の名刺'),
                             // Image.network(data?['thumbnail']),

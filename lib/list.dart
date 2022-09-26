@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:thundercard/card_details.dart';
+import 'package:thundercard/constants.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
 import 'package:thundercard/functions.dart';
 import 'package:thundercard/upload_image_page.dart';
@@ -114,7 +115,8 @@ class _ListState extends State<List> {
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(
                                           builder: (context) => CardDetails(
-                                              cardId: exchangedCards[index]),
+                                            cardId: exchangedCards[index],
+                                          ),
                                         ));
                                       },
                                       child: Column(
@@ -124,7 +126,9 @@ class _ListState extends State<List> {
                                           ),
                                           card?['is_user'] == true
                                               ? MyCard(
-                                                  cardId: exchangedCards[index])
+                                                  cardId: exchangedCards[index],
+                                                  cardType: CardType.normal,
+                                                )
                                               : card?['thumbnail'] != null
                                                   ? Image.network(
                                                       card?['thumbnail'])
@@ -155,7 +159,7 @@ class _ListState extends State<List> {
                   Icons.add_a_photo_rounded,
                   size: 24,
                 ),
-                label: const Text('紙の名刺を追加'),
+                label: const Text('画像をもとに追加'),
               ),
             );
           }
