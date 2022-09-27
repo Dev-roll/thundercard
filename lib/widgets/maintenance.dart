@@ -12,6 +12,9 @@ maintenance() {
     // 'fuga',
     // 'keigomichi',
     // 'user'
+
+    // 'eymupktcco'
+    // 'raSZmUODKP1h6LfSIvVq'
   ];
 
   cardIds.forEach((currentCardId) {
@@ -42,13 +45,13 @@ maintenance() {
     // final account = {
     //   'account': {
     //     'profiles': {
-    //       'name': 'CardsEditor',
+    //       'name': '',
     //       'bio': {
-    //         'value': 'I\'m cardseditor.',
+    //         'value': '',
     //         'display': {'extended': true, 'normal': true},
     //       },
     //       'company': {
-    //         'value': 'company',
+    //         'value': '',
     //         'display': {'extended': true, 'normal': true},
     //       },
     //       'position': {
@@ -60,30 +63,59 @@ maintenance() {
     //         'display': {'extended': true, 'normal': true},
     //       },
     //     },
-    //     // 'links': [
-    //     //   {
-    //     //     'key': 'email',
-    //     //     'value': 'example@example.com',
-    //     //     'display': {'extended': true, 'normal': true},
-    //     //   },
-    //     //   {
-    //     //     'key': 'github',
-    //     //     'value': 'example',
-    //     //     'display': {'extended': true, 'normal': true},
-    //     //   },
-    //     //   {
-    //     //     'key': 'twitter',
-    //     //     'value': 'example',
-    //     //     'display': {'extended': true, 'normal': true},
-    //     //   },
-    //     //   {
-    //     //     'key': 'url',
-    //     //     'value': 'https://github.com/',
-    //     //     'display': {'extended': true, 'normal': true},
-    //     //   },
-    //     // ],
+    //     'links': [
+    //       {
+    //         'key': 'email',
+    //         'value': 'example@example.com',
+    //         'display': {'extended': true, 'normal': true},
+    //       },
+    //       {
+    //         'key': 'github',
+    //         'value': 'example',
+    //         'display': {'extended': true, 'normal': true},
+    //       },
+    //       {
+    //         'key': 'twitter',
+    //         'value': 'example',
+    //         'display': {'extended': true, 'normal': true},
+    //       },
+    //       {
+    //         'key': 'url',
+    //         'value': 'https://github.com/',
+    //         'display': {'extended': true, 'normal': true},
+    //       },
+    //     ],
     //   }
     // };
+
+    // アカウント情報
+    // final account = {
+    //     'is_user': false,
+    //     'name': '',
+    //     'thumbnail': '',
+    //     'account': {
+    //       'profiles': {
+    //         'name': '',
+    //         'bio': {
+    //           'value': '',
+    //           'display': {'extended': true, 'normal': true},
+    //         },
+    //         'company': {
+    //           'value': '',
+    //           'display': {'extended': true, 'normal': true},
+    //         },
+    //         'position': {
+    //           'value': '',
+    //           'display': {'extended': true, 'normal': true},
+    //         },
+    //         'address': {
+    //           'value': '',
+    //           'display': {'extended': true, 'normal': true},
+    //         },
+    //       },
+    //       'links': [],
+    //     },
+    //   };
 
     // function
 

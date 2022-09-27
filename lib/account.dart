@@ -65,7 +65,6 @@ class _AccountState extends State<Account> {
                         padding: const EdgeInsets.all(16.0),
                         child: CardInfo(
                             cardId: user['my_cards'][0],
-                            display: 'all',
                             editable: true),
                       ),
                     )),

@@ -81,13 +81,28 @@ class _UploadImagePageState extends State<UploadImagePage> {
       doc.set({
         'thumbnail': '$imageURL',
         'is_user': false,
-      }).then((value) => print("DocumentSnapshot successfully updated!"),
-          onError: (e) => print("Error updating document $e"));
-      doc.collection('account').add({
-        'key': 'name',
-        'value': _nameController.text,
-        'display': {'all': true, 'card': true, 'profile': true},
-        'tag': 'profile',
+        'account': {
+          'profiles': {
+            'name': _nameController.text,
+            'bio': {
+              'value': '',
+              'display': {'extended': true, 'normal': true},
+            },
+            'company': {
+              'value': '',
+              'display': {'extended': true, 'normal': true},
+            },
+            'position': {
+              'value': '',
+              'display': {'extended': true, 'normal': true},
+            },
+            'address': {
+              'value': '',
+              'display': {'extended': true, 'normal': true},
+            },
+          },
+          'links': [],
+        },
       }).then((value) => print("DocumentSnapshot successfully updated!"),
           onError: (e) => print("Error updating document $e"));
     }
@@ -137,110 +152,8 @@ class _UploadImagePageState extends State<UploadImagePage> {
         body: SafeArea(
           child: ListView(
             children: <Widget>[
-              //1st
-              TimelineTile(
-                isFirst: true,
-                alignment: TimelineAlign.manual,
-                lineXY: 0.1,
-                beforeLineStyle: LineStyle(
-                  color: _nameController.text != ''
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context)
-                          .colorScheme
-                          .onBackground
-                          .withOpacity(0.7),
-                  thickness: 2,
-                ),
-                indicatorStyle: IndicatorStyle(
-                  indicatorXY: 0.44,
-                  drawGap: true,
-                  width: 30,
-                  height: 30,
-                  indicator: _nameController.text == '' && image != null
-                      ? Icon(
-                          Icons.error_outline,
-                          color: Theme.of(context).colorScheme.error,
-                        )
-                      : _nameController.text == ''
-                          ? const Icon(Icons.circle_outlined)
-                          : Icon(
-                              Icons.check_circle,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                ),
-                startChild: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 16, right: 12, top: 0, bottom: 0),
-                  child: Column(
-                    // alignment: const Alignment(0.0, 0),
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const <Widget>[
-                      Text(
-                        '',
-                        style: TextStyle(
-                          fontSize: 20,
-                          // fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                endChild: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 12, right: 32, top: 0, bottom: 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
-                      Text(
-                        'Enter card name',
-                        style: TextStyle(
-                          fontSize: 20,
-                          // fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              TimelineTile(
-                alignment: TimelineAlign.manual,
-                lineXY: 0.1,
-                beforeLineStyle: LineStyle(
-                  color: _nameController.text != ''
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context)
-                          .colorScheme
-                          .onBackground
-                          .withOpacity(0.7),
-                  thickness: 2,
-                ),
-                hasIndicator: false,
-                endChild: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 28, right: 32, top: 24, bottom: 36),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      TextField(
-                        onChanged: (value) {
-                          setState(() {
-                            _editText = value;
-                          });
-                        },
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'card name',
-                          hintText: 'Enter name',
-                        ),
-                        textInputAction: TextInputAction.done,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              // 2nd
+              const SizedBox(height: 24),
+              // 1st
               TimelineTile(
                 alignment: TimelineAlign.manual,
                 lineXY: 0.1,
@@ -258,12 +171,17 @@ class _UploadImagePageState extends State<UploadImagePage> {
                   drawGap: true,
                   width: 30,
                   height: 30,
-                  indicator: image == null
-                      ? const Icon(Icons.circle_outlined)
-                      : Icon(
-                          Icons.check_circle,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+                  indicator: image == null && _nameController.text != ''
+                      ? Icon(
+                          Icons.error_outline,
+                          color: Theme.of(context).colorScheme.error,
+                        )
+                      : _nameController.text == ''
+                          ? const Icon(Icons.circle_outlined)
+                          : Icon(
+                              Icons.check_circle,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                 ),
                 startChild: Padding(
                   padding: const EdgeInsets.only(
@@ -334,10 +252,110 @@ class _UploadImagePageState extends State<UploadImagePage> {
                           ),
                         ],
                       ),
+                    ],
+                  ),
+                ),
+              ),
+
+              //2nd
+              TimelineTile(
+                isFirst: true,
+                alignment: TimelineAlign.manual,
+                lineXY: 0.1,
+                beforeLineStyle: LineStyle(
+                  color: _nameController.text != ''
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context)
+                          .colorScheme
+                          .onBackground
+                          .withOpacity(0.7),
+                  thickness: 2,
+                ),
+                indicatorStyle: IndicatorStyle(
+                  indicatorXY: 0.44,
+                  drawGap: true,
+                  width: 30,
+                  height: 30,
+                  indicator: _nameController.text == ''
+                      ? const Icon(Icons.circle_outlined)
+                      : Icon(
+                          Icons.check_circle,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                ),
+                startChild: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 16, right: 12, top: 0, bottom: 0),
+                  child: Column(
+                    // alignment: const Alignment(0.0, 0),
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: const <Widget>[
+                      Text(
+                        '',
+                        style: TextStyle(
+                          fontSize: 20,
+                          // fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                endChild: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 12, right: 32, top: 0, bottom: 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const <Widget>[
+                      Text(
+                        'Enter card name',
+                        style: TextStyle(
+                          fontSize: 20,
+                          // fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              TimelineTile(
+                alignment: TimelineAlign.manual,
+                lineXY: 0.1,
+                beforeLineStyle: LineStyle(
+                  color: _nameController.text != ''
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context)
+                          .colorScheme
+                          .onBackground
+                          .withOpacity(0.7),
+                  thickness: 2,
+                ),
+                hasIndicator: false,
+                endChild: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 28, right: 32, top: 24, bottom: 36),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      TextField(
+                        onChanged: (value) {
+                          setState(() {
+                            _editText = value;
+                          });
+                        },
+                        controller: _nameController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'card name',
+                          hintText: 'Enter name',
+                        ),
+                        textInputAction: TextInputAction.done,
+                      ),
+                      const SizedBox(height: 36),
                       image != null
                           ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text('検出されたテキスト'),
+                                const Text('検出されたテキスト（β）'),
                                 TextField(
                                   keyboardType: TextInputType.multiline,
                                   maxLines: null,
