@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:thundercard/constants.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
 import 'package:thundercard/home_page.dart';
 import 'package:thundercard/widgets/my_card.dart';
+import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 
 import 'api/firebase_auth.dart';
 
@@ -15,19 +17,27 @@ class AddCard extends StatefulWidget {
   State<AddCard> createState() => _AddCardState();
 }
 
-void updateExchangedCards1(myCardId, addCardId) {
-  final doc = FirebaseFirestore.instance.collection('cards').doc(myCardId);
-  doc.update({
-    'exchanged_cards': FieldValue.arrayUnion([addCardId])
-  }).then((value) => print("DocumentSnapshot successfully updated!"),
-      onError: (e) => print("Error updating document $e"));
-}
+void handleExchange(String myCardId, otherCardId) async {
+  final DocumentReference myCard =
+      FirebaseFirestore.instance.collection('cards').doc(myCardId);
+  final DocumentReference otherCard =
+      FirebaseFirestore.instance.collection('cards').doc(otherCardId);
+  final String otherUid = await otherCard.get().then((DocumentSnapshot res) {
+    final data = res.data() as Map<String, dynamic>;
+    return data['uid'];
+  });
+  final Room room = await FirebaseChatCore.instance
+      .createRoom(User.fromJson({'id': otherUid}));
 
-void updateExchangedCards2(myCardId, addCardId) {
-  final doc = FirebaseFirestore.instance.collection('cards').doc(addCardId);
-  doc.update({
-    'exchanged_cards': FieldValue.arrayUnion([myCardId])
-  }).then((value) => print("DocumentSnapshot successfully updated!"),
+  myCard.update({
+    'exchanged_cards': FieldValue.arrayUnion([otherCardId]),
+    'rooms.$otherCardId': room.toJson()
+  }).then((value) => print("DocumentSnapshot successfully updated"),
+      onError: (e) => print("Error updating document $e"));
+  otherCard.update({
+    'exchanged_cards': FieldValue.arrayUnion([myCardId]),
+    'rooms.$myCardId': room.toJson()
+  }).then((value) => print("DocumentSnapshot successfully updated"),
       onError: (e) => print("Error updating document $e"));
 }
 
@@ -73,8 +83,7 @@ class _AddCardState extends State<AddCard> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  updateExchangedCards1(myCardId, addCardId);
-                                  updateExchangedCards2(myCardId, addCardId);
+                                  handleExchange(myCardId, addCardId);
                                   // Navigator.of(context).push(
                                   //   MaterialPageRoute(
                                   //     builder: (context) => HomePage(index: 1),

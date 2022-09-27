@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:thundercard/api/firebase_firestore.dart';
 import 'package:thundercard/constants.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart';
+import 'package:thundercard/chat.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
 import 'package:thundercard/home_page.dart';
 import 'package:thundercard/widgets/card_info.dart';
-import 'package:thundercard/widgets/scan_qr_code.dart';
 import 'api/firebase_auth.dart';
 import 'widgets/my_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,6 +12,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class CardDetails extends StatelessWidget {
   const CardDetails({Key? key, required this.cardId}) : super(key: key);
   final String cardId;
+
+  Future<Room> getRoom(String otherCardId) async {
+    final String? uid = getUid();
+    final DocumentReference user =
+        FirebaseFirestore.instance.collection('users').doc(uid);
+    final String myCardId = await user.get().then((DocumentSnapshot res) {
+      final data = res.data() as Map<String, dynamic>;
+      return data['my_cards'][0];
+    });
+    final DocumentReference card =
+        FirebaseFirestore.instance.collection('cards').doc(myCardId);
+    final Room room = await card.get().then((DocumentSnapshot res) {
+      final data = res.data() as Map<String, dynamic>;
+      return Room.fromJson(data['rooms'][otherCardId]);
+    });
+    return room;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +90,38 @@ class CardDetails extends StatelessWidget {
                     padding: const EdgeInsets.all(16.0),
                     child: MyCard(cardId: cardId, cardType: CardType.extended,),
                   ),
-                  // CardInfo(cardId: cardId, display: 'profile', editable: false)
+                  CardInfo(cardId: cardId, display: 'profile', editable: false),
+                  FutureBuilder(
+                    future: getRoom(cardId),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<Room> snapshot) {
+                      if (snapshot.hasError) {
+                        print(snapshot.error);
+                        return const Text("Something went wrong");
+                      }
+
+                      // if (snapshot.hasData && !snapshot.data!.exists) {
+                      //   return const Text("Document does not exist");
+                      // }
+
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        return ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChatPage(
+                                  room: snapshot.data!,
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text('Chat'),
+                        );
+                      }
+                      return const Center(child: CustomProgressIndicator());
+                    },
+                  ),
                 ],
               ),
             ),
