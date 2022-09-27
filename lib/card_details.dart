@@ -10,8 +10,10 @@ import 'widgets/my_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CardDetails extends StatelessWidget {
-  const CardDetails({Key? key, required this.cardId}) : super(key: key);
+  const CardDetails({Key? key, required this.cardId, required this.card})
+      : super(key: key);
   final String cardId;
+  final dynamic card;
 
   Future<Room> getRoom(String otherCardId) async {
     final String? uid = getUid();
@@ -86,11 +88,21 @@ class CardDetails extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 100),
               child: Column(
                 children: [
+                  card['is_user']
+                      ? Container()
+                      : card?['thumbnail'] != null
+                          ? Image.network(card?['thumbnail'])
+                          : const CustomProgressIndicator(),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: MyCard(cardId: cardId, cardType: CardType.extended,),
+                    child: MyCard(
+                      cardId: cardId,
+                      cardType: CardType.extended,
+                    ),
                   ),
-                  CardInfo(cardId: cardId, display: 'profile', editable: false),
+                  card['is_user']
+                      ? Container()
+                      : CardInfo(cardId: cardId, editable: false),
                   FutureBuilder(
                     future: getRoom(cardId),
                     builder:

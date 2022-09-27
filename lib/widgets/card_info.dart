@@ -9,11 +9,9 @@ class CardInfo extends StatelessWidget {
   const CardInfo({
     Key? key,
     required this.cardId,
-    required this.display,
     required this.editable,
   }) : super(key: key);
   final String cardId;
-  final String display;
   final bool editable;
 
   @override

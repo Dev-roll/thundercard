@@ -65,15 +65,6 @@ class _ListState extends State<List> {
                     child: Container(
                       padding: const EdgeInsets.only(bottom: 100),
                       child: Column(children: <Widget>[
-                        OutlinedButton(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => AuthGate(),
-                              // builder: (context) => RoomListPage(),
-                            ));
-                          },
-                          child: const Text('Chat'),
-                        ),
                         StreamBuilder<DocumentSnapshot<Object?>>(
                           stream: cards.doc(user['my_cards'][0]).snapshots(),
                           builder: (BuildContext context,
@@ -117,6 +108,7 @@ class _ListState extends State<List> {
                                             .push(MaterialPageRoute(
                                           builder: (context) => CardDetails(
                                             cardId: exchangedCards[index],
+                                            card: card,
                                           ),
                                         ));
                                       },
@@ -125,15 +117,10 @@ class _ListState extends State<List> {
                                           SizedBox(
                                             height: 24,
                                           ),
-                                          card?['is_user'] == true
-                                              ? MyCard(
-                                                  cardId: exchangedCards[index],
-                                                  cardType: CardType.normal,
-                                                )
-                                              : card?['thumbnail'] != null
-                                                  ? Image.network(
-                                                      card?['thumbnail'])
-                                                  : const CustomProgressIndicator(),
+                                          MyCard(
+                                            cardId: exchangedCards[index],
+                                            cardType: CardType.normal,
+                                          ),
                                         ],
                                       ),
                                     );
