@@ -61,7 +61,10 @@ class _ThundercardState extends State<Thundercard> {
                         if (snapshot.connectionState == ConnectionState.done) {
                           Map<String, dynamic> user =
                               snapshot.data!.data() as Map<String, dynamic>;
-                          return MyCard(cardId: user['my_cards'][0], cardType: CardType.normal,);
+                          return MyCard(
+                            cardId: user['my_cards'][0],
+                            cardType: CardType.normal,
+                          );
                         }
                         return const CustomProgressIndicator();
                       },
@@ -97,8 +100,8 @@ class _ThundercardState extends State<Thundercard> {
         style: ElevatedButton.styleFrom(
           elevation: 0,
           fixedSize: Size(MediaQuery.of(context).size.width * 0.7, 56),
-          primary: Theme.of(context).colorScheme.primaryContainer,
-          onPrimary: Theme.of(context).colorScheme.onPrimaryContainer,
+          primary: Theme.of(context).colorScheme.secondaryContainer,
+          onPrimary: Theme.of(context).colorScheme.onSecondaryContainer,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

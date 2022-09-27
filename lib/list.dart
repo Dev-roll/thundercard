@@ -161,6 +161,10 @@ class _ListState extends State<List> {
                   size: 24,
                 ),
                 label: const Text('画像をもとに追加'),
+                foregroundColor:
+                    Theme.of(context).colorScheme.onSecondaryContainer,
+                backgroundColor:
+                    Theme.of(context).colorScheme.secondaryContainer,
               ),
             );
           }
