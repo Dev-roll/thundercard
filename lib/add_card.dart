@@ -17,23 +17,6 @@ class AddCard extends StatefulWidget {
   State<AddCard> createState() => _AddCardState();
 }
 
-// void updateExchangedCards1(myCardId, addCardId) {
-//   final doc = FirebaseFirestore.instance.collection('cards').doc(myCardId);
-//   doc.update({
-//     'exchanged_cards': FieldValue.arrayUnion([addCardId])
-//   }).then((value) => print("DocumentSnapshot successfully updated!"),
-//       onError: (e) => print("Error updating document $e"));
-// }
-
-// void updateExchangedCards2(myCardId, addCardId) async {
-//   final DocumentReference addCard =
-//       FirebaseFirestore.instance.collection('cards').doc(addCardId);
-//   addCard.update({
-//     'exchanged_cards': FieldValue.arrayUnion([myCardId])
-//   }).then((value) => print("DocumentSnapshot successfully updated!"),
-//       onError: (e) => print("Error updating document $e"));
-// }
-
 void handleExchange(String myCardId, otherCardId) async {
   final DocumentReference myCard =
       FirebaseFirestore.instance.collection('cards').doc(myCardId);
@@ -100,8 +83,6 @@ class _AddCardState extends State<AddCard> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  // updateExchangedCards1(myCardId, addCardId);
-                                  // updateExchangedCards2(myCardId, addCardId);
                                   handleExchange(myCardId, addCardId);
                                   // Navigator.of(context).push(
                                   //   MaterialPageRoute(

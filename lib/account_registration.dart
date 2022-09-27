@@ -57,6 +57,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
       'company': _companyController.text,
       'email': _emailController.text,
       'is_user': true,
+      'uid': uid,
       'exchanged_cards': [],
     }).then((value) {
       Navigator.of(context).push(
