@@ -5,7 +5,7 @@ import 'package:thundercard/auth_gate.dart';
 import 'package:thundercard/card_details.dart';
 import 'package:thundercard/constants.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
-import 'package:thundercard/functions.dart';
+import 'package:thundercard/api/colors.dart';
 import 'package:thundercard/upload_image_page.dart';
 import 'package:thundercard/widgets/my_card.dart';
 import 'api/firebase_auth.dart';
