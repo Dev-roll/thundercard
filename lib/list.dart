@@ -5,6 +5,7 @@ import 'package:thundercard/card_details.dart';
 import 'package:thundercard/constants.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
 import 'package:thundercard/functions.dart';
+import 'package:thundercard/rooms.dart';
 import 'package:thundercard/upload_image_page.dart';
 import 'package:thundercard/widgets/chat/room_list_page.dart';
 import 'package:thundercard/widgets/my_card.dart';
@@ -68,7 +69,8 @@ class _ListState extends State<List> {
                         OutlinedButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => RoomListPage(),
+                              builder: (context) => const RoomsPage(),
+                              // builder: (context) => RoomListPage(),
                             ));
                           },
                           child: const Text('Chat'),

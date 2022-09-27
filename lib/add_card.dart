@@ -16,11 +16,13 @@ class AddCard extends StatefulWidget {
 }
 
 void updateExchangedCards1(myCardId, addCardId) {
-  final doc = FirebaseFirestore.instance.collection('cards').doc(myCardId);
-  doc.update({
+  final DocumentReference myCard =
+      FirebaseFirestore.instance.collection('cards').doc(myCardId);
+  myCard.update({
     'exchanged_cards': FieldValue.arrayUnion([addCardId])
   }).then((value) => print("DocumentSnapshot successfully updated!"),
       onError: (e) => print("Error updating document $e"));
+  final 
 }
 
 void updateExchangedCards2(myCardId, addCardId) {
