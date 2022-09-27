@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:thundercard/api/firebase_auth.dart';
 import 'package:thundercard/constants.dart';
-import 'package:thundercard/functions.dart';
+import 'package:thundercard/api/colors.dart';
 import 'package:thundercard/thundercard.dart';
 import 'package:thundercard/list.dart';
 import 'package:thundercard/notifications.dart';

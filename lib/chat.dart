@@ -13,6 +13,8 @@ import 'package:mime/mime.dart';
 import 'package:open_file/open_file.dart';
 // import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:thundercard/api/colors.dart';
+import 'package:thundercard/constants.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({
@@ -30,70 +32,302 @@ class _ChatPageState extends State<ChatPage> {
   bool _isAttachmentUploading = false;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          systemOverlayStyle: SystemUiOverlayStyle.light,
-          title: const Text('Chat'),
-        ),
-        body: StreamBuilder<types.Room>(
-          initialData: widget.room,
-          stream: FirebaseChatCore.instance.room(widget.room.id),
-          builder: (context, snapshot) => StreamBuilder<List<types.Message>>(
-            initialData: const [],
-            stream: FirebaseChatCore.instance.messages(snapshot.data!),
-            builder: (context, snapshot) => Chat(
-              isAttachmentUploading: _isAttachmentUploading,
-              messages: snapshot.data ?? [],
-              onAttachmentPressed: _handleAtachmentPressed,
-              onMessageTap: _handleMessageTap,
-              onPreviewDataFetched: _handlePreviewDataFetched,
-              onSendPressed: _handleSendPressed,
-              user: types.User(
-                id: FirebaseChatCore.instance.firebaseUser?.uid ?? '',
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        systemOverlayStyle:
+            Theme.of(context).colorScheme.background.computeLuminance() < 0.5
+                ? SystemUiOverlayStyle.light
+                : SystemUiOverlayStyle.dark,
+        title: const Text('Chat'),
+      ),
+      body: StreamBuilder<types.Room>(
+        initialData: widget.room,
+        stream: FirebaseChatCore.instance.room(widget.room.id),
+        builder: (context, snapshot) => StreamBuilder<List<types.Message>>(
+          initialData: const [],
+          stream: FirebaseChatCore.instance.messages(snapshot.data!),
+          builder: (context, snapshot) => Chat(
+            theme: DefaultChatTheme(
+              // input
+              inputTextColor: Theme.of(context).colorScheme.onSurfaceVariant,
+              inputTextCursorColor: Theme.of(context).colorScheme.primary,
+              inputBackgroundColor: alphaBlend(
+                  Theme.of(context).colorScheme.primary.withOpacity(0.08),
+                  Theme.of(context).colorScheme.surface),
+              // inputTextDecoration: ,
+              // inputTextStyle: ,
+
+              // sent
+              primaryColor:
+                  Theme.of(context).colorScheme.secondary.withOpacity(0.9),
+              sentMessageDocumentIconColor: const Color(0xff000000),
+              sentMessageBodyTextStyle: TextStyle(
+                color: Theme.of(context).colorScheme.onSecondary,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                height: 1.5,
               ),
+              sentMessageCaptionTextStyle: TextStyle(
+                color:
+                    Theme.of(context).colorScheme.onSecondary.withOpacity(0.6),
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                height: 1.333,
+              ),
+              sentMessageBodyLinkTextStyle: TextStyle(
+                color:
+                    Theme.of(context).colorScheme.onSecondary.withOpacity(0.7),
+                fontSize: 14,
+                decoration: TextDecoration.underline,
+              ),
+              sentMessageLinkTitleTextStyle: TextStyle(
+                color: Theme.of(context).colorScheme.onSecondary,
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
+                height: 1.375,
+              ),
+              sentMessageLinkDescriptionTextStyle: TextStyle(
+                color:
+                    Theme.of(context).colorScheme.onSecondary.withOpacity(0.6),
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                height: 1.428,
+              ),
+              // sentMessageBodyBoldTextStyle: ,
+              // sentMessageBodyCodeTextStyle: ,
+
+              // received
+              secondaryColor: Theme.of(context).colorScheme.secondaryContainer,
+              receivedMessageDocumentIconColor: const Color(0xff000000),
+              receivedMessageBodyTextStyle: TextStyle(
+                color: Theme.of(context).colorScheme.secondary,
+                fontSize: 16,
+              ),
+              receivedMessageCaptionTextStyle: TextStyle(
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSecondaryContainer
+                    .withOpacity(0.6),
+                fontSize: 12,
+              ),
+              receivedMessageBodyLinkTextStyle: TextStyle(
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSecondaryContainer
+                    .withOpacity(0.7),
+                fontSize: 14,
+                decoration: TextDecoration.underline,
+              ),
+              receivedMessageLinkTitleTextStyle: TextStyle(
+                color: Theme.of(context).colorScheme.secondary,
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
+                height: 1.375,
+              ),
+              receivedMessageLinkDescriptionTextStyle: TextStyle(
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSecondaryContainer
+                    .withOpacity(0.6),
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                height: 1.428,
+              ),
+              // receivedMessageBodyBoldTextStyle: ,
+              // receivedMessageBodyCodeTextStyle: ,
+
+              // colors
+              backgroundColor: Theme.of(context).colorScheme.background,
+              errorColor: Theme.of(context).colorScheme.error,
+              // userAvatarImageBackgroundColor: ,
+              // userAvatarNameColors: ,
+
+              // shape & space
+              // inputBorderRadius:
+              //     const BorderRadius.vertical(top: Radius.circular(20)),
+              messageBorderRadius: 20,
+              messageInsetsHorizontal: 18,
+              messageInsetsVertical: 16,
+              inputPadding: const EdgeInsets.fromLTRB(24, 22, 24, 20),
+              dateDividerMargin: const EdgeInsets.only(bottom: 12, top: 20),
+              // statusIconPadding: ,
+              // attachmentButtonMargin: ,
+              // sendButtonMargin: ,
+              // inputMargin: ,
+
+              // text style
+              dateDividerTextStyle: TextStyle(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSurfaceVariant
+                      .withOpacity(0.5),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  height: 1.333),
+              emptyChatPlaceholderTextStyle: TextStyle(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSurfaceVariant
+                      .withOpacity(0.5),
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  height: 1.5),
+              // sentEmojiMessageTextStyle: ,
+              // receivedEmojiMessageTextStyle: ,
+              // userNameTextStyle: ,
+              // userAvatarTextStyle: ,
+
+              // icons
+              attachmentButtonIcon: Icon(
+                Icons.add_circle_outline_rounded,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+              sendButtonIcon: Icon(
+                Icons.send_rounded,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              documentIcon: Icon(
+                Icons.description_rounded,
+                color: white.withOpacity(0.8),
+                // color: Theme.of(context)
+                //     .colorScheme
+                //     .onSecondaryContainer
+                //     .withOpacity(0.75),
+              ),
+              // sendingIcon: Icon(
+              //   Icons.pending_rounded,
+              //   color: Theme.of(context).colorScheme.primary,
+              //   size: 16,
+              // ),
+              // deliveredIcon: Icon(
+              //   Icons.done_rounded,
+              //   color: Theme.of(context).colorScheme.secondary,
+              //   size: 16,
+              // ),
+              // seenIcon: Icon(
+              //   Icons.done_all_rounded,
+              //   color: Theme.of(context).colorScheme.secondary,
+              //   size: 16,
+              // ),
+              // errorIcon: Icon(
+              //   Icons.error_rounded,
+              //   color: Theme.of(context).colorScheme.error,
+              //   size: 16,
+              // ),
+
+              // other
+              // inputContainerDecoration: ,
+            ),
+            isAttachmentUploading: _isAttachmentUploading,
+            messages: snapshot.data ?? [],
+            onAttachmentPressed: _handleAtachmentPressed,
+            onMessageTap: _handleMessageTap,
+            onPreviewDataFetched: _handlePreviewDataFetched,
+            onSendPressed: _handleSendPressed,
+            user: types.User(
+              id: FirebaseChatCore.instance.firebaseUser?.uid ?? '',
             ),
           ),
         ),
-      );
+      ),
+    );
+  }
 
   void _handleAtachmentPressed() {
     showModalBottomSheet<void>(
       context: context,
-      builder: (BuildContext context) => SafeArea(
-        child: SizedBox(
-          height: 144,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  _handleImageSelection();
-                },
-                child: const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('Photo'),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  _handleFileSelection();
-                },
-                child: const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('File'),
-                ),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('Cancel'),
-                ),
-              ),
-            ],
+      builder: (BuildContext context) => Container(
+        height: 200,
+        padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
           ),
+          color: alphaBlend(
+              Theme.of(context).colorScheme.primary.withOpacity(0.08),
+              Theme.of(context).colorScheme.surface),
+          boxShadow: [
+            BoxShadow(
+              color: alphaBlend(
+                  Theme.of(context).colorScheme.primary.withOpacity(0.08),
+                  Theme.of(context).colorScheme.surface),
+              offset: const Offset(0, -16),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Container(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                onPressed: () => Navigator.of(context).pop(),
+                icon: const Icon(Icons.close_rounded),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _handleImageSelection();
+              },
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  children: [
+                    const SizedBox(
+                      width: 16,
+                      height: 32,
+                    ),
+                    Icon(
+                      Icons.insert_photo_rounded,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      'Photo',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _handleFileSelection();
+              },
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  children: [
+                    const SizedBox(
+                      width: 16,
+                      height: 32,
+                    ),
+                    Icon(
+                      Icons.source_rounded,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      'File',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

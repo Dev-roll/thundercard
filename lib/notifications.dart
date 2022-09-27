@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:thundercard/constants.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
-import 'package:thundercard/functions.dart';
+import 'package:thundercard/api/colors.dart';
 import 'package:thundercard/widgets/notification_item.dart';
 
 import 'api/firebase_auth.dart';
@@ -60,6 +60,7 @@ class _NotificationsState extends State<Notifications> {
                       : MediaQuery.of(context).padding.top),
                   child: AppBar(
                     automaticallyImplyLeading: false,
+                    // backgroundColor: Theme.of(context).colorScheme.background,
                     flexibleSpace: Theme(
                       data: ThemeData(
                         splashColor: Colors.transparent,

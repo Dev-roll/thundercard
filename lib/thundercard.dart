@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:thundercard/constants.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
-import 'package:thundercard/functions.dart';
+import 'package:thundercard/api/colors.dart';
 import 'package:thundercard/widgets/scan_qr_code.dart';
 import 'api/firebase_auth.dart';
 import 'widgets/my_card.dart';

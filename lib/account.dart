@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:thundercard/auth_gate.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
-import 'package:thundercard/functions.dart';
+import 'package:thundercard/api/colors.dart';
 import 'package:thundercard/widgets/card_info.dart';
 import 'package:thundercard/widgets/maintenance.dart';
 import 'api/firebase_auth.dart';
@@ -43,35 +43,37 @@ class _AccountState extends State<Account> {
       body: Column(
         children: [
           FutureBuilder<DocumentSnapshot>(
-              future: users.doc(uid).get(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Text("Something went wrong");
-                }
+            future: users.doc(uid).get(),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Text("Something went wrong");
+              }
 
-                if (snapshot.hasData && !snapshot.data!.exists) {
-                  return Text("Document does not exist");
-                }
+              if (snapshot.hasData && !snapshot.data!.exists) {
+                return Text("Document does not exist");
+              }
 
-                if (snapshot.connectionState == ConnectionState.done) {
-                  Map<String, dynamic> user =
-                      snapshot.data!.data() as Map<String, dynamic>;
+              if (snapshot.connectionState == ConnectionState.done) {
+                Map<String, dynamic> user =
+                    snapshot.data!.data() as Map<String, dynamic>;
 
-                  return SafeArea(
-                    child: SingleChildScrollView(
-                        child: Center(
+                return SafeArea(
+                  child: SingleChildScrollView(
+                    child: Center(
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: CardInfo(
                             cardId: user['my_cards'][0],
                             editable: true),
                       ),
-                    )),
-                  );
-                }
-                return const Center(child: CustomProgressIndicator());
-              }),
+                    ),
+                  ),
+                );
+              }
+              return const Center(child: CustomProgressIndicator());
+            },
+          ),
           ElevatedButton(
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
