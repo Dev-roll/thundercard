@@ -17,27 +17,45 @@ class AddCard extends StatefulWidget {
   State<AddCard> createState() => _AddCardState();
 }
 
-void updateExchangedCards1(myCardId, addCardId) {
-  final doc = FirebaseFirestore.instance.collection('cards').doc(myCardId);
-  doc.update({
-    'exchanged_cards': FieldValue.arrayUnion([addCardId])
-  }).then((value) => print("DocumentSnapshot successfully updated!"),
-      onError: (e) => print("Error updating document $e"));
-}
+// void updateExchangedCards1(myCardId, addCardId) {
+//   final doc = FirebaseFirestore.instance.collection('cards').doc(myCardId);
+//   doc.update({
+//     'exchanged_cards': FieldValue.arrayUnion([addCardId])
+//   }).then((value) => print("DocumentSnapshot successfully updated!"),
+//       onError: (e) => print("Error updating document $e"));
+// }
 
-void updateExchangedCards2(myCardId, addCardId) async {
-  final DocumentReference addCard =
-      FirebaseFirestore.instance.collection('cards').doc(addCardId);
-  addCard.update({
-    'exchanged_cards': FieldValue.arrayUnion([myCardId])
-  }).then((value) => print("DocumentSnapshot successfully updated!"),
-      onError: (e) => print("Error updating document $e"));
-  final String otherUid = await addCard.get().then((DocumentSnapshot res) {
+// void updateExchangedCards2(myCardId, addCardId) async {
+//   final DocumentReference addCard =
+//       FirebaseFirestore.instance.collection('cards').doc(addCardId);
+//   addCard.update({
+//     'exchanged_cards': FieldValue.arrayUnion([myCardId])
+//   }).then((value) => print("DocumentSnapshot successfully updated!"),
+//       onError: (e) => print("Error updating document $e"));
+// }
+
+void handleExchange(String myCardId, otherCardId) async {
+  final DocumentReference myCard =
+      FirebaseFirestore.instance.collection('cards').doc(myCardId);
+  final DocumentReference otherCard =
+      FirebaseFirestore.instance.collection('cards').doc(otherCardId);
+  final String otherUid = await otherCard.get().then((DocumentSnapshot res) {
     final data = res.data() as Map<String, dynamic>;
     return data['uid'];
   });
   final Room room = await FirebaseChatCore.instance
       .createRoom(User.fromJson({'id': otherUid}));
+
+  myCard.update({
+    'exchanged_cards': FieldValue.arrayUnion([otherCardId]),
+    'rooms.$otherCardId': room.toJson()
+  }).then((value) => print("DocumentSnapshot successfully updated"),
+      onError: (e) => print("Error updating document $e"));
+  otherCard.update({
+    'exchanged_cards': FieldValue.arrayUnion([myCardId]),
+    'rooms.$myCardId': room.toJson()
+  }).then((value) => print("DocumentSnapshot successfully updated"),
+      onError: (e) => print("Error updating document $e"));
 }
 
 class _AddCardState extends State<AddCard> {
@@ -82,8 +100,9 @@ class _AddCardState extends State<AddCard> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  updateExchangedCards1(myCardId, addCardId);
-                                  updateExchangedCards2(myCardId, addCardId);
+                                  // updateExchangedCards1(myCardId, addCardId);
+                                  // updateExchangedCards2(myCardId, addCardId);
+                                  handleExchange(myCardId, addCardId);
                                   // Navigator.of(context).push(
                                   //   MaterialPageRoute(
                                   //     builder: (context) => HomePage(index: 1),
