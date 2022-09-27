@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:thundercard/constants.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
 import 'package:thundercard/home_page.dart';
 import 'package:thundercard/widgets/my_card.dart';
+import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 
 import 'api/firebase_auth.dart';
 
@@ -16,21 +18,26 @@ class AddCard extends StatefulWidget {
 }
 
 void updateExchangedCards1(myCardId, addCardId) {
-  final DocumentReference myCard =
-      FirebaseFirestore.instance.collection('cards').doc(myCardId);
-  myCard.update({
+  final doc = FirebaseFirestore.instance.collection('cards').doc(myCardId);
+  doc.update({
     'exchanged_cards': FieldValue.arrayUnion([addCardId])
   }).then((value) => print("DocumentSnapshot successfully updated!"),
       onError: (e) => print("Error updating document $e"));
-  final 
 }
 
-void updateExchangedCards2(myCardId, addCardId) {
-  final doc = FirebaseFirestore.instance.collection('cards').doc(addCardId);
-  doc.update({
+void updateExchangedCards2(myCardId, addCardId) async {
+  final DocumentReference addCard =
+      FirebaseFirestore.instance.collection('cards').doc(addCardId);
+  addCard.update({
     'exchanged_cards': FieldValue.arrayUnion([myCardId])
   }).then((value) => print("DocumentSnapshot successfully updated!"),
       onError: (e) => print("Error updating document $e"));
+  final String otherUid = await addCard.get().then((DocumentSnapshot res) {
+    final data = res.data() as Map<String, dynamic>;
+    return data['uid'];
+  });
+  final Room room = await FirebaseChatCore.instance
+      .createRoom(User.fromJson({'id': otherUid}));
 }
 
 class _AddCardState extends State<AddCard> {

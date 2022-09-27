@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:thundercard/auth_gate.dart';
 import 'package:thundercard/card_details.dart';
 import 'package:thundercard/constants.dart';
 import 'package:thundercard/custom_progress_indicator.dart';
@@ -69,7 +70,7 @@ class _ListState extends State<List> {
                         OutlinedButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const RoomsPage(),
+                              builder: (context) => AuthGate(),
                               // builder: (context) => RoomListPage(),
                             ));
                           },
