@@ -94,19 +94,17 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
     return ValueListenableBuilder<List<TextFieldState>>(
       valueListenable: widget.controllerController,
       builder: (context, state, _) {
-        // String selectedKey = '';
+        final links = [
+          'url',
+          'twitter',
+          'instagram',
+          'github',
+        ];
 
-        final links = {
-          'URL': 'URL',
-          'Twitter': 'Twitter',
-          'Instagram': 'Instagram',
-          'GitHub': 'GitHub',
-        };
-
-        final linksDropdownMenuItem = links.entries
+        final linksDropdownMenuItem = links
             .map((entry) => DropdownMenuItem(
-                  child: Text(entry.key),
-                  value: entry.value,
+                  child: Text(entry),
+                  value: entry,
                 ))
             .toList();
 
@@ -300,7 +298,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                     ),
                     TextButton(
                       onPressed: () {
-                        controller.add('URL', '');
+                        controller.add('url', '');
                       },
                       child: Text("追加"),
                     ),
