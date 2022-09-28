@@ -97,10 +97,10 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
         // String selectedKey = '';
 
         final links = {
-          'URL': 'url',
-          'Twitter': 'twitter',
-          'Instagram': 'instagram',
-          'GitHub': 'github',
+          'URL': 'URL',
+          'Twitter': 'Twitter',
+          'Instagram': 'Instagram',
+          'GitHub': 'GitHub',
         };
 
         final linksDropdownMenuItem = links.entries
@@ -113,54 +113,55 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
         return ReorderableListView(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          children: state
-              .map(
-                (textFieldState) => Column(
-                  key: ValueKey(textFieldState.id),
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DropdownButton(
-                            items: linksDropdownMenuItem,
-                            value: textFieldState.selector,
-                            onChanged: (value) {
-                              print(value);
-                              widget.controllerController.setKey(textFieldState.id, value);
-                              // setState(() {
-                              //   selectedKey = value!;
-                              // });
-                            },
-                          ),
+          children: state.map(
+            (textFieldState) {
+              dynamic selectedKey = textFieldState.selector;
+              return Column(
+                key: ValueKey(textFieldState.id),
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: DropdownButton(
+                          items: linksDropdownMenuItem,
+                          value: selectedKey,
+                          onChanged: (value) {
+                            widget.controllerController
+                                .setKey(textFieldState.id, value);
+                            setState(() {
+                              selectedKey = value!;
+                            });
+                          },
                         ),
-                        Expanded(
-                          child: TextField(
-                            controller: textFieldState.controller,
-                            decoration: InputDecoration.collapsed(hintText: ""),
-                          ),
+                      ),
+                      Expanded(
+                        child: TextField(
+                          controller: textFieldState.controller,
+                          decoration: InputDecoration.collapsed(hintText: ""),
                         ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 8.0),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.drag_indicator_rounded),
-                              SizedBox(width: 12),
-                              IconButton(
-                                icon: Icon(Icons.delete_rounded),
-                                onPressed: () =>
-                                    widget.controllerController.remove(textFieldState.id),
-                              ),
-                            ],
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 8.0),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.drag_indicator_rounded),
+                            SizedBox(width: 12),
+                            IconButton(
+                              icon: Icon(Icons.delete_rounded),
+                              onPressed: () => widget.controllerController
+                                  .remove(textFieldState.id),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-              )
-              .toList(),
-          onReorder: (oldIndex, newIndex) => widget.controllerController.reorder(
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+          ).toList(),
+          onReorder: (oldIndex, newIndex) =>
+              widget.controllerController.reorder(
             oldIndex,
             newIndex,
           ),
@@ -299,7 +300,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                     ),
                     TextButton(
                       onPressed: () {
-                        controller.add('', '');
+                        controller.add('URL', '');
                       },
                       child: Text("追加"),
                     ),
