@@ -1,9 +1,8 @@
-import 'dart:ffi';
-
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:thundercard/custom_progress_indicator.dart';
+import 'package:flutter/material.dart';
+
 import '../account_editor.dart';
+import '../custom_progress_indicator.dart';
 
 class CardInfo extends StatelessWidget {
   const CardInfo({

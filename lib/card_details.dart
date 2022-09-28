@@ -1,13 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:thundercard/constants.dart';
-import 'package:flutter_chat_types/flutter_chat_types.dart';
-import 'package:thundercard/chat.dart';
-import 'package:thundercard/custom_progress_indicator.dart';
-import 'package:thundercard/home_page.dart';
-import 'package:thundercard/widgets/card_info.dart';
-import 'api/firebase_auth.dart';
-import 'widgets/my_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart';
+
+import 'api/firebase_auth.dart';
+import 'widgets/card_info.dart';
+import 'widgets/my_card.dart';
+import 'chat.dart';
+import 'constants.dart';
+import 'custom_progress_indicator.dart';
+import 'home_page.dart';
 
 class CardDetails extends StatelessWidget {
   const CardDetails({Key? key, required this.cardId, required this.card})

@@ -1,13 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
-import 'package:thundercard/auth_gate.dart';
-import 'package:thundercard/custom_progress_indicator.dart';
-import 'package:thundercard/api/colors.dart';
-import 'package:thundercard/widgets/card_info.dart';
-import 'package:thundercard/widgets/maintenance.dart';
+
+import 'api/colors.dart';
 import 'api/firebase_auth.dart';
+import 'widgets/card_info.dart';
+import 'widgets/maintenance.dart';
+import 'auth_gate.dart';
+import 'custom_progress_indicator.dart';
 
 class Account extends StatefulWidget {
   const Account({Key? key}) : super(key: key);
@@ -64,8 +65,7 @@ class _AccountState extends State<Account> {
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: CardInfo(
-                            cardId: user['my_cards'][0],
-                            editable: true),
+                            cardId: user['my_cards'][0], editable: true),
                       ),
                     ),
                   ),

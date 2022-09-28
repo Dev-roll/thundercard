@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:thundercard/constants.dart';
 
 class NotificationItemPage extends StatefulWidget {
   const NotificationItemPage({

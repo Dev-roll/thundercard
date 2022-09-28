@@ -1,15 +1,17 @@
+import 'dart:io';
+// import 'dart:math' as math;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/services.dart';
+// import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
-import 'package:flutter/services.dart';
-import 'dart:math' as math;
-import 'package:thundercard/home_page.dart';
 import 'package:timeline_tile/timeline_tile.dart';
+
+import 'home_page.dart';
 
 class UploadImagePage extends StatefulWidget {
   const UploadImagePage({Key? key, required this.cardId}) : super(key: key);

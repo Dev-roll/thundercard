@@ -3,12 +3,11 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:thundercard/constants.dart';
-import 'package:thundercard/custom_progress_indicator.dart';
-import 'package:thundercard/api/colors.dart';
-import 'package:thundercard/widgets/notification_item.dart';
 
+import 'api/colors.dart';
 import 'api/firebase_auth.dart';
+import 'widgets/notification_item.dart';
+import 'custom_progress_indicator.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);
