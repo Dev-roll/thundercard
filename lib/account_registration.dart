@@ -13,9 +13,10 @@ class AccountRegistration extends StatefulWidget {
 
 class TextFieldState {
   final String id;
+  String selector;
   final TextEditingController controller;
 
-  TextFieldState(this.id, this.controller);
+  TextFieldState(this.id, this.selector, this.controller);
 }
 
 class ReorderableMultiTextFieldController
@@ -23,13 +24,19 @@ class ReorderableMultiTextFieldController
   ReorderableMultiTextFieldController(List<TextFieldState> value)
       : super(value);
 
-  void add(text) {
+  void add(key, text) {
     final state = TextFieldState(
       Uuid().v4(),
+      key,
       TextEditingController(text: text),
     );
 
     value = [...value, state];
+  }
+
+  void setKey(id, newValue) {
+    final keyIndex = value.indexWhere((element) => element.id == id);
+    value[keyIndex].selector = newValue;
   }
 
   void remove(String id) {
@@ -63,10 +70,10 @@ class ReorderableMultiTextFieldController
 }
 
 class ReorderableMultiTextField extends StatefulWidget {
-  final ReorderableMultiTextFieldController controller;
+  final ReorderableMultiTextFieldController controllerController;
   ReorderableMultiTextField({
     Key? key,
-    required this.controller,
+    required this.controllerController,
   }) : super(key: key);
 
   @override
@@ -85,9 +92,9 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<List<TextFieldState>>(
-      valueListenable: widget.controller,
+      valueListenable: widget.controllerController,
       builder: (context, state, _) {
-        String selectedKey = 'URL';
+        // String selectedKey = '';
 
         final links = {
           'URL': 'url',
@@ -116,11 +123,13 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                         Expanded(
                           child: DropdownButton(
                             items: linksDropdownMenuItem,
-                            // value: selectedKey,
-                            onChanged: (String? value) {
-                              setState(() {
-                                selectedKey = value!;
-                              });
+                            value: textFieldState.selector,
+                            onChanged: (value) {
+                              print(value);
+                              widget.controllerController.setKey(textFieldState.id, value);
+                              // setState(() {
+                              //   selectedKey = value!;
+                              // });
                             },
                           ),
                         ),
@@ -140,7 +149,7 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                               IconButton(
                                 icon: Icon(Icons.delete_rounded),
                                 onPressed: () =>
-                                    widget.controller.remove(textFieldState.id),
+                                    widget.controllerController.remove(textFieldState.id),
                               ),
                             ],
                           ),
@@ -151,7 +160,7 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                 ),
               )
               .toList(),
-          onReorder: (oldIndex, newIndex) => widget.controller.reorder(
+          onReorder: (oldIndex, newIndex) => widget.controllerController.reorder(
             oldIndex,
             newIndex,
           ),
@@ -184,7 +193,11 @@ class _AccountRegistrationState extends State<AccountRegistration> {
     final values = controller.value.map(((e) {
       return e.controller.text;
     })).toList();
+    final keys = controller.value.map(((e) {
+      return e.selector;
+    })).toList();
     print(values);
+    print(keys);
     // users
     //     .doc(uid)
     //     .set({
@@ -282,11 +295,11 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                     ),
                     Text('リンクを任意で追加してください。'),
                     ReorderableMultiTextField(
-                      controller: controller,
+                      controllerController: controller,
                     ),
                     TextButton(
                       onPressed: () {
-                        controller.add("");
+                        controller.add('', '');
                       },
                       child: Text("追加"),
                     ),
