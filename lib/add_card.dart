@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:thundercard/constants.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
-import 'package:thundercard/custom_progress_indicator.dart';
-import 'package:thundercard/home_page.dart';
-import 'package:thundercard/widgets/my_card.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 
 import 'api/firebase_auth.dart';
+import 'widgets/my_card.dart';
+import 'constants.dart';
+import 'custom_progress_indicator.dart';
+import 'home_page.dart';
 
 class AddCard extends StatefulWidget {
   const AddCard({Key? key, required this.cardId}) : super(key: key);
@@ -55,7 +55,10 @@ class _AddCardState extends State<AddCard> {
           child: Center(
             child: Column(
               children: [
-                MyCard(cardId: addCardId, cardType: CardType.normal,),
+                MyCard(
+                  cardId: addCardId,
+                  cardType: CardType.normal,
+                ),
                 Text('この名刺を追加しますか？'),
                 Row(
                   children: [

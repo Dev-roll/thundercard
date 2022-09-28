@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:thundercard/constants.dart';
-import 'package:thundercard/widgets/card_element.dart';
-import 'package:thundercard/widgets/extended_card.dart';
-import 'package:thundercard/widgets/normal_card.dart';
-import 'package:thundercard/widgets/open_app.dart';
-import 'package:thundercard/widgets/return_url.dart';
+
+import 'extended_card.dart';
+import 'normal_card.dart';
+import '../constants.dart';
 
 class SwitchCard extends StatelessWidget {
   const SwitchCard({Key? key, required this.cardId, required this.cardType})

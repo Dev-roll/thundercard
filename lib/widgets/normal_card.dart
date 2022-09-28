@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:thundercard/constants.dart';
-import 'package:thundercard/widgets/card_element.dart';
-import 'package:thundercard/widgets/open_app.dart';
-import 'package:thundercard/widgets/return_url.dart';
+
+import 'card_element.dart';
+import 'open_app.dart';
+import 'return_url.dart';
 
 class NormalCard extends StatelessWidget {
   const NormalCard({

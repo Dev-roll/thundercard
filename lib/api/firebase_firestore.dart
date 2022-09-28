@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:thundercard/api/firebase_auth.dart';
+
+import 'firebase_auth.dart';
 
 String? getCardId() {
   FirebaseFirestore.instance

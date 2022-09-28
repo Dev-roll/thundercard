@@ -2,11 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:thundercard/account_registration.dart';
-import 'package:thundercard/custom_progress_indicator.dart';
-import 'package:thundercard/home_page.dart';
 import 'package:flutterfire_ui/auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
+
+import 'account_registration.dart';
+import 'custom_progress_indicator.dart';
+import 'home_page.dart';
 
 class AuthGate extends StatelessWidget {
   AuthGate({Key? key}) : super(key: key);

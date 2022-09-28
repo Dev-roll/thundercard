@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:thundercard/auth_gate.dart';
-import 'package:thundercard/card_details.dart';
-import 'package:thundercard/constants.dart';
-import 'package:thundercard/custom_progress_indicator.dart';
-import 'package:thundercard/api/colors.dart';
-import 'package:thundercard/upload_image_page.dart';
-import 'package:thundercard/widgets/my_card.dart';
+
+import 'api/colors.dart';
 import 'api/firebase_auth.dart';
+import 'widgets/my_card.dart';
+import 'card_details.dart';
+import 'constants.dart';
+import 'custom_progress_indicator.dart';
+import 'upload_image_page.dart';
 
 class List extends StatefulWidget {
   const List({

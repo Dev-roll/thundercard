@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:thundercard/card_details.dart';
-import 'package:thundercard/constants.dart';
-import 'package:thundercard/widgets/switch_card.dart';
+
+import 'switch_card.dart';
+import '../constants.dart';
 
 class MyCard extends StatelessWidget {
   const MyCard({Key? key, required this.cardId, required this.cardType})
