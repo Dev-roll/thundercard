@@ -5,7 +5,7 @@ import 'package:thundercard/widgets/card_element.dart';
 import 'package:thundercard/widgets/extended_card.dart';
 import 'package:thundercard/widgets/normal_card.dart';
 import 'package:thundercard/widgets/open_app.dart';
-import 'package:thundercard/widgets/return_url.dart';
+import 'package:thundercard/api/return_url.dart';
 
 class SwitchCard extends StatelessWidget {
   const SwitchCard({Key? key, required this.cardId, required this.cardType})
