@@ -188,50 +188,82 @@ class _AccountRegistrationState extends State<AccountRegistration> {
   }
 
   void registerCard() {
-    // controller.forEach((value) {});
     final values = controller.value.map(((e) {
       return e.controller.text;
     })).toList();
     final keys = controller.value.map(((e) {
       return e.selector;
     })).toList();
-    print(values);
-    print(keys);
-    // users
-    //     .doc(uid)
-    //     .set({
-    //       'my_cards': [_cardIdController.text]
-    //     })
-    //     .then((value) => print("User Added"))
-    //     .catchError((error) => print("Failed to add user: $error"));
+    var links = [];
+    for (var i = 0; i < keys.length; i++) {
+      links.add({
+        'key': keys[i],
+        'value': values[i],
+        'display': {
+          'extended': true,
+          'normal': true,
+        },
+      });
+    }
+    print(links);
 
-    // final registerNotificationData = {
-    //   'title': '登録完了のお知らせ',
-    //   'content':
-    //       '${_nameController.text}(@${_cardIdController.text})さんのアカウント登録が完了しました',
-    //   'created_at': DateTime.now(),
-    //   'read': false,
-    //   'tags': ['news'],
-    //   'id': 'account-added-${_cardIdController.text}',
-    // };
+    users
+        .doc(uid)
+        .set({
+          'my_cards': [_cardIdController.text]
+        })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
 
-    // FirebaseFirestore.instance
-    //     .collection('cards')
-    //     .doc(_cardIdController.text)
-    //     .collection('notifications')
-    //     .add(registerNotificationData);
+    final registerNotificationData = {
+      'title': '登録完了のお知らせ',
+      'content':
+          '${_nameController.text}(@${_cardIdController.text})さんのアカウント登録が完了しました',
+      'created_at': DateTime.now(),
+      'read': false,
+      'tags': ['news'],
+      'id': 'account-added-${_cardIdController.text}',
+    };
 
-    // cards.doc(_cardIdController.text).set({
-    //   'name': _nameController.text,
-    //   'is_user': true,
-    //   'uid': uid,
-    //   'exchanged_cards': [],
-    // }).then((value) {
-    //   Navigator.of(context).push(
-    //     MaterialPageRoute(builder: (context) => AuthGate()),
-    //   );
-    //   print('Card Registered');
-    // }).catchError((error) => print('Failed to register card: $error'));
+    FirebaseFirestore.instance
+        .collection('cards')
+        .doc(_cardIdController.text)
+        .collection('notifications')
+        .add(registerNotificationData);
+
+    cards.doc(_cardIdController.text).set({
+      'is_user': true,
+      'public': false,
+      'uid': uid,
+      'exchanged_cards': [],
+      'account': {
+        'profiles': {
+          'name': _nameController.text,
+          'bio': {
+            'value': _bioController.text,
+            'display': {'extended': true, 'normal': true},
+          },
+          'company': {
+            'value': _companyController.text,
+            'display': {'extended': true, 'normal': true},
+          },
+          'position': {
+            'value': _positionController.text,
+            'display': {'extended': true, 'normal': true},
+          },
+          'address': {
+            'value': _addressController.text,
+            'display': {'extended': true, 'normal': true},
+          },
+        },
+        'links': links,
+      }
+    }).then((value) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => AuthGate()),
+      );
+      print('Card Registered');
+    }).catchError((error) => print('Failed to register card: $error'));
   }
 
   @override
