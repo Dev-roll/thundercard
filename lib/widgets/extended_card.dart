@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import '../api/return_url.dart';
+import '../constants.dart';
 import 'card_element.dart';
 import 'open_app.dart';
-import 'return_url.dart';
 
 class ExtendedCard extends StatelessWidget {
   const ExtendedCard({

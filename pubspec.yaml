@@ -65,6 +65,7 @@ dependencies:
   file_picker: ^4.6.1
   # file_picker: ^5.2.0
   open_file: ^3.1.0
+  flutter_slidable: ^2.0.0
   # flutter_launcher_icons: ^0.10.0
 
 dev_dependencies:
