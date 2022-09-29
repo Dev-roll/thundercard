@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:thundercard/auth_gate.dart';
+import 'package:thundercard/constants.dart';
 import 'package:uuid/uuid.dart';
 import 'api/firebase_auth.dart';
 
@@ -94,17 +95,17 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
     return ValueListenableBuilder<List<TextFieldState>>(
       valueListenable: widget.controllerController,
       builder: (context, state, _) {
-        final links = [
-          'url',
-          'twitter',
-          'instagram',
-          'github',
-        ];
+        const links = linkTypes;
 
         final linksDropdownMenuItem = links
             .map((entry) => DropdownMenuItem(
-                  child: Text(entry),
                   value: entry,
+                  child: Row(children: [
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Icon(linkTypeToIconData[entry])
+                  ]),
                 ))
             .toList();
 
@@ -114,47 +115,58 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
           children: state.map(
             (textFieldState) {
               dynamic selectedKey = textFieldState.selector;
-              return Column(
+              return Container(
                 key: ValueKey(textFieldState.id),
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: DropdownButton(
-                          items: linksDropdownMenuItem,
-                          value: selectedKey,
-                          onChanged: (value) {
-                            widget.controllerController
-                                .setKey(textFieldState.id, value);
-                            setState(() {
-                              selectedKey = value!;
-                            });
-                          },
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color:
+                      Theme.of(context).colorScheme.secondary.withOpacity(0.2),
+                ),
+                margin: const EdgeInsets.fromLTRB(0, 2, 0, 2),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.drag_indicator_rounded,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onBackground
+                              .withOpacity(0.4),
                         ),
+                        onPressed: () {},
                       ),
-                      Expanded(
-                        child: TextField(
-                          controller: textFieldState.controller,
-                          decoration: InputDecoration.collapsed(hintText: ""),
-                        ),
+                    ),
+                    DropdownButton(
+                      items: linksDropdownMenuItem,
+                      value: selectedKey,
+                      onChanged: (value) {
+                        widget.controllerController
+                            .setKey(textFieldState.id, value);
+                        setState(() {
+                          selectedKey = value!;
+                        });
+                      },
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: TextField(
+                        controller: textFieldState.controller,
+                        decoration:
+                            const InputDecoration.collapsed(hintText: ""),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 8.0),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.drag_indicator_rounded),
-                            SizedBox(width: 12),
-                            IconButton(
-                              icon: Icon(Icons.delete_rounded),
-                              onPressed: () => widget.controllerController
-                                  .remove(textFieldState.id),
-                            ),
-                          ],
-                        ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                      child: IconButton(
+                        icon: const Icon(Icons.delete_rounded),
+                        onPressed: () => widget.controllerController
+                            .remove(textFieldState.id),
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               );
             },
           ).toList(),
