@@ -237,12 +237,6 @@ class ExtendedCard extends StatelessWidget {
                                                     url: returnUrl(
                                                         links[index]['key'],
                                                         links[index]['value']),
-                                                    child: CardElement(
-                                                      txt: links[index]
-                                                              ['value'] ??
-                                                          '',
-                                                      type: IconType.url,
-                                                    ),
                                                   )
                                                 : Container();
                                           },

@@ -1,49 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-enum IconType {
-  nl,
-  url,
-  email,
-  company,
-  at,
-  location,
-  github,
-  twitter,
-  youtube,
-  instagram,
-  facebook,
-  tiktok,
-  linkedin,
-  discord,
-  slack,
-  figma,
-  stackOverflow,
-  dribbble,
-  medium,
-  codepen,
-  dropbox,
-  cloudflare,
-  airbnb,
-  vimeo,
-  whatsapp,
-  line,
-  telegram,
-  pinterest,
-  googleplay,
-  gitlab,
-  twitch,
-  xbox,
-  unity,
-  trello,
-  tumblr,
-  swift,
-  reddit,
-  sketch,
-  mastodon,
-  spotify,
-  usertie,
-}
+import '../constants.dart';
 
 class CardElement extends StatelessWidget {
   CardElement({
@@ -62,49 +20,6 @@ class CardElement extends StatelessWidget {
   double height;
   double opacity;
 
-  Map<IconType, IconData> types = {
-    IconType.url: Icons.link_rounded,
-    IconType.email: Icons.mail_rounded,
-    IconType.company: Icons.business_rounded,
-    IconType.at: Icons.alternate_email_rounded,
-    IconType.location: Icons.location_on_rounded,
-    IconType.github: FontAwesomeIcons.github,
-    IconType.twitter: FontAwesomeIcons.twitter,
-    IconType.youtube: FontAwesomeIcons.youtube,
-    IconType.instagram: FontAwesomeIcons.instagram,
-    IconType.facebook: FontAwesomeIcons.facebook,
-    IconType.tiktok: FontAwesomeIcons.tiktok,
-    IconType.linkedin: FontAwesomeIcons.linkedin,
-    IconType.discord: FontAwesomeIcons.discord,
-    IconType.slack: FontAwesomeIcons.slack,
-    IconType.figma: FontAwesomeIcons.figma,
-    IconType.stackOverflow: FontAwesomeIcons.stackOverflow,
-    IconType.dribbble: FontAwesomeIcons.dribbble,
-    IconType.medium: FontAwesomeIcons.medium,
-    IconType.codepen: FontAwesomeIcons.codepen,
-    IconType.dropbox: FontAwesomeIcons.dropbox,
-    IconType.cloudflare: FontAwesomeIcons.cloudflare,
-    IconType.airbnb: FontAwesomeIcons.airbnb,
-    IconType.vimeo: FontAwesomeIcons.vimeo,
-    IconType.whatsapp: FontAwesomeIcons.whatsapp,
-    IconType.line: FontAwesomeIcons.line,
-    IconType.telegram: FontAwesomeIcons.telegram,
-    IconType.pinterest: FontAwesomeIcons.pinterest,
-    IconType.googleplay: FontAwesomeIcons.googlePlay,
-    IconType.gitlab: FontAwesomeIcons.gitlab,
-    IconType.twitch: FontAwesomeIcons.twitch,
-    IconType.xbox: FontAwesomeIcons.xbox,
-    IconType.unity: FontAwesomeIcons.unity,
-    IconType.trello: FontAwesomeIcons.trello,
-    IconType.tumblr: FontAwesomeIcons.tumblr,
-    IconType.swift: FontAwesomeIcons.swift,
-    IconType.reddit: FontAwesomeIcons.reddit,
-    IconType.sketch: FontAwesomeIcons.sketch,
-    IconType.mastodon: FontAwesomeIcons.mastodon,
-    IconType.spotify: FontAwesomeIcons.spotify,
-    IconType.usertie: FontAwesomeIcons.userTie,
-  };
-
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -116,7 +31,7 @@ class CardElement extends StatelessWidget {
             ? Row(
                 children: [
                   Icon(
-                    types[type],
+                    iconTypeToIconData[type],
                     size: 4 * vw,
                     color: type != IconType.company
                         ? Theme.of(context).colorScheme.tertiary

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:thundercard/api/return_display_id.dart';
+import 'package:thundercard/api/return_icon_type.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../constants.dart';
+import 'card_element.dart';
+
 class OpenApp extends StatefulWidget {
-  OpenApp({Key? key, required this.url, this.secondUrl, required this.child})
-      : super(key: key);
+  OpenApp({Key? key, required this.url, this.secondUrl}) : super(key: key);
   final String url;
   String? secondUrl = '';
-  final Widget child;
 
   @override
   State<OpenApp> createState() => _OpenAppState();
@@ -15,17 +18,18 @@ class OpenApp extends StatefulWidget {
 class _OpenAppState extends State<OpenApp> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        child: widget.child,
-        onTap: () {
-          _launchURL(
-            widget.url,
-            secondUrl: widget.secondUrl,
-          );
-        },
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      child: CardElement(
+        txt: returnDisplayId(widget.url),
+        type: returnIconType(widget.url),
       ),
+      onTap: () {
+        _launchURL(
+          widget.url,
+          secondUrl: widget.secondUrl,
+        );
+      },
     );
   }
 
