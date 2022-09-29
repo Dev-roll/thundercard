@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:thundercard/constants.dart';
-import 'package:thundercard/widgets/notification_item_page.dart';
+
+import 'notification_item_page.dart';
 
 class NotificationItem extends StatefulWidget {
   const NotificationItem({

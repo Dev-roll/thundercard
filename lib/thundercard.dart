@@ -1,12 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:thundercard/constants.dart';
-import 'package:thundercard/custom_progress_indicator.dart';
-import 'package:thundercard/functions.dart';
-import 'package:thundercard/widgets/scan_qr_code.dart';
+
+import 'api/colors.dart';
 import 'api/firebase_auth.dart';
 import 'widgets/my_card.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'widgets/scan_qr_code.dart';
+import 'constants.dart';
+import 'custom_progress_indicator.dart';
 
 class Thundercard extends StatefulWidget {
   const Thundercard({Key? key}) : super(key: key);

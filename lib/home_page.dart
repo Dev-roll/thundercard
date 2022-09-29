@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:thundercard/api/firebase_auth.dart';
-import 'package:thundercard/constants.dart';
-import 'package:thundercard/functions.dart';
-import 'package:thundercard/thundercard.dart';
-import 'package:thundercard/list.dart';
-import 'package:thundercard/notifications.dart';
-import 'package:thundercard/account.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
+import 'api/firebase_auth.dart';
+import 'api/colors.dart';
+import 'account.dart';
+import 'list.dart';
+import 'notifications.dart';
+import 'thundercard.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key, this.user, required this.index}) : super(key: key);

@@ -1,13 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
-import 'package:thundercard/auth_gate.dart';
-import 'package:thundercard/custom_progress_indicator.dart';
-import 'package:thundercard/functions.dart';
-import 'package:thundercard/widgets/card_info.dart';
-import 'package:thundercard/widgets/maintenance.dart';
+
+import 'api/colors.dart';
 import 'api/firebase_auth.dart';
+import 'widgets/card_info.dart';
+import 'widgets/maintenance.dart';
+import 'auth_gate.dart';
+import 'custom_progress_indicator.dart';
 
 class Account extends StatefulWidget {
   const Account({Key? key}) : super(key: key);
@@ -43,35 +44,36 @@ class _AccountState extends State<Account> {
       body: Column(
         children: [
           FutureBuilder<DocumentSnapshot>(
-              future: users.doc(uid).get(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Text("Something went wrong");
-                }
+            future: users.doc(uid).get(),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Text("Something went wrong");
+              }
 
-                if (snapshot.hasData && !snapshot.data!.exists) {
-                  return Text("Document does not exist");
-                }
+              if (snapshot.hasData && !snapshot.data!.exists) {
+                return Text("Document does not exist");
+              }
 
-                if (snapshot.connectionState == ConnectionState.done) {
-                  Map<String, dynamic> user =
-                      snapshot.data!.data() as Map<String, dynamic>;
+              if (snapshot.connectionState == ConnectionState.done) {
+                Map<String, dynamic> user =
+                    snapshot.data!.data() as Map<String, dynamic>;
 
-                  return SafeArea(
-                    child: SingleChildScrollView(
-                        child: Center(
+                return SafeArea(
+                  child: SingleChildScrollView(
+                    child: Center(
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: CardInfo(
-                            cardId: user['my_cards'][0],
-                            editable: true),
+                            cardId: user['my_cards'][0], editable: true),
                       ),
-                    )),
-                  );
-                }
-                return const Center(child: CustomProgressIndicator());
-              }),
+                    ),
+                  ),
+                );
+              }
+              return const Center(child: CustomProgressIndicator());
+            },
+          ),
           ElevatedButton(
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();

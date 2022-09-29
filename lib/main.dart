@@ -1,11 +1,12 @@
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:thundercard/constants.dart';
-import 'package:thundercard/auth_gate.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'auth_gate.dart';
+import 'constants.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
