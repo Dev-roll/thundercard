@@ -146,6 +146,7 @@ class NormalCard extends StatelessWidget {
                           builder: (context, snapshot) {
                             dynamic data = snapshot.data;
                             final profiles = data?['account']['profiles'];
+                            const dataTypeList = dataTypes;
 
                             return profiles == null
                                 ? Container()
@@ -156,50 +157,29 @@ class NormalCard extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        profiles['company']['value'] != '' &&
-                                                profiles['company']['display']
-                                                    ['normal']
-                                            ? CardElement(
-                                                txt: profiles['company']
-                                                        ['value'] ??
-                                                    '',
-                                                type: IconType.company,
-                                                size: 1.3,
-                                              )
-                                            : Container(),
-                                        profiles['position']['value'] != '' &&
-                                                profiles['position']['display']
-                                                    ['normal']
-                                            ? CardElement(
-                                                txt: profiles['position']
-                                                        ['value'] ??
-                                                    '',
-                                                type: IconType.usertie,
-                                                size: 1.3,
-                                              )
-                                            : Container(),
-                                        profiles['address']['value'] != '' &&
-                                                profiles['address']['display']
-                                                    ['normal']
-                                            ? CardElement(
-                                                txt: profiles['address']
-                                                        ['value'] ??
-                                                    '',
-                                                type: IconType.location,
-                                                size: 1.3,
-                                              )
-                                            : Container(),
-                                        profiles['bio']['value'] != '' &&
-                                                profiles['bio']['display']
-                                                    ['normal']
-                                            ? CardElement(
-                                                txt: profiles['bio']['value'] ??
-                                                    '',
-                                                line: 2,
-                                                height: 1.4,
-                                                size: 1.3,
-                                              )
-                                            : Container(),
+                                        for (var i = 0;
+                                            i < dataTypeList.length;
+                                            i++)
+                                          if (profiles[dataTypeList[i]]
+                                                      ['value'] !=
+                                                  '' &&
+                                              profiles[dataTypeList[i]]
+                                                  ['display']['normal'])
+                                            CardElement(
+                                              txt: profiles[dataTypeList[i]]
+                                                      ['value'] ??
+                                                  '',
+                                              type: linkTypeToIconType[
+                                                      dataTypeList[i]] ??
+                                                  IconType.nl,
+                                              line: dataTypeList[i] == 'bio'
+                                                  ? 2
+                                                  : 1,
+                                              height: dataTypeList[i] == 'bio'
+                                                  ? 1.4
+                                                  : 1,
+                                              size: 1.3,
+                                            ),
                                       ],
                                     ),
                                   );
@@ -226,28 +206,14 @@ class NormalCard extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        ListView.builder(
-                                          shrinkWrap: true,
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          itemCount: links?.length ?? 0,
-                                          itemBuilder: (context, index) {
-                                            return links[index]['display']
-                                                    ['normal']
-                                                ? OpenApp(
-                                                    url: returnUrl(
-                                                        links[index]['key'],
-                                                        links[index]['value']),
-                                                    child: CardElement(
-                                                      txt: links[index]
-                                                              ['value'] ??
-                                                          '',
-                                                      type: IconType.url,
-                                                    ),
-                                                  )
-                                                : Container();
-                                          },
-                                        ),
+                                        for (var i = 0; i < links.length; i++)
+                                          if (links[i]['display']['normal'])
+                                            Expanded(
+                                              child: OpenApp(
+                                                url: returnUrl(links[i]['key'],
+                                                    links[i]['value']),
+                                              ),
+                                            ),
                                       ],
                                     ),
                                   );

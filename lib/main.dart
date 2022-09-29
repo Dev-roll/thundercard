@@ -47,17 +47,15 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             useMaterial3: true,
             fontFamily: '',
-            colorScheme: lightDynamic ??
-                ColorScheme.fromSeed(
-                    brightness: Brightness.light, seedColor: seedColor),
+            colorSchemeSeed: lightDynamic?.primary ?? seedColor,
+            brightness: Brightness.light,
             visualDensity: VisualDensity.standard,
           ),
           darkTheme: ThemeData(
             useMaterial3: true,
             fontFamily: '',
-            colorScheme: darkDynamic ??
-                ColorScheme.fromSeed(
-                    brightness: Brightness.dark, seedColor: seedColor),
+            colorSchemeSeed: darkDynamic?.primary ?? seedColor,
+            brightness: Brightness.dark,
             visualDensity: VisualDensity.standard,
           ),
           locale: Locale('ja', 'JP'),
