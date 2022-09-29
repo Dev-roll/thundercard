@@ -4,6 +4,7 @@ import 'package:thundercard/auth_gate.dart';
 import 'package:thundercard/constants.dart';
 import 'package:uuid/uuid.dart';
 import 'api/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 class AccountRegistration extends StatefulWidget {
   const AccountRegistration({Key? key}) : super(key: key);
@@ -234,7 +235,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
       'created_at': DateTime.now(),
       'read': false,
       'tags': ['news'],
-      'id': 'account-added-${_cardIdController.text}',
+      'id': 'account-registration-${_cardIdController.text}-${DateFormat('yyyy-MM-dd-Hm').format(DateTime.now())}',
     };
 
     FirebaseFirestore.instance
