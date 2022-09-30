@@ -9,34 +9,18 @@ const List<String> dataTypes = [
   'bio',
 ];
 
-// リンクの種類
-// List<String> linkTypes = linkTypeToBaseUrl.keys.toList();
-const List<String> linkTypes = [
-  'url',
-  'twitter',
-  'instagram',
-  'github',
-];
-
-const Map<String, IconData> linkTypeToIconData = {
-  'url': Icons.link_rounded,
-  'twitter': FontAwesomeIcons.twitter,
-  'instagram': FontAwesomeIcons.instagram,
-  'github': FontAwesomeIcons.github,
-};
-
 const Map<String, String> linkTypeToBaseUrl = {
   'url': '',
   'email': 'mailto:',
   // 'company': 'https://business_rounded.com/',
   // 'at': 'https://alternate_email_rounded.com/',
   // 'location': 'https://location_on_rounded.com/',
-  'github': 'https://github.com/',
   'twitter': 'https://twitter.com/',
   // 'youtube': 'https://youtube.com/',
   'instagram': 'https://instagram.com/',
   // 'facebook': 'https://facebook.com/',
   'tiktok': 'https://tiktok.com/@',
+  'github': 'https://github.com/',
   'linkedin': 'https://www.linkedin.com/in/',
   // 'discord': 'https://discord.com/',
   // 'slack': 'https://slack.com/',
@@ -196,6 +180,13 @@ const Map<IconType, IconData> iconTypeToIconData = {
   IconType.mastodon: FontAwesomeIcons.mastodon,
   IconType.spotify: FontAwesomeIcons.spotify,
 };
+
+List<String> linkTypes = linkTypeToBaseUrl.keys.toList();
+
+Map<String, IconData> linkTypeToIconData = Map.fromIterables(
+    linkTypes,
+    linkTypes.map((e) =>
+        iconTypeToIconData[linkTypeToIconType[e]] ?? Icons.link_rounded));
 
 // 色
 const Color white = Color(0xFFFAFAFA);
