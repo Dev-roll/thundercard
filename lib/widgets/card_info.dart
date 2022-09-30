@@ -1,7 +1,10 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../account_editor.dart';
+import '../constants.dart';
 import '../custom_progress_indicator.dart';
 
 class CardInfo extends StatelessWidget {
@@ -16,6 +19,8 @@ class CardInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CollectionReference cards = FirebaseFirestore.instance.collection('cards');
+    var screenSize = MediaQuery.of(context).size;
+    var vw = screenSize.width * 0.01;
 
     return StreamBuilder(
       stream: FirebaseFirestore.instance
@@ -34,31 +39,166 @@ class CardInfo extends StatelessWidget {
         final account = data?['account'];
 
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            editable
-                ? OutlinedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            AccountEditor(data: account, cardId: cardId),
-                      ));
-                    },
-                    child: const Text('プロフィールを編集'))
-                : Container(),
-            Text('id（変更不可）: @$cardId'),
-            Text('name: ${account['profiles']['name']}'),
-            Text('bio: ${account['profiles']['bio']['value']}'),
-            Text('company: ${account['profiles']['company']['value']}'),
-            Text('position: ${account['profiles']['position']['value']}'),
-            Text('address: ${account['profiles']['address']['value']}'),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: account['links'].length ?? 0,
-              itemBuilder: (context, index) {
-                return Text(
-                    '${account['links'][index]['key']}: ${account['links'][index]['value']}');
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.person_outline_rounded,
+                      size: 60,
+                    ),
+                    SizedBox(
+                      width: 16,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${account['profiles']['name']}',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '@$cardId',
+                          style: TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.7)),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                if (editable)
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              AccountEditor(data: account, cardId: cardId),
+                        ));
+                      },
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        primary:
+                            Theme.of(context).colorScheme.secondaryContainer,
+                        onPrimary: Theme.of(context).colorScheme.onBackground,
+                        padding: EdgeInsets.all(8),
+                      ),
+                      child: const Icon(Icons.edit_rounded)),
+              ],
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            if (account['profiles']['bio']['value'] != '')
+              Container(
+                padding: EdgeInsets.all(16),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onBackground
+                      .withOpacity(0.08),
+                ),
+                child: Flexible(
+                  child: Text(
+                    '${account['profiles']['bio']['value']}',
+                  ),
+                ),
+              ),
+            // icons
+            Container(
+              padding: EdgeInsets.fromLTRB(8, 32, 8, 0),
+              child: Column(
+                children: [
+                  account['profiles']['company']['value'] != ''
+                      ? Row(
+                          children: [
+                            Icon(
+                              iconTypeToIconData[linkTypeToIconType['company']],
+                              size: 16,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.7),
+                            ),
+                            SizedBox(width: 8),
+                            Text('${account['profiles']['company']['value']}'),
+                          ],
+                        )
+                      : Container(),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  account['profiles']['position']['value'] != ''
+                      ? Row(
+                          children: [
+                            Icon(
+                              iconTypeToIconData[linkTypeToIconType['company']],
+                              size: 16,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.7),
+                            ),
+                            SizedBox(width: 8),
+                            Text('${account['profiles']['position']['value']}'),
+                          ],
+                        )
+                      : Container(),
+                  account['profiles']['address']['value'] != ''
+                      ? Row(
+                          children: [
+                            Icon(
+                              iconTypeToIconData[linkTypeToIconType['company']],
+                              size: 16,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.7),
+                            ),
+                            SizedBox(width: 8),
+                            Text('${account['profiles']['address']['value']}'),
+                          ],
+                        )
+                      : Container(),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      for (var i = 0; i < account['links'].length; i++)
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  iconTypeToIconData[linkTypeToIconType[
+                                      account['links'][i]['key']]],
+                                  size: 16,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground
+                                      .withOpacity(0.7),
+                                ),
+                                SizedBox(width: 8),
+                                Text('${account['links'][i]['value']}'),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            )
+                          ],
+                        ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         );

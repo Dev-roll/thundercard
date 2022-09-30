@@ -10,6 +10,7 @@ class CardElement extends StatelessWidget {
     this.type = IconType.nl,
     this.line = 1,
     this.size = 1,
+    this.weight = 'regular',
     this.height = 1,
     this.opacity = 1,
   }) : super(key: key);
@@ -17,6 +18,7 @@ class CardElement extends StatelessWidget {
   IconType type;
   int line;
   double size;
+  String weight;
   double height;
   double opacity;
 
@@ -73,6 +75,10 @@ class CardElement extends StatelessWidget {
                                 .onSecondaryContainer
                                 .withOpacity(opacity),
                 height: height,
+                fontWeight:
+                    weight == 'bold' ? FontWeight.bold : FontWeight.normal,
+                letterSpacing:
+                    weight == 'bold' ? 1.5 : 0.2,
               ),
               maxLines: line,
               overflow: line == 1 ? TextOverflow.fade : TextOverflow.ellipsis,

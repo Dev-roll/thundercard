@@ -682,7 +682,7 @@ PODS:
     - Firebase/Database (= 9.4.0)
     - firebase_core
     - Flutter
-  - firebase_dynamic_links (4.3.7):
+  - firebase_dynamic_links (4.3.9):
     - Firebase/DynamicLinks (= 9.4.0)
     - firebase_core
     - Flutter
@@ -1081,7 +1081,7 @@ SPEC CHECKSUMS:
   firebase_auth: be7aadf714780bfb559e9088a1d4329b1c569761
   firebase_core: 8e500850dd138c269d197c8dfca3ae886fa3b6f2
   firebase_database: 3ac2cb2c550c7af510e0b5ea24087114cb4dd6ef
-  firebase_dynamic_links: cbc715c16cbbfb9e70d63e64e9d65ea49083aa05
+  firebase_dynamic_links: eaa07e24b73f5cbab61f8fe235d57c6ca3261f27
   firebase_storage: 846832b7f2d22238678dc9abc513f2151f102462
   FirebaseAppCheckInterop: d5ecda0c09f8069406643d6e0fa12c09d1b736e3
   FirebaseAuth: ae5d4402e1516497357d909162b091b3ca2a2e9c
