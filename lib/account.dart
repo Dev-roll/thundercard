@@ -6,9 +6,9 @@ import 'package:flutter/services.dart';
 import 'api/colors.dart';
 import 'api/firebase_auth.dart';
 import 'widgets/card_info.dart';
+import 'widgets/custom_progress_indicator.dart';
 import 'widgets/maintenance.dart';
 import 'auth_gate.dart';
-import 'custom_progress_indicator.dart';
 
 class Account extends StatefulWidget {
   const Account({Key? key}) : super(key: key);

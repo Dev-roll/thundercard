@@ -3,9 +3,9 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/custom_progress_indicator.dart';
 import '../account_editor.dart';
 import '../constants.dart';
-import '../custom_progress_indicator.dart';
 
 class CardInfo extends StatelessWidget {
   const CardInfo({

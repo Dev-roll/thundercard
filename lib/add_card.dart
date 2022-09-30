@@ -5,9 +5,9 @@ import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:intl/intl.dart';
 
 import 'api/firebase_auth.dart';
+import 'widgets/custom_progress_indicator.dart';
 import 'widgets/my_card.dart';
 import 'constants.dart';
-import 'custom_progress_indicator.dart';
 import 'home_page.dart';
 
 class AddCard extends StatefulWidget {
@@ -57,7 +57,7 @@ void handleExchange(String myCardId, anotherCardId) async {
       .doc(myCardId)
       .collection('notifications')
       .add(addMyNotificationData);
-      
+
   final addAnotherNotificationData = {
     'title': '名刺リスト追加のお知らせ',
     'content': '@$anotherCardIdさんの名刺リストに@$myCardIdさんが追加されました！',
