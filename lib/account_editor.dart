@@ -232,7 +232,7 @@ class _AccountEditorState extends State<AccountEditor> {
 
     final updateNotificationData = {
       'title': 'アカウント情報更新のお知らせ',
-      'content': '${_nameController.text}アカウント情報の更新が完了しました',
+      'content': '@${widget.cardId}さんのアカウント情報の更新が完了しました',
       'created_at': DateTime.now(),
       'read': false,
       'tags': ['news'],
@@ -246,11 +246,7 @@ class _AccountEditorState extends State<AccountEditor> {
         .collection('notifications')
         .add(updateNotificationData);
 
-    card.update({
-      'is_user': true,
-      'public': false,
-      'uid': uid,
-      'exchanged_cards': [],
+    card.set({
       'account': {
         'profiles': {
           'name': _nameController.text,
@@ -273,7 +269,7 @@ class _AccountEditorState extends State<AccountEditor> {
         },
         'links': links,
       }
-    }).then((value) {
+    }, SetOptions(merge: true)).then((value) {
       Navigator.of(context).pop();
       print('Card Updated');
     }).catchError((error) => print('Failed to update card: $error'));
