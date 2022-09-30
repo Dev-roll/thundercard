@@ -99,7 +99,7 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
     return ValueListenableBuilder<List<TextFieldState>>(
       valueListenable: widget.controllerController,
       builder: (context, state, _) {
-        const links = linkTypes;
+        var links = linkTypes;
 
         final linksDropdownMenuItem = links
             .map((entry) => DropdownMenuItem(
