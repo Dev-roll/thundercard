@@ -27,7 +27,7 @@ maintenance() {
     //   'created_at': DateTime.now(),
     //   'read': false,
     //   'tags': ['news'],
-    //   'message_id': '220926news03-test'
+    //   'notification_id': '220926news03-test'
     // };
 
     // 特定位置の更新用
@@ -181,18 +181,18 @@ maintenance() {
     // });
 
     // idを使って更新
-    // const messageId = '220926news01-test';
+    // const notificationId = '220926news01-test';
 
     // FirebaseFirestore.instance
     //     .collection('cards')
     //     .doc(currentCardId)
     //     .collection('notifications')
-    //     .where('message_id', isEqualTo: messageId)
+    //     .where('notification_id', isEqualTo: notificationId)
     //     .get()
     //     .then((snapshot) {
     //   snapshot.docs.forEach((element) {
     //     print(
-    //         '$currentCardId / ${element['title']} / ${element['content']} / ${element['created_at']} / ${element['read']} / ${element['message_id']}');
+    //         '$currentCardId / ${element['title']} / ${element['content']} / ${element['created_at']} / ${element['read']} / ${element['notification_id']}');
     //     element.reference.update({
     //       'title': '【更新】アカウント情報の追加・更新について',
     //       'content':
@@ -200,25 +200,25 @@ maintenance() {
     //       'created_at': DateTime.now(),
     //       'read': false,
     //       'tags': ['news'],
-    //       'message_id': '220926news01-test'
+    //       'notification_id': '220926news01-test'
     //     });
     //     // element.reference.delete();
     //   });
     // });
 
     // idを使って削除
-    // const messageId = '220926news01-test';
+    // const notificationId = '220926news01-test';
 
     // FirebaseFirestore.instance
     //     .collection('cards')
     //     .doc(currentCardId)
     //     .collection('notifications')
-    //     .where('message_id', isEqualTo: messageId)
+    //     .where('notification_id', isEqualTo: notificationId)
     //     .get()
     //     .then((snapshot) {
     //   snapshot.docs.forEach((element) {
     //     print(
-    //         '$currentCardId / ${element['title']} / ${element['content']} / ${element['created_at']} / ${element['read']} / ${element['message_id']}');
+    //         '$currentCardId / ${element['title']} / ${element['content']} / ${element['created_at']} / ${element['read']} / ${element['notification_id']}');
     //     element.reference.delete();
     //     // element.reference.delete();
     //   });

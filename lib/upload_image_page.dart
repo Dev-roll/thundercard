@@ -137,7 +137,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
         updateExchangedCards();
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (context) => HomePage(index: 1),
+            builder: (context) => HomePage(index: 0),
           ),
           (_) => false,
         );

@@ -236,7 +236,7 @@ class _NotificationsState extends State<Notifications> {
                                                       ['read'],
                                                   index: 0,
                                                   myCardId: myCardId,
-                                                  notificationId:
+                                                  documentId:
                                                       interactions[index].id,
                                                 );
                                               }),
@@ -331,7 +331,7 @@ class _NotificationsState extends State<Notifications> {
                                                   read: news[index]['read'],
                                                   index: 1,
                                                   myCardId: myCardId,
-                                                  notificationId:
+                                                  documentId:
                                                       news[index].id,
                                                 );
                                               }),

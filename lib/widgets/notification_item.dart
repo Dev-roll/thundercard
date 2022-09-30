@@ -12,7 +12,7 @@ class NotificationItem extends StatefulWidget {
     required bool this.read,
     int this.index = -1,
     required String this.myCardId,
-    required String this.notificationId,
+    required String this.documentId,
   }) : super(key: key);
   final String title;
   final String content;
@@ -20,7 +20,7 @@ class NotificationItem extends StatefulWidget {
   final bool read;
   final int index;
   final String myCardId;
-  final String notificationId;
+  final String documentId;
 
   @override
   State<NotificationItem> createState() => _NotificationItemState();
@@ -52,12 +52,12 @@ class _NotificationItemState extends State<NotificationItem> {
     var _screenSize = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        print(widget.notificationId);
+        print(widget.documentId);
         FirebaseFirestore.instance
             .collection('cards')
             .doc(widget.myCardId)
             .collection('notifications')
-            .doc(widget.notificationId)
+            .doc(widget.documentId)
             .update({'read': true});
 
         Navigator.of(context).push(
@@ -68,6 +68,8 @@ class _NotificationItemState extends State<NotificationItem> {
               createdAt: widget.createdAt,
               read: widget.read,
               index: widget.index,
+              myCardId: widget.myCardId,
+              documentId: widget.documentId,
             ),
           ),
         );
