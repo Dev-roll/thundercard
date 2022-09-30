@@ -76,13 +76,34 @@ class _AccountState extends State<Account> {
           ),
           ElevatedButton(
               onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (context) => AuthGate(),
-                  ),
-                  (_) => false,
-                );
+                await showDialog(
+                    context: context,
+                    // (3) AlertDialogを作成する
+                    builder: (context) => AlertDialog(
+                          title: Text("Sign out"),
+                          content: Text("このアカウントからサインアウトしてもよろしいですか"),
+                          // (4) ボタンを設定
+                          actions: [
+                            TextButton(
+                                onPressed: () => {
+                                      //  (5) ダイアログを閉じる
+                                      Navigator.pop(context, false)
+                                    },
+                                child: Text("キャンセル")),
+                            TextButton(
+                                onPressed: () async {
+                                  Navigator.pop(context, true);
+                                  await FirebaseAuth.instance.signOut();
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                      builder: (context) => AuthGate(),
+                                    ),
+                                    (_) => false,
+                                  );
+                                },
+                                child: Text("OK")),
+                          ],
+                        ));
               },
               child: const Text('Sign out')),
           // メンテナンス

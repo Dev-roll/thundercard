@@ -37,10 +37,59 @@ class CardDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final String? uid = getUid();
     CollectionReference users = FirebaseFirestore.instance.collection('users');
-    var _usStates = [
-      "edit information",
-      "delete this card",
-    ];
+    var _usStates = card['is_user']
+        ? ["delete this card"]
+        : ["edit information", "delete this card"];
+
+    void deleteThisCard() {
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(getUid())
+          .get()
+          .then((value) {
+        final doc = FirebaseFirestore.instance
+            .collection('cards')
+            .doc(value['my_cards'][0]);
+        doc.update({
+          'exchanged_cards': FieldValue.arrayRemove([cardId])
+        }).then((value) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) => HomePage(
+                      index: 1,
+                    )),
+            (_) => false,
+          );
+          print("DocumentSnapshot successfully updated!");
+        }, onError: (e) => print("Error updating document $e"));
+      }).catchError((error) => print("Failed to add user: $error"));
+    }
+
+    Future _openAlertDialog1(BuildContext context) async {
+      // (2) showDialogでダイアログを表示する
+      var ret = await showDialog(
+          context: context,
+          // (3) AlertDialogを作成する
+          builder: (context) => AlertDialog(
+                title: Text("リンクの削除"),
+                content: Text("リンクを削除してもよろしいですか"),
+                // (4) ボタンを設定
+                actions: [
+                  TextButton(
+                      onPressed: () => {
+                            //  (5) ダイアログを閉じる
+                            Navigator.pop(context, false)
+                          },
+                      child: Text("キャンセル")),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context, true);
+                        deleteThisCard();
+                      },
+                      child: Text("OK")),
+                ],
+              ));
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -56,27 +105,7 @@ class CardDetails extends StatelessWidget {
             },
             onSelected: (String s) {
               if (s == 'delete this card') {
-                FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(getUid())
-                    .get()
-                    .then((value) {
-                  final doc = FirebaseFirestore.instance
-                      .collection('cards')
-                      .doc(value['my_cards'][0]);
-                  doc.update({
-                    'exchanged_cards': FieldValue.arrayRemove([cardId])
-                  }).then((value) {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (context) => HomePage(
-                                index: 1,
-                              )),
-                      (_) => false,
-                    );
-                    print("DocumentSnapshot successfully updated!");
-                  }, onError: (e) => print("Error updating document $e"));
-                }).catchError((error) => print("Failed to add user: $error"));
+                _openAlertDialog1(context);
               }
             },
           )

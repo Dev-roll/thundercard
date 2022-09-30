@@ -48,7 +48,7 @@ void handleExchange(String myCardId, anotherCardId) async {
     'created_at': DateTime.now(),
     'read': false,
     'tags': ['interaction'],
-    'id':
+    'notification_id':
         'list-add-$myCardId-${DateFormat('yyyy-MM-dd-Hm').format(DateTime.now())}',
   };
 
@@ -64,7 +64,7 @@ void handleExchange(String myCardId, anotherCardId) async {
     'created_at': DateTime.now(),
     'read': false,
     'tags': ['interaction'],
-    'id':
+    'notification_id':
         'list-add-$anotherCardId-${DateFormat('yyyy-MM-dd-Hm').format(DateTime.now())}',
   };
 

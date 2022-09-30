@@ -96,6 +96,32 @@ class Links {
 class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
   @override
   Widget build(BuildContext context) {
+    Future _openAlertDialog1(BuildContext context, textFieldState) async {
+      // (2) showDialogでダイアログを表示する
+      var ret = await showDialog(
+          context: context,
+          // (3) AlertDialogを作成する
+          builder: (context) => AlertDialog(
+                title: Text("リンクの削除"),
+                content: Text("リンクを削除してもよろしいですか"),
+                // (4) ボタンを設定
+                actions: [
+                  TextButton(
+                      onPressed: () => {
+                            //  (5) ダイアログを閉じる
+                            Navigator.pop(context, false)
+                          },
+                      child: Text("キャンセル")),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context, true);
+                        widget.controllerController.remove(textFieldState.id);
+                      },
+                      child: Text("OK")),
+                ],
+              ));
+    }
+
     return ValueListenableBuilder<List<TextFieldState>>(
       valueListenable: widget.controllerController,
       builder: (context, state, _) {
@@ -165,8 +191,9 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                       padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                       child: IconButton(
                         icon: const Icon(Icons.delete_rounded),
-                        onPressed: () => widget.controllerController
-                            .remove(textFieldState.id),
+                        onPressed: () {
+                          _openAlertDialog1(context, textFieldState);
+                        },
                       ),
                     ),
                   ],
@@ -236,7 +263,7 @@ class _AccountEditorState extends State<AccountEditor> {
       'created_at': DateTime.now(),
       'read': false,
       'tags': ['news'],
-      'id':
+      'notification_id':
           'account-update-${widget.cardId}-${DateFormat('yyyy-MM-dd-Hm').format(DateTime.now())}',
     };
 
@@ -291,6 +318,7 @@ class _AccountEditorState extends State<AccountEditor> {
           actions: [
             TextButton(onPressed: updateCard, child: const Text('保存')),
           ],
+          backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
         ),
         body: SafeArea(
           child: SingleChildScrollView(

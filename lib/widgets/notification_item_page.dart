@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+import '../home_page.dart';
 
 class NotificationItemPage extends StatefulWidget {
   const NotificationItemPage({
@@ -8,12 +11,16 @@ class NotificationItemPage extends StatefulWidget {
     required String this.createdAt,
     required bool this.read,
     int this.index = -1,
+    required String this.myCardId,
+    required String this.documentId,
   }) : super(key: key);
   final String title;
   final String content;
   final String createdAt;
   final bool read;
   final int index;
+  final String myCardId;
+  final String documentId;
 
   @override
   State<NotificationItemPage> createState() => _NotificationItemPageState();
@@ -43,6 +50,56 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
     //     ? _time
     //     : '';
     var _screenSize = MediaQuery.of(context).size;
+    var _usStates = ["restore to unread", "delete this notification"];
+
+    void deleteThisNotification() {
+      print(widget.documentId);
+      FirebaseFirestore.instance
+          .collection('cards')
+          .doc(widget.myCardId)
+          .collection('notifications')
+          .doc(widget.documentId)
+          .delete()
+          .then(
+        (doc) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => HomePage(index: 2),
+            ),
+            (_) => false,
+          );
+          print("Document deleted");
+        },
+        onError: (e) => print("Error updating document $e"),
+      );
+    }
+
+    Future _openAlertDialog1(BuildContext context) async {
+      // (2) showDialogでダイアログを表示する
+      var ret = await showDialog(
+          context: context,
+          // (3) AlertDialogを作成する
+          builder: (context) => AlertDialog(
+                title: Text("通知の削除"),
+                content: Text("この通知を削除してもよろしいですか"),
+                // (4) ボタンを設定
+                actions: [
+                  TextButton(
+                      onPressed: () => {
+                            //  (5) ダイアログを閉じる
+                            Navigator.pop(context, false)
+                          },
+                      child: Text("キャンセル")),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context, true);
+                        deleteThisNotification();
+                      },
+                      child: Text("OK")),
+                ],
+              ));
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -52,6 +109,21 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
           ],
         ),
         actions: [
+          PopupMenuButton<String>(
+            itemBuilder: (BuildContext context) {
+              return _usStates.map((String s) {
+                return PopupMenuItem(
+                  child: Text(s),
+                  value: s,
+                );
+              }).toList();
+            },
+            onSelected: (String s) {
+              if (s == 'delete this notification') {
+                _openAlertDialog1(context);
+              }
+            },
+          )
           // Container(
           //   padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
           //   child: IconButton(
