@@ -29,6 +29,8 @@ import 'package:thundercard/widgets/my_qr_code.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../api/export_to_image.dart';
+import '../api/get_application_documents_file.dart';
 import '../notifications.dart';
 import '../api/firebase_auth.dart';
 import '../constants.dart';
@@ -111,11 +113,11 @@ class _QRViewExampleState extends State<QRViewExample> {
                               Stack(
                                 children: [
                                   Container(
-                                    width: 216,
+                                    width: 196,
                                     height: 216,
                                   ),
                                   Container(
-                                    width: 216,
+                                    width: 196,
                                     height: 216,
                                     padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
                                     child: FittedBox(
@@ -328,69 +330,6 @@ class _QRViewExampleState extends State<QRViewExample> {
                                         const EdgeInsets.fromLTRB(20, 0, 20, 0),
                                     child: ElevatedButton(
                                       onPressed: () async {
-                                        await Clipboard.setData(
-                                          ClipboardData(text: thunderCardUrl),
-                                        );
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            backgroundColor: Color(0xff333333),
-                                            behavior: SnackBarBehavior.floating,
-                                            clipBehavior: Clip.antiAlias,
-                                            content: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          0, 0, 16, 0),
-                                                  child: Icon(Icons
-                                                      .library_add_check_rounded),
-                                                ),
-                                                Expanded(
-                                                  child: const Text(
-                                                    'クリップボードにコピーしました',
-                                                    style: TextStyle(
-                                                        color: white,
-                                                        overflow:
-                                                            TextOverflow.fade),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            duration:
-                                                const Duration(seconds: 2),
-                                            action: SnackBarAction(
-                                              label: 'OK',
-                                              onPressed: () {},
-                                            ),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(28),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: Icon(
-                                        Icons.copy_rounded,
-                                        // size: 32,
-                                        color: white,
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                        elevation: 0,
-                                        primary: Theme.of(context)
-                                            .colorScheme
-                                            .onSecondary,
-                                        padding: EdgeInsets.all(20),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                                    child: ElevatedButton(
-                                      onPressed: () async {
                                         final bytes =
                                             await exportToImage(_globalKey);
                                         //byte data→Uint8List
@@ -462,6 +401,69 @@ class _QRViewExampleState extends State<QRViewExample> {
                                       },
                                       child: Icon(
                                         Icons.save_alt_rounded,
+                                        // size: 32,
+                                        color: white,
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        elevation: 0,
+                                        primary: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondary,
+                                        padding: EdgeInsets.all(20),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        await Clipboard.setData(
+                                          ClipboardData(text: thunderCardUrl),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            backgroundColor: Color(0xff333333),
+                                            behavior: SnackBarBehavior.floating,
+                                            clipBehavior: Clip.antiAlias,
+                                            content: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          0, 0, 16, 0),
+                                                  child: Icon(Icons
+                                                      .library_add_check_rounded),
+                                                ),
+                                                Expanded(
+                                                  child: const Text(
+                                                    'クリップボードにコピーしました',
+                                                    style: TextStyle(
+                                                        color: white,
+                                                        overflow:
+                                                            TextOverflow.fade),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            duration:
+                                                const Duration(seconds: 2),
+                                            action: SnackBarAction(
+                                              label: 'OK',
+                                              onPressed: () {},
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(28),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Icon(
+                                        Icons.copy_rounded,
                                         // size: 32,
                                         color: white,
                                       ),
@@ -718,30 +720,6 @@ class _QRViewExampleState extends State<QRViewExample> {
   void dispose() {
     controller?.dispose();
     super.dispose();
-  }
-
-  Future<ByteData?> exportToImage(GlobalKey globalKey) async {
-    final boundary =
-        globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-    final image = await boundary.toImage(
-      pixelRatio: 3,
-    );
-    final byteData = image.toByteData(
-      format: ui.ImageByteFormat.png,
-    );
-    return byteData;
-  }
-
-  Future<File> getApplicationDocumentsFile(
-      String text, List<int> imageData) async {
-    final directory = await getApplicationDocumentsDirectory();
-
-    final exportFile = File('${directory.path}/$text.png');
-    if (!await exportFile.exists()) {
-      await exportFile.create(recursive: true);
-    }
-    final file = await exportFile.writeAsBytes(imageData);
-    return file;
   }
 
   // Future<Uint8List> convertWidgetToImage(GlobalKey widgetGlobalKey) async {
