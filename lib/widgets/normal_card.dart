@@ -115,6 +115,8 @@ class NormalCard extends StatelessWidget {
                                           txt: name ?? '',
                                           height: 1.2,
                                           size: 3,
+                                          weight: 'bold',
+                                          opacity: 0.7,
                                         ),
                                         CardElement(
                                           txt: '@$cardId',

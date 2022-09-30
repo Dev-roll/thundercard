@@ -123,47 +123,50 @@ class CardDetails extends StatelessWidget {
                       : card?['thumbnail'] != null
                           ? Image.network(card?['thumbnail'])
                           : const CustomProgressIndicator(),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: MyCard(
-                      cardId: cardId,
-                      cardType: CardType.extended,
-                    ),
-                  ),
                   card['is_user']
-                      ? Container()
-                      : CardInfo(cardId: cardId, editable: false),
-                  FutureBuilder(
-                    future: getRoom(cardId),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<Room> snapshot) {
-                      if (snapshot.hasError) {
-                        print(snapshot.error);
-                        return const Text("Something went wrong");
-                      }
+                      ? Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: MyCard(
+                            cardId: cardId,
+                            cardType: CardType.extended,
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: CardInfo(cardId: cardId, editable: true),
+                        ),
+                  if (card['is_user'])
+                    FutureBuilder(
+                      future: getRoom(cardId),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<Room> snapshot) {
+                        if (snapshot.hasError) {
+                          print(snapshot.error);
+                          return const Text("Something went wrong");
+                        }
 
-                      // if (snapshot.hasData && !snapshot.data!.exists) {
-                      //   return const Text("Document does not exist");
-                      // }
+                        // if (snapshot.hasData && !snapshot.data!.exists) {
+                        //   return const Text("Document does not exist");
+                        // }
 
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ChatPage(
-                                  room: snapshot.data!,
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          return ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChatPage(
+                                    room: snapshot.data!,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                          child: const Text('Chat'),
-                        );
-                      }
-                      return const Center(child: CustomProgressIndicator());
-                    },
-                  ),
+                              );
+                            },
+                            child: const Text('Chat'),
+                          );
+                        }
+                        return const Center(child: CustomProgressIndicator());
+                      },
+                    ),
                 ],
               ),
             ),

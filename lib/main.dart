@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'auth_gate.dart';
 import 'constants.dart';
@@ -46,17 +47,21 @@ class MyApp extends StatelessWidget {
           // ),
           theme: ThemeData(
             useMaterial3: true,
-            fontFamily: '',
+            // fontFamily: '',
             colorSchemeSeed: lightDynamic?.primary ?? seedColor,
             brightness: Brightness.light,
             visualDensity: VisualDensity.standard,
+            textTheme: GoogleFonts.interTextTheme(
+                Theme.of(context).textTheme)
           ),
           darkTheme: ThemeData(
             useMaterial3: true,
-            fontFamily: '',
+            // fontFamily: '',
             colorSchemeSeed: darkDynamic?.primary ?? seedColor,
             brightness: Brightness.dark,
             visualDensity: VisualDensity.standard,
+            textTheme: GoogleFonts.interTextTheme(
+                Theme.of(context).primaryTextTheme)
           ),
           locale: Locale('ja', 'JP'),
           localizationsDelegates: const [

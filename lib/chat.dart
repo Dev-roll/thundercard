@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
@@ -95,7 +96,12 @@ class _ChatPageState extends State<ChatPage> {
                 height: 1.428,
               ),
               // sentMessageBodyBoldTextStyle: ,
-              // sentMessageBodyCodeTextStyle: ,
+              sentMessageBodyCodeTextStyle: GoogleFonts.robotoMono(
+                  textStyle: TextStyle(
+                      backgroundColor: Theme.of(context)
+                          .colorScheme
+                          .background
+                          .withOpacity(0.5))),
 
               // received
               secondaryColor: Theme.of(context).colorScheme.secondaryContainer,
@@ -135,7 +141,12 @@ class _ChatPageState extends State<ChatPage> {
                 height: 1.428,
               ),
               // receivedMessageBodyBoldTextStyle: ,
-              // receivedMessageBodyCodeTextStyle: ,
+              receivedMessageBodyCodeTextStyle: GoogleFonts.robotoMono(
+                  textStyle: TextStyle(
+                      backgroundColor: Theme.of(context)
+                          .colorScheme
+                          .background
+                          .withOpacity(0.5))),
 
               // colors
               backgroundColor: Theme.of(context).colorScheme.background,

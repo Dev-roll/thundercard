@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'my_qr_code.dart';
 import '../constants.dart';
@@ -36,8 +37,12 @@ class FullscreenQrCode extends StatelessWidget {
                       ),
                       Text(
                         '@$name',
-                        style:
-                            TextStyle(fontSize: 32, color: Color(0xFFCCCCCC)),
+                        style: GoogleFonts.quicksand(
+                          fontSize: 32,
+                          color: Color(0xFFCCCCCC),
+                          fontWeight: FontWeight.bold,
+                        ),
+                        // TextStyle(fontSize: 32, color: Color(0xFFCCCCCC)),
                       ),
                     ],
                   ),
