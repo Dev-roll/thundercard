@@ -8,10 +8,10 @@ import 'api/colors.dart';
 import 'api/export_to_image.dart';
 import 'api/firebase_auth.dart';
 import 'api/get_application_documents_file.dart';
+import 'widgets/custom_progress_indicator.dart';
 import 'widgets/my_card.dart';
 import 'widgets/scan_qr_code.dart';
 import 'constants.dart';
-import 'custom_progress_indicator.dart';
 
 class Thundercard extends StatefulWidget {
   const Thundercard({Key? key}) : super(key: key);

@@ -4,10 +4,10 @@ import 'package:flutter_chat_types/flutter_chat_types.dart';
 
 import 'api/firebase_auth.dart';
 import 'widgets/card_info.dart';
+import 'widgets/custom_progress_indicator.dart';
 import 'widgets/my_card.dart';
 import 'chat.dart';
 import 'constants.dart';
-import 'custom_progress_indicator.dart';
 import 'home_page.dart';
 
 class CardDetails extends StatelessWidget {

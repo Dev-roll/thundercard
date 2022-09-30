@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 
 import 'api/colors.dart';
 import 'api/firebase_auth.dart';
+import 'widgets/custom_progress_indicator.dart';
 import 'widgets/notification_item.dart';
-import 'custom_progress_indicator.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);

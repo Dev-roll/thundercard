@@ -4,10 +4,10 @@ import 'package:flutter/services.dart';
 
 import 'api/colors.dart';
 import 'api/firebase_auth.dart';
+import 'widgets/custom_progress_indicator.dart';
 import 'widgets/my_card.dart';
 import 'card_details.dart';
 import 'constants.dart';
-import 'custom_progress_indicator.dart';
 import 'upload_image_page.dart';
 
 class List extends StatefulWidget {

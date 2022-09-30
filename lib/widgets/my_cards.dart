@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
-import '../custom_progress_indicator.dart';
+import '../widgets/custom_progress_indicator.dart';
 
 class MyCards extends StatefulWidget {
   const MyCards({Key? key, required this.uid}) : super(key: key);

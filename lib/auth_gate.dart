@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutterfire_ui/auth.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 
+import 'widgets/custom_progress_indicator.dart';
 import 'account_registration.dart';
-import 'custom_progress_indicator.dart';
 import 'home_page.dart';
 
 class AuthGate extends StatelessWidget {
