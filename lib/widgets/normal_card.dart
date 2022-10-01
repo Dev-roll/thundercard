@@ -118,11 +118,12 @@ class NormalCard extends StatelessWidget {
                                           weight: 'bold',
                                           opacity: 0.7,
                                         ),
-                                        CardElement(
-                                          txt: '@$cardId',
-                                          size: 1.5,
-                                          opacity: 0.5,
-                                        ),
+                                        if (data?['is_user'])
+                                          CardElement(
+                                            txt: '@$cardId',
+                                            size: 1.5,
+                                            opacity: 0.5,
+                                          ),
                                       ],
                                     ),
                                   );

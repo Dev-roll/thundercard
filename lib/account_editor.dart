@@ -215,15 +215,15 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
 class _AccountEditorState extends State<AccountEditor> {
   final String? uid = getUid();
   late final TextEditingController _nameController =
-      TextEditingController(text: widget.data?['profiles']['name']);
+      TextEditingController(text: widget.data?['account']['profiles']['name']);
   late final TextEditingController _bioController =
-      TextEditingController(text: widget.data?['profiles']['bio']['value']);
+      TextEditingController(text: widget.data?['account']['profiles']['bio']['value']);
   late final TextEditingController _companyController =
-      TextEditingController(text: widget.data?['profiles']['company']['value']);
+      TextEditingController(text: widget.data?['account']['profiles']['company']['value']);
   late final TextEditingController _positionController = TextEditingController(
-      text: widget.data?['profiles']['position']['value']);
+      text: widget.data?['account']['profiles']['position']['value']);
   late final TextEditingController _addressController =
-      TextEditingController(text: widget.data?['profiles']['address']['value']);
+      TextEditingController(text: widget.data?['account']['profiles']['address']['value']);
   late DocumentReference card =
       FirebaseFirestore.instance.collection('cards').doc(widget.cardId);
   CollectionReference cards = FirebaseFirestore.instance.collection('cards');
@@ -306,7 +306,7 @@ class _AccountEditorState extends State<AccountEditor> {
   Widget build(BuildContext context) {
     () {
       var links = [];
-      links = widget.data?['links'];
+      links = widget.data?['account']['links'];
       links.forEach((e) => controller.add(e['key'], e['value']));
     }();
 
@@ -329,7 +329,8 @@ class _AccountEditorState extends State<AccountEditor> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text('プロフィールを入力してください。'),
-                    Text('ID（変更不可）: ${widget.cardId}'),
+                    if (widget.data?['is_user'])
+                      Text('ID（変更不可）: ${widget.cardId}'),
                     Text('表示名（必須）'),
                     TextFormField(
                       controller: _nameController,
