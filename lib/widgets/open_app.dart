@@ -46,7 +46,7 @@ class _OpenAppState extends State<OpenApp> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: Color(0xff333333),
+        backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
         behavior: SnackBarBehavior.floating,
         clipBehavior: Clip.antiAlias,
         content: Row(

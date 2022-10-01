@@ -116,7 +116,9 @@ class _ThundercardState extends State<Thundercard> {
                                         },
                                         child: Icon(
                                           Icons.share_rounded,
-                                          color: white,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant,
                                         ),
                                         style: ElevatedButton.styleFrom(
                                           elevation: 0,
@@ -144,8 +146,9 @@ class _ThundercardState extends State<Thundercard> {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
-                                              backgroundColor:
-                                                  Color(0xff333333),
+                                              backgroundColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .surfaceVariant,
                                               behavior:
                                                   SnackBarBehavior.floating,
                                               clipBehavior: Clip.antiAlias,
@@ -160,10 +163,13 @@ class _ThundercardState extends State<Thundercard> {
                                                         .file_download_done_rounded),
                                                   ),
                                                   Expanded(
-                                                    child: const Text(
+                                                    child: Text(
                                                       '名刺をダウンロードしました',
                                                       style: TextStyle(
-                                                          color: white,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .onBackground,
                                                           overflow: TextOverflow
                                                               .fade),
                                                     ),
@@ -187,7 +193,9 @@ class _ThundercardState extends State<Thundercard> {
                                         child: Icon(
                                           Icons.save_alt_rounded,
                                           // size: 32,
-                                          color: white,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant,
                                         ),
                                         style: ElevatedButton.styleFrom(
                                           elevation: 0,
@@ -207,8 +215,9 @@ class _ThundercardState extends State<Thundercard> {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
-                                              backgroundColor:
-                                                  Color(0xff333333),
+                                              backgroundColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .surfaceVariant,
                                               behavior:
                                                   SnackBarBehavior.floating,
                                               clipBehavior: Clip.antiAlias,
@@ -223,10 +232,13 @@ class _ThundercardState extends State<Thundercard> {
                                                         .library_add_check_rounded),
                                                   ),
                                                   Expanded(
-                                                    child: const Text(
+                                                    child: Text(
                                                       'クリップボードにコピーしました',
                                                       style: TextStyle(
-                                                          color: white,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .onBackground,
                                                           overflow: TextOverflow
                                                               .fade),
                                                     ),
@@ -249,7 +261,9 @@ class _ThundercardState extends State<Thundercard> {
                                         child: Icon(
                                           Icons.copy_rounded,
                                           // size: 32,
-                                          color: white,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant,
                                         ),
                                         style: ElevatedButton.styleFrom(
                                           elevation: 0,
