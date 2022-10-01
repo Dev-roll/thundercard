@@ -63,14 +63,15 @@ class CardInfo extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(
-                          '@$cardId',
-                          style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onBackground
-                                  .withOpacity(0.7)),
-                        ),
+                        if (data?['is_user'])
+                          Text(
+                            '@$cardId',
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onBackground
+                                    .withOpacity(0.7)),
+                          ),
                       ],
                     ),
                   ],
@@ -80,7 +81,7 @@ class CardInfo extends StatelessWidget {
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              AccountEditor(data: account, cardId: cardId),
+                              AccountEditor(data: data, cardId: cardId),
                         ));
                       },
                       style: ElevatedButton.styleFrom(
