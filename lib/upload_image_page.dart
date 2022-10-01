@@ -135,12 +135,13 @@ class _UploadImagePageState extends State<UploadImagePage> {
         print('ここ大事 -> $imageURL');
         updateDocumentData(imageURL);
         updateExchangedCards();
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) => HomePage(index: 0),
-          ),
-          (_) => false,
-        );
+        Navigator.of(context).pop();
+        // Navigator.of(context).pushAndRemoveUntil(
+        //   MaterialPageRoute(
+        //     builder: (context) => HomePage(index: 1),
+        //   ),
+        //   (_) => false,
+        // );
       } catch (e) {
         print(e);
       }
