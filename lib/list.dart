@@ -89,6 +89,8 @@ class _ListState extends State<List> {
                             }
                             dynamic data = snapshot.data;
                             final exchangedCards = data?['exchanged_cards'];
+                            final exchangedCardsLength =
+                                exchangedCards?.length ?? 0;
 
                             return Padding(
                               padding: const EdgeInsets.all(16.0),
@@ -109,59 +111,65 @@ class _ListState extends State<List> {
                                           prefixIcon: const Icon(Icons.search),
                                         ),
                                       )),
-                                  ListView.builder(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: exchangedCards.length,
-                                    itemBuilder: (context, index) {
-                                      return StreamBuilder<
-                                          DocumentSnapshot<Object?>>(
-                                        stream: cards
-                                            .doc(exchangedCards[index])
-                                            .snapshots(),
-                                        builder: (BuildContext context,
-                                            AsyncSnapshot<DocumentSnapshot>
-                                                snapshot) {
-                                          if (snapshot.hasError) {
-                                            return const Text(
-                                                'Something went wrong');
-                                          }
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return const CustomProgressIndicator();
-                                          }
-                                          dynamic card = snapshot.data;
-                                          if (!snapshot.hasData) {
-                                            return Text('no data');
-                                          }
-                                          return GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context)
-                                                  .push(MaterialPageRoute(
-                                                builder: (context) =>
-                                                    CardDetails(
-                                                  cardId: exchangedCards[index],
-                                                  card: card,
-                                                ),
-                                              ));
-                                            },
-                                            child: Column(
-                                              children: [
-                                                SizedBox(
-                                                  height: 24,
-                                                ),
-                                                MyCard(
-                                                  cardId: exchangedCards[index],
-                                                  cardType: CardType.normal,
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
+                                  (exchangedCardsLength != 0)
+                                      ? ListView.builder(
+                                          shrinkWrap: true,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemCount: exchangedCards.length,
+                                          itemBuilder: (context, index) {
+                                            return StreamBuilder<
+                                                DocumentSnapshot<Object?>>(
+                                              stream: cards
+                                                  .doc(exchangedCards[index])
+                                                  .snapshots(),
+                                              builder: (BuildContext context,
+                                                  AsyncSnapshot<
+                                                          DocumentSnapshot>
+                                                      snapshot) {
+                                                if (snapshot.hasError) {
+                                                  return const Text(
+                                                      'Something went wrong');
+                                                }
+                                                if (snapshot.connectionState ==
+                                                    ConnectionState.waiting) {
+                                                  return const CustomProgressIndicator();
+                                                }
+                                                dynamic card = snapshot.data;
+                                                if (!snapshot.hasData) {
+                                                  return Text('no data');
+                                                }
+                                                return GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.of(context)
+                                                        .push(MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          CardDetails(
+                                                        cardId: exchangedCards[
+                                                            index],
+                                                        card: card,
+                                                      ),
+                                                    ));
+                                                  },
+                                                  child: Column(
+                                                    children: [
+                                                      SizedBox(
+                                                        height: 24,
+                                                      ),
+                                                      MyCard(
+                                                        cardId: exchangedCards[
+                                                            index],
+                                                        cardType:
+                                                            CardType.normal,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          },
+                                        )
+                                      : const Text('まだ名刺はありません'),
                                 ],
                               ),
                             );
