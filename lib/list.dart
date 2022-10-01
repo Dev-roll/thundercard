@@ -10,6 +10,7 @@ import 'widgets/custom_progress_indicator.dart';
 import 'widgets/my_card.dart';
 import 'card_details.dart';
 import 'constants.dart';
+import 'search.dart';
 import 'upload_image_page.dart';
 
 class List extends StatefulWidget {
@@ -68,6 +69,7 @@ class _ListState extends State<List> {
             Map<String, dynamic> user =
                 snapshot.data!.data() as Map<String, dynamic>;
             return Scaffold(
+              appBar: AppBar(title: Text('名刺一覧')),
               body: SafeArea(
                 child: SingleChildScrollView(
                   child: Center(
@@ -88,54 +90,80 @@ class _ListState extends State<List> {
                             dynamic data = snapshot.data;
                             final exchangedCards = data?['exchanged_cards'];
 
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: exchangedCards.length,
-                              itemBuilder: (context, index) {
-                                return StreamBuilder<DocumentSnapshot<Object?>>(
-                                  stream: cards
-                                      .doc(exchangedCards[index])
-                                      .snapshots(),
-                                  builder: (BuildContext context,
-                                      AsyncSnapshot<DocumentSnapshot>
-                                          snapshot) {
-                                    if (snapshot.hasError) {
-                                      return const Text('Something went wrong');
-                                    }
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return const CustomProgressIndicator();
-                                    }
-                                    dynamic card = snapshot.data;
-                                    if (!snapshot.hasData) {
-                                      return Text('no data');
-                                    }
-                                    return GestureDetector(
+                            return Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                children: [
+                                  GestureDetector(
                                       onTap: () {
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) => CardDetails(
-                                            cardId: exchangedCards[index],
-                                            card: card,
-                                          ),
-                                        ));
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) => Search(
+                                                    exchangedCardIds:
+                                                        exchangedCards)));
                                       },
-                                      child: Column(
-                                        children: [
-                                          SizedBox(
-                                            height: 24,
-                                          ),
-                                          MyCard(
-                                            cardId: exchangedCards[index],
-                                            cardType: CardType.normal,
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
+                                      child: TextField(
+                                        enabled: false,
+                                        decoration: InputDecoration(
+                                          hintText: '検索',
+                                          prefixIcon: const Icon(Icons.search),
+                                        ),
+                                      )),
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: exchangedCards.length,
+                                    itemBuilder: (context, index) {
+                                      return StreamBuilder<
+                                          DocumentSnapshot<Object?>>(
+                                        stream: cards
+                                            .doc(exchangedCards[index])
+                                            .snapshots(),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot<DocumentSnapshot>
+                                                snapshot) {
+                                          if (snapshot.hasError) {
+                                            return const Text(
+                                                'Something went wrong');
+                                          }
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return const CustomProgressIndicator();
+                                          }
+                                          dynamic card = snapshot.data;
+                                          if (!snapshot.hasData) {
+                                            return Text('no data');
+                                          }
+                                          return GestureDetector(
+                                            onTap: () {
+                                              Navigator.of(context)
+                                                  .push(MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CardDetails(
+                                                  cardId: exchangedCards[index],
+                                                  card: card,
+                                                ),
+                                              ));
+                                            },
+                                            child: Column(
+                                              children: [
+                                                SizedBox(
+                                                  height: 24,
+                                                ),
+                                                MyCard(
+                                                  cardId: exchangedCards[index],
+                                                  cardType: CardType.normal,
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
                             );
                           },
                         )
