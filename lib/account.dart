@@ -80,7 +80,7 @@ class _AccountState extends State<Account> {
                     context: context,
                     // (3) AlertDialogを作成する
                     builder: (context) => AlertDialog(
-                          title: Text("サインアウトしますか？"),
+                          title: Text("サインアウト"),
                           content: Text("このアカウントからサインアウトしますか？"),
                           // (4) ボタンを設定
                           actions: [
@@ -101,7 +101,7 @@ class _AccountState extends State<Account> {
                                     (_) => false,
                                   );
                                 },
-                                child: Text("サインアウトする")),
+                                child: Text("サインアウト")),
                           ],
                         ));
               },
