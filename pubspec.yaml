@@ -67,6 +67,7 @@ dependencies:
   open_file: ^3.1.0
   flutter_slidable: ^2.0.0
   firebase_dynamic_links: ^4.3.9
+  flutter_speed_dial: ^6.0.0
   # flutter_launcher_icons: ^0.10.0
 
 dev_dependencies:

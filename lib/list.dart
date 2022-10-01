@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:thundercard/widgets/scan_qr_code.dart';
 
 import 'api/colors.dart';
 import 'api/firebase_auth.dart';
@@ -24,6 +26,13 @@ class _ListState extends State<List> {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference cards = FirebaseFirestore.instance.collection('cards');
   Map<String, dynamic>? data;
+  var isDialOpen = ValueNotifier<bool>(false);
+  var customDialRoot = false;
+  var buttonSize = const Size(56.0, 56.0);
+  var childrenButtonSize = const Size(56.0, 56.0);
+  var extend = false;
+  var visible = true;
+  var rmicons = false;
 
   @override
   Widget build(BuildContext context) {
@@ -135,24 +144,129 @@ class _ListState extends State<List> {
                   ),
                 ),
               ),
-              floatingActionButton: FloatingActionButton.extended(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => UploadImagePage(
-                            cardId: user['my_cards'][0],
-                          ),
-                      fullscreenDialog: true));
-                },
-                icon: const Icon(
-                  Icons.add_a_photo_rounded,
-                  size: 24,
-                ),
-                label: const Text('画像をもとに追加'),
-                foregroundColor:
-                    Theme.of(context).colorScheme.onSecondaryContainer,
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.endFloat,
+              floatingActionButton: SpeedDial(
+                // animatedIcon: AnimatedIcons.menu_close,
+                animatedIconTheme: IconThemeData(size: 24.0),
+                // / This is ignored if animatedIcon is non null
+                // child: Text("open"),
+                // activeChild: Text("close"),
+                icon: Icons.add,
+                activeIcon: Icons.close,
                 backgroundColor:
                     Theme.of(context).colorScheme.secondaryContainer,
-              ),
+                foregroundColor:
+                    Theme.of(context).colorScheme.onSecondaryContainer,
+                spacing: 4,
+                openCloseDial: isDialOpen,
+                childPadding: const EdgeInsets.all(0),
+                spaceBetweenChildren: 16,
+                dialRoot: customDialRoot
+                    ? (ctx, open, toggleChildren) {
+                        return ElevatedButton(
+                          onPressed: toggleChildren,
+                          style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 22, vertical: 18),
+                          ),
+                          child: const Text(
+                            "Custom Dial Root",
+                            style: TextStyle(fontSize: 17),
+                          ),
+                        );
+                      }
+                    : null,
+                buttonSize:
+                    buttonSize, // it's the SpeedDial size which defaults to 56 itself
+                iconTheme: IconThemeData(size: 24),
+                label: extend
+                    ? const Text("Open")
+                    : null, // The label of the main button.
+                /// The active label of the main button, Defaults to label if not specified.
+                activeLabel: extend ? const Text("Close") : null,
+
+                /// Transition Builder between label and activeLabel, defaults to FadeTransition.
+                // labelTransitionBuilder: (widget, animation) => ScaleTransition(scale: animation,child: widget),
+                /// The below button size defaults to 56 itself, its the SpeedDial childrens size
+                childrenButtonSize: childrenButtonSize,
+                visible: visible,
+                direction: SpeedDialDirection.up,
+                switchLabelPosition: false,
+
+                /// If true user is forced to close dial manually
+                closeManually: false,
+
+                /// If false, backgroundOverlay will not be rendered.
+                renderOverlay: true,
+                // overlayColor: Colors.black,
+                // overlayOpacity: 0.5,
+                onOpen: () => debugPrint('OPENING DIAL'),
+                onClose: () => debugPrint('DIAL CLOSED'),
+                useRotationAnimation: true,
+                tooltip: 'Open Speed Dial',
+                heroTag: 'speed-dial-hero-tag',
+                // foregroundColor: Colors.black,
+                // backgroundColor: Colors.white,
+                // activeForegroundColor: Colors.red,
+                // activeBackgroundColor: Colors.blue,
+                elevation: 8.0,
+                animationCurve: Curves.easeInOut,
+                isOpenOnStart: false,
+                animationDuration: const Duration(milliseconds: 200),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)),
+                // childMargin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                children: [
+                  SpeedDialChild(
+                    child:
+                        !rmicons ? const Icon(Icons.add_a_photo_rounded) : null,
+                    backgroundColor:
+                        Theme.of(context).colorScheme.secondaryContainer,
+                    foregroundColor:
+                        Theme.of(context).colorScheme.onSecondaryContainer,
+                    label: '画像をもとに追加',
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => UploadImagePage(
+                                cardId: user['my_cards'][0],
+                              ),
+                          fullscreenDialog: true));
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                  ),
+                  SpeedDialChild(
+                    child: !rmicons
+                        ? const Icon(Icons.qr_code_scanner_rounded)
+                        : null,
+                    backgroundColor:
+                        Theme.of(context).colorScheme.secondaryContainer,
+                    foregroundColor:
+                        Theme.of(context).colorScheme.onSecondaryContainer,
+                    label: '名刺を交換',
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Theme(
+                          data: ThemeData(
+                            colorSchemeSeed: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
+                            brightness: Brightness.dark,
+                            useMaterial3: true,
+                          ),
+                          child: const QRViewExample(),
+                        ),
+                      ));
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                  ),
+                ],
+              ), // floatingActionButton: FloatingActionButton.extended(
             );
           }
           return const Scaffold(
