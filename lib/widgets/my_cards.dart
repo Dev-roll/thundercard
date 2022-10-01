@@ -33,7 +33,7 @@ class _MyCardsState extends State<MyCards> {
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
-          return const Text('Something went wrong');
+          return const Text('問題が発生しました');
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CustomProgressIndicator();
@@ -41,7 +41,7 @@ class _MyCardsState extends State<MyCards> {
         dynamic data = snapshot.data;
         // Map<String, dynamic> data = snapshot.data as Map<String, dynamic>;
         return data['my_cards'] == null
-            ? const Text('No data')
+            ? const Text('名刺の情報の取得に失敗しました')
             : ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),

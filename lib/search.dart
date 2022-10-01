@@ -81,7 +81,7 @@ class _SearchState extends State<Search> {
                 TextField(
                   autofocus: true,
                   decoration: InputDecoration(
-                    hintText: '検索',
+                    hintText: '名刺を検索',
                     prefixIcon: const Icon(Icons.search),
                   ),
                   onChanged: ((value) {

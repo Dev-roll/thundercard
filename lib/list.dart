@@ -58,18 +58,18 @@ class _ListState extends State<List> {
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
-            return const Text("Something went wrong");
+            return const Text("問題が発生しました");
           }
 
           if (snapshot.hasData && !snapshot.data!.exists) {
-            return const Text("Document does not exist");
+            return const Text("ユーザー情報の取得に失敗しました");
           }
 
           if (snapshot.connectionState == ConnectionState.done) {
             Map<String, dynamic> user =
                 snapshot.data!.data() as Map<String, dynamic>;
             return Scaffold(
-              appBar: AppBar(title: Text('名刺一覧')),
+              // appBar: AppBar(),
               body: SafeArea(
                 child: SingleChildScrollView(
                   child: Center(
@@ -81,7 +81,7 @@ class _ListState extends State<List> {
                           builder: (BuildContext context,
                               AsyncSnapshot<DocumentSnapshot> snapshot) {
                             if (snapshot.hasError) {
-                              return const Text('Something went wrong');
+                              return const Text('問題が発生しました');
                             }
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
@@ -107,7 +107,7 @@ class _ListState extends State<List> {
                                       child: TextField(
                                         enabled: false,
                                         decoration: InputDecoration(
-                                          hintText: '検索',
+                                          hintText: '名刺を検索',
                                           prefixIcon: const Icon(Icons.search),
                                         ),
                                       )),
@@ -129,7 +129,7 @@ class _ListState extends State<List> {
                                                       snapshot) {
                                                 if (snapshot.hasError) {
                                                   return const Text(
-                                                      'Something went wrong');
+                                                      '問題が発生しました');
                                                 }
                                                 if (snapshot.connectionState ==
                                                     ConnectionState.waiting) {
@@ -137,7 +137,7 @@ class _ListState extends State<List> {
                                                 }
                                                 dynamic card = snapshot.data;
                                                 if (!snapshot.hasData) {
-                                                  return Text('no data');
+                                                  return Text('名刺の情報の取得に失敗しました');
                                                 }
                                                 return GestureDetector(
                                                   onTap: () {
@@ -169,7 +169,7 @@ class _ListState extends State<List> {
                                             );
                                           },
                                         )
-                                      : const Text('まだ名刺はありません'),
+                                      : const Text('まだ名刺がありません'),
                                 ],
                               ),
                             );

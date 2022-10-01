@@ -48,11 +48,11 @@ class _AccountState extends State<Account> {
             builder: (BuildContext context,
                 AsyncSnapshot<DocumentSnapshot> snapshot) {
               if (snapshot.hasError) {
-                return Text("Something went wrong");
+                return Text("問題が発生しました");
               }
 
               if (snapshot.hasData && !snapshot.data!.exists) {
-                return Text("Document does not exist");
+                return Text("ユーザー情報の取得に失敗しました");
               }
 
               if (snapshot.connectionState == ConnectionState.done) {
@@ -80,8 +80,8 @@ class _AccountState extends State<Account> {
                     context: context,
                     // (3) AlertDialogを作成する
                     builder: (context) => AlertDialog(
-                          title: Text("Sign out"),
-                          content: Text("このアカウントからサインアウトしてもよろしいですか"),
+                          title: Text("サインアウトしますか？"),
+                          content: Text("このアカウントからサインアウトしますか？"),
                           // (4) ボタンを設定
                           actions: [
                             TextButton(
@@ -101,14 +101,14 @@ class _AccountState extends State<Account> {
                                     (_) => false,
                                   );
                                 },
-                                child: Text("OK")),
+                                child: Text("サインアウトする")),
                           ],
                         ));
               },
-              child: const Text('Sign out')),
+              child: const Text('サインアウト')),
           // メンテナンス
           SizedBox(height: 40),
-          OutlinedButton(onPressed: maintenance, child: Text('maintenance'))
+          OutlinedButton(onPressed: maintenance, child: Text('管理者用'))
         ],
       ),
     );

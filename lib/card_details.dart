@@ -37,9 +37,7 @@ class CardDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final String? uid = getUid();
     CollectionReference users = FirebaseFirestore.instance.collection('users');
-    var _usStates = card['is_user']
-        ? ["delete this card"]
-        : ["edit information", "delete this card"];
+    var _usStates = card['is_user'] ? ["削除"] : ["編集", "削除"];
 
     void deleteThisCard() {
       FirebaseFirestore.instance
@@ -104,7 +102,7 @@ class CardDetails extends StatelessWidget {
               }).toList();
             },
             onSelected: (String s) {
-              if (s == 'delete this card') {
+              if (s == '') {
                 _openAlertDialog1(context);
               }
             },
@@ -142,7 +140,7 @@ class CardDetails extends StatelessWidget {
                           (BuildContext context, AsyncSnapshot<Room> snapshot) {
                         if (snapshot.hasError) {
                           print(snapshot.error);
-                          return const Text("Something went wrong");
+                          return const Text("問題が発生しました");
                         }
 
                         // if (snapshot.hasData && !snapshot.data!.exists) {
@@ -161,7 +159,7 @@ class CardDetails extends StatelessWidget {
                                 ),
                               );
                             },
-                            child: const Text('Chat'),
+                            child: const Text('メッセージ'),
                           );
                         }
                         return const Center(child: CustomProgressIndicator());

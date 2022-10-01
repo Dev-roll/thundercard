@@ -46,7 +46,7 @@ class AuthGate extends StatelessWidget {
             builder: (BuildContext context,
                 AsyncSnapshot<DocumentSnapshot> snapshot) {
               if (snapshot.hasError) {
-                return const Text('Something went wrong');
+                return const Text('問題が発生しました');
               }
               if (snapshot.hasData && !snapshot.data!.exists) {
                 return AccountRegistration();
