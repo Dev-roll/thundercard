@@ -69,8 +69,8 @@ class CardDetails extends StatelessWidget {
           context: context,
           // (3) AlertDialogを作成する
           builder: (context) => AlertDialog(
-                title: Text("リンクの削除"),
-                content: Text("リンクを削除してもよろしいですか"),
+                title: Text("名刺の削除"),
+                content: Text("この名刺を削除しますか？"),
                 // (4) ボタンを設定
                 actions: [
                   TextButton(
@@ -102,7 +102,7 @@ class CardDetails extends StatelessWidget {
               }).toList();
             },
             onSelected: (String s) {
-              if (s == '') {
+              if (s == '削除') {
                 _openAlertDialog1(context);
               }
             },
