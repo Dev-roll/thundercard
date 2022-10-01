@@ -50,7 +50,7 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
     //     ? _time
     //     : '';
     var _screenSize = MediaQuery.of(context).size;
-    var _usStates = ["restore to unread", "delete this notification"];
+    var _usStates = ["未読にする", "削除"];
 
     void deleteThisNotification() {
       print(widget.documentId);
@@ -81,7 +81,7 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
           // (3) AlertDialogを作成する
           builder: (context) => AlertDialog(
                 title: Text("通知の削除"),
-                content: Text("この通知を削除してもよろしいですか"),
+                content: Text("この通知を削除しますか？"),
                 // (4) ボタンを設定
                 actions: [
                   TextButton(
@@ -102,12 +102,12 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            // Text(['通知', '交流についての通知', 'アプリに関するお知らせ'][widget.index + 1]),
-            Text(['通知', '交流についての通知', 'アプリに関するお知らせ'][0]),
-          ],
-        ),
+        // title: Row(
+        //   children: [
+        //     // Text(['通知', '交流についての通知', 'アプリに関するお知らせ'][widget.index + 1]),
+        //     Text(['通知', '交流についての通知', 'アプリに関するお知らせ'][0]),
+        //   ],
+        // ),
         actions: [
           PopupMenuButton<String>(
             itemBuilder: (BuildContext context) {
@@ -119,7 +119,7 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
               }).toList();
             },
             onSelected: (String s) {
-              if (s == 'delete this notification') {
+              if (s == '削除') {
                 _openAlertDialog1(context);
               }
             },

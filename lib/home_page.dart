@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(
               Icons.contact_mail_outlined,
             ),
-            label: 'Thundercard',
+            label: 'ホーム',
           ),
           NavigationDestination(
             selectedIcon: Icon(
@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(
               Icons.ballot_outlined,
             ),
-            label: 'List',
+            label: '名刺一覧',
           ),
           NavigationDestination(
             selectedIcon: Icon(
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(
               Icons.notifications_none_rounded,
             ),
-            label: 'Notifications',
+            label: '通知',
           ),
           NavigationDestination(
             selectedIcon: Icon(
@@ -83,7 +83,7 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(
               Icons.account_circle_outlined,
             ),
-            label: 'Account',
+            label: 'アカウント',
           ),
         ],
       ),

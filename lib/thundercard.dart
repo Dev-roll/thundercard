@@ -59,10 +59,10 @@ class _ThundercardState extends State<Thundercard> {
                       builder: (BuildContext context,
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasError) {
-                          return const Text('Something went wrong');
+                          return const Text('問題が発生しました');
                         }
                         if (snapshot.hasData && !snapshot.data!.exists) {
-                          return const Text('Document does not exist');
+                          return const Text('ユーザー情報の取得に失敗しました');
                         }
                         if (snapshot.connectionState == ConnectionState.done) {
                           Map<String, dynamic> user =
@@ -328,7 +328,7 @@ class _ThundercardState extends State<Thundercard> {
           size: 26,
         ),
         label: Text(
-          '名刺交換',
+          '名刺を交換',
           style: TextStyle(fontSize: 16),
         ),
         style: ElevatedButton.styleFrom(

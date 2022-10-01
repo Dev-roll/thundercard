@@ -32,7 +32,7 @@ class CardInfo extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return const Text('Something went wrong');
+          return const Text('問題が発生しました');
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CustomProgressIndicator();
