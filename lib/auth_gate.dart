@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutterfire_ui/auth.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 
+import 'api/current_brightness.dart';
+import 'api/current_brightness_reverse.dart';
 import 'widgets/custom_progress_indicator.dart';
 import 'account_registration.dart';
 import 'home_page.dart';
@@ -19,13 +21,9 @@ class AuthGate extends StatelessWidget {
       SystemUiOverlayStyle(
         systemNavigationBarColor: Theme.of(context).colorScheme.background,
         statusBarIconBrightness:
-            Theme.of(context).colorScheme.background.computeLuminance() < 0.5
-                ? Brightness.light
-                : Brightness.dark,
+            currentBrightness(Theme.of(context).colorScheme),
         statusBarBrightness:
-            Theme.of(context).colorScheme.background.computeLuminance() < 0.5
-                ? Brightness.dark
-                : Brightness.light,
+            currentBrightnessReverse(Theme.of(context).colorScheme),
         statusBarColor: Colors.transparent,
       ),
     );

@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:thundercard/api/current_brightness.dart';
+import 'package:thundercard/api/current_brightness_reverse.dart';
 
 import 'api/colors.dart';
 import 'api/firebase_auth.dart';
@@ -28,13 +30,8 @@ class _AccountState extends State<Account> {
             Theme.of(context).colorScheme.primary.withOpacity(0.08),
             Theme.of(context).colorScheme.surface),
         statusBarIconBrightness:
-            Theme.of(context).colorScheme.background.computeLuminance() < 0.5
-                ? Brightness.light
-                : Brightness.dark,
-        statusBarBrightness:
-            Theme.of(context).colorScheme.background.computeLuminance() < 0.5
-                ? Brightness.dark
-                : Brightness.light,
+            currentBrightnessReverse(Theme.of(context).colorScheme),
+        statusBarBrightness: currentBrightness(Theme.of(context).colorScheme),
         statusBarColor: Colors.transparent,
       ),
     );
@@ -81,7 +78,7 @@ class _AccountState extends State<Account> {
                     // (3) AlertDialogを作成する
                     builder: (context) => AlertDialog(
                           title: Text("Sign out"),
-                          content: Text("このアカウントからサインアウトしてもよろしいですか"),
+                          content: Text("このアカウントからサインアウトしますか？"),
                           // (4) ボタンを設定
                           actions: [
                             TextButton(

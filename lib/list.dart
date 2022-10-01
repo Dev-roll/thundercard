@@ -5,6 +5,8 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:thundercard/widgets/scan_qr_code.dart';
 
 import 'api/colors.dart';
+import 'api/current_brightness.dart';
+import 'api/current_brightness_reverse.dart';
 import 'api/firebase_auth.dart';
 import 'widgets/custom_progress_indicator.dart';
 import 'widgets/my_card.dart';
@@ -42,13 +44,8 @@ class _ListState extends State<List> {
             Theme.of(context).colorScheme.primary.withOpacity(0.08),
             Theme.of(context).colorScheme.surface),
         statusBarIconBrightness:
-            Theme.of(context).colorScheme.background.computeLuminance() < 0.5
-                ? Brightness.light
-                : Brightness.dark,
-        statusBarBrightness:
-            Theme.of(context).colorScheme.background.computeLuminance() < 0.5
-                ? Brightness.dark
-                : Brightness.light,
+            currentBrightnessReverse(Theme.of(context).colorScheme),
+        statusBarBrightness: currentBrightness(Theme.of(context).colorScheme),
         statusBarColor: Colors.transparent,
       ),
     );
