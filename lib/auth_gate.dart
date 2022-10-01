@@ -32,7 +32,7 @@ class AuthGate extends StatelessWidget {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
-        // return AccountRegistration();
+        return AccountRegistration();
         if (!snapshot.hasData) {
           return const SignInScreen(providerConfigs: [
             EmailProviderConfiguration(),
@@ -46,7 +46,7 @@ class AuthGate extends StatelessWidget {
             builder: (BuildContext context,
                 AsyncSnapshot<DocumentSnapshot> snapshot) {
               if (snapshot.hasError) {
-                return const Text('Something went wrong');
+                return const Text('問題が発生しました');
               }
               if (snapshot.hasData && !snapshot.data!.exists) {
                 return AccountRegistration();

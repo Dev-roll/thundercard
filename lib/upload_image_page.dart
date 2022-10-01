@@ -250,7 +250,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       const Text(
-                        'Pick a card image',
+                        '名刺の画像を追加',
                         style: TextStyle(
                           fontSize: 20,
                           // fontWeight: FontWeight.bold,
@@ -286,12 +286,12 @@ class _UploadImagePageState extends State<UploadImagePage> {
                         children: [
                           ElevatedButton(
                             onPressed: pickImageC,
-                            child: const Text('Take a photo'),
+                            child: const Text('画像を撮影'),
                           ),
                           SizedBox(height: 16),
                           ElevatedButton(
                             onPressed: pickImage,
-                            child: const Text('Pick image from gallery'),
+                            child: const Text('画像をアップロード'),
                           ),
                         ],
                       ),
@@ -350,7 +350,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const <Widget>[
                       Text(
-                        'Enter card name',
+                        '名前を入力',
                         style: TextStyle(
                           fontSize: 20,
                           // fontWeight: FontWeight.bold,
@@ -388,8 +388,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
                         controller: _nameController,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: 'card name',
-                          hintText: 'Enter name',
+                          labelText: '名前',
                         ),
                         textInputAction: TextInputAction.done,
                       ),
@@ -461,7 +460,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       const Text(
-                        'Register this card',
+                        '名刺を登録',
                         style: const TextStyle(
                           fontSize: 20,
                           // fontWeight: FontWeight.bold,
@@ -494,7 +493,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
                         onPressed: _nameController.text != '' && image != null
                             ? uploadPic
                             : null,
-                        child: const Text('Register'),
+                        child: const Text('登録'),
                       ),
                     ],
                   ),

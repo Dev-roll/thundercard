@@ -101,10 +101,10 @@ class _AddCardState extends State<AddCard> {
                       builder: (BuildContext context,
                           AsyncSnapshot<DocumentSnapshot> snapshot) {
                         if (snapshot.hasError) {
-                          return const Text('Something went wrong');
+                          return const Text('問題が発生しました');
                         }
                         if (snapshot.hasData && !snapshot.data!.exists) {
-                          return const Text('Document does not exist');
+                          return const Text('ユーザー情報の取得に失敗しました');
                         }
                         if (snapshot.connectionState == ConnectionState.done) {
                           Map<String, dynamic> user =

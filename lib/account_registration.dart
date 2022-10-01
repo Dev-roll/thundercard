@@ -100,7 +100,7 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
           // (3) AlertDialogを作成する
           builder: (context) => AlertDialog(
                 title: Text("リンクの削除"),
-                content: Text("リンクを削除してもよろしいですか"),
+                content: Text("このリンクを削除しますか？"),
                 // (4) ボタンを設定
                 actions: [
                   TextButton(
@@ -114,7 +114,7 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                         Navigator.pop(context, true);
                         widget.controllerController.remove(textFieldState.id);
                       },
-                      child: Text("OK")),
+                      child: Text("削除")),
                 ],
               ));
     }
@@ -304,7 +304,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
         MaterialPageRoute(builder: (context) => AuthGate()),
       );
       print('Card Registered');
-    }).catchError((error) => print('Failed to register card: $error'));
+    }).catchError((error) => print('名刺の登録に失敗しました: $error'));
   }
 
   @override
@@ -327,8 +327,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('プロフィールを入力してください。'),
-                    Text('ID（必須）'),
+                    Text('ユーザーID（必須）'),
                     TextFormField(
                       controller: _cardIdController,
                       maxLength: 20,
@@ -351,22 +350,22 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                       controller: _bioController,
                       maxLength: 300,
                     ),
-                    const Text('company'),
+                    const Text('会社'),
                     TextField(
                       controller: _companyController,
                       maxLength: 20,
                     ),
-                    const Text('position'),
+                    const Text('部門'),
                     TextField(
                       controller: _positionController,
                       maxLength: 20,
                     ),
-                    const Text('address'),
+                    const Text('住所'),
                     TextField(
                       controller: _addressController,
                       maxLength: 40,
                     ),
-                    Text('リンクを任意で追加してください。'),
+                    Text('SNS・連絡先'),
                     ReorderableMultiTextField(
                       controllerController: controller,
                     ),

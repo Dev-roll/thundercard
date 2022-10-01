@@ -216,14 +216,14 @@ class _AccountEditorState extends State<AccountEditor> {
   final String? uid = getUid();
   late final TextEditingController _nameController =
       TextEditingController(text: widget.data?['account']['profiles']['name']);
-  late final TextEditingController _bioController =
-      TextEditingController(text: widget.data?['account']['profiles']['bio']['value']);
-  late final TextEditingController _companyController =
-      TextEditingController(text: widget.data?['account']['profiles']['company']['value']);
+  late final TextEditingController _bioController = TextEditingController(
+      text: widget.data?['account']['profiles']['bio']['value']);
+  late final TextEditingController _companyController = TextEditingController(
+      text: widget.data?['account']['profiles']['company']['value']);
   late final TextEditingController _positionController = TextEditingController(
       text: widget.data?['account']['profiles']['position']['value']);
-  late final TextEditingController _addressController =
-      TextEditingController(text: widget.data?['account']['profiles']['address']['value']);
+  late final TextEditingController _addressController = TextEditingController(
+      text: widget.data?['account']['profiles']['address']['value']);
   late DocumentReference card =
       FirebaseFirestore.instance.collection('cards').doc(widget.cardId);
   CollectionReference cards = FirebaseFirestore.instance.collection('cards');
@@ -328,9 +328,13 @@ class _AccountEditorState extends State<AccountEditor> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('プロフィールを入力してください。'),
                     if (widget.data?['is_user'])
-                      Text('ID（変更不可）: ${widget.cardId}'),
+                      Column(
+                        children: [
+                          Text('ユーザーID'),
+                          Text('@${widget.cardId}'),
+                        ],
+                      ),
                     Text('表示名（必須）'),
                     TextFormField(
                       controller: _nameController,
@@ -345,22 +349,22 @@ class _AccountEditorState extends State<AccountEditor> {
                       controller: _bioController,
                       maxLength: 300,
                     ),
-                    const Text('company'),
+                    const Text('会社'),
                     TextField(
                       controller: _companyController,
                       maxLength: 20,
                     ),
-                    const Text('position'),
+                    const Text('部門'),
                     TextField(
                       controller: _positionController,
                       maxLength: 20,
                     ),
-                    const Text('address'),
+                    const Text('住所'),
                     TextField(
                       controller: _addressController,
                       maxLength: 40,
                     ),
-                    Text('リンクを任意で追加してください。'),
+                    Text('SNS・連絡先'),
                     ReorderableMultiTextField(
                       controllerController: controller,
                     ),

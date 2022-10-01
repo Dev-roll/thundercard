@@ -38,11 +38,11 @@ class _NotificationsState extends State<Notifications> {
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
-            return const Text("Something went wrong");
+            return const Text("問題が発生しました");
           }
 
           if (snapshot.hasData && !snapshot.data!.exists) {
-            return const Text("Document does not exist");
+            return const Text("ユーザー情報の取得に失敗しました");
           }
 
           if (snapshot.connectionState == ConnectionState.done) {
@@ -190,7 +190,7 @@ class _NotificationsState extends State<Notifications> {
                           // エラー時に表示するWidget
                           if (snapshot.hasError) {
                             print(snapshot.error);
-                            return Text('error');
+                            return Text('エラーが発生しました: ${snapshot.error}');
                           }
 
                           if (snapshot.connectionState ==
@@ -200,7 +200,7 @@ class _NotificationsState extends State<Notifications> {
 
                           // データが取得できなかったときに表示するWidget
                           if (!snapshot.hasData) {
-                            return Text('no data');
+                            return Text('通知の取得に失敗しました');
                           }
 
                           dynamic data = snapshot.data;
@@ -289,7 +289,7 @@ class _NotificationsState extends State<Notifications> {
                           // エラー時に表示するWidget
                           if (snapshot.hasError) {
                             print(snapshot.error);
-                            return Text('error');
+                            return Text('エラーが発生しました: ${snapshot.error}');
                           }
 
                           if (snapshot.connectionState ==
@@ -299,7 +299,7 @@ class _NotificationsState extends State<Notifications> {
 
                           // データが取得できなかったときに表示するWidget
                           if (!snapshot.hasData) {
-                            return Text('no data');
+                            return Text('通知の取得に失敗しました');
                           }
                           dynamic data = snapshot.data;
                           final news = data?.docs;
@@ -331,8 +331,7 @@ class _NotificationsState extends State<Notifications> {
                                                   read: news[index]['read'],
                                                   index: 1,
                                                   myCardId: myCardId,
-                                                  documentId:
-                                                      news[index].id,
+                                                  documentId: news[index].id,
                                                 );
                                               }),
                                         ],
