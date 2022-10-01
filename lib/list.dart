@@ -152,16 +152,18 @@ class _ListState extends State<List> {
                 // / This is ignored if animatedIcon is non null
                 // child: Text("open"),
                 // activeChild: Text("close"),
-                icon: Icons.add,
-                activeIcon: Icons.close,
+                icon: Icons.add_rounded,
+                activeIcon: Icons.close_rounded,
                 backgroundColor:
                     Theme.of(context).colorScheme.secondaryContainer,
                 foregroundColor:
                     Theme.of(context).colorScheme.onSecondaryContainer,
-                spacing: 4,
+                spacing: 16,
                 openCloseDial: isDialOpen,
+                activeBackgroundColor:
+                    Theme.of(context).colorScheme.secondaryContainer,
                 childPadding: const EdgeInsets.all(0),
-                spaceBetweenChildren: 16,
+                spaceBetweenChildren: 0,
                 dialRoot: customDialRoot
                     ? (ctx, open, toggleChildren) {
                         return ElevatedButton(
@@ -203,11 +205,11 @@ class _ListState extends State<List> {
                 /// If false, backgroundOverlay will not be rendered.
                 renderOverlay: true,
                 // overlayColor: Colors.black,
-                // overlayOpacity: 0.5,
-                onOpen: () => debugPrint('OPENING DIAL'),
-                onClose: () => debugPrint('DIAL CLOSED'),
+                overlayOpacity: 0.9,
+                // onOpen: () => debugPrint('OPENING DIAL'),
+                // onClose: () => debugPrint('DIAL CLOSED'),
                 useRotationAnimation: true,
-                tooltip: 'Open Speed Dial',
+                tooltip: '',
                 heroTag: 'speed-dial-hero-tag',
                 // foregroundColor: Colors.black,
                 // backgroundColor: Colors.white,
@@ -220,12 +222,32 @@ class _ListState extends State<List> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16)),
                 // childMargin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                childMargin: EdgeInsets.fromLTRB(0, 0, 8, 0),
                 children: [
                   SpeedDialChild(
-                    child:
-                        !rmicons ? const Icon(Icons.add_a_photo_rounded) : null,
-                    backgroundColor:
-                        Theme.of(context).colorScheme.secondaryContainer,
+                    child: !rmicons
+                        ? Container(
+                            padding: EdgeInsets.all(8),
+                            margin: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.primary,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0xaa000000),
+                                  blurRadius: 8,
+                                  offset: Offset(0, 4),
+                                  spreadRadius: -2,
+                                )
+                              ],
+                            ),
+                            child: Icon(
+                              Icons.add_a_photo_rounded,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          )
+                        : null,
+                    backgroundColor: Colors.transparent,
                     foregroundColor:
                         Theme.of(context).colorScheme.onSecondaryContainer,
                     label: '画像をもとに追加',
@@ -238,13 +260,34 @@ class _ListState extends State<List> {
                     },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),
+                    labelBackgroundColor: Colors.transparent,
+                    labelShadow: [],
+                    elevation: 0,
                   ),
                   SpeedDialChild(
                     child: !rmicons
-                        ? const Icon(Icons.qr_code_scanner_rounded)
+                        ? Container(
+                            padding: EdgeInsets.all(8),
+                            margin: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.primary,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0xaa000000),
+                                  blurRadius: 8,
+                                  offset: Offset(0, 4),
+                                  spreadRadius: -2,
+                                )
+                              ],
+                            ),
+                            child: Icon(
+                              Icons.qr_code_scanner_rounded,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          )
                         : null,
-                    backgroundColor:
-                        Theme.of(context).colorScheme.secondaryContainer,
+                    backgroundColor: Colors.transparent,
                     foregroundColor:
                         Theme.of(context).colorScheme.onSecondaryContainer,
                     label: '名刺を交換',
@@ -264,6 +307,9 @@ class _ListState extends State<List> {
                     },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),
+                    labelBackgroundColor: Colors.transparent,
+                    labelShadow: [],
+                    elevation: 0,
                   ),
                 ],
               ), // floatingActionButton: FloatingActionButton.extended(
