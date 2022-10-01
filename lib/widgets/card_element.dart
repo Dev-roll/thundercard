@@ -11,7 +11,7 @@ class CardElement extends StatelessWidget {
     this.line = 1,
     this.size = 1,
     this.weight = 'regular',
-    this.height = 1,
+    this.height = 1.2,
     this.opacity = 1,
   }) : super(key: key);
   String? txt;
@@ -77,8 +77,7 @@ class CardElement extends StatelessWidget {
                 height: height,
                 fontWeight:
                     weight == 'bold' ? FontWeight.bold : FontWeight.normal,
-                letterSpacing:
-                    weight == 'bold' ? 1.5 : 0.2,
+                letterSpacing: weight == 'bold' ? 1.5 : 0.2,
               ),
               maxLines: line,
               overflow: line == 1 ? TextOverflow.fade : TextOverflow.ellipsis,

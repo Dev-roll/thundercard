@@ -113,7 +113,6 @@ class NormalCard extends StatelessWidget {
                                       children: [
                                         CardElement(
                                           txt: name ?? '',
-                                          height: 1.2,
                                           size: 3,
                                           weight: 'bold',
                                           opacity: 0.7,
