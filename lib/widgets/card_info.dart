@@ -2,7 +2,10 @@ import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:thundercard/api/current_brightness.dart';
+import 'package:thundercard/widgets/avatar.dart';
 
+import '../api/return_original_color.dart';
 import '../widgets/custom_progress_indicator.dart';
 import '../account_editor.dart';
 import '../constants.dart';
@@ -46,9 +49,12 @@ class CardInfo extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Icon(
-                      Icons.person_outline_rounded,
-                      size: 60,
+                    Theme(
+                      data: ThemeData(
+                        colorSchemeSeed: Color(returnOriginalColor(cardId)),
+                        brightness: Brightness.light,
+                      ),
+                      child: Avatar(),
                     ),
                     SizedBox(
                       width: 16,
