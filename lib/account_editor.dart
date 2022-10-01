@@ -103,7 +103,7 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
           // (3) AlertDialogを作成する
           builder: (context) => AlertDialog(
                 title: Text("リンクの削除"),
-                content: Text("リンクを削除してもよろしいですか"),
+                content: Text("リンクを削除しますか？"),
                 // (4) ボタンを設定
                 actions: [
                   TextButton(
