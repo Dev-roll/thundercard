@@ -136,6 +136,46 @@ class _UploadImagePageState extends State<UploadImagePage> {
         updateDocumentData(imageURL);
         updateExchangedCards();
         Navigator.of(context).pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            elevation: 20,
+            backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+            behavior: SnackBarBehavior.floating,
+            clipBehavior: Clip.antiAlias,
+            dismissDirection: DismissDirection.horizontal,
+            margin: EdgeInsets.only(
+              left: 8,
+              right: 8,
+              bottom: MediaQuery.of(context).size.height - 180,
+            ),
+            duration: const Duration(seconds: 2),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(28),
+            ),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                  child: Icon(Icons.file_download_done_rounded),
+                ),
+                Expanded(
+                  child: Text(
+                    '名刺を追加しました',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onBackground,
+                        overflow: TextOverflow.fade),
+                  ),
+                ),
+              ],
+            ),
+            // duration: const Duration(seconds: 12),
+            action: SnackBarAction(
+              label: 'OK',
+              onPressed: () {},
+            ),
+          ),
+        );
         // Navigator.of(context).pushAndRemoveUntil(
         //   MaterialPageRoute(
         //     builder: (context) => HomePage(index: 1),
