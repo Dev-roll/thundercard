@@ -125,6 +125,19 @@ class _NotificationItemState extends State<NotificationItem> {
                               : Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
+                      if (!widget.read)
+                        SizedBox(
+                          width: 6,
+                        ),
+                      if (!widget.read)
+                        Container(
+                          width: 8,
+                          height: 8,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.tertiary,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
                     ],
                   ),
                   DefaultTextStyle(
