@@ -232,13 +232,13 @@ class _QRViewExampleState extends State<QRViewExample> {
                             tag: 'close_button',
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                    builder: (context) => HomePage(index: 0),
-                                  ),
-                                  (_) => false,
-                                );
-                                // Navigator.of(context).pop();
+                                // Navigator.of(context).pushAndRemoveUntil(
+                                //   MaterialPageRoute(
+                                //     builder: (context) => HomePage(index: 0),
+                                //   ),
+                                //   (_) => false,
+                                // );
+                                Navigator.of(context).pop();
                               },
                               child: Icon(
                                 Icons.close_rounded,
@@ -349,11 +349,28 @@ class _QRViewExampleState extends State<QRViewExample> {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
+                                            elevation: 20,
                                             backgroundColor: Theme.of(context)
                                                 .colorScheme
                                                 .surfaceVariant,
                                             behavior: SnackBarBehavior.floating,
                                             clipBehavior: Clip.antiAlias,
+                                            dismissDirection:
+                                                DismissDirection.horizontal,
+                                            margin: EdgeInsets.only(
+                                              left: 8,
+                                              right: 8,
+                                              bottom: MediaQuery.of(context)
+                                                      .size
+                                                      .height -
+                                                  100,
+                                            ),
+                                            duration:
+                                                const Duration(seconds: 2),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(28),
+                                            ),
                                             content: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
@@ -377,8 +394,6 @@ class _QRViewExampleState extends State<QRViewExample> {
                                               ],
                                             ),
                                             // duration: const Duration(seconds: 12),
-                                            duration:
-                                                const Duration(seconds: 2),
                                             action: SnackBarAction(
                                               // label: '開く',
                                               label: 'OK',
@@ -393,10 +408,6 @@ class _QRViewExampleState extends State<QRViewExample> {
                                                 //     'https://github.com/cardseditor',
                                                 // );
                                               },
-                                            ),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(28),
                                             ),
                                           ),
                                         );
@@ -426,11 +437,28 @@ class _QRViewExampleState extends State<QRViewExample> {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
+                                            elevation: 20,
                                             backgroundColor: Theme.of(context)
                                                 .colorScheme
                                                 .surfaceVariant,
                                             behavior: SnackBarBehavior.floating,
                                             clipBehavior: Clip.antiAlias,
+                                            dismissDirection:
+                                                DismissDirection.horizontal,
+                                            margin: EdgeInsets.only(
+                                              left: 8,
+                                              right: 8,
+                                              bottom: MediaQuery.of(context)
+                                                      .size
+                                                      .height -
+                                                  100,
+                                            ),
+                                            duration:
+                                                const Duration(seconds: 2),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(28),
+                                            ),
                                             content: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
@@ -453,15 +481,9 @@ class _QRViewExampleState extends State<QRViewExample> {
                                                 ),
                                               ],
                                             ),
-                                            duration:
-                                                const Duration(seconds: 2),
                                             action: SnackBarAction(
                                               label: 'OK',
                                               onPressed: () {},
-                                            ),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(28),
                                             ),
                                           ),
                                         );
@@ -667,8 +689,25 @@ class _QRViewExampleState extends State<QRViewExample> {
           result = scanData;
         });
         if (scanData.code == null) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text("QRコードを読み取れませんでした")));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              elevation: 20,
+              backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+              behavior: SnackBarBehavior.floating,
+              clipBehavior: Clip.antiAlias,
+              dismissDirection: DismissDirection.horizontal,
+              margin: EdgeInsets.only(
+                left: 8,
+                right: 8,
+                bottom: MediaQuery.of(context).size.height - 180,
+              ),
+              duration: const Duration(seconds: 2),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(28),
+              ),
+              content: Text("QRコードを読み取れませんでした"),
+            ),
+          );
         } else if (describeEnum(scanData.format) == 'qrcode') {
           _transitionToNextPage(
             scanData.code.toString(),
@@ -715,7 +754,23 @@ class _QRViewExampleState extends State<QRViewExample> {
     log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
     if (!p) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('no Permission')),
+        SnackBar(
+          elevation: 20,
+          backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+          behavior: SnackBarBehavior.floating,
+          clipBehavior: Clip.antiAlias,
+          dismissDirection: DismissDirection.horizontal,
+          margin: EdgeInsets.only(
+            left: 8,
+            right: 8,
+            bottom: MediaQuery.of(context).size.height - 180,
+          ),
+          duration: const Duration(seconds: 2),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(28),
+          ),
+          content: Text('no Permission'),
+        ),
       );
     }
   }

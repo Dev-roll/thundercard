@@ -46,9 +46,20 @@ class _OpenAppState extends State<OpenApp> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        elevation: 20,
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
         behavior: SnackBarBehavior.floating,
         clipBehavior: Clip.antiAlias,
+        dismissDirection: DismissDirection.horizontal,
+        margin: EdgeInsets.only(
+          left: 8,
+          right: 8,
+          bottom: MediaQuery.of(context).size.height - 180,
+        ),
+        duration: const Duration(seconds: 2),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(28),
+        ),
         content: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -69,13 +80,9 @@ class _OpenAppState extends State<OpenApp> {
             ),
           ],
         ),
-        duration: const Duration(seconds: 2),
         action: SnackBarAction(
           label: 'OK',
           onPressed: () {},
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(28),
         ),
       ));
     }
