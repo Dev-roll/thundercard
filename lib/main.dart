@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 
 import 'auth_gate.dart';
 import 'constants.dart';
@@ -23,6 +24,9 @@ void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await FirebaseAppCheck.instance.activate(
+    webRecaptchaSiteKey: 'recaptcha-v3-site-key',  // If you're building a web app.
   );
   runApp(const MyApp());
 }
