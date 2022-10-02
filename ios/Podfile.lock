@@ -671,6 +671,11 @@ PODS:
   - Firebase/Storage (9.4.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 9.4.0)
+  - firebase_app_check (0.0.8):
+    - Firebase/CoreOnly (~> 9.4.0)
+    - firebase_core
+    - FirebaseAppCheck (~> 9.4.0-beta)
+    - Flutter
   - firebase_auth (3.9.0):
     - Firebase/Auth (= 9.4.0)
     - firebase_core
@@ -690,6 +695,10 @@ PODS:
     - Firebase/Storage (= 9.4.0)
     - firebase_core
     - Flutter
+  - FirebaseAppCheck (9.4.0):
+    - FirebaseCore (~> 9.0)
+    - GoogleUtilities/Environment (~> 7.7)
+    - PromisesObjC (~> 2.1)
   - FirebaseAppCheckInterop (9.6.0)
   - FirebaseAuth (9.4.0):
     - FirebaseCore (~> 9.0)
@@ -949,6 +958,7 @@ PODS:
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
+  - firebase_app_check (from `.symlinks/plugins/firebase_app_check/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
@@ -981,6 +991,7 @@ SPEC REPOS:
     - FBSDKCoreKit_Basics
     - FBSDKLoginKit
     - Firebase
+    - FirebaseAppCheck
     - FirebaseAppCheckInterop
     - FirebaseAuth
     - FirebaseAuthInterop
@@ -1026,6 +1037,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/cloud_firestore/ios"
   file_picker:
     :path: ".symlinks/plugins/file_picker/ios"
+  firebase_app_check:
+    :path: ".symlinks/plugins/firebase_app_check/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
@@ -1078,11 +1091,13 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 787de205d524c3a4b17d527916f1d066e4361660
   file_picker: 817ab1d8cd2da9d2da412a417162deee3500fc95
   Firebase: 7703fc4022824b6d6db1bf7bea58d13b8e17ec46
+  firebase_app_check: 7a4e7596d56a2eb1492878df195d74cece20480c
   firebase_auth: be7aadf714780bfb559e9088a1d4329b1c569761
   firebase_core: 8e500850dd138c269d197c8dfca3ae886fa3b6f2
   firebase_database: 3ac2cb2c550c7af510e0b5ea24087114cb4dd6ef
   firebase_dynamic_links: eaa07e24b73f5cbab61f8fe235d57c6ca3261f27
   firebase_storage: 846832b7f2d22238678dc9abc513f2151f102462
+  FirebaseAppCheck: aaacc3c6beaba35564344c694608e272bd9e9cb1
   FirebaseAppCheckInterop: d5ecda0c09f8069406643d6e0fa12c09d1b736e3
   FirebaseAuth: ae5d4402e1516497357d909162b091b3ca2a2e9c
   FirebaseAuthInterop: b6cf02117f13a8400c8c8b4421e12c6e850bcaf3

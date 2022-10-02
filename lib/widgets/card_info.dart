@@ -52,7 +52,11 @@ class CardInfo extends StatelessWidget {
                     Theme(
                       data: ThemeData(
                         colorSchemeSeed: Color(returnOriginalColor(cardId)),
-                        brightness: Brightness.light,
+                        brightness:
+                            currentBrightness(Theme.of(context).colorScheme) ==
+                                    Brightness.light
+                                ? Brightness.light
+                                : Brightness.dark,
                       ),
                       child: Avatar(),
                     ),
