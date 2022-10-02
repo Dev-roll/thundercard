@@ -330,11 +330,28 @@ class _AccountEditorState extends State<AccountEditor> {
                   children: <Widget>[
                     if (widget.data?['is_user'])
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('ユーザーID'),
-                          Text('@${widget.cardId}'),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            '@${widget.cardId}',
+                            style:
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground
+                                          .withOpacity(0.7),
+                                      fontSize: 20,
+                                    ),
+                          ),
                         ],
                       ),
+                    SizedBox(
+                      height: 24,
+                    ),
                     Text('表示名（必須）'),
                     TextFormField(
                       controller: _nameController,
@@ -343,30 +360,59 @@ class _AccountEditorState extends State<AccountEditor> {
                       validator: (value) {
                         return value!.isEmpty ? '必須' : null;
                       },
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.person_outline_rounded),
+                        hintText: '表示名',
+                      ),
                     ),
                     Text('自己紹介'),
                     TextField(
                       controller: _bioController,
                       maxLength: 300,
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.face),
+                        hintText: '自己紹介',
+                      ),
                     ),
                     const Text('会社'),
                     TextField(
                       controller: _companyController,
                       maxLength: 20,
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.business_rounded),
+                        hintText: '会社・大学等',
+                      ),
                     ),
                     const Text('部門'),
                     TextField(
                       controller: _positionController,
                       maxLength: 20,
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.alternate_email_rounded),
+                        hintText: '部門',
+                      ),
                     ),
                     const Text('住所'),
                     TextField(
                       controller: _addressController,
                       maxLength: 40,
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.location_on_rounded),
+                        hintText: '住所',
+                      ),
+                    ),
+                    SizedBox(
+                      height: 24,
                     ),
                     Text('SNS・連絡先'),
+                    SizedBox(
+                      height: 16,
+                    ),
                     ReorderableMultiTextField(
                       controllerController: controller,
+                    ),
+                    SizedBox(
+                      height: 16,
                     ),
                     TextButton(
                       onPressed: () {
