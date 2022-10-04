@@ -38,75 +38,83 @@ class _AccountState extends State<Account> {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     return Scaffold(
-      body: Column(
-        children: [
-          FutureBuilder<DocumentSnapshot>(
-            future: users.doc(uid).get(),
-            builder: (BuildContext context,
-                AsyncSnapshot<DocumentSnapshot> snapshot) {
-              if (snapshot.hasError) {
-                return Text("問題が発生しました");
-              }
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: [
+                FutureBuilder<DocumentSnapshot>(
+                  future: users.doc(uid).get(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return Text("問題が発生しました");
+                    }
 
-              if (snapshot.hasData && !snapshot.data!.exists) {
-                return Text("ユーザー情報の取得に失敗しました");
-              }
+                    if (snapshot.hasData && !snapshot.data!.exists) {
+                      return Text("ユーザー情報の取得に失敗しました");
+                    }
 
-              if (snapshot.connectionState == ConnectionState.done) {
-                Map<String, dynamic> user =
-                    snapshot.data!.data() as Map<String, dynamic>;
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      Map<String, dynamic> user =
+                          snapshot.data!.data() as Map<String, dynamic>;
 
-                return SafeArea(
-                  child: SingleChildScrollView(
-                    child: Center(
-                      child: Padding(
+                      return Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: CardInfo(
                             cardId: user['my_cards'][0], editable: true),
-                      ),
-                    ),
-                  ),
-                );
-              }
-              return const Center(child: CustomProgressIndicator());
-            },
+                      );
+                    }
+                    return const Center(child: CustomProgressIndicator());
+                  },
+                ),
+                ElevatedButton(
+                    onPressed: () async {
+                      await showDialog(
+                          context: context,
+                          // (3) AlertDialogを作成する
+                          builder: (context) => AlertDialog(
+                                title: Text("サインアウト"),
+                                content: Text("このアカウントからサインアウトしますか？"),
+                                // (4) ボタンを設定
+                                actions: [
+                                  TextButton(
+                                      onPressed: () => {
+                                            //  (5) ダイアログを閉じる
+                                            Navigator.pop(context, false)
+                                          },
+                                      onLongPress: null,
+                                      child: Text("キャンセル")),
+                                  TextButton(
+                                      onPressed: () async {
+                                        Navigator.pop(context, true);
+                                        await FirebaseAuth.instance.signOut();
+                                        Navigator.of(context)
+                                            .pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                            builder: (context) => AuthGate(),
+                                          ),
+                                          (_) => false,
+                                        );
+                                      },
+                                      onLongPress: null,
+                                      child: Text("サインアウト")),
+                                ],
+                              ));
+                    },
+                    onLongPress: null,
+                    child: const Text('サインアウト')),
+                // メンテナンス
+                SizedBox(height: 40),
+                OutlinedButton(
+                  onPressed: maintenance,
+                  onLongPress: null,
+                  child: Text('管理者用'),
+                )
+              ],
+            ),
           ),
-          ElevatedButton(
-              onPressed: () async {
-                await showDialog(
-                    context: context,
-                    // (3) AlertDialogを作成する
-                    builder: (context) => AlertDialog(
-                          title: Text("サインアウト"),
-                          content: Text("このアカウントからサインアウトしますか？"),
-                          // (4) ボタンを設定
-                          actions: [
-                            TextButton(
-                                onPressed: () => {
-                                      //  (5) ダイアログを閉じる
-                                      Navigator.pop(context, false)
-                                    },
-                                child: Text("キャンセル")),
-                            TextButton(
-                                onPressed: () async {
-                                  Navigator.pop(context, true);
-                                  await FirebaseAuth.instance.signOut();
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(
-                                      builder: (context) => AuthGate(),
-                                    ),
-                                    (_) => false,
-                                  );
-                                },
-                                child: Text("サインアウト")),
-                          ],
-                        ));
-              },
-              child: const Text('サインアウト')),
-          // メンテナンス
-          SizedBox(height: 40),
-          OutlinedButton(onPressed: maintenance, child: Text('管理者用'))
-        ],
+        ),
       ),
     );
   }

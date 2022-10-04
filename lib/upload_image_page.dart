@@ -29,6 +29,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
       TextEditingController();
   var _editText = '';
   var isCompleted = false;
+  var uploadButtonPressed = false;
 
   Future pickImage() async {
     try {
@@ -121,6 +122,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
     void uploadPic() async {
       setState(() {
         isCompleted = true;
+        uploadButtonPressed = true;
       });
       try {
         /// 画像を選択
@@ -286,11 +288,13 @@ class _UploadImagePageState extends State<UploadImagePage> {
                         children: [
                           ElevatedButton(
                             onPressed: pickImageC,
+                            onLongPress: null,
                             child: const Text('画像を撮影'),
                           ),
                           SizedBox(height: 16),
                           ElevatedButton(
                             onPressed: pickImage,
+                            onLongPress: null,
                             child: const Text('画像をアップロード'),
                           ),
                         ],
@@ -489,12 +493,29 @@ class _UploadImagePageState extends State<UploadImagePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      ElevatedButton(
-                        onPressed: _nameController.text != '' && image != null
-                            ? uploadPic
-                            : null,
-                        child: const Text('登録'),
-                      ),
+                      uploadButtonPressed
+                          ? ElevatedButton(
+                              onPressed: null,
+                              onLongPress: null,
+                              child: Container(
+                                child: SizedBox(
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 3.0,
+                                  ),
+                                  height: 24,
+                                  width: 24,
+                                ),
+                                padding: EdgeInsets.all(4),
+                              ),
+                            )
+                          : ElevatedButton(
+                              onPressed:
+                                  _nameController.text != '' && image != null
+                                      ? uploadPic
+                                      : null,
+                              onLongPress: null,
+                              child: const Text('登録'),
+                            ),
                     ],
                   ),
                 ),

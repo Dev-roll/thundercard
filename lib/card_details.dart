@@ -10,11 +10,19 @@ import 'chat.dart';
 import 'constants.dart';
 import 'home_page.dart';
 
-class CardDetails extends StatelessWidget {
+class CardDetails extends StatefulWidget {
   const CardDetails({Key? key, required this.cardId, required this.card})
       : super(key: key);
   final String cardId;
   final dynamic card;
+
+  @override
+  State<CardDetails> createState() => _CardDetailsState();
+}
+
+class _CardDetailsState extends State<CardDetails> {
+  var deleteButtonPressed = false;
+  var messageButtonPressed = false;
 
   Future<Room> getRoom(String otherCardId) async {
     final String? uid = getUid();
@@ -37,7 +45,7 @@ class CardDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final String? uid = getUid();
     CollectionReference users = FirebaseFirestore.instance.collection('users');
-    var _usStates = card['is_user'] ? ["削除"] : ["編集", "削除"];
+    var _usStates = widget.card['is_user'] ? ["削除"] : ["編集", "削除"];
 
     void deleteThisCard() {
       FirebaseFirestore.instance
@@ -49,7 +57,7 @@ class CardDetails extends StatelessWidget {
             .collection('cards')
             .doc(value['my_cards'][0]);
         doc.update({
-          'exchanged_cards': FieldValue.arrayRemove([cardId])
+          'exchanged_cards': FieldValue.arrayRemove([widget.cardId])
         }).then((value) {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
@@ -78,13 +86,33 @@ class CardDetails extends StatelessWidget {
                             //  (5) ダイアログを閉じる
                             Navigator.pop(context, false)
                           },
+                      onLongPress: null,
                       child: Text("キャンセル")),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context, true);
-                        deleteThisCard();
-                      },
-                      child: Text("OK")),
+                  deleteButtonPressed
+                      ? TextButton(
+                          onPressed: null,
+                          onLongPress: null,
+                          child: Container(
+                            child: SizedBox(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3.0,
+                              ),
+                              height: 24,
+                              width: 24,
+                            ),
+                            padding: EdgeInsets.all(4),
+                          ),
+                        )
+                      : TextButton(
+                          onPressed: () {
+                            setState(() {
+                              deleteButtonPressed = true;
+                            });
+                            Navigator.pop(context, true);
+                            deleteThisCard();
+                          },
+                          onLongPress: null,
+                          child: Text("OK")),
                 ],
               ));
     }
@@ -116,26 +144,27 @@ class CardDetails extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 100),
               child: Column(
                 children: [
-                  card['is_user']
+                  widget.card['is_user']
                       ? Container()
-                      : card?['thumbnail'] != null
-                          ? Image.network(card?['thumbnail'])
+                      : widget.card?['thumbnail'] != null
+                          ? Image.network(widget.card?['thumbnail'])
                           : const CustomProgressIndicator(),
-                  card['is_user']
+                  widget.card['is_user']
                       ? Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: MyCard(
-                            cardId: cardId,
+                            cardId: widget.cardId,
                             cardType: CardType.extended,
                           ),
                         )
                       : Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child: CardInfo(cardId: cardId, editable: true),
+                          child:
+                              CardInfo(cardId: widget.cardId, editable: true),
                         ),
-                  if (card['is_user'])
+                  if (widget.card['is_user'])
                     FutureBuilder(
-                      future: getRoom(cardId),
+                      future: getRoom(widget.cardId),
                       builder:
                           (BuildContext context, AsyncSnapshot<Room> snapshot) {
                         if (snapshot.hasError) {
@@ -148,19 +177,35 @@ class CardDetails extends StatelessWidget {
                         // }
 
                         if (snapshot.connectionState == ConnectionState.done) {
-                          return ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ChatPage(
-                                    room: snapshot.data!,
+                          return messageButtonPressed
+                              ? ElevatedButton(
+                                  onPressed: null,
+                                  onLongPress: null,
+                                  child: Container(
+                                    child: SizedBox(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 3.0,
+                                      ),
+                                      height: 24,
+                                      width: 24,
+                                    ),
+                                    padding: EdgeInsets.all(4),
                                   ),
-                                ),
-                              );
-                            },
-                            child: const Text('メッセージ'),
-                          );
+                                )
+                              : ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ChatPage(
+                                          room: snapshot.data!,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  onLongPress: null,
+                                  child: const Text('メッセージ'),
+                                );
                         }
                         return const Center(child: CustomProgressIndicator());
                       },

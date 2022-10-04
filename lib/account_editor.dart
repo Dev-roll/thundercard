@@ -111,12 +111,14 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                             //  (5) ダイアログを閉じる
                             Navigator.pop(context, false)
                           },
+                      onLongPress: null,
                       child: Text("キャンセル")),
                   TextButton(
                       onPressed: () {
                         Navigator.pop(context, true);
                         widget.controllerController.remove(textFieldState.id);
                       },
+                      onLongPress: null,
                       child: Text("OK")),
                 ],
               ));
@@ -229,6 +231,7 @@ class _AccountEditorState extends State<AccountEditor> {
   CollectionReference cards = FirebaseFirestore.instance.collection('cards');
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   late ReorderableMultiTextFieldController controller;
+  var updateButtonPressed = false;
 
   @override
   void initState() {
@@ -316,7 +319,31 @@ class _AccountEditorState extends State<AccountEditor> {
         appBar: AppBar(
           title: const Text('プロフィールを編集'),
           actions: [
-            TextButton(onPressed: updateCard, child: const Text('保存')),
+            updateButtonPressed
+                ? TextButton(
+                    onPressed: null,
+                    onLongPress: null,
+                    child: Container(
+                      child: SizedBox(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 3.0,
+                        ),
+                        height: 24,
+                        width: 24,
+                      ),
+                      padding: EdgeInsets.all(4),
+                    ),
+                  )
+                : TextButton(
+                    onPressed: () {
+                      setState(() {
+                        updateButtonPressed = true;
+                      });
+                      updateCard();
+                    },
+                    onLongPress: null,
+                    child: const Text('保存'),
+                  ),
           ],
           backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
         ),
@@ -418,6 +445,7 @@ class _AccountEditorState extends State<AccountEditor> {
                       onPressed: () {
                         controller.add('url', '');
                       },
+                      onLongPress: null,
                       child: Text("追加"),
                     ),
                   ],

@@ -108,12 +108,14 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                             //  (5) ダイアログを閉じる
                             Navigator.pop(context, false)
                           },
+                      onLongPress: null,
                       child: Text("キャンセル")),
                   TextButton(
                       onPressed: () {
                         Navigator.pop(context, true);
                         widget.controllerController.remove(textFieldState.id);
                       },
+                      onLongPress: null,
                       child: Text("削除")),
                 ],
               ));
@@ -220,6 +222,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
   CollectionReference cards = FirebaseFirestore.instance.collection('cards');
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   late ReorderableMultiTextFieldController controller;
+  var registrationButtonPressed = false;
 
   @override
   void initState() {
@@ -315,7 +318,31 @@ class _AccountRegistrationState extends State<AccountRegistration> {
         appBar: AppBar(
           title: const Text('プロフィールを登録'),
           actions: [
-            TextButton(onPressed: registerCard, child: const Text('登録')),
+            registrationButtonPressed
+                ? TextButton(
+                    onPressed: null,
+                    onLongPress: null,
+                    child: Container(
+                      child: SizedBox(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 3.0,
+                        ),
+                        height: 24,
+                        width: 24,
+                      ),
+                      padding: EdgeInsets.all(4),
+                    ),
+                  )
+                : TextButton(
+                    onPressed: () {
+                      setState(() {
+                        registrationButtonPressed = true;
+                      });
+                      registerCard();
+                    },
+                    onLongPress: null,
+                    child: const Text('登録'),
+                  ),
           ],
           backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
         ),
@@ -373,6 +400,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                       onPressed: () {
                         controller.add('url', '');
                       },
+                      onLongPress: null,
                       child: Text("追加"),
                     ),
                   ],
