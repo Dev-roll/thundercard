@@ -155,6 +155,7 @@ class CardDetails extends StatelessWidget {
                                 MaterialPageRoute(
                                   builder: (context) => ChatPage(
                                     room: snapshot.data!,
+                                    cardId: cardId,
                                   ),
                                 ),
                               );

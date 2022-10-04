@@ -13,17 +13,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:thundercard/api/current_brightness.dart';
+import 'package:thundercard/api/return_original_color.dart';
 
 import 'api/colors.dart';
 import 'constants.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({
-    super.key,
-    required this.room,
-  });
+  const ChatPage({super.key, required this.room, required this.cardId});
 
   final types.Room room;
+  final String cardId;
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -34,6 +34,16 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Brightness brightness =
+        currentBrightness(Theme.of(context).colorScheme);
+    final ColorScheme myColorScheme = Theme.of(context).colorScheme;
+    final ColorScheme partnerColorScheme = ThemeData.from(
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: Color(returnOriginalColor(widget.cardId)),
+        brightness: brightness,
+      ),
+      useMaterial3: true,
+    ).colorScheme;
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle:
@@ -60,93 +70,85 @@ class _ChatPageState extends State<ChatPage> {
               // inputTextStyle: ,
 
               // sent
-              primaryColor:
-                  Theme.of(context).colorScheme.secondary.withOpacity(0.9),
+              primaryColor: myColorScheme.secondaryContainer,
               sentMessageDocumentIconColor: const Color(0xff000000),
               sentMessageBodyTextStyle: TextStyle(
-                color: Theme.of(context).colorScheme.onSecondary,
+                color: myColorScheme.secondary,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
                 height: 1.5,
               ),
               sentMessageCaptionTextStyle: TextStyle(
-                color:
-                    Theme.of(context).colorScheme.onSecondary.withOpacity(0.6),
+                color: myColorScheme.onSecondaryContainer.withOpacity(0.6),
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
                 height: 1.333,
               ),
               sentMessageBodyLinkTextStyle: TextStyle(
-                color:
-                    Theme.of(context).colorScheme.onSecondary.withOpacity(0.7),
+                color: myColorScheme.onSecondaryContainer.withOpacity(0.7),
                 fontSize: 14,
                 decoration: TextDecoration.underline,
               ),
               sentMessageLinkTitleTextStyle: TextStyle(
-                color: Theme.of(context).colorScheme.onSecondary,
+                color: myColorScheme.secondary,
                 fontSize: 16,
                 fontWeight: FontWeight.w800,
                 height: 1.375,
               ),
               sentMessageLinkDescriptionTextStyle: TextStyle(
-                color:
-                    Theme.of(context).colorScheme.onSecondary.withOpacity(0.6),
+                color: myColorScheme.onSecondaryContainer.withOpacity(0.6),
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
                 height: 1.428,
               ),
               // sentMessageBodyBoldTextStyle: ,
               sentMessageBodyCodeTextStyle: GoogleFonts.robotoMono(
-                  textStyle: TextStyle(
-                      backgroundColor: Theme.of(context)
-                          .colorScheme
-                          .background
-                          .withOpacity(0.5))),
+                textStyle: TextStyle(
+                  backgroundColor: myColorScheme.background.withOpacity(0.5),
+                  color: myColorScheme.onBackground.withOpacity(0.8),
+                ),
+              ),
 
               // received
-              secondaryColor: Theme.of(context).colorScheme.secondaryContainer,
+              secondaryColor: partnerColorScheme.secondaryContainer,
               receivedMessageDocumentIconColor: const Color(0xff000000),
               receivedMessageBodyTextStyle: TextStyle(
-                color: Theme.of(context).colorScheme.secondary,
+                color: partnerColorScheme.secondary,
                 fontSize: 16,
+                fontWeight: FontWeight.w400,
+                height: 1.5,
               ),
               receivedMessageCaptionTextStyle: TextStyle(
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSecondaryContainer
-                    .withOpacity(0.6),
+                color: partnerColorScheme.onSecondaryContainer.withOpacity(0.6),
                 fontSize: 12,
+                fontWeight: FontWeight.w400,
+                height: 1.333,
               ),
               receivedMessageBodyLinkTextStyle: TextStyle(
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSecondaryContainer
-                    .withOpacity(0.7),
+                color: partnerColorScheme.onSecondaryContainer.withOpacity(0.7),
                 fontSize: 14,
                 decoration: TextDecoration.underline,
               ),
               receivedMessageLinkTitleTextStyle: TextStyle(
-                color: Theme.of(context).colorScheme.secondary,
+                color: partnerColorScheme.secondary,
                 fontSize: 16,
                 fontWeight: FontWeight.w800,
                 height: 1.375,
               ),
               receivedMessageLinkDescriptionTextStyle: TextStyle(
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSecondaryContainer
-                    .withOpacity(0.6),
+                color: partnerColorScheme.onSecondaryContainer.withOpacity(0.6),
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
                 height: 1.428,
               ),
               // receivedMessageBodyBoldTextStyle: ,
               receivedMessageBodyCodeTextStyle: GoogleFonts.robotoMono(
-                  textStyle: TextStyle(
-                      backgroundColor: Theme.of(context)
-                          .colorScheme
-                          .background
-                          .withOpacity(0.5))),
+                textStyle: TextStyle(
+                  backgroundColor:
+                      partnerColorScheme.background.withOpacity(0.5),
+                  color: partnerColorScheme.onBackground.withOpacity(0.8),
+                ),
+              ),
 
               // colors
               backgroundColor: Theme.of(context).colorScheme.background,
