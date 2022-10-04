@@ -199,6 +199,7 @@ class _CardDetailsState extends State<CardDetails> {
                                       MaterialPageRoute(
                                         builder: (context) => ChatPage(
                                           room: snapshot.data!,
+                                          cardId: widget.cardId,
                                         ),
                                       ),
                                     );
