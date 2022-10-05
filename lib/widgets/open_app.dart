@@ -23,6 +23,7 @@ class _OpenAppState extends State<OpenApp> {
       child: CardElement(
         txt: returnDisplayId(widget.url),
         type: returnIconType(widget.url),
+        size: returnIconType(widget.url) == IconType.address ? 1.3 : 1,
       ),
       onTap: () {
         _launchURL(
@@ -74,7 +75,7 @@ class _OpenAppState extends State<OpenApp> {
               child: Text(
                 'アプリを開けません',
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.onError,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
               ),
             ),

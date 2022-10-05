@@ -128,21 +128,32 @@ class NormalCard extends StatelessWidget {
                                                   '' &&
                                               profiles[dataTypeList[i]]
                                                   ['display']['normal'])
-                                            CardElement(
-                                              txt: profiles[dataTypeList[i]]
-                                                      ['value'] ??
-                                                  '',
-                                              type: linkTypeToIconType[
-                                                      dataTypeList[i]] ??
-                                                  IconType.nl,
-                                              line: dataTypeList[i] == 'bio'
-                                                  ? 2
-                                                  : 1,
-                                              height: dataTypeList[i] == 'bio'
-                                                  ? 1.4
-                                                  : 1,
-                                              size: 1.3,
-                                            ),
+                                            dataTypeList[i] == 'address'
+                                                ? OpenApp(
+                                                    url: returnUrl(
+                                                        'address',
+                                                        profiles[
+                                                                dataTypeList[i]]
+                                                            ['value']),
+                                                  )
+                                                : CardElement(
+                                                    txt: profiles[
+                                                                dataTypeList[i]]
+                                                            ['value'] ??
+                                                        '',
+                                                    type: linkTypeToIconType[
+                                                            dataTypeList[i]] ??
+                                                        IconType.nl,
+                                                    line:
+                                                        dataTypeList[i] == 'bio'
+                                                            ? 2
+                                                            : 1,
+                                                    height:
+                                                        dataTypeList[i] == 'bio'
+                                                            ? 1.4
+                                                            : 1.2,
+                                                    size: 1.3,
+                                                  ),
                                       ],
                                     ),
                                   );

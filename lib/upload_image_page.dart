@@ -289,13 +289,13 @@ class _UploadImagePageState extends State<UploadImagePage> {
                           ElevatedButton(
                             onPressed: pickImageC,
                             onLongPress: null,
-                            child: const Text('画像を撮影'),
+                            child: const Text('写真を撮影'),
                           ),
                           SizedBox(height: 16),
                           ElevatedButton(
                             onPressed: pickImage,
                             onLongPress: null,
-                            child: const Text('画像をアップロード'),
+                            child: const Text('画像を選択'),
                           ),
                         ],
                       ),
@@ -397,19 +397,18 @@ class _UploadImagePageState extends State<UploadImagePage> {
                         textInputAction: TextInputAction.done,
                       ),
                       const SizedBox(height: 36),
-                      image != null
-                          ? Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text('検出されたテキスト（β）'),
-                                TextField(
-                                  keyboardType: TextInputType.multiline,
-                                  maxLines: null,
-                                  controller: _recognizedTextController,
-                                ),
-                              ],
-                            )
-                          : Container(),
+                      if (image != null)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('検出されたテキスト（β）'),
+                            TextField(
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              controller: _recognizedTextController,
+                            ),
+                          ],
+                        ),
                     ],
                   ),
                 ),

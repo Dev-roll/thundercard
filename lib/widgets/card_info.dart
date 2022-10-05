@@ -43,49 +43,62 @@ class CardInfo extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    Theme(
-                      data: ThemeData(
-                        colorSchemeSeed: Color(returnOriginalColor(cardId)),
-                        brightness:
-                            currentBrightness(Theme.of(context).colorScheme) ==
-                                    Brightness.light
-                                ? Brightness.light
-                                : Brightness.dark,
+                Theme(
+                  data: ThemeData(
+                    colorSchemeSeed: Color(returnOriginalColor(cardId)),
+                    brightness:
+                        currentBrightness(Theme.of(context).colorScheme) ==
+                                Brightness.light
+                            ? Brightness.light
+                            : Brightness.dark,
+                  ),
+                  child: Avatar(),
+                ),
+                SizedBox(
+                  width: 16,
+                ),
+                Expanded(
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              '${account['profiles']['name']}',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              softWrap: false,
+                              overflow: TextOverflow.fade,
+                            ),
+                          ),
+                        ],
                       ),
-                      child: Avatar(),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${account['profiles']['name']}',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              '@$cardId',
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground
+                                      .withOpacity(0.7)),
+                              softWrap: false,
+                              overflow: TextOverflow.fade,
+                            ),
                           ),
-                        ),
-                        if (data?['is_user'])
-                          Text(
-                            '@$cardId',
-                            style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onBackground
-                                    .withOpacity(0.7)),
-                          ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 if (editable)
-                  ElevatedButton(
+                  Container(
+                    margin: EdgeInsets.only(left: 8),
+                    child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
@@ -99,110 +112,154 @@ class CardInfo extends StatelessWidget {
                         onPrimary: Theme.of(context).colorScheme.onBackground,
                         padding: EdgeInsets.all(8),
                       ),
-                      child: const Icon(Icons.edit_rounded)),
+                      child: const Icon(Icons.edit_rounded),
+                    ),
+                  ),
               ],
             ),
             SizedBox(
-              height: 12,
+              height: 20,
             ),
-            if (account['profiles']['bio']['value'] != '')
-              Container(
-                padding: EdgeInsets.all(16),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onBackground
-                      .withOpacity(0.08),
-                ),
-                child: Flexible(
-                  child: Text(
-                    '${account['profiles']['bio']['value']}',
-                  ),
-                ),
-              ),
-            // icons
             Container(
-              padding: EdgeInsets.fromLTRB(8, 32, 8, 0),
+              padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
               child: Column(
                 children: [
-                  account['profiles']['company']['value'] != ''
-                      ? Row(
-                          children: [
-                            Icon(
-                              iconTypeToIconData[linkTypeToIconType['company']],
-                              size: 16,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onBackground
-                                  .withOpacity(0.7),
-                            ),
-                            SizedBox(width: 8),
-                            Text('${account['profiles']['company']['value']}'),
-                          ],
-                        )
-                      : Container(),
                   SizedBox(
-                    height: 20,
+                    height: 8,
                   ),
-                  account['profiles']['position']['value'] != ''
-                      ? Row(
-                          children: [
-                            Icon(
-                              iconTypeToIconData[linkTypeToIconType['company']],
-                              size: 16,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onBackground
-                                  .withOpacity(0.7),
-                            ),
-                            SizedBox(width: 8),
-                            Text('${account['profiles']['position']['value']}'),
-                          ],
-                        )
-                      : Container(),
-                  account['profiles']['address']['value'] != ''
-                      ? Row(
-                          children: [
-                            Icon(
-                              iconTypeToIconData[linkTypeToIconType['company']],
-                              size: 16,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onBackground
-                                  .withOpacity(0.7),
-                            ),
-                            SizedBox(width: 8),
-                            Text('${account['profiles']['address']['value']}'),
-                          ],
-                        )
-                      : Container(),
+                  if (account['profiles']['company']['value'] != '')
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            iconTypeToIconData[linkTypeToIconType['company']],
+                            size: 18,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onBackground
+                                .withOpacity(0.7),
+                          ),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                                '${account['profiles']['company']['value']}'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  if (account['profiles']['position']['value'] != '')
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            iconTypeToIconData[linkTypeToIconType['position']],
+                            // iconTypeToIconData[linkTypeToIconType['company']],
+                            size: 18,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onBackground
+                                .withOpacity(0.7),
+                          ),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                                '${account['profiles']['position']['value']}'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  if (account['profiles']['address']['value'] != '')
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            iconTypeToIconData[linkTypeToIconType['address']],
+                            size: 18,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onBackground
+                                .withOpacity(0.7),
+                          ),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                                '${account['profiles']['address']['value']}'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  if (account['profiles']['bio']['value'] != '')
+                    Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            iconTypeToIconData[linkTypeToIconType['bio']],
+                            size: 18,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onBackground
+                                .withOpacity(0.7),
+                          ),
+                          SizedBox(width: 8),
+                          Expanded(
+                              child: Text(
+                                  '${account['profiles']['bio']['value']}')),
+                        ],
+                      ),
+                    ),
+                  // if (account['profiles']['bio']['value'] != '')
+                  //   Container(
+                  //     // padding: EdgeInsets.all(16),
+                  //     width: double.infinity,
+                  //     decoration: BoxDecoration(
+                  //         // borderRadius: BorderRadius.circular(8),
+                  //         // color: Theme.of(context)
+                  //         //     .colorScheme
+                  //         //     .primary
+                  //         //     .withOpacity(0.08),
+                  //         ),
+                  //     child: Flexible(
+                  //       child: Text(
+                  //         '${account['profiles']['bio']['value']}',
+                  //       ),
+                  //     ),
+                  //   ),
+                  // icons
+                  // SizedBox(
+                  //   height: 32,
+                  // ),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       for (var i = 0; i < account['links'].length; i++)
-                        Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  iconTypeToIconData[linkTypeToIconType[
-                                      account['links'][i]['key']]],
-                                  size: 16,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground
-                                      .withOpacity(0.7),
-                                ),
-                                SizedBox(width: 8),
-                                Text('${account['links'][i]['value']}'),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            )
-                          ],
+                        Container(
+                          margin: EdgeInsets.only(bottom: 20),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                iconTypeToIconData[linkTypeToIconType[
+                                    account['links'][i]['key']]],
+                                size: 18,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onBackground
+                                    .withOpacity(0.7),
+                              ),
+                              SizedBox(width: 8),
+                              Expanded(
+                                  child:
+                                      Text('${account['links'][i]['value']}')),
+                            ],
+                          ),
                         ),
                     ],
                   ),

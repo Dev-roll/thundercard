@@ -21,9 +21,8 @@ class AuthGate extends StatelessWidget {
       SystemUiOverlayStyle(
         systemNavigationBarColor: Theme.of(context).colorScheme.background,
         statusBarIconBrightness:
-            currentBrightness(Theme.of(context).colorScheme),
-        statusBarBrightness:
             currentBrightnessReverse(Theme.of(context).colorScheme),
+        statusBarBrightness: currentBrightness(Theme.of(context).colorScheme),
         statusBarColor: Colors.transparent,
       ),
     );

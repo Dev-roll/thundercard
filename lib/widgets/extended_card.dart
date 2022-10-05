@@ -173,7 +173,7 @@ class ExtendedCard extends StatelessWidget {
                                                 txt: profiles['position']
                                                         ['value'] ??
                                                     '',
-                                                type: IconType.usertie,
+                                                type: IconType.position,
                                                 size: 1.3,
                                               )
                                             : Container(),
