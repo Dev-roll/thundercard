@@ -301,7 +301,7 @@ class _ChatPageState extends State<ChatPage> {
                       width: 8,
                     ),
                     Text(
-                      'Photo',
+                      '画像を選択',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
@@ -331,7 +331,7 @@ class _ChatPageState extends State<ChatPage> {
                       width: 8,
                     ),
                     Text(
-                      'File',
+                      'ファイルを選択',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),

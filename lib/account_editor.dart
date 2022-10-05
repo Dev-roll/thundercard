@@ -132,12 +132,10 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
         final linksDropdownMenuItem = links
             .map((entry) => DropdownMenuItem(
                   value: entry,
-                  child: Row(children: [
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    Icon(linkTypeToIconData[entry])
-                  ]),
+                  child: Icon(
+                    linkTypeToIconData[entry],
+                    color: Theme.of(context).colorScheme.tertiary,
+                  ),
                 ))
             .toList();
 
@@ -152,7 +150,7 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color:
-                      Theme.of(context).colorScheme.secondary.withOpacity(0.2),
+                      Theme.of(context).colorScheme.primary.withOpacity(0.08),
                 ),
                 margin: const EdgeInsets.fromLTRB(0, 2, 0, 2),
                 child: Row(
@@ -173,6 +171,10 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                     DropdownButton(
                       items: linksDropdownMenuItem,
                       value: selectedKey,
+                      underline: const SizedBox(
+                        width: 0,
+                        height: 0,
+                      ),
                       onChanged: (value) {
                         widget.controllerController
                             .setKey(textFieldState.id, value);
@@ -184,15 +186,25 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                     const SizedBox(width: 12),
                     Expanded(
                       child: TextField(
+                        style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onTertiaryContainer),
                         controller: textFieldState.controller,
                         decoration:
-                            const InputDecoration.collapsed(hintText: ""),
+                            const InputDecoration.collapsed(hintText: ''),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                       child: IconButton(
-                        icon: const Icon(Icons.delete_rounded),
+                        icon: Icon(
+                          Icons.delete_rounded,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onBackground
+                              .withOpacity(0.5),
+                        ),
                         onPressed: () {
                           _openAlertDialog1(context, textFieldState);
                         },
@@ -388,25 +400,16 @@ class _AccountEditorState extends State<AccountEditor> {
                         return value!.isEmpty ? '必須' : null;
                       },
                       decoration: const InputDecoration(
-                        icon: Icon(Icons.person_outline_rounded),
+                        icon: Icon(Icons.account_circle_rounded),
                         hintText: '表示名',
-                      ),
-                    ),
-                    Text('自己紹介'),
-                    TextField(
-                      controller: _bioController,
-                      maxLength: 300,
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.face),
-                        hintText: '自己紹介',
                       ),
                     ),
                     const Text('会社'),
                     TextField(
                       controller: _companyController,
                       maxLength: 20,
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.business_rounded),
+                      decoration: InputDecoration(
+                        icon: Icon(iconTypeToIconData[IconType.company]),
                         hintText: '会社・大学等',
                       ),
                     ),
@@ -414,19 +417,30 @@ class _AccountEditorState extends State<AccountEditor> {
                     TextField(
                       controller: _positionController,
                       maxLength: 20,
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.alternate_email_rounded),
-                        hintText: '部門',
+                      decoration: InputDecoration(
+                        icon: Icon(iconTypeToIconData[IconType.position]),
+                        hintText: '○○部',
                       ),
                     ),
                     const Text('住所'),
                     TextField(
                       controller: _addressController,
                       maxLength: 40,
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.location_on_rounded),
+                      decoration: InputDecoration(
+                        icon: Icon(iconTypeToIconData[IconType.address]),
                         hintText: '住所',
                       ),
+                    ),
+                    Text('自己紹介'),
+                    TextField(
+                      controller: _bioController,
+                      maxLength: 300,
+                      decoration: InputDecoration(
+                        icon: Icon(iconTypeToIconData[IconType.bio]),
+                        hintText: '自己紹介',
+                      ),
+                      maxLines: 30,
+                      minLines: 1,
                     ),
                     SizedBox(
                       height: 24,

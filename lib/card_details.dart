@@ -144,11 +144,10 @@ class _CardDetailsState extends State<CardDetails> {
               padding: const EdgeInsets.only(bottom: 100),
               child: Column(
                 children: [
-                  widget.card['is_user']
-                      ? Container()
-                      : widget.card?['thumbnail'] != null
-                          ? Image.network(widget.card?['thumbnail'])
-                          : const CustomProgressIndicator(),
+                  if (!widget.card['is_user'])
+                    widget.card?['thumbnail'] != null
+                        ? Image.network(widget.card?['thumbnail'])
+                        : const CustomProgressIndicator(),
                   widget.card['is_user']
                       ? Padding(
                           padding: const EdgeInsets.all(16.0),

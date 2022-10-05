@@ -26,8 +26,12 @@ class CardElement extends StatelessWidget {
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     var vw = screenSize.width * 0.01;
+    var leftIcon = dataTypes.map((element) {
+      return linkTypeToIconType[element];
+    }).toList();
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment:
+          line == 1 ? CrossAxisAlignment.center : CrossAxisAlignment.start,
       children: [
         type != IconType.nl
             ? Row(
@@ -35,7 +39,7 @@ class CardElement extends StatelessWidget {
                   Icon(
                     iconTypeToIconData[type],
                     size: 4 * vw,
-                    color: type != IconType.company
+                    color: !leftIcon.contains(type) || type == IconType.address
                         ? Theme.of(context).colorScheme.tertiary
                         : Theme.of(context).colorScheme.secondary,
                   ),
@@ -62,15 +66,16 @@ class CardElement extends StatelessWidget {
                             .colorScheme
                             .onSecondaryContainer
                             .withOpacity(0.8 * opacity)
-                        : type !=
-                                IconType
-                                    .company //アイコンcompany以外（リンク）: onTertiaryContainer
+                        : !leftIcon.contains(type) ||
+                                type ==
+                                    IconType
+                                        .address //アイコンcompany,position以外（リンク）: onTertiaryContainer
                             ? Theme.of(context)
                                 .colorScheme
                                 .onTertiaryContainer
-                                // .tertiary
                                 .withOpacity(opacity)
-                            : Theme.of(context) //company: onSecondaryContainer
+                            : Theme.of(
+                                    context) //company,positon: onSecondaryContainer
                                 .colorScheme
                                 .onSecondaryContainer
                                 .withOpacity(opacity),

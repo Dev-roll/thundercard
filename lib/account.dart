@@ -68,6 +68,33 @@ class _AccountState extends State<Account> {
                     return const Center(child: CustomProgressIndicator());
                   },
                 ),
+                Container(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.settings_rounded,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onBackground
+                                .withOpacity(0.7),
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                            'アプリの設定',
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
                 ElevatedButton(
                     onPressed: () async {
                       await showDialog(

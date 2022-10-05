@@ -10,8 +10,8 @@ const List<String> dataTypes = [
 ];
 
 const Map<String, String> linkTypeToBaseUrl = {
+  'address': 'https://www.google.com/maps/search/?api=1&query=', //これを先頭に
   'url': '',
-  'email': 'mailto:',
   // 'company': 'https://business_rounded.com/',
   // 'at': 'https://alternate_email_rounded.com/',
   // 'location': 'https://location_on_rounded.com/',
@@ -22,6 +22,10 @@ const Map<String, String> linkTypeToBaseUrl = {
   'tiktok': 'https://tiktok.com/@',
   'github': 'https://github.com/',
   'linkedin': 'https://www.linkedin.com/in/',
+  'email': 'mailto:',
+  // 'address': 'https://google.com/maps/search/',
+  // 'address': 'https://google.com/maps/search/?q=',
+  // 'address': 'comgooglemaps://?q=',
   // 'discord': 'https://discord.com/',
   // 'slack': 'https://slack.com/',
   // 'figma': 'https://figma.com/',
@@ -52,9 +56,12 @@ const Map<String, String> linkTypeToBaseUrl = {
 };
 
 const Map<String, IconType> linkTypeToIconType = {
+  'company': IconType.company,
+  'position': IconType.position,
+  'address': IconType.address,
+  'bio': IconType.bio,
   'url': IconType.url,
   'email': IconType.email,
-  'company': IconType.company,
   'at': IconType.at,
   'location': IconType.location,
   'github': IconType.github,
@@ -96,12 +103,14 @@ const Map<String, IconType> linkTypeToIconType = {
 //名刺に表示するアイコンの種類を幅広く登録
 enum IconType {
   nl,
+  company,
+  position,
+  address,
+  bio,
   url,
   email,
-  company,
   at,
   location,
-  usertie,
   github,
   twitter,
   youtube,
@@ -139,12 +148,17 @@ enum IconType {
 }
 
 const Map<IconType, IconData> iconTypeToIconData = {
+  // IconType.company: Icons.business_rounded,
+  IconType.company: Icons.apartment_rounded,
+  // IconType.position: Icons.alternate_email_rounded,
+  IconType.position: Icons.business_rounded,
+  // IconType.position: FontAwesomeIcons.userTie,
+  IconType.address: Icons.location_on_rounded,
+  IconType.bio: Icons.comment_rounded,
   IconType.url: Icons.link_rounded,
   IconType.email: Icons.mail_rounded,
-  IconType.company: Icons.business_rounded,
   IconType.at: Icons.alternate_email_rounded,
   IconType.location: Icons.location_on_rounded,
-  IconType.usertie: FontAwesomeIcons.userTie,
   IconType.github: FontAwesomeIcons.github,
   IconType.twitter: FontAwesomeIcons.twitter,
   IconType.youtube: FontAwesomeIcons.youtube,
@@ -181,7 +195,7 @@ const Map<IconType, IconData> iconTypeToIconData = {
   IconType.spotify: FontAwesomeIcons.spotify,
 };
 
-List<String> linkTypes = linkTypeToBaseUrl.keys.toList();
+List<String> linkTypes = linkTypeToBaseUrl.keys.toList().sublist(1);
 
 Map<String, IconData> linkTypeToIconData = Map.fromIterables(
     linkTypes,
