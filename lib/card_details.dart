@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
+import 'package:thundercard/api/colors.dart';
 
 import 'api/firebase_auth.dart';
 import 'widgets/card_info.dart';
@@ -77,8 +78,24 @@ class _CardDetailsState extends State<CardDetails> {
           context: context,
           // (3) AlertDialogを作成する
           builder: (context) => AlertDialog(
-                title: Text("名刺の削除"),
-                content: Text("この名刺を削除しますか？"),
+                title: Column(
+                  children: [
+                    Icon(
+                      Icons.delete_rounded,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Text("名刺の削除"),
+                  ],
+                ),
+                content: Text(
+                  "この名刺を削除しますか？",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ),
                 // (4) ボタンを設定
                 actions: [
                   TextButton(
@@ -121,10 +138,24 @@ class _CardDetailsState extends State<CardDetails> {
       appBar: AppBar(
         actions: <Widget>[
           PopupMenuButton<String>(
+            color: alphaBlend(
+              Theme.of(context).colorScheme.primary.withOpacity(0.08),
+              Theme.of(context).colorScheme.surface,
+            ),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+            splashRadius: 20,
+            elevation: 8,
+            position: PopupMenuPosition.under,
             itemBuilder: (BuildContext context) {
               return _usStates.map((String s) {
                 return PopupMenuItem(
-                  child: Text(s),
+                  child: Text(
+                    s,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
                   value: s,
                 );
               }).toList();
@@ -191,7 +222,18 @@ class _CardDetailsState extends State<CardDetails> {
                                     padding: EdgeInsets.all(4),
                                   ),
                                 )
-                              : ElevatedButton(
+                              : ElevatedButton.icon(
+                                  icon: Icon(Icons.question_answer_rounded),
+                                  label: const Text('メッセージ'),
+                                  style: ElevatedButton.styleFrom(
+                                    elevation: 0,
+                                    primary: Theme.of(context)
+                                        .colorScheme
+                                        .secondaryContainer,
+                                    onPrimary: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondaryContainer,
+                                  ),
                                   onPressed: () {
                                     Navigator.push(
                                       context,
@@ -204,7 +246,6 @@ class _CardDetailsState extends State<CardDetails> {
                                     );
                                   },
                                   onLongPress: null,
-                                  child: const Text('メッセージ'),
                                 );
                         }
                         return const Center(child: CustomProgressIndicator());

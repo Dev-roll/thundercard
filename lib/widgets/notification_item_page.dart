@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../api/colors.dart';
 import '../home_page.dart';
 
 class NotificationItemPage extends StatefulWidget {
@@ -80,8 +81,24 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
           context: context,
           // (3) AlertDialogを作成する
           builder: (context) => AlertDialog(
-                title: Text("通知の削除"),
-                content: Text("この通知を削除しますか？"),
+                title: Column(
+                  children: [
+                    Icon(
+                      Icons.delete_rounded,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Text("通知の削除"),
+                  ],
+                ),
+                content: Text(
+                  "この通知を削除しますか？",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ),
                 // (4) ボタンを設定
                 actions: [
                   TextButton(
@@ -110,10 +127,24 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
         // ),
         actions: [
           PopupMenuButton<String>(
+            color: alphaBlend(
+              Theme.of(context).colorScheme.primary.withOpacity(0.08),
+              Theme.of(context).colorScheme.surface,
+            ),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+            splashRadius: 20,
+            elevation: 8,
+            position: PopupMenuPosition.under,
             itemBuilder: (BuildContext context) {
               return _usStates.map((String s) {
                 return PopupMenuItem(
-                  child: Text(s),
+                  child: Text(
+                    s,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
                   value: s,
                 );
               }).toList();
@@ -168,13 +199,15 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
                     )
                   ],
                 ),
-                Container(
-                  width: double.infinity,
-                  height: 1,
+                Divider(
+                  height: 24,
+                  thickness: 1,
+                  indent: 0,
+                  endIndent: 0,
                   color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(8, 16, 8, 20),
+                  padding: EdgeInsets.fromLTRB(8, 4, 8, 20),
                   child: Text(
                     widget.content,
                     style: TextStyle(

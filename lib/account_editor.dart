@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'api/colors.dart';
 import 'api/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'auth_gate.dart';
@@ -99,29 +100,48 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
     Future _openAlertDialog1(BuildContext context, textFieldState) async {
       // (2) showDialogでダイアログを表示する
       var ret = await showDialog(
-          context: context,
-          // (3) AlertDialogを作成する
-          builder: (context) => AlertDialog(
-                title: Text("リンクの削除"),
-                content: Text("リンクを削除しますか？"),
-                // (4) ボタンを設定
-                actions: [
-                  TextButton(
-                      onPressed: () => {
-                            //  (5) ダイアログを閉じる
-                            Navigator.pop(context, false)
-                          },
-                      onLongPress: null,
-                      child: Text("キャンセル")),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context, true);
-                        widget.controllerController.remove(textFieldState.id);
-                      },
-                      onLongPress: null,
-                      child: Text("OK")),
-                ],
-              ));
+        context: context,
+        // (3) AlertDialogを作成する
+        builder: (context) => AlertDialog(
+          title: Column(
+            children: [
+              Icon(
+                Icons.delete_rounded,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Text("リンクの削除"),
+            ],
+          ),
+          content: Text(
+            "このリンクを削除しますか？",
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          ),
+          // (4) ボタンを設定
+          actions: [
+            TextButton(
+              onPressed: () => {
+                //  (5) ダイアログを閉じる
+                Navigator.pop(context, false)
+              },
+              onLongPress: null,
+              child: Text("キャンセル"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, true);
+                widget.controllerController.remove(textFieldState.id);
+              },
+              onLongPress: null,
+              child: Text("OK"),
+            ),
+          ],
+        ),
+      );
     }
 
     return ValueListenableBuilder<List<TextFieldState>>(
@@ -134,7 +154,7 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                   value: entry,
                   child: Icon(
                     linkTypeToIconData[entry],
-                    color: Theme.of(context).colorScheme.tertiary,
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
                   ),
                 ))
             .toList();
@@ -175,6 +195,15 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                         width: 0,
                         height: 0,
                       ),
+                      borderRadius: BorderRadius.circular(4),
+                      dropdownColor: alphaBlend(
+                        Theme.of(context).colorScheme.primary.withOpacity(0.08),
+                        Theme.of(context).colorScheme.surface,
+                      ),
+                      focusColor: alphaBlend(
+                        Theme.of(context).colorScheme.primary.withOpacity(0.12),
+                        Theme.of(context).colorScheme.surface,
+                      ),
                       onChanged: (value) {
                         widget.controllerController
                             .setKey(textFieldState.id, value);
@@ -189,7 +218,7 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                         style: TextStyle(
                             color: Theme.of(context)
                                 .colorScheme
-                                .onTertiaryContainer),
+                                .onPrimaryContainer),
                         controller: textFieldState.controller,
                         decoration:
                             const InputDecoration.collapsed(hintText: ''),
@@ -399,9 +428,15 @@ class _AccountEditorState extends State<AccountEditor> {
                       validator: (value) {
                         return value!.isEmpty ? '必須' : null;
                       },
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         icon: Icon(Icons.account_circle_rounded),
                         hintText: '表示名',
+                        hintStyle: TextStyle(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onBackground
+                              .withOpacity(0.5),
+                        ),
                       ),
                     ),
                     const Text('会社'),
@@ -411,6 +446,12 @@ class _AccountEditorState extends State<AccountEditor> {
                       decoration: InputDecoration(
                         icon: Icon(iconTypeToIconData[IconType.company]),
                         hintText: '会社・大学等',
+                        hintStyle: TextStyle(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onBackground
+                              .withOpacity(0.5),
+                        ),
                       ),
                     ),
                     const Text('部門'),
@@ -420,6 +461,12 @@ class _AccountEditorState extends State<AccountEditor> {
                       decoration: InputDecoration(
                         icon: Icon(iconTypeToIconData[IconType.position]),
                         hintText: '○○部',
+                        hintStyle: TextStyle(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onBackground
+                              .withOpacity(0.5),
+                        ),
                       ),
                     ),
                     const Text('住所'),
@@ -429,6 +476,12 @@ class _AccountEditorState extends State<AccountEditor> {
                       decoration: InputDecoration(
                         icon: Icon(iconTypeToIconData[IconType.address]),
                         hintText: '住所',
+                        hintStyle: TextStyle(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onBackground
+                              .withOpacity(0.5),
+                        ),
                       ),
                     ),
                     Text('自己紹介'),
@@ -438,6 +491,12 @@ class _AccountEditorState extends State<AccountEditor> {
                       decoration: InputDecoration(
                         icon: Icon(iconTypeToIconData[IconType.bio]),
                         hintText: '自己紹介',
+                        hintStyle: TextStyle(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onBackground
+                              .withOpacity(0.5),
+                        ),
                       ),
                       maxLines: 30,
                       minLines: 1,
@@ -455,12 +514,33 @@ class _AccountEditorState extends State<AccountEditor> {
                     SizedBox(
                       height: 16,
                     ),
-                    TextButton(
-                      onPressed: () {
-                        controller.add('url', '');
-                      },
-                      onLongPress: null,
-                      child: Text("追加"),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            controller.add('url', '');
+                          },
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            primary: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
+                            onPrimary: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer,
+                          ),
+                          icon: Icon(
+                            Icons.add_link_rounded,
+                          ),
+                          label: Text(
+                            "SNS・連絡先を追加",
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
                     ),
                   ],
                 ),

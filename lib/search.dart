@@ -22,7 +22,8 @@ class _SearchState extends State<Search> {
   void search(String keyword, List<Map<String, dynamic>> cardsToSearch) {
     setState(() {
       if (keyword.trim().isEmpty) {
-        searchedCards = [];
+        // searchedCards = [];
+        searchedCards = cardsToSearch;
       } else {
         searchedCards = cardsToSearch
             .where((element) =>
@@ -59,6 +60,7 @@ class _SearchState extends State<Search> {
         'card': card,
       });
     });
+    delayedSearch('', cardsToSearch);
   }
 
   @override
@@ -70,53 +72,149 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     final searchedCardsLength = searchedCards.length;
     return Scaffold(
-      appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  autofocus: true,
-                  decoration: InputDecoration(
-                    hintText: '名刺を検索',
-                    prefixIcon: const Icon(Icons.search),
-                  ),
-                  onChanged: ((value) {
-                    delayedSearch(value, cardsToSearch);
-                  }),
-                ),
-                const SizedBox(height: 16),
-                const Text('検索結果'),
-                (searchedCardsLength != 0)
-                    ? ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: searchedCards.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
+      // appBar: AppBar(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 40),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 52,
+                    margin: EdgeInsets.fromLTRB(24, 16, 24, 8),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surfaceVariant,
+                      // .withOpacity(0.16),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        // Navigator.of(context).push(
+                        //   MaterialPageRoute(
+                        //     builder: (context) =>
+                        //         Search(exchangedCardIds: exchangedCards),
+                        //   ),
+                        // );
+                      },
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            behavior: HitTestBehavior.opaque,
                             onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => CardDetails(
-                                  cardId: searchedCards[index]['cardId'],
-                                  card: searchedCards[index]['card'],
-                                ),
-                              ));
+                              Navigator.of(context).pop();
                             },
-                            child: Column(
-                              children: [
-                                SizedBox(height: 24),
-                                MyCard(
-                                    cardId: searchedCards[index]['cardId'],
-                                    cardType: CardType.normal),
-                              ],
+                            child: Container(
+                              padding: EdgeInsets.fromLTRB(20, 12, 0, 12),
+                              child: Icon(
+                                Icons.arrow_back_rounded,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant,
+                              ),
                             ),
-                          );
-                        })
-                    : Text('検索結果はありません'),
-              ],
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.only(top: 16),
+                              child: TextField(
+                                autofocus: true,
+                                decoration: InputDecoration(
+                                  hintText: '名刺を検索',
+                                  filled: true,
+                                  fillColor: Colors.transparent,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                      width: 0,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                      width: 0,
+                                    ),
+                                  ),
+                                ),
+                                onChanged: ((value) {
+                                  delayedSearch(value, cardsToSearch);
+                                }),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 16,
+                      ),
+                      Text('検索結果'),
+                    ],
+                  ),
+                  (searchedCardsLength != 0)
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: searchedCards.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                SizedBox(
+                                  height: 24,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => CardDetails(
+                                        cardId: searchedCards[index]['cardId'],
+                                        card: searchedCards[index]['card'],
+                                      ),
+                                    ));
+                                  },
+                                  child: MyCard(
+                                      cardId: searchedCards[index]['cardId'],
+                                      cardType: CardType.normal),
+                                ),
+                              ],
+                            );
+                          })
+                      : Container(
+                          padding: EdgeInsets.all(40),
+                          alignment: Alignment.center,
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.priority_high_rounded,
+                                size: 120,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onBackground
+                                    .withOpacity(0.3),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                '検索結果はありません',
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant),
+                              ),
+                            ],
+                          ),
+                        ),
+                ],
+              ),
             ),
           ),
         ),
