@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:thundercard/api/colors.dart';
 import 'package:uuid/uuid.dart';
 import 'api/firebase_auth.dart';
 import 'package:intl/intl.dart';
@@ -99,8 +100,24 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
           context: context,
           // (3) AlertDialogを作成する
           builder: (context) => AlertDialog(
-                title: Text("リンクの削除"),
-                content: Text("このリンクを削除しますか？"),
+                title: Column(
+                  children: [
+                    Icon(
+                      Icons.delete_rounded,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Text("リンクの削除"),
+                  ],
+                ),
+                content: Text(
+                  "このリンクを削除しますか？",
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ),
                 // (4) ボタンを設定
                 actions: [
                   TextButton(
@@ -170,6 +187,19 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                     DropdownButton(
                       items: linksDropdownMenuItem,
                       value: selectedKey,
+                      underline: const SizedBox(
+                        width: 0,
+                        height: 0,
+                      ),
+                      borderRadius: BorderRadius.circular(4),
+                      dropdownColor: alphaBlend(
+                        Theme.of(context).colorScheme.primary.withOpacity(0.08),
+                        Theme.of(context).colorScheme.surface,
+                      ),
+                      focusColor: alphaBlend(
+                        Theme.of(context).colorScheme.primary.withOpacity(0.12),
+                        Theme.of(context).colorScheme.surface,
+                      ),
                       onChanged: (value) {
                         widget.controllerController
                             .setKey(textFieldState.id, value);

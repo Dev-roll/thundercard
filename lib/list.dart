@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -68,112 +70,184 @@ class _ListState extends State<List> {
             return Scaffold(
               // appBar: AppBar(),
               body: SafeArea(
-                child: SingleChildScrollView(
-                  child: Center(
-                    child: Container(
-                      padding: const EdgeInsets.only(bottom: 100),
-                      child: Column(children: <Widget>[
-                        StreamBuilder<DocumentSnapshot<Object?>>(
-                          stream: cards.doc(user['my_cards'][0]).snapshots(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<DocumentSnapshot> snapshot) {
-                            if (snapshot.hasError) {
-                              return const Text('問題が発生しました');
-                            }
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const CustomProgressIndicator();
-                            }
-                            dynamic data = snapshot.data;
-                            final exchangedCards = data?['exchanged_cards'];
-                            final exchangedCardsLength =
-                                exchangedCards?.length ?? 0;
+                child: Center(
+                  child: StreamBuilder<DocumentSnapshot<Object?>>(
+                    stream: cards.doc(user['my_cards'][0]).snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<DocumentSnapshot> snapshot) {
+                      if (snapshot.hasError) {
+                        return const Text('問題が発生しました');
+                      }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CustomProgressIndicator();
+                      }
+                      dynamic data = snapshot.data;
+                      final exchangedCards = data?['exchanged_cards'];
+                      final exchangedCardsLength = exchangedCards?.length ?? 0;
 
-                            return Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                children: [
-                                  GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) => Search(
-                                                    exchangedCardIds:
-                                                        exchangedCards)));
-                                      },
-                                      child: TextField(
-                                        enabled: false,
-                                        decoration: InputDecoration(
-                                          hintText: '名刺を検索',
-                                          prefixIcon: const Icon(Icons.search),
+                      return Container(
+                        // padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 52,
+                              margin: EdgeInsets.fromLTRB(24, 16, 24, 8),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .surfaceVariant
+                                    .withOpacity(0.5),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          Search(
+                                              exchangedCardIds: exchangedCards),
+                                      transitionDuration: Duration(seconds: 0),
+                                    ),
+                                  );
+                                },
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      padding:
+                                          EdgeInsets.fromLTRB(20, 12, 0, 12),
+                                      child: Icon(
+                                        Icons.search_rounded,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurfaceVariant,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        padding: EdgeInsets.only(top: 16),
+                                        child: TextField(
+                                          enabled: false,
+                                          decoration: InputDecoration(
+                                            hintText: '名刺を検索',
+                                            filled: true,
+                                            fillColor: Colors.transparent,
+                                            disabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.transparent,
+                                                width: 0,
+                                              ),
+                                            ),
+                                          ),
+                                          onChanged: ((value) {}),
                                         ),
-                                      )),
-                                  (exchangedCardsLength != 0)
-                                      ? ListView.builder(
-                                          shrinkWrap: true,
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          itemCount: exchangedCards.length,
-                                          itemBuilder: (context, index) {
-                                            return StreamBuilder<
-                                                DocumentSnapshot<Object?>>(
-                                              stream: cards
-                                                  .doc(exchangedCards[index])
-                                                  .snapshots(),
-                                              builder: (BuildContext context,
-                                                  AsyncSnapshot<
-                                                          DocumentSnapshot>
-                                                      snapshot) {
-                                                if (snapshot.hasError) {
-                                                  return const Text(
-                                                      '問題が発生しました');
-                                                }
-                                                if (snapshot.connectionState ==
-                                                    ConnectionState.waiting) {
-                                                  return const CustomProgressIndicator();
-                                                }
-                                                dynamic card = snapshot.data;
-                                                if (!snapshot.hasData) {
-                                                  return Text('名刺の情報の取得に失敗しました');
-                                                }
-                                                return GestureDetector(
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            (exchangedCardsLength != 0)
+                                ? Expanded(
+                                    child: ListView.builder(
+                                      // shrinkWrap: true,
+                                      // physics:
+                                      //     const NeverScrollableScrollPhysics(),
+                                      itemCount: exchangedCards.length + 2,
+                                      itemBuilder: (context, index) {
+                                        if (index == 0) {
+                                          return SizedBox(
+                                            height: 16,
+                                          );
+                                        }
+                                        if (index ==
+                                            exchangedCards.length + 1) {
+                                          return SizedBox(
+                                            height: 80,
+                                          );
+                                        }
+                                        return StreamBuilder<
+                                            DocumentSnapshot<Object?>>(
+                                          stream: cards
+                                              .doc(exchangedCards[index - 1])
+                                              .snapshots(),
+                                          builder: (BuildContext context,
+                                              AsyncSnapshot<DocumentSnapshot>
+                                                  snapshot) {
+                                            if (snapshot.hasError) {
+                                              return const Text('問題が発生しました');
+                                            }
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.waiting) {
+                                              return const CustomProgressIndicator();
+                                            }
+                                            dynamic card = snapshot.data;
+                                            if (!snapshot.hasData) {
+                                              return Text('名刺の情報の取得に失敗しました');
+                                            }
+                                            return Column(
+                                              children: [
+                                                GestureDetector(
                                                   onTap: () {
                                                     Navigator.of(context)
                                                         .push(MaterialPageRoute(
                                                       builder: (context) =>
                                                           CardDetails(
                                                         cardId: exchangedCards[
-                                                            index],
+                                                            index - 1],
                                                         card: card,
                                                       ),
                                                     ));
                                                   },
-                                                  child: Column(
-                                                    children: [
-                                                      SizedBox(
-                                                        height: 24,
-                                                      ),
-                                                      MyCard(
-                                                        cardId: exchangedCards[
-                                                            index],
-                                                        cardType:
-                                                            CardType.normal,
-                                                      ),
-                                                    ],
+                                                  child: MyCard(
+                                                    cardId: exchangedCards[
+                                                        index - 1],
+                                                    cardType: CardType.normal,
                                                   ),
-                                                );
-                                              },
+                                                ),
+                                                SizedBox(
+                                                  height: 24,
+                                                ),
+                                              ],
                                             );
                                           },
-                                        )
-                                      : const Text('まだ名刺がありません'),
-                                ],
-                              ),
-                            );
-                          },
-                        )
-                      ]),
-                    ),
+                                        );
+                                      },
+                                    ),
+                                  )
+                                : Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.priority_high_rounded,
+                                          size: 120,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground
+                                              .withOpacity(0.3),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          'まだ名刺がありません',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurfaceVariant),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),

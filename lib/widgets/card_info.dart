@@ -109,7 +109,8 @@ class CardInfo extends StatelessWidget {
                         elevation: 0,
                         primary:
                             Theme.of(context).colorScheme.secondaryContainer,
-                        onPrimary: Theme.of(context).colorScheme.onBackground,
+                        onPrimary:
+                            Theme.of(context).colorScheme.onSecondaryContainer,
                         padding: EdgeInsets.all(8),
                       ),
                       child: const Icon(Icons.edit_rounded),

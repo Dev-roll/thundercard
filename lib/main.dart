@@ -26,7 +26,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseAppCheck.instance.activate(
-    webRecaptchaSiteKey: 'recaptcha-v3-site-key',  // If you're building a web app.
+    webRecaptchaSiteKey:
+        'recaptcha-v3-site-key', // If you're building a web app.
   );
   runApp(const MyApp());
 }
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeMode mode = ThemeMode.system;
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         return MaterialApp(
@@ -55,8 +57,7 @@ class MyApp extends StatelessWidget {
             colorSchemeSeed: lightDynamic?.primary ?? seedColor,
             brightness: Brightness.light,
             visualDensity: VisualDensity.standard,
-            textTheme: GoogleFonts.interTextTheme(
-                Theme.of(context).textTheme)
+            textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme),
           ),
           darkTheme: ThemeData(
             useMaterial3: true,
@@ -64,9 +65,10 @@ class MyApp extends StatelessWidget {
             colorSchemeSeed: darkDynamic?.primary ?? seedColor,
             brightness: Brightness.dark,
             visualDensity: VisualDensity.standard,
-            textTheme: GoogleFonts.interTextTheme(
-                Theme.of(context).primaryTextTheme)
+            textTheme:
+                GoogleFonts.interTextTheme(Theme.of(context).primaryTextTheme),
           ),
+          themeMode: mode,
           locale: Locale('ja', 'JP'),
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,

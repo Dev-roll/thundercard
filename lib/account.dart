@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:thundercard/api/current_brightness.dart';
 import 'package:thundercard/api/current_brightness_reverse.dart';
+import 'package:thundercard/widgets/avatar.dart';
 
 import 'api/colors.dart';
 import 'api/firebase_auth.dart';
@@ -60,13 +61,20 @@ class _AccountState extends State<Account> {
                           snapshot.data!.data() as Map<String, dynamic>;
 
                       return Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                         child: CardInfo(
                             cardId: user['my_cards'][0], editable: true),
                       );
                     }
                     return const Center(child: CustomProgressIndicator());
                   },
+                ),
+                Divider(
+                  height: 32,
+                  thickness: 1,
+                  indent: 16,
+                  endIndent: 16,
+                  color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
                 ),
                 Container(
                   padding: EdgeInsets.all(16.0),
@@ -95,42 +103,73 @@ class _AccountState extends State<Account> {
                     ],
                   ),
                 ),
-                ElevatedButton(
-                    onPressed: () async {
-                      await showDialog(
-                          context: context,
-                          // (3) AlertDialogを作成する
-                          builder: (context) => AlertDialog(
-                                title: Text("サインアウト"),
-                                content: Text("このアカウントからサインアウトしますか？"),
-                                // (4) ボタンを設定
-                                actions: [
-                                  TextButton(
-                                      onPressed: () => {
-                                            //  (5) ダイアログを閉じる
-                                            Navigator.pop(context, false)
-                                          },
-                                      onLongPress: null,
-                                      child: Text("キャンセル")),
-                                  TextButton(
-                                      onPressed: () async {
-                                        Navigator.pop(context, true);
-                                        await FirebaseAuth.instance.signOut();
-                                        Navigator.of(context)
-                                            .pushAndRemoveUntil(
-                                          MaterialPageRoute(
-                                            builder: (context) => AuthGate(),
-                                          ),
-                                          (_) => false,
-                                        );
-                                      },
-                                      onLongPress: null,
-                                      child: Text("サインアウト")),
+                ElevatedButton.icon(
+                  icon: Icon(
+                    Icons.logout_rounded,
+                  ),
+                  label: const Text('サインアウト'),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    // primary: Colors.transparent,
+                    primary: Theme.of(context)
+                        .colorScheme
+                        .onSecondary
+                        .withOpacity(1),
+                    onPrimary: Theme.of(context).colorScheme.secondary,
+                  ),
+                  onPressed: () async {
+                    await showDialog(
+                        context: context,
+                        // (3) AlertDialogを作成する
+                        builder: (context) => AlertDialog(
+                              title: Column(
+                                children: [
+                                  Icon(
+                                    Icons.logout_rounded,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  ),
+                                  SizedBox(
+                                    height: 16,
+                                  ),
+                                  Text("サインアウト"),
                                 ],
-                              ));
-                    },
-                    onLongPress: null,
-                    child: const Text('サインアウト')),
+                              ),
+                              content: Text(
+                                "このアカウントからサインアウトしますか？",
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant,
+                                ),
+                              ),
+                              // (4) ボタンを設定
+                              actions: [
+                                TextButton(
+                                    onPressed: () => {
+                                          //  (5) ダイアログを閉じる
+                                          Navigator.pop(context, false)
+                                        },
+                                    onLongPress: null,
+                                    child: Text("キャンセル")),
+                                TextButton(
+                                    onPressed: () async {
+                                      Navigator.pop(context, true);
+                                      await FirebaseAuth.instance.signOut();
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                          builder: (context) => AuthGate(),
+                                        ),
+                                        (_) => false,
+                                      );
+                                    },
+                                    onLongPress: null,
+                                    child: Text("サインアウト")),
+                              ],
+                            ));
+                  },
+                  onLongPress: null,
+                ),
                 // メンテナンス
                 SizedBox(height: 40),
                 OutlinedButton(
