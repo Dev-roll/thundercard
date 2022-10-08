@@ -305,8 +305,8 @@ class _ThundercardState extends State<Thundercard> {
         style: ElevatedButton.styleFrom(
           elevation: 0,
           fixedSize: Size(MediaQuery.of(context).size.width * 0.7, 56),
-          foregroundColor: Theme.of(context).colorScheme.secondaryContainer,
-          backgroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+          foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+          backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

@@ -515,10 +515,10 @@ class _AccountEditorState extends State<AccountEditor> {
                             elevation: 0,
                             foregroundColor: Theme.of(context)
                                 .colorScheme
-                                .secondaryContainer,
+                                .onPrimaryContainer,
                             backgroundColor: Theme.of(context)
                                 .colorScheme
-                                .onPrimaryContainer,
+                                .secondaryContainer,
                           ),
                           icon: Icon(
                             Icons.add_link_rounded,
