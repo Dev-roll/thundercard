@@ -46,7 +46,7 @@ class _CardDetailsState extends State<CardDetails> {
   Widget build(BuildContext context) {
     final String? uid = getUid();
     CollectionReference users = FirebaseFirestore.instance.collection('users');
-    var _usStates = widget.card['is_user'] ? ["削除"] : ["編集", "削除"];
+    var _usStates = ["削除"];
 
     void deleteThisCard() {
       FirebaseFirestore.instance
