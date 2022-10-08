@@ -78,18 +78,8 @@ class _CardDetailsState extends State<CardDetails> {
           context: context,
           // (3) AlertDialogを作成する
           builder: (context) => AlertDialog(
-                title: Column(
-                  children: [
-                    Icon(
-                      Icons.delete_rounded,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Text("名刺の削除"),
-                  ],
-                ),
+                icon: Icon(Icons.delete_rounded),
+                title: Text("名刺の削除"),
                 content: Text(
                   "この名刺を削除しますか？",
                   style: TextStyle(
@@ -227,10 +217,10 @@ class _CardDetailsState extends State<CardDetails> {
                                   label: const Text('メッセージ'),
                                   style: ElevatedButton.styleFrom(
                                     elevation: 0,
-                                    primary: Theme.of(context)
+                                    foregroundColor: Theme.of(context)
                                         .colorScheme
                                         .secondaryContainer,
-                                    onPrimary: Theme.of(context)
+                                    backgroundColor: Theme.of(context)
                                         .colorScheme
                                         .onSecondaryContainer,
                                   ),

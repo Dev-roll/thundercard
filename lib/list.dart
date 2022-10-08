@@ -276,7 +276,7 @@ class _ListState extends State<List> {
                         return ElevatedButton(
                           onPressed: toggleChildren,
                           style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context)
+                            foregroundColor: Theme.of(context)
                                 .colorScheme
                                 .secondaryContainer,
                             padding: const EdgeInsets.symmetric(

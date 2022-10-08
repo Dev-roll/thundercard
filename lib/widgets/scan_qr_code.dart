@@ -113,11 +113,11 @@ class _QRViewExampleState extends State<QRViewExample> {
                               Stack(
                                 children: [
                                   Container(
-                                    width: 196,
+                                    width: 180,
                                     height: 216,
                                   ),
                                   Container(
-                                    width: 196,
+                                    width: 180,
                                     height: 216,
                                     padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
                                     child: FittedBox(
@@ -156,34 +156,10 @@ class _QRViewExampleState extends State<QRViewExample> {
                               ),
                               Container(
                                 width: 60,
-                                margin: EdgeInsets.only(bottom: 12),
+                                margin: EdgeInsets.only(bottom: 20),
                                 child: Column(
                                   children: [
-                                    // ElevatedButton(
-                                    //   onPressed: () {
-                                    //     // ScaffoldMessenger.of(context)
-                                    //     //     .showSnackBar(const SnackBar(
-                                    //     //         content: Text(
-                                    //     //             "This QR code is invalid.")));
-                                    //     showModalBottomSheet(
-                                    //       context: context,
-                                    //       builder: (BuildContext context) {
-                                    //         return Container(
-                                    //           child: ShareQRView(),
-                                    //         );
-                                    //       },
-                                    //     );
-                                    //   },
-                                    //   child: Icon(
-                                    //     Icons.share_rounded,
-                                    //     color: white,
-                                    //   ),
-                                    //   style: ElevatedButton.styleFrom(
-                                    //     primary: Theme.of(context).colorScheme.onSecondary,
-                                    //     padding: EdgeInsets.all(18),
-                                    //   ),
-                                    // ),
-                                    ElevatedButton(
+                                    IconButton(
                                       onPressed: () async {
                                         controller?.pauseCamera();
                                         await Navigator.of(context).push(
@@ -205,17 +181,8 @@ class _QRViewExampleState extends State<QRViewExample> {
                                         );
                                         controller?.resumeCamera();
                                       },
-                                      child: Icon(
-                                        Icons.open_in_full_rounded,
-                                        color: white,
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Theme.of(context)
-                                            .colorScheme
-                                            .onSecondary,
-                                        elevation: 0,
-                                        padding: EdgeInsets.all(18),
-                                      ),
+                                      icon: Icon(Icons.open_in_full_rounded),
+                                      padding: EdgeInsets.all(12),
                                     ),
                                   ],
                                 ),
@@ -227,10 +194,10 @@ class _QRViewExampleState extends State<QRViewExample> {
                       Align(
                         alignment: Alignment.topLeft,
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(4, 8, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
                           child: Hero(
                             tag: 'close_button',
-                            child: ElevatedButton(
+                            child: IconButton(
                               onPressed: () {
                                 // Navigator.of(context).pushAndRemoveUntil(
                                 //   MaterialPageRoute(
@@ -240,17 +207,12 @@ class _QRViewExampleState extends State<QRViewExample> {
                                 // );
                                 Navigator.of(context).pop();
                               },
-                              child: Icon(
+                              icon: Icon(
                                 Icons.close_rounded,
                                 size: 32,
                                 color: white,
                               ),
-                              style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                primary:
-                                    Theme.of(context).colorScheme.onSecondary,
-                                padding: EdgeInsets.all(16),
-                              ),
+                              padding: EdgeInsets.all(12),
                             ),
                           ),
                         ),
@@ -282,7 +244,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                                   Padding(
                                     padding:
                                         const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                                    child: ElevatedButton(
+                                    child: IconButton(
                                       onPressed: () async {
                                         // await exportToImage(_globalKey);
                                         // await Share.share(thunderCardUrl,
@@ -311,24 +273,14 @@ class _QRViewExampleState extends State<QRViewExample> {
                                         );
                                         applicationDocumentsFile.delete();
                                       },
-                                      child: Icon(
-                                        Icons.share_rounded,
-                                        // size: 32,
-                                        color: white,
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                        elevation: 0,
-                                        primary: Theme.of(context)
-                                            .colorScheme
-                                            .onSecondary,
-                                        padding: EdgeInsets.all(20),
-                                      ),
+                                      icon: Icon(Icons.share_rounded),
+                                      padding: EdgeInsets.all(20),
                                     ),
                                   ),
                                   Padding(
                                     padding:
                                         const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                                    child: ElevatedButton(
+                                    child: IconButton(
                                       onPressed: () async {
                                         final bytes =
                                             await exportToImage(_globalKey);
@@ -412,24 +364,14 @@ class _QRViewExampleState extends State<QRViewExample> {
                                           ),
                                         );
                                       },
-                                      child: Icon(
-                                        Icons.save_alt_rounded,
-                                        // size: 32,
-                                        color: white,
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                        elevation: 0,
-                                        primary: Theme.of(context)
-                                            .colorScheme
-                                            .onSecondary,
-                                        padding: EdgeInsets.all(20),
-                                      ),
+                                      icon: Icon(Icons.save_alt_rounded),
+                                      padding: EdgeInsets.all(20),
                                     ),
                                   ),
                                   Padding(
                                     padding:
                                         const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                                    child: ElevatedButton(
+                                    child: IconButton(
                                       onPressed: () async {
                                         await Clipboard.setData(
                                           ClipboardData(text: thunderCardUrl),
@@ -488,18 +430,8 @@ class _QRViewExampleState extends State<QRViewExample> {
                                           ),
                                         );
                                       },
-                                      child: Icon(
-                                        Icons.copy_rounded,
-                                        // size: 32,
-                                        color: white,
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                        elevation: 0,
-                                        primary: Theme.of(context)
-                                            .colorScheme
-                                            .onSecondary,
-                                        padding: EdgeInsets.all(20),
-                                      ),
+                                      icon: Icon(Icons.copy_rounded),
+                                      padding: EdgeInsets.all(20),
                                     ),
                                   ),
                                   // Padding(
@@ -511,28 +443,6 @@ class _QRViewExampleState extends State<QRViewExample> {
                                   // ),
                                 ],
                               ),
-                              // child: ElevatedButton(
-                              //   onPressed: () async {
-                              //     await controller?.toggleFlash();
-                              //     setState(() {});
-                              //   },
-                              //   child: FutureBuilder(
-                              //     future: controller?.getFlashStatus(),
-                              //     builder: (context, snapshot) {
-                              //       if (snapshot.data != null &&
-                              //           snapshot.data == true) {
-                              //         return const Icon(
-                              //             Icons.flashlight_on_rounded);
-                              //       } else {
-                              //         return const Icon(
-                              //             Icons.flashlight_off_rounded);
-                              //       }
-                              //     },
-                              //   ),
-                              //   style: ElevatedButton.styleFrom(
-                              //     padding: EdgeInsets.all(16),
-                              //   ),
-                              // ),
                             ),
                           ],
                         ),
@@ -634,37 +544,35 @@ class _QRViewExampleState extends State<QRViewExample> {
                   future: controller?.getFlashStatus(),
                   builder: (context, snapshot) {
                     if (snapshot.data != null && snapshot.data == true) {
-                      return ElevatedButton(
+                      return IconButton(
                         onPressed: () async {
                           await controller?.toggleFlash();
                           setState(() {});
                         },
-                        child: Icon(Icons.flashlight_on_rounded),
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.all(20),
-                          primary: Theme.of(context)
+                        icon: Icon(Icons.flashlight_on_rounded),
+                        padding: EdgeInsets.all(20),
+                        style: IconButton.styleFrom(
+                          foregroundColor:
+                              Theme.of(context).colorScheme.secondaryContainer,
+                          backgroundColor: Theme.of(context)
                               .colorScheme
                               .onSecondaryContainer,
-                          onPrimary:
-                              Theme.of(context).colorScheme.secondaryContainer,
-                          elevation: 0,
                         ),
                       );
                     } else {
-                      return ElevatedButton(
+                      return IconButton(
                         onPressed: () async {
                           await controller?.toggleFlash();
                           setState(() {});
                         },
-                        child: Icon(Icons.flashlight_off_rounded),
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.all(20),
-                          primary:
-                              Theme.of(context).colorScheme.secondaryContainer,
-                          onPrimary: Theme.of(context)
+                        icon: Icon(Icons.flashlight_off_rounded),
+                        padding: EdgeInsets.all(20),
+                        style: IconButton.styleFrom(
+                          foregroundColor: Theme.of(context)
                               .colorScheme
                               .onSecondaryContainer,
-                          elevation: 0,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondaryContainer,
                         ),
                       );
                     }

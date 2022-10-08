@@ -89,7 +89,7 @@ class _ThundercardState extends State<Thundercard> {
                                     Padding(
                                       padding: const EdgeInsets.fromLTRB(
                                           20, 0, 20, 0),
-                                      child: ElevatedButton(
+                                      child: IconButton(
                                         onPressed: () async {
                                           final bytes =
                                               await exportToImage(_globalKey);
@@ -114,23 +114,14 @@ class _ThundercardState extends State<Thundercard> {
                                           );
                                           applicationDocumentsFile.delete();
                                         },
-                                        child: Icon(
-                                          Icons.share_rounded,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurfaceVariant,
-                                        ),
-                                        style: ElevatedButton.styleFrom(
-                                          elevation: 0,
-                                          primary: Colors.transparent,
-                                          padding: EdgeInsets.all(20),
-                                        ),
+                                        icon: Icon(Icons.share_rounded),
+                                        padding: EdgeInsets.all(20),
                                       ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.fromLTRB(
                                           20, 0, 20, 0),
-                                      child: ElevatedButton(
+                                      child: IconButton(
                                         onPressed: () async {
                                           final bytes =
                                               await exportToImage(_globalKey);
@@ -201,24 +192,14 @@ class _ThundercardState extends State<Thundercard> {
                                             ),
                                           );
                                         },
-                                        child: Icon(
-                                          Icons.save_alt_rounded,
-                                          // size: 32,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurfaceVariant,
-                                        ),
-                                        style: ElevatedButton.styleFrom(
-                                          elevation: 0,
-                                          primary: Colors.transparent,
-                                          padding: EdgeInsets.all(20),
-                                        ),
+                                        icon: Icon(Icons.save_alt_rounded),
+                                        padding: EdgeInsets.all(20),
                                       ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.fromLTRB(
                                           20, 0, 20, 0),
-                                      child: ElevatedButton(
+                                      child: IconButton(
                                         onPressed: () async {
                                           await Clipboard.setData(
                                             ClipboardData(text: thunderCardUrl),
@@ -280,18 +261,8 @@ class _ThundercardState extends State<Thundercard> {
                                             ),
                                           );
                                         },
-                                        child: Icon(
-                                          Icons.copy_rounded,
-                                          // size: 32,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurfaceVariant,
-                                        ),
-                                        style: ElevatedButton.styleFrom(
-                                          elevation: 0,
-                                          primary: Colors.transparent,
-                                          padding: EdgeInsets.all(20),
-                                        ),
+                                        icon: Icon(Icons.copy_rounded),
+                                        padding: EdgeInsets.all(20),
                                       ),
                                     ),
                                   ],
@@ -334,8 +305,8 @@ class _ThundercardState extends State<Thundercard> {
         style: ElevatedButton.styleFrom(
           elevation: 0,
           fixedSize: Size(MediaQuery.of(context).size.width * 0.7, 56),
-          primary: Theme.of(context).colorScheme.secondaryContainer,
-          onPrimary: Theme.of(context).colorScheme.onSecondaryContainer,
+          foregroundColor: Theme.of(context).colorScheme.secondaryContainer,
+          backgroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

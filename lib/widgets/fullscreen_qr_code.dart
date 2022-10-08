@@ -50,23 +50,19 @@ class FullscreenQrCode extends StatelessWidget {
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(4, 8, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
                     child: Hero(
                       tag: 'close_button',
-                      child: ElevatedButton(
+                      child: IconButton(
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Icon(
+                        icon: Icon(
                           Icons.close_rounded,
                           size: 32,
                           color: white,
                         ),
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          primary: Theme.of(context).colorScheme.onSecondary,
-                          padding: EdgeInsets.all(16),
-                        ),
+                        padding: EdgeInsets.all(12),
                       ),
                     ),
                   ),
