@@ -609,6 +609,11 @@ PODS:
     - FlutterMacOS
   - desktop_webview_auth (0.0.1):
     - FlutterMacOS
+  - dynamic_color (0.0.2):
+    - FlutterMacOS
+  - Firebase/AppCheck (9.4.0):
+    - Firebase/CoreOnly
+    - FirebaseAppCheck (~> 9.4.0)
   - Firebase/Auth (9.4.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 9.4.0)
@@ -623,6 +628,11 @@ PODS:
   - Firebase/Storage (9.4.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 9.4.0)
+  - firebase_app_check (0.0.8):
+    - Firebase/AppCheck (~> 9.4.0)
+    - Firebase/CoreOnly (~> 9.4.0)
+    - firebase_core
+    - FlutterMacOS
   - firebase_auth (3.9.0):
     - Firebase/Auth (~> 9.4.0)
     - Firebase/CoreOnly (~> 9.4.0)
@@ -641,6 +651,10 @@ PODS:
     - Firebase/Storage (~> 9.4.0)
     - firebase_core
     - FlutterMacOS
+  - FirebaseAppCheck (9.4.0):
+    - FirebaseCore (~> 9.0)
+    - GoogleUtilities/Environment (~> 7.7)
+    - PromisesObjC (~> 2.1)
   - FirebaseAppCheckInterop (9.6.0)
   - FirebaseAuth (9.4.0):
     - FirebaseCore (~> 9.0)
@@ -784,6 +798,8 @@ PODS:
 DEPENDENCIES:
   - cloud_firestore (from `Flutter/ephemeral/.symlinks/plugins/cloud_firestore/macos`)
   - desktop_webview_auth (from `Flutter/ephemeral/.symlinks/plugins/desktop_webview_auth/macos`)
+  - dynamic_color (from `Flutter/ephemeral/.symlinks/plugins/dynamic_color/macos`)
+  - firebase_app_check (from `Flutter/ephemeral/.symlinks/plugins/firebase_app_check/macos`)
   - firebase_auth (from `Flutter/ephemeral/.symlinks/plugins/firebase_auth/macos`)
   - firebase_core (from `Flutter/ephemeral/.symlinks/plugins/firebase_core/macos`)
   - firebase_database (from `Flutter/ephemeral/.symlinks/plugins/firebase_database/macos`)
@@ -799,6 +815,7 @@ SPEC REPOS:
     - abseil
     - BoringSSL-GRPC
     - Firebase
+    - FirebaseAppCheck
     - FirebaseAppCheckInterop
     - FirebaseAuth
     - FirebaseAuthInterop
@@ -825,6 +842,10 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/cloud_firestore/macos
   desktop_webview_auth:
     :path: Flutter/ephemeral/.symlinks/plugins/desktop_webview_auth/macos
+  dynamic_color:
+    :path: Flutter/ephemeral/.symlinks/plugins/dynamic_color/macos
+  firebase_app_check:
+    :path: Flutter/ephemeral/.symlinks/plugins/firebase_app_check/macos
   firebase_auth:
     :path: Flutter/ephemeral/.symlinks/plugins/firebase_auth/macos
   firebase_core:
@@ -849,11 +870,14 @@ SPEC CHECKSUMS:
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
   cloud_firestore: 04cc08b3984cf5c9949120a0d63ea75e4099ae08
   desktop_webview_auth: 9bba53a29c9bc6a4ff621fd0ebfbb18856c4dada
+  dynamic_color: 394d6a888650f8534e029b27d2f8bc5c64e44008
   Firebase: 7703fc4022824b6d6db1bf7bea58d13b8e17ec46
+  firebase_app_check: ae3140595ac44d4455567488bc8171bc1c606dee
   firebase_auth: a77f136d11fc138ebba6a2cbca4f75f2f4648df2
   firebase_core: 822a1076483bf9764284322c9310daa98e1e6817
   firebase_database: fea1ae7a310ce81a0c27913400e2ca0c41467624
   firebase_storage: 5e4de184fe773a22f4c65875d1e71c009a4cc7b0
+  FirebaseAppCheck: aaacc3c6beaba35564344c694608e272bd9e9cb1
   FirebaseAppCheckInterop: d5ecda0c09f8069406643d6e0fa12c09d1b736e3
   FirebaseAuth: ae5d4402e1516497357d909162b091b3ca2a2e9c
   FirebaseAuthInterop: b6cf02117f13a8400c8c8b4421e12c6e850bcaf3
@@ -865,7 +889,7 @@ SPEC CHECKSUMS:
   FirebaseFirestore: 945196dd78f4e92de6fc47b38569a1e7088af81f
   FirebaseStorage: 160ba975dd3452d9c59a3bf5ea9bf70ff96bd3c2
   FirebaseStorageInternal: 81d8a597324ccd06c41a43c5700bc1185a2fc328
-  FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
+  FlutterMacOS: ae6af50a8ea7d6103d888583d46bd8328a7e9811
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUtilities: 1d20a6ad97ef46f67bbdec158ce00563a671ebb7
   "gRPC-C++": 9675f953ace2b3de7c506039d77be1f2e77a8db2
