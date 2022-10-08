@@ -208,26 +208,26 @@ class _ChatPageState extends State<ChatPage> {
                 //     .onSecondaryContainer
                 //     .withOpacity(0.75),
               ),
-              // sendingIcon: Icon(
-              //   Icons.pending_rounded,
-              //   color: Theme.of(context).colorScheme.primary,
-              //   size: 16,
-              // ),
-              // deliveredIcon: Icon(
-              //   Icons.done_rounded,
-              //   color: Theme.of(context).colorScheme.secondary,
-              //   size: 16,
-              // ),
-              // seenIcon: Icon(
-              //   Icons.done_all_rounded,
-              //   color: Theme.of(context).colorScheme.secondary,
-              //   size: 16,
-              // ),
-              // errorIcon: Icon(
-              //   Icons.error_rounded,
-              //   color: Theme.of(context).colorScheme.error,
-              //   size: 16,
-              // ),
+              sendingIcon: Icon(
+                Icons.pending_rounded,
+                color: Theme.of(context).colorScheme.primary,
+                size: 16,
+              ),
+              deliveredIcon: Icon(
+                Icons.done_rounded,
+                color: Theme.of(context).colorScheme.secondary,
+                size: 16,
+              ),
+              seenIcon: Icon(
+                Icons.done_all_rounded,
+                color: Theme.of(context).colorScheme.secondary,
+                size: 16,
+              ),
+              errorIcon: Icon(
+                Icons.error_rounded,
+                color: Theme.of(context).colorScheme.error,
+                size: 16,
+              ),
 
               // other
               // inputContainerDecoration: ,
