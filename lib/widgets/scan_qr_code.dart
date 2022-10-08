@@ -90,7 +90,9 @@ class _QRViewExampleState extends State<QRViewExample> {
             Map<String, dynamic> user =
                 snapshot.data!.data() as Map<String, dynamic>;
             String myCardId = user['my_cards'][0];
-            String thunderCardUrl = 'thundercard://user?card_id=$myCardId';
+            String thunderCardUrl =
+                'https://thundercard-test.web.app/?card_id=$myCardId';
+            // String thunderCardUrl = 'thundercard://user?card_id=$myCardId';
             return Column(
               children: <Widget>[
                 Expanded(

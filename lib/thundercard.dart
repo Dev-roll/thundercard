@@ -69,7 +69,8 @@ class _ThundercardState extends State<Thundercard> {
                               snapshot.data!.data() as Map<String, dynamic>;
                           String myCardId = user['my_cards'][0];
                           String thunderCardUrl =
-                              'thundercard://user?card_id=$myCardId';
+                              'https://thundercard-test.web.app/?card_id=$myCardId';
+                          // 'thundercard://user?card_id=$myCardId';
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
