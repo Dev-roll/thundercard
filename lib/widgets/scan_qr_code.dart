@@ -124,6 +124,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                                     padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
                                     child: FittedBox(
                                       child: GestureDetector(
+                                        behavior: HitTestBehavior.opaque,
                                         onTap: (() async {
                                           controller?.pauseCamera();
                                           await Navigator.of(context).push(

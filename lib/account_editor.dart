@@ -345,6 +345,7 @@ class _AccountEditorState extends State<AccountEditor> {
     }();
 
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         appBar: AppBar(
