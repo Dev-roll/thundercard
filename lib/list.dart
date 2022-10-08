@@ -100,6 +100,7 @@ class _ListState extends State<List> {
                                 borderRadius: BorderRadius.circular(30),
                               ),
                               child: GestureDetector(
+                                behavior: HitTestBehavior.opaque,
                                 onTap: () {
                                   Navigator.of(context).push(
                                     PageRouteBuilder(
@@ -191,6 +192,7 @@ class _ListState extends State<List> {
                                             return Column(
                                               children: [
                                                 GestureDetector(
+                                                  behavior: HitTestBehavior.opaque,
                                                   onTap: () {
                                                     Navigator.of(context)
                                                         .push(MaterialPageRoute(

@@ -51,6 +51,7 @@ class _NotificationItemState extends State<NotificationItem> {
         : '';
     var _screenSize = MediaQuery.of(context).size;
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         print(widget.documentId);
         FirebaseFirestore.instance

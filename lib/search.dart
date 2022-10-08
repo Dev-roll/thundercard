@@ -91,6 +91,7 @@ class _SearchState extends State<Search> {
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: () {
                         // Navigator.of(context).push(
                         //   MaterialPageRoute(
@@ -176,6 +177,7 @@ class _SearchState extends State<Search> {
                                   height: 24,
                                 ),
                                 GestureDetector(
+                                  behavior: HitTestBehavior.opaque,
                                   onTap: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
