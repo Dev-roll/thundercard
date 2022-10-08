@@ -140,9 +140,29 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
               }).toList();
             },
             onSelected: (String s) {
-              if (s == '削除') {
+              if (s == "未読にする") {
+                FirebaseFirestore.instance
+                    .collection('cards')
+                    .doc(widget.myCardId)
+                    .collection('notifications')
+                    .doc(widget.documentId)
+                    .update({'read': false}).then(
+                  (doc) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => HomePage(index: 2),
+                      ),
+                      (_) => false,
+                    );
+                  },
+                  onError: (e) => print("Error updating document $e"),
+                );
+              } else if (s == "削除") {
                 _openAlertDialog1(context);
               }
+              // if (s == '削除') {
+              //   _openAlertDialog1(context);
+              // }
             },
           )
           // Container(
