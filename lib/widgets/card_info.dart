@@ -108,9 +108,9 @@ class CardInfo extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         elevation: 0,
                         foregroundColor:
-                            Theme.of(context).colorScheme.secondaryContainer,
-                        backgroundColor:
                             Theme.of(context).colorScheme.onSecondaryContainer,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondaryContainer,
                         padding: EdgeInsets.all(8),
                       ),
                       child: const Icon(Icons.edit_rounded),

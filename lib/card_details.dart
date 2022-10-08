@@ -219,10 +219,10 @@ class _CardDetailsState extends State<CardDetails> {
                                     elevation: 0,
                                     foregroundColor: Theme.of(context)
                                         .colorScheme
-                                        .secondaryContainer,
+                                        .onSecondaryContainer,
                                     backgroundColor: Theme.of(context)
                                         .colorScheme
-                                        .onSecondaryContainer,
+                                        .secondaryContainer,
                                   ),
                                   onPressed: () {
                                     Navigator.push(

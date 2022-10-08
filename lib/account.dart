@@ -110,11 +110,11 @@ class _AccountState extends State<Account> {
                   label: const Text('サインアウト'),
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-                    foregroundColor: Theme.of(context)
+                    foregroundColor: Theme.of(context).colorScheme.secondary,
+                    backgroundColor: Theme.of(context)
                         .colorScheme
                         .onSecondary
                         .withOpacity(1),
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
                   ),
                   onPressed: () async {
                     await showDialog(

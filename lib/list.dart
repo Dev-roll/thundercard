@@ -261,10 +261,10 @@ class _ListState extends State<List> {
                 // activeChild: Text("close"),
                 icon: Icons.add_rounded,
                 activeIcon: Icons.close_rounded,
-                backgroundColor:
-                    Theme.of(context).colorScheme.secondaryContainer,
                 foregroundColor:
                     Theme.of(context).colorScheme.onSecondaryContainer,
+                backgroundColor:
+                    Theme.of(context).colorScheme.secondaryContainer,
                 spacing: 16,
                 openCloseDial: isDialOpen,
                 activeBackgroundColor:
