@@ -81,18 +81,8 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
           context: context,
           // (3) AlertDialogを作成する
           builder: (context) => AlertDialog(
-                title: Column(
-                  children: [
-                    Icon(
-                      Icons.delete_rounded,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Text("通知の削除"),
-                  ],
-                ),
+                icon: Icon(Icons.delete_rounded),
+                title: Text("通知の削除"),
                 content: Text(
                   "この通知を削除しますか？",
                   style: TextStyle(

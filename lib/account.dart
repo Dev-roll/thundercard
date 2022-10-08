@@ -110,31 +110,19 @@ class _AccountState extends State<Account> {
                   label: const Text('サインアウト'),
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-                    // primary: Colors.transparent,
-                    primary: Theme.of(context)
+                    foregroundColor: Theme.of(context)
                         .colorScheme
                         .onSecondary
                         .withOpacity(1),
-                    onPrimary: Theme.of(context).colorScheme.secondary,
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
                   ),
                   onPressed: () async {
                     await showDialog(
                         context: context,
                         // (3) AlertDialogを作成する
                         builder: (context) => AlertDialog(
-                              title: Column(
-                                children: [
-                                  Icon(
-                                    Icons.logout_rounded,
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                  ),
-                                  SizedBox(
-                                    height: 16,
-                                  ),
-                                  Text("サインアウト"),
-                                ],
-                              ),
+                              icon: Icon(Icons.logout_rounded),
+                              title: Text("サインアウト"),
                               content: Text(
                                 "このアカウントからサインアウトしますか？",
                                 style: TextStyle(

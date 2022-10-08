@@ -103,18 +103,8 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
         context: context,
         // (3) AlertDialogを作成する
         builder: (context) => AlertDialog(
-          title: Column(
-            children: [
-              Icon(
-                Icons.delete_rounded,
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Text("リンクの削除"),
-            ],
-          ),
+          icon: Icon(Icons.delete_rounded),
+          title: Text("リンクの削除"),
           content: Text(
             "このリンクを削除しますか？",
             style: TextStyle(
@@ -523,10 +513,10 @@ class _AccountEditorState extends State<AccountEditor> {
                           },
                           style: ElevatedButton.styleFrom(
                             elevation: 0,
-                            primary: Theme.of(context)
+                            foregroundColor: Theme.of(context)
                                 .colorScheme
                                 .secondaryContainer,
-                            onPrimary: Theme.of(context)
+                            backgroundColor: Theme.of(context)
                                 .colorScheme
                                 .onPrimaryContainer,
                           ),

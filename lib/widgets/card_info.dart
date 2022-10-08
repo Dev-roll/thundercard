@@ -107,9 +107,9 @@ class CardInfo extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         elevation: 0,
-                        primary:
+                        foregroundColor:
                             Theme.of(context).colorScheme.secondaryContainer,
-                        onPrimary:
+                        backgroundColor:
                             Theme.of(context).colorScheme.onSecondaryContainer,
                         padding: EdgeInsets.all(8),
                       ),

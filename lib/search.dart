@@ -37,9 +37,10 @@ class _SearchState extends State<Search> {
   }
 
   void delayedSearch(String text, List<Map<String, dynamic>> cardsToSearch) {
-    Future.delayed(const Duration(milliseconds: 500), () {
+    const time = 200;
+    Future.delayed(Duration(milliseconds: time), () {
       final nowDate = DateTime.now();
-      if (nowDate.difference(_lastChangedDate).inMilliseconds > 500) {
+      if (nowDate.difference(_lastChangedDate).inMilliseconds > time) {
         _lastChangedDate = nowDate;
         search(text, cardsToSearch);
       }
@@ -154,9 +155,13 @@ class _SearchState extends State<Search> {
                   Row(
                     children: [
                       SizedBox(
-                        width: 16,
+                        width: 20,
                       ),
                       Text('検索結果'),
+                      SizedBox(
+                        width: 16,
+                      ),
+                      Text('$searchedCardsLength件'),
                     ],
                   ),
                   (searchedCardsLength != 0)
