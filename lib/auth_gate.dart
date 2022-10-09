@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterfire_ui/auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:thundercard/sign_in.dart';
+import 'package:thundercard/sign_up.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 
 import 'api/current_brightness.dart';
@@ -100,7 +102,9 @@ class AuthGate extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         // return AccountRegistration();
+        // if (true) {
         if (!snapshot.hasData) {
+          return SignIn();
           return Scaffold(
             body: SafeArea(
               child: Form(
