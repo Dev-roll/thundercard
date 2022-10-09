@@ -36,19 +36,21 @@ import '../api/firebase_auth.dart';
 import '../constants.dart';
 import '../main.dart';
 
-class QRViewExample extends StatefulWidget {
-  const QRViewExample({Key? key}) : super(key: key);
+class ScanQrCode extends StatefulWidget {
+  const ScanQrCode({Key? key, required this.myCardId}) : super(key: key);
+  final myCardId;
 
   @override
-  State<StatefulWidget> createState() => _QRViewExampleState();
+  State<StatefulWidget> createState() => _ScanQrCodeState();
 }
 
-class _QRViewExampleState extends State<QRViewExample> {
+class _ScanQrCodeState extends State<ScanQrCode> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   bool _isScanned = false;
   final GlobalKey _globalKey = GlobalKey();
+  var myCardId = '';
   // ByteData? _image;
   // Image? _image;
   // _doCapture();
@@ -89,7 +91,7 @@ class _QRViewExampleState extends State<QRViewExample> {
               (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             Map<String, dynamic> user =
                 snapshot.data!.data() as Map<String, dynamic>;
-            String myCardId = user['my_cards'][0];
+            myCardId = user['my_cards'][0];
             String thunderCardUrl =
                 'https://thundercard-test.web.app/?card_id=$myCardId';
             // String thunderCardUrl = 'thundercard://user?card_id=$myCardId';
@@ -621,7 +623,7 @@ class _QRViewExampleState extends State<QRViewExample> {
           );
         } else if (describeEnum(scanData.format) == 'qrcode') {
           _transitionToNextPage(
-            scanData.code.toString(),
+            scanData.code.toString().split('=').last,
           );
         }
       },
@@ -638,7 +640,7 @@ class _QRViewExampleState extends State<QRViewExample> {
 
     await Navigator.of(context)
         .push(MaterialPageRoute(
-      builder: (context) => AddCard(cardId: data),
+      builder: (context) => AddCard(myCardId: myCardId, cardId: data),
     ))
         .then((value) {
       this.controller?.resumeCamera();

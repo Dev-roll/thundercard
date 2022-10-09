@@ -38,6 +38,7 @@ class _ListState extends State<List> {
   var extend = false;
   var visible = true;
   var rmicons = false;
+  var myCardId;
 
   @override
   Widget build(BuildContext context) {
@@ -192,7 +193,8 @@ class _ListState extends State<List> {
                                             return Column(
                                               children: [
                                                 GestureDetector(
-                                                  behavior: HitTestBehavior.opaque,
+                                                  behavior:
+                                                      HitTestBehavior.opaque,
                                                   onTap: () {
                                                     Navigator.of(context)
                                                         .push(MaterialPageRoute(
@@ -410,7 +412,7 @@ class _ListState extends State<List> {
                             brightness: Brightness.dark,
                             useMaterial3: true,
                           ),
-                          child: const QRViewExample(),
+                          child: ScanQrCode(myCardId: myCardId),
                         ),
                       ));
                     },
