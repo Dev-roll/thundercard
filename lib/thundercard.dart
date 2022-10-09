@@ -24,6 +24,7 @@ class _ThundercardState extends State<Thundercard> {
   final String? uid = getUid();
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   final GlobalKey _globalKey = GlobalKey();
+  var myCardId = '';
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +68,7 @@ class _ThundercardState extends State<Thundercard> {
                         if (snapshot.connectionState == ConnectionState.done) {
                           Map<String, dynamic> user =
                               snapshot.data!.data() as Map<String, dynamic>;
-                          String myCardId = user['my_cards'][0];
+                          myCardId = user['my_cards'][0];
                           String thunderCardUrl =
                               'https://thundercard-test.web.app/?card_id=$myCardId';
                           // 'thundercard://user?card_id=$myCardId';
@@ -291,7 +292,7 @@ class _ThundercardState extends State<Thundercard> {
                 brightness: Brightness.dark,
                 useMaterial3: true,
               ),
-              child: const QRViewExample(),
+              child: ScanQrCode(myCardId: myCardId),
             ),
           ));
         },
