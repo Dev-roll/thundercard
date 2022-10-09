@@ -30,6 +30,10 @@ class ReorderableMultiTextFieldController
   ReorderableMultiTextFieldController(List<TextFieldState> value)
       : super(value);
 
+  void clear() {
+    value = [];
+  }
+
   void add(key, text) {
     final state = TextFieldState(
       Uuid().v4(),
@@ -268,6 +272,12 @@ class _AccountEditorState extends State<AccountEditor> {
   void initState() {
     controller = ReorderableMultiTextFieldController([]);
     super.initState();
+    () {
+      var links = [];
+      links = widget.data?['account']['links'];
+      // controller.clear();
+      links.forEach((e) => controller.add(e['key'], e['value']));
+    }();
   }
 
   void updateCard() {
@@ -338,11 +348,12 @@ class _AccountEditorState extends State<AccountEditor> {
 
   @override
   Widget build(BuildContext context) {
-    () {
-      var links = [];
-      links = widget.data?['account']['links'];
-      links.forEach((e) => controller.add(e['key'], e['value']));
-    }();
+    // () {
+    //   var links = [];
+    //   links = widget.data?['account']['links'];
+    //  //   controller.clear();
+    //   links.forEach((e) => controller.add(e['key'], e['value']));
+    // }();
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
