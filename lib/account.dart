@@ -105,6 +105,56 @@ class _AccountState extends State<Account> {
                 ),
                 ElevatedButton.icon(
                   icon: Icon(
+                    Icons.add_link_rounded,
+                  ),
+                  label: const Text('他の認証方法とリンク'),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    foregroundColor: Theme.of(context).colorScheme.secondary,
+                    backgroundColor: Theme.of(context)
+                        .colorScheme
+                        .onSecondary
+                        .withOpacity(1),
+                  ),
+                  onPressed: () async {
+                    // Google Sign-in
+                    // final credential =
+                    //     GoogleAuthProvider.credential(idToken: idToken);
+
+                    // Email and password sign-in
+                    final credential = EmailAuthProvider.credential(
+                        email: 'example1009@example.com', password: 'password');
+                    try {
+                      final userCredential = await FirebaseAuth
+                          .instance.currentUser
+                          ?.linkWithCredential(credential);
+                    } on FirebaseAuthException catch (e) {
+                      switch (e.code) {
+                        case "provider-already-linked":
+                          print(
+                              "The provider has already been linked to the user.");
+                          break;
+                        case "invalid-credential":
+                          print("The provider's credential is not valid.");
+                          break;
+                        case "credential-already-in-use":
+                          print(
+                              "The account corresponding to the credential already exists, "
+                              "or is already linked to a Firebase User.");
+                          break;
+                        // See the API reference for the full list of error codes.
+                        default:
+                          print("Unknown error.");
+                      }
+                    }
+                  },
+                  onLongPress: null,
+                ),
+                SizedBox(
+                  height: 24,
+                ),
+                ElevatedButton.icon(
+                  icon: Icon(
                     Icons.logout_rounded,
                   ),
                   label: const Text('サインアウト'),

@@ -338,31 +338,37 @@ class _AccountRegistrationState extends State<AccountRegistration> {
         appBar: AppBar(
           title: const Text('プロフィールを登録'),
           actions: [
-            registrationButtonPressed
+            _cardIdController.text == '' || _nameController.text == ''
                 ? TextButton(
                     onPressed: null,
                     onLongPress: null,
-                    child: Container(
-                      child: SizedBox(
-                        child: CircularProgressIndicator(
-                          strokeWidth: 3.0,
-                        ),
-                        height: 24,
-                        width: 24,
-                      ),
-                      padding: EdgeInsets.all(4),
-                    ),
-                  )
-                : TextButton(
-                    onPressed: () {
-                      setState(() {
-                        registrationButtonPressed = true;
-                      });
-                      registerCard();
-                    },
-                    onLongPress: null,
                     child: const Text('登録'),
-                  ),
+                  )
+                : registrationButtonPressed
+                    ? TextButton(
+                        onPressed: null,
+                        onLongPress: null,
+                        child: Container(
+                          child: SizedBox(
+                            child: CircularProgressIndicator(
+                              strokeWidth: 3.0,
+                            ),
+                            height: 24,
+                            width: 24,
+                          ),
+                          padding: EdgeInsets.all(4),
+                        ),
+                      )
+                    : TextButton(
+                        onPressed: () {
+                          setState(() {
+                            registrationButtonPressed = true;
+                          });
+                          registerCard();
+                        },
+                        onLongPress: null,
+                        child: const Text('登録'),
+                      ),
           ],
           backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
         ),
@@ -382,6 +388,9 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                       validator: (value) {
                         return value!.isEmpty ? '必須' : null;
                       },
+                      onChanged: (value) {
+                        setState(() {});
+                      },
                     ),
                     Text('表示名（必須）'),
                     TextFormField(
@@ -390,6 +399,9 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         return value!.isEmpty ? '必須' : null;
+                      },
+                      onChanged: (value) {
+                        setState(() {});
                       },
                     ),
                     Text('自己紹介'),

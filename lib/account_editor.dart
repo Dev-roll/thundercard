@@ -350,31 +350,37 @@ class _AccountEditorState extends State<AccountEditor> {
         appBar: AppBar(
           title: const Text('プロフィールを編集'),
           actions: [
-            updateButtonPressed
+            _nameController.text == ''
                 ? TextButton(
                     onPressed: null,
                     onLongPress: null,
-                    child: Container(
-                      child: SizedBox(
-                        child: CircularProgressIndicator(
-                          strokeWidth: 3.0,
-                        ),
-                        height: 24,
-                        width: 24,
-                      ),
-                      padding: EdgeInsets.all(4),
-                    ),
-                  )
-                : TextButton(
-                    onPressed: () {
-                      setState(() {
-                        updateButtonPressed = true;
-                      });
-                      updateCard();
-                    },
-                    onLongPress: null,
                     child: const Text('保存'),
-                  ),
+                  )
+                : updateButtonPressed
+                    ? TextButton(
+                        onPressed: null,
+                        onLongPress: null,
+                        child: Container(
+                          child: SizedBox(
+                            child: CircularProgressIndicator(
+                              strokeWidth: 3.0,
+                            ),
+                            height: 24,
+                            width: 24,
+                          ),
+                          padding: EdgeInsets.all(4),
+                        ),
+                      )
+                    : TextButton(
+                        onPressed: () {
+                          setState(() {
+                            updateButtonPressed = true;
+                          });
+                          updateCard();
+                        },
+                        onLongPress: null,
+                        child: const Text('保存'),
+                      ),
           ],
           backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
         ),
@@ -428,6 +434,9 @@ class _AccountEditorState extends State<AccountEditor> {
                               .withOpacity(0.5),
                         ),
                       ),
+                      onChanged: (value) {
+                        setState(() {});
+                      },
                     ),
                     const Text('会社'),
                     TextField(
