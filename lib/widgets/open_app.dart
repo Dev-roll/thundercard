@@ -27,8 +27,8 @@ class _OpenAppState extends State<OpenApp> {
       ),
       onTap: () {
         _launchURL(
-          widget.url,
-          secondUrl: widget.secondUrl,
+          widget.url.trim(),
+          secondUrl: widget.secondUrl?.trim(),
         );
       },
     );
