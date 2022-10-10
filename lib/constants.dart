@@ -208,6 +208,15 @@ const Color seedColor = Color(0xFF00B1D8);
 
 // 名刺の表示形式
 enum CardType {
+  preview,
+  small,
   normal,
-  extended,
+  large,
 }
+
+// テーマ
+final List<ThemeMode> themeList = [
+  ThemeMode.system,
+  ThemeMode.dark,
+  ThemeMode.light
+];

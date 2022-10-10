@@ -36,8 +36,8 @@ class _SearchState extends State<Search> {
     });
   }
 
-  void delayedSearch(String text, List<Map<String, dynamic>> cardsToSearch) {
-    const time = 200;
+  void delayedSearch(String text, List<Map<String, dynamic>> cardsToSearch,
+      {int time = 100}) {
     Future.delayed(Duration(milliseconds: time), () {
       final nowDate = DateTime.now();
       if (nowDate.difference(_lastChangedDate).inMilliseconds > time) {
@@ -61,7 +61,7 @@ class _SearchState extends State<Search> {
         'card': card,
       });
     });
-    delayedSearch('', cardsToSearch);
+    delayedSearch('', cardsToSearch, time: 500);
   }
 
   @override

@@ -9,12 +9,15 @@ class Avatar extends StatelessWidget {
     var vw = screenSize.width * 0.01;
     return Stack(
       children: [
-        Container(
-          width: 16 * vw,
-          height: 16 * vw,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.secondary,
-            shape: BoxShape.circle,
+        Align(
+          alignment: const Alignment(0, 0),
+          child: Container(
+            width: 16 * vw,
+            height: 16 * vw,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.secondary,
+              shape: BoxShape.circle,
+            ),
           ),
         ),
         Align(
@@ -31,15 +34,21 @@ class Avatar extends StatelessWidget {
             ),
           ),
         ),
-        Icon(
-          Icons.account_circle_rounded,
-          size: 16 * vw,
-          color: Theme.of(context).colorScheme.secondaryContainer,
+        Align(
+          alignment: const Alignment(0, 0),
+          child: Icon(
+            Icons.account_circle_rounded,
+            size: 16 * vw,
+            color: Theme.of(context).colorScheme.secondaryContainer,
+          ),
         ),
-        Icon(
-          Icons.account_circle_rounded,
-          size: 16 * vw,
-          color: Theme.of(context).colorScheme.onSecondary.withOpacity(0.25),
+        Align(
+          alignment: const Alignment(0, 0),
+          child: Icon(
+            Icons.account_circle_rounded,
+            size: 16 * vw,
+            color: Theme.of(context).colorScheme.onSecondary.withOpacity(0.25),
+          ),
         ),
       ],
     );

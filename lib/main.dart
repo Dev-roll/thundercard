@@ -3,12 +3,23 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:thundercard/api/settings/display_card_theme.dart';
 
+import 'api/settings/app_theme.dart';
 import 'auth_gate.dart';
 import 'constants.dart';
 import 'firebase_options.dart';
+
+final appThemeProvider = ChangeNotifierProvider((ref) {
+  return AppTheme();
+});
+
+final displayCardThemeProvider = ChangeNotifierProvider((ref) {
+  return DisplayCardTheme();
+});
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,28 +40,20 @@ void main() async {
     webRecaptchaSiteKey:
         'recaptcha-v3-site-key', // If you're building a web app.
   );
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    ThemeMode mode = ThemeMode.system;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appTheme = ref.watch(appThemeProvider);
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Thundercard_app',
-          // theme: ThemeData(
-          //   useMaterial3: true,
-          //   fontFamily: '',
-          //   colorSchemeSeed: seedColor,
-          // colorSchemeSeed: lightDynamic?.primary ?? seedColor,
-          //   visualDensity: VisualDensity.standard,
-          //   brightness: Brightness.light,
-          // ),
           theme: ThemeData(
             useMaterial3: true,
             // fontFamily: '',
@@ -68,7 +71,7 @@ class MyApp extends StatelessWidget {
             textTheme:
                 GoogleFonts.interTextTheme(Theme.of(context).primaryTextTheme),
           ),
-          themeMode: mode,
+          themeMode: appTheme.currentAppTheme,
           locale: Locale('ja', 'JP'),
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
@@ -78,7 +81,6 @@ class MyApp extends StatelessWidget {
           supportedLocales: const [
             Locale('ja', 'JP'),
           ],
-          // home: const MyHomePage(title: 'Thundercard'),
           home: AuthGate(),
         );
       },
