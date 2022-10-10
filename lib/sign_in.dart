@@ -23,9 +23,8 @@ class _SignInState extends State<SignIn> {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     try {
       await firebaseAuth.signInAnonymously();
-
-      return HomePage(
-        index: 0,
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => AuthGate()),
       );
     } catch (e) {
       // await showsnac(
@@ -149,39 +148,59 @@ class _SignInState extends State<SignIn> {
                                   .colorScheme
                                   .onPrimaryContainer,
                             ),
-                            onPressed:
-                                !email.contains('@') || password.length < 8
-                                    ? null
-                                    : () {
-                                        if (formKey.currentState!.validate()) {
-                                          FocusManager.instance.primaryFocus
-                                              ?.unfocus();
-                                          // サインインの処理を書く
-                                          () async {
-                                            try {
-                                              await FirebaseAuth.instance
-                                                  .signInWithEmailAndPassword(
-                                                      email: email,
-                                                      password: password);
+                            onPressed: !email.contains('@') ||
+                                    password.length < 8
+                                ? null
+                                : () {
+                                    if (formKey.currentState!.validate()) {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      // サインインの処理を書く
+                                      () async {
+                                        try {
+                                          await FirebaseAuth.instance
+                                              .signInWithEmailAndPassword(
+                                                  email: email,
+                                                  password: password);
+                                          Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AuthGate()),
+                                          );
 
-                                              return AuthGate();
-                                            } catch (e) {
-                                              debugPrint('$e');
-                                            }
-                                          }();
-
-                                          // if (true) {
-                                          //   // うまくいった場合は画面遷移
-                                          //   Navigator.of(context).pushReplacement(
-                                          //     MaterialPageRoute(
-                                          //         builder: (context) => App()),
-                                          //   );
-                                          // }
+                                          // Future.delayed(Duration(seconds: 1))
+                                          //     .then(
+                                          //   (_) {
+                                          //     return AuthGate();
+                                          //   },
+                                          // );
+                                        } catch (e) {
+                                          debugPrint('$e');
                                         }
-                                      },
+                                      }();
+
+                                      // if (true) {
+                                      //   // うまくいった場合は画面遷移
+                                      //   Navigator.of(context).pushReplacement(
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) => App()),
+                                      //   );
+                                      // }
+                                    }
+                                  },
                             child: const Text('サインイン'),
                           )
                         ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 32,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () => _onSignInWithAnonymousUser(),
+                        child: Text('登録せず利用'),
                       ),
                     ),
                     SizedBox(
