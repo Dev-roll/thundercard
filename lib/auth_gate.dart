@@ -161,26 +161,27 @@ class AuthGate extends StatelessWidget {
           // ]);
         }
         return FutureBuilder(
-            future: users.doc(snapshot.data?.uid).get(),
-            builder: (BuildContext context,
-                AsyncSnapshot<DocumentSnapshot> snapshot) {
-              if (snapshot.hasError) {
-                return const Text('問題が発生しました');
-              }
-              if (snapshot.hasData && !snapshot.data!.exists) {
-                return AccountRegistration();
-              }
-              if (snapshot.connectionState == ConnectionState.done) {
-                return HomePage(
-                  index: 0,
-                );
-              }
-              return const Scaffold(
-                body: Center(
-                  child: CustomProgressIndicator(),
-                ),
+          future: users.doc(snapshot.data?.uid).get(),
+          builder:
+              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return const Text('問題が発生しました');
+            }
+            if (snapshot.hasData && !snapshot.data!.exists) {
+              return AccountRegistration();
+            }
+            if (snapshot.connectionState == ConnectionState.done) {
+              return HomePage(
+                index: 0,
               );
-            });
+            }
+            return const Scaffold(
+              body: Center(
+                child: CustomProgressIndicator(),
+              ),
+            );
+          },
+        );
       },
     );
   }

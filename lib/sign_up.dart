@@ -24,9 +24,8 @@ class _SignUpState extends State<SignUp> {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     try {
       await firebaseAuth.signInAnonymously();
-
-      return HomePage(
-        index: 0,
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => AuthGate()),
       );
     } catch (e) {
       // await showsnac(
@@ -206,7 +205,11 @@ class _SignUpState extends State<SignUp> {
                                                   email: email,
                                                   password: password);
 
-                                          return AuthGate();
+                                          Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AuthGate()),
+                                          );
                                         } catch (e) {
                                           debugPrint('$e');
                                         }
