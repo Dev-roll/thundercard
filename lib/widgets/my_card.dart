@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thundercard/api/return_original_color.dart';
 import 'package:thundercard/widgets/preview_card.dart';
+import 'package:thundercard/widgets/custom_skeletons/skeleton_card.dart';
 
 import '../api/current_brightness.dart';
 import '../api/settings/display_card_theme.dart';
@@ -55,7 +56,7 @@ class MyCard extends ConsumerWidget {
           return const Text('問題が発生しました');
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CustomProgressIndicator();
+          return SkeletonCard();
         }
 
         dynamic data = snapshot.data;
