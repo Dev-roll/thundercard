@@ -11,7 +11,9 @@ import 'constants.dart';
 import 'home_page.dart';
 
 class AddCard extends StatefulWidget {
-  const AddCard({Key? key, required this.cardId}) : super(key: key);
+  const AddCard({Key? key, required this.myCardId, required this.cardId})
+      : super(key: key);
+  final myCardId;
   final String cardId;
 
   @override
@@ -78,7 +80,8 @@ void handleExchange(String myCardId, anotherCardId) async {
 class _AddCardState extends State<AddCard> {
   @override
   Widget build(BuildContext context) {
-    final String addCardId = widget.cardId.split('=').last;
+    final myCardId = widget.myCardId;
+    final String addCardId = widget.cardId;
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     final String? uid = getUid();
 
@@ -94,122 +97,158 @@ class _AddCardState extends State<AddCard> {
                   cardType: CardType.normal,
                 ),
                 SizedBox(height: 32),
-                Text('この名刺を追加しますか？'),
-                SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FutureBuilder(
-                      future: users.doc(uid).get(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<DocumentSnapshot> snapshot) {
-                        if (snapshot.hasError) {
-                          return const Text('問題が発生しました');
-                        }
-                        if (snapshot.hasData && !snapshot.data!.exists) {
-                          return const Text('ユーザー情報の取得に失敗しました');
-                        }
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          Map<String, dynamic> user =
-                              snapshot.data!.data() as Map<String, dynamic>;
-                          String myCardId = user['my_cards'][0];
-                          return Center(
-                            child: Row(
-                              children: [
-                                OutlinedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('キャンセル'),
-                                ),
-                                SizedBox(width: 16),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    handleExchange(myCardId, addCardId);
-                                    // Navigator.of(context).push(
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) => HomePage(index: 1),
-                                    //   ),
-                                    // );
-                                    // Navigator.of(context).pushAndRemoveUntil(
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) => HomePage(index: 0),
-                                    //   ),
-                                    //   (_) => false,
-                                    // );
-                                    Navigator.of(context).pop();
-                                    Navigator.of(context).pop();
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        elevation: 20,
-                                        backgroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .surfaceVariant,
-                                        behavior: SnackBarBehavior.floating,
-                                        clipBehavior: Clip.antiAlias,
-                                        dismissDirection:
-                                            DismissDirection.horizontal,
-                                        margin: EdgeInsets.only(
-                                          left: 8,
-                                          right: 8,
-                                          bottom: MediaQuery.of(context)
-                                                  .size
-                                                  .height -
-                                              180,
-                                        ),
-                                        duration: const Duration(seconds: 2),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(28),
-                                        ),
-                                        content: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      0, 0, 16, 0),
-                                              child: Icon(Icons
-                                                  .file_download_done_rounded),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                '名刺を追加しました',
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onBackground,
-                                                    overflow:
-                                                        TextOverflow.fade),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        // duration: const Duration(seconds: 12),
-                                        action: SnackBarAction(
-                                          label: 'OK',
-                                          onPressed: () {},
-                                        ),
+                addCardId == myCardId
+                    ? Column(
+                        children: [
+                          Text('ユーザー自身のカードは追加できません'),
+                          SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              OutlinedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    : Column(
+                        children: [
+                          Text('この名刺を追加しますか？'),
+                          SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              FutureBuilder(
+                                future: users.doc(uid).get(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                                  if (snapshot.hasError) {
+                                    return const Text('問題が発生しました');
+                                  }
+                                  if (snapshot.hasData &&
+                                      !snapshot.data!.exists) {
+                                    return const Text('ユーザー情報の取得に失敗しました');
+                                  }
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    Map<String, dynamic> user = snapshot.data!
+                                        .data() as Map<String, dynamic>;
+                                    String myCardId = user['my_cards'][0];
+                                    return Center(
+                                      child: Row(
+                                        children: [
+                                          OutlinedButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('キャンセル'),
+                                          ),
+                                          SizedBox(width: 16),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              handleExchange(
+                                                  myCardId, addCardId);
+                                              // Navigator.of(context).push(
+                                              //   MaterialPageRoute(
+                                              //     builder: (context) => HomePage(index: 1),
+                                              //   ),
+                                              // );
+                                              // Navigator.of(context).pushAndRemoveUntil(
+                                              //   MaterialPageRoute(
+                                              //     builder: (context) => HomePage(index: 0),
+                                              //   ),
+                                              //   (_) => false,
+                                              // );
+                                              Navigator.of(context).pop();
+                                              Navigator.of(context).pop();
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  elevation: 20,
+                                                  backgroundColor:
+                                                      Theme.of(context)
+                                                          .colorScheme
+                                                          .surfaceVariant,
+                                                  behavior:
+                                                      SnackBarBehavior.floating,
+                                                  clipBehavior: Clip.antiAlias,
+                                                  dismissDirection:
+                                                      DismissDirection
+                                                          .horizontal,
+                                                  margin: EdgeInsets.only(
+                                                    left: 8,
+                                                    right: 8,
+                                                    bottom:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height -
+                                                            180,
+                                                  ),
+                                                  duration: const Duration(
+                                                      seconds: 2),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            28),
+                                                  ),
+                                                  content: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .fromLTRB(
+                                                                0, 0, 16, 0),
+                                                        child: Icon(Icons
+                                                            .file_download_done_rounded),
+                                                      ),
+                                                      Expanded(
+                                                        child: Text(
+                                                          '名刺を追加しました',
+                                                          style: TextStyle(
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .onBackground,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .fade),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  // duration: const Duration(seconds: 12),
+                                                  action: SnackBarAction(
+                                                    label: 'OK',
+                                                    onPressed: () {},
+                                                  ),
+                                                ),
+                                              );
+                                              // Navigator.of(context).push(
+                                              //   MaterialPageRoute(
+                                              //     builder: (context) => HomePage(index: 1),
+                                              //   ),
+                                              // );
+                                            },
+                                            child: const Text('追加'),
+                                          ),
+                                        ],
                                       ),
                                     );
-                                    // Navigator.of(context).push(
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) => HomePage(index: 1),
-                                    //   ),
-                                    // );
-                                  },
-                                  child: const Text('追加'),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                        return const CustomProgressIndicator();
-                      },
-                    ),
-                  ],
-                )
+                                  }
+                                  return const CustomProgressIndicator();
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
               ],
             ),
           ),

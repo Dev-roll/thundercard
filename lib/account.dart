@@ -25,7 +25,9 @@ import 'widgets/maintenance.dart';
 import 'auth_gate.dart';
 
 class Account extends ConsumerWidget {
-  const Account({Key? key}) : super(key: key);
+  Account({Key? key}) : super(key: key);
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -75,6 +77,111 @@ class Account extends ConsumerWidget {
                     }
                     return const Center(child: CustomProgressIndicator());
                   },
+                ),
+                Divider(
+                  height: 32,
+                  thickness: 1,
+                  indent: 16,
+                  endIndent: 16,
+                  color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
+                ),
+                // auth_gate.dartと連携させる
+                Text('メールアドレス（必須）'),
+                TextFormField(
+                  controller: _emailController,
+                  maxLength: 20,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    return value!.isEmpty ? '必須' : null;
+                  },
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.email_rounded),
+                    hintText: 'メールアドレス',
+                    hintStyle: TextStyle(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onBackground
+                          .withOpacity(0.5),
+                    ),
+                  ),
+                  // onChanged: (value) {
+                  //   setState(() {});
+                  // },
+                ),
+                Text('パスワード（必須）'),
+                TextFormField(
+                  controller: _passwordController,
+                  maxLength: 20,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    return value!.isEmpty ? '必須' : null;
+                  },
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.password_rounded),
+                    hintText: 'パスワード',
+                    hintStyle: TextStyle(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onBackground
+                          .withOpacity(0.5),
+                    ),
+                  ),
+                  // onChanged: (value) {
+                  //   setState(() {});
+                  // },
+                ),
+                ElevatedButton.icon(
+                  icon: Icon(
+                    Icons.add_link_rounded,
+                  ),
+                  label: const Text('他の認証方法とリンク'),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    foregroundColor: Theme.of(context).colorScheme.secondary,
+                    backgroundColor: Theme.of(context)
+                        .colorScheme
+                        .onSecondary
+                        .withOpacity(1),
+                  ),
+                  onPressed: _emailController.text == '' &&
+                          _passwordController.text == ''
+                      ? null
+                      : () async {
+                          // Google Sign-in
+                          // final credential =
+                          //     GoogleAuthProvider.credential(idToken: idToken);
+
+                          // Email and password sign-in
+                          final credential = EmailAuthProvider.credential(
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                          );
+                          try {
+                            final userCredential = await FirebaseAuth
+                                .instance.currentUser
+                                ?.linkWithCredential(credential);
+                          } on FirebaseAuthException catch (e) {
+                            switch (e.code) {
+                              case "provider-already-linked":
+                                print(
+                                    "The provider has already been linked to the user.");
+                                break;
+                              case "invalid-credential":
+                                print(
+                                    "The provider's credential is not valid.");
+                                break;
+                              case "credential-already-in-use":
+                                print(
+                                    "The account corresponding to the credential already exists, "
+                                    "or is already linked to a Firebase User.");
+                                break;
+                              // See the API reference for the full list of error codes.
+                              default:
+                                print("Unknown error.");
+                            }
+                          }
+                        },
+                  onLongPress: null,
                 ),
                 Divider(
                   height: 32,
