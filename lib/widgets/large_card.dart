@@ -20,7 +20,7 @@ class LargeCard extends StatelessWidget {
 
     return SizedBox(
       width: 91 * vw,
-      height: 55 * vw,
+      height: 91 * 91 * vw / 55,
       child: Stack(
         children: [
           Container(
@@ -44,9 +44,9 @@ class LargeCard extends StatelessWidget {
             ),
             child: Column(
               children: [
-                Flexible(
-                  flex: 16,
-                  child: Row(
+                SizedBox(
+                  height: 36 * vw,
+                  child: Column(
                     children: [
                       // avatar
                       Avatar(),
@@ -93,9 +93,15 @@ class LargeCard extends StatelessWidget {
                     ],
                   ),
                 ),
+                Divider(
+                  height: 32,
+                  thickness: 1,
+                  indent: 16,
+                  endIndent: 16,
+                  color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
+                ),
                 Flexible(
-                  flex: 31,
-                  child: Row(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

@@ -162,7 +162,7 @@ class _CardDetailsState extends State<CardDetails> {
         child: SingleChildScrollView(
           child: Center(
             child: Container(
-              padding: const EdgeInsets.only(bottom: 100),
+              padding: const EdgeInsets.only(bottom: 20),
               child: Column(
                 children: [
                   if (!widget.card['is_user'])
