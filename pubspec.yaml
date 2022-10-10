@@ -70,6 +70,7 @@ dependencies:
   flutter_speed_dial: ^6.0.0
   firebase_app_check: ^0.0.8
   flutter_riverpod: ^2.0.2
+  skeletons: ^0.0.3
   # flutter_launcher_icons: ^0.10.0
 
 dev_dependencies:
