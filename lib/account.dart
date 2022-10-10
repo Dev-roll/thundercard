@@ -8,6 +8,7 @@ import 'package:thundercard/api/current_brightness_reverse.dart';
 import 'package:thundercard/api/firebase_firestore.dart';
 import 'package:thundercard/api/settings/display_card_theme.dart';
 import 'package:thundercard/constants.dart';
+import 'package:thundercard/link_auth.dart';
 import 'package:thundercard/main.dart';
 import 'package:thundercard/widgets/avatar.dart';
 import 'package:thundercard/widgets/dialog_util.dart';
@@ -85,50 +86,53 @@ class Account extends ConsumerWidget {
                   endIndent: 16,
                   color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
                 ),
-                // auth_gate.dartと連携させる
-                Text('メールアドレス（必須）'),
-                TextFormField(
-                  controller: _emailController,
-                  maxLength: 20,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) {
-                    return value!.isEmpty ? '必須' : null;
-                  },
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.email_rounded),
-                    hintText: 'メールアドレス',
-                    hintStyle: TextStyle(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onBackground
-                          .withOpacity(0.5),
-                    ),
+                Container(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          // Icon(
+                          //   Icons.settings_rounded,
+                          //   color: Theme.of(context)
+                          //       .colorScheme
+                          //       .onBackground
+                          //       .withOpacity(0.7),
+                          // ),
+                          // SizedBox(
+                          //   width: 8,
+                          // ),
+                          Text(
+                            '認証方法',
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                        ],
+                      ),
+                      // Container(
+                      //   padding: EdgeInsets.fromLTRB(8, 20, 8, 8),
+                      //   child: Row(children: [
+                      //     Icon(
+                      //       Icons.lock_rounded,
+                      //       color:
+                      //           Theme.of(context).colorScheme.onSurfaceVariant,
+                      //     ),
+                      //     SizedBox(
+                      //       width: 8,
+                      //     ),
+                      //     Text(
+                      //       '（認証方法）',
+                      //       style: TextStyle(
+                      //         color: Theme.of(context)
+                      //             .colorScheme
+                      //             .onSurfaceVariant,
+                      //       ),
+                      //     ),
+                      //   ]),
+                      // ),
+                    ],
                   ),
-                  // onChanged: (value) {
-                  //   setState(() {});
-                  // },
-                ),
-                Text('パスワード（必須）'),
-                TextFormField(
-                  controller: _passwordController,
-                  maxLength: 20,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) {
-                    return value!.isEmpty ? '必須' : null;
-                  },
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.password_rounded),
-                    hintText: 'パスワード',
-                    hintStyle: TextStyle(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onBackground
-                          .withOpacity(0.5),
-                    ),
-                  ),
-                  // onChanged: (value) {
-                  //   setState(() {});
-                  // },
                 ),
                 ElevatedButton.icon(
                   icon: Icon(
@@ -143,44 +147,11 @@ class Account extends ConsumerWidget {
                         .onSecondary
                         .withOpacity(1),
                   ),
-                  onPressed: _emailController.text == '' &&
-                          _passwordController.text == ''
-                      ? null
-                      : () async {
-                          // Google Sign-in
-                          // final credential =
-                          //     GoogleAuthProvider.credential(idToken: idToken);
-
-                          // Email and password sign-in
-                          final credential = EmailAuthProvider.credential(
-                            email: _emailController.text,
-                            password: _passwordController.text,
-                          );
-                          try {
-                            final userCredential = await FirebaseAuth
-                                .instance.currentUser
-                                ?.linkWithCredential(credential);
-                          } on FirebaseAuthException catch (e) {
-                            switch (e.code) {
-                              case "provider-already-linked":
-                                print(
-                                    "The provider has already been linked to the user.");
-                                break;
-                              case "invalid-credential":
-                                print(
-                                    "The provider's credential is not valid.");
-                                break;
-                              case "credential-already-in-use":
-                                print(
-                                    "The account corresponding to the credential already exists, "
-                                    "or is already linked to a Firebase User.");
-                                break;
-                              // See the API reference for the full list of error codes.
-                              default:
-                                print("Unknown error.");
-                            }
-                          }
-                        },
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => LinkAuth()),
+                    );
+                  },
                   onLongPress: null,
                 ),
                 Divider(

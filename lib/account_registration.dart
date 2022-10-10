@@ -323,7 +323,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
         'links': links,
       }
     }).then((value) {
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => AuthGate()),
       );
       print('Card Registered');
