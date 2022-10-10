@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-// 名刺に表示する所属、肩書き等
+// カードに表示する所属、肩書き等
 const List<String> dataTypes = [
   'company',
   'position',
@@ -102,7 +102,7 @@ const Map<String, IconType> linkTypeToIconType = {
   'spotify': IconType.spotify,
 };
 
-//名刺に表示するアイコンの種類を幅広く登録
+//カードに表示するアイコンの種類を幅広く登録
 enum IconType {
   nl,
   company,
@@ -210,7 +210,7 @@ Map<String, IconData> linkTypeToIconData = Map.fromIterables(
 const Color white = Color(0xFFFAFAFA);
 const Color seedColor = Color(0xFF00B1D8);
 
-// 名刺の表示形式
+// カードの表示形式
 enum CardType {
   preview,
   small,

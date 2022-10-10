@@ -163,7 +163,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
                 ),
                 Expanded(
                   child: Text(
-                    '名刺を追加しました',
+                    'カードを追加しました',
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.onBackground,
                         overflow: TextOverflow.fade),
@@ -252,7 +252,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       const Text(
-                        '名刺の画像を追加',
+                        '名刺等の画像を追加',
                         style: TextStyle(
                           fontSize: 20,
                           // fontWeight: FontWeight.bold,
@@ -463,7 +463,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       const Text(
-                        '名刺を登録',
+                        'カードを登録',
                         style: const TextStyle(
                           fontSize: 20,
                           // fontWeight: FontWeight.bold,

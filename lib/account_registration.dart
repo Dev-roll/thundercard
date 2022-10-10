@@ -327,7 +327,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
         MaterialPageRoute(builder: (context) => AuthGate()),
       );
       print('Card Registered');
-    }).catchError((error) => print('名刺の登録に失敗しました: $error'));
+    }).catchError((error) => print('カードの登録に失敗しました: $error'));
   }
 
   @override

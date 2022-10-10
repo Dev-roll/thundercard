@@ -174,7 +174,7 @@ class _ThundercardState extends State<Thundercard> {
                                                   ),
                                                   Expanded(
                                                     child: Text(
-                                                      '名刺をダウンロードしました',
+                                                      'カードをダウンロードしました',
                                                       style: TextStyle(
                                                           color:
                                                               Theme.of(context)
@@ -301,7 +301,7 @@ class _ThundercardState extends State<Thundercard> {
           size: 26,
         ),
         label: Text(
-          '名刺を交換',
+          'カードを交換',
           style: TextStyle(fontSize: 16),
         ),
         style: ElevatedButton.styleFrom(

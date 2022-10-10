@@ -129,7 +129,7 @@ class _SearchState extends State<Search> {
                                 child: TextField(
                                   autofocus: true,
                                   decoration: InputDecoration(
-                                    hintText: '名刺を検索',
+                                    hintText: 'カードを検索',
                                     filled: true,
                                     fillColor: Colors.transparent,
                                     enabledBorder: OutlineInputBorder(
