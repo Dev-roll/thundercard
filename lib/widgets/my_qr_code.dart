@@ -58,7 +58,7 @@ class _MyQrCodeState extends State<MyQrCode> {
             backgroundColor: Theme.of(context).colorScheme.onSecondary,
             errorCorrectionLevel: QrErrorCorrectLevel.M,
             padding: const EdgeInsets.all(20),
-            embeddedImage: Image.asset('images/icon.png').image,
+            embeddedImage: Image.asset('images/icon_for_qr.png').image,
             embeddedImageStyle: QrEmbeddedImageStyle(size: Size(36, 36)),
           ),
         ),
