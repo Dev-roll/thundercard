@@ -174,7 +174,7 @@ class _CardDetailsState extends State<CardDetails> {
                           padding: const EdgeInsets.all(16.0),
                           child: MyCard(
                             cardId: widget.cardId,
-                            cardType: CardType.extended,
+                            cardType: CardType.large,
                           ),
                         )
                       : Padding(
