@@ -7,74 +7,54 @@ import 'package:thundercard/auth_gate.dart';
 import 'home_page.dart';
 import 'sign_in.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({Key? key, required this.email, required this.password})
-      : super(key: key);
-  final String email;
-  final String password;
+class LinkAuth extends StatefulWidget {
+  const LinkAuth({Key? key}) : super(key: key);
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  State<LinkAuth> createState() => _LinkAuthState();
 }
 
-class _SignUpState extends State<SignUp> {
-  late final TextEditingController _emailController =
-      TextEditingController(text: widget.email);
+class _LinkAuthState extends State<LinkAuth> {
+  late final TextEditingController _emailController = TextEditingController();
   late final TextEditingController _passwordController =
-      TextEditingController(text: widget.password);
+      TextEditingController();
   String passwordCheck = '';
   bool hidePassword = true;
   final formKey = GlobalKey<FormState>();
 
-  Future _onSignInWithAnonymousUser() async {
-    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  void googleSignIn() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser!.authentication;
+
+    // Create a new credential
+    final OAuthCredential credential = GoogleAuthProvider.credential(
+      // accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
     try {
-      await firebaseAuth.signInAnonymously();
+      final userCredential = await FirebaseAuth.instance.currentUser
+          ?.linkWithCredential(credential);
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => AuthGate()),
       );
-    } catch (e) {
-      // await showsnac(
-      //     context: context,
-      //     builder: (context) {
-      //       return AlertDialog(
-      //         title: Text('エラー'),
-      //         content: Text(e.toString()),
-      //       );
-      //     });
-    }
-  }
-
-  Future<void> _onSignInGoogle() async {
-    try {
-      final googleLogin = GoogleSignIn(scopes: [
-        'email',
-        'https://www.googleapis.com/auth/contacts.readonly',
-      ]);
-
-      GoogleSignInAccount? signinAccount = await googleLogin.signIn();
-      if (signinAccount == null) return;
-
-      GoogleSignInAuthentication auth = await signinAccount.authentication;
-      final credential = GoogleAuthProvider.credential(
-        idToken: auth.idToken,
-        accessToken: auth.accessToken,
-      );
-      await FirebaseAuth.instance.signInWithCredential(credential);
-
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => AuthGate()),
-      );
-    } catch (e) {
-      // await showDialog(
-      //     context: context,
-      //     builder: (context) {
-      //       return AlertDialog(
-      //         title: Text('エラー'),
-      //         content: Text(e.toString()),
-      //       );
-      //     }
-      // );
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case "provider-already-linked":
+          print("The provider has already been linked to the user.");
+          break;
+        case "invalid-credential":
+          print("The provider's credential is not valid.");
+          break;
+        case "credential-already-in-use":
+          print("The account corresponding to the credential already exists, "
+              "or is already linked to a Firebase User.");
+          break;
+        // See the API reference for the full list of error codes.
+        default:
+          print("Unknown error.");
+      }
     }
   }
 
@@ -83,6 +63,7 @@ class _SignUpState extends State<SignUp> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+        appBar: AppBar(),
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -236,20 +217,46 @@ class _SignUpState extends State<SignUp> {
                                           ?.unfocus();
                                       // サインアップの処理を書く
                                       () async {
-                                        try {
-                                          await FirebaseAuth.instance
-                                              .signInWithEmailAndPassword(
-                                                  email: _emailController.text,
-                                                  password:
-                                                      _passwordController.text);
+                                        // Google Sign-in
+                                        // final credential =
+                                        //     GoogleAuthProvider.credential(idToken: idToken);
 
+                                        // Email and password sign-in
+                                        final credential =
+                                            EmailAuthProvider.credential(
+                                          email: _emailController.text,
+                                          password: _passwordController.text,
+                                        );
+                                        try {
+                                          final userCredential =
+                                              await FirebaseAuth
+                                                  .instance.currentUser
+                                                  ?.linkWithCredential(
+                                                      credential);
                                           Navigator.of(context).pushReplacement(
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     AuthGate()),
                                           );
-                                        } catch (e) {
-                                          debugPrint('$e');
+                                        } on FirebaseAuthException catch (e) {
+                                          switch (e.code) {
+                                            case "provider-already-linked":
+                                              print(
+                                                  "The provider has already been linked to the user.");
+                                              break;
+                                            case "invalid-credential":
+                                              print(
+                                                  "The provider's credential is not valid.");
+                                              break;
+                                            case "credential-already-in-use":
+                                              print(
+                                                  "The account corresponding to the credential already exists, "
+                                                  "or is already linked to a Firebase User.");
+                                              break;
+                                            // See the API reference for the full list of error codes.
+                                            default:
+                                              print("Unknown error.");
+                                          }
                                         }
                                       }();
                                       // if (true) {
@@ -272,17 +279,7 @@ class _SignUpState extends State<SignUp> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () => _onSignInWithAnonymousUser(),
-                        child: Text('登録せず利用'),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 32,
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () => _onSignInGoogle(),
+                        onPressed: () => googleSignIn(),
                         child: Text('Googleでログイン'),
                       ),
                     ),
@@ -291,56 +288,6 @@ class _SignUpState extends State<SignUp> {
                     //         '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com'),
                     SizedBox(
                       height: 32,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'アカウント登録済の場合は',
-                          style: TextStyle(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurfaceVariant
-                                .withOpacity(0.8),
-                            fontSize: 12,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) => SignIn(
-                                        email: _emailController.text,
-                                        password: _passwordController.text,
-                                      )),
-                            );
-                          },
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: 8,
-                                height: 40,
-                              ),
-                              Icon(
-                                Icons.login,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                              SizedBox(
-                                width: 4,
-                              ),
-                              Text(
-                                'サインイン',
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
                     ),
                   ],
                 ),

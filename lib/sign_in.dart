@@ -1,21 +1,26 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:thundercard/auth_gate.dart';
 
 import 'home_page.dart';
 import 'sign_up.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({Key? key}) : super(key: key);
+  const SignIn({Key? key, this.email, this.password}) : super(key: key);
+  final String? email;
+  final String? password;
 
   @override
   State<SignIn> createState() => _SignInState();
 }
 
 class _SignInState extends State<SignIn> {
-  String email = '';
-  String password = '';
+  late final TextEditingController _emailController =
+      TextEditingController(text: widget.email ?? '');
+  late final TextEditingController _passwordController =
+      TextEditingController(text: widget.password ?? '');
   bool hidePassword = true;
   final formKey = GlobalKey<FormState>();
 
@@ -35,6 +40,39 @@ class _SignInState extends State<SignIn> {
       //         content: Text(e.toString()),
       //       );
       //     });
+    }
+  }
+
+  Future<void> _onSignInGoogle() async {
+    try {
+      final googleLogin = GoogleSignIn(scopes: [
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ]);
+
+      GoogleSignInAccount? signinAccount = await googleLogin.signIn();
+      if (signinAccount == null) return;
+
+      GoogleSignInAuthentication auth = await signinAccount.authentication;
+      final credential = GoogleAuthProvider.credential(
+        idToken: auth.idToken,
+        accessToken: auth.accessToken,
+      );
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => AuthGate()),
+      );
+    } catch (e) {
+      // await showDialog(
+      //     context: context,
+      //     builder: (context) {
+      //       return AlertDialog(
+      //         title: Text('エラー'),
+      //         content: Text(e.toString()),
+      //       );
+      //     }
+      // );
     }
   }
 
@@ -74,6 +112,7 @@ class _SignInState extends State<SignIn> {
                       child: Column(
                         children: [
                           TextFormField(
+                            controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
                             autocorrect: true,
                             textInputAction: TextInputAction.next,
@@ -92,15 +131,14 @@ class _SignInState extends State<SignIn> {
                               return null;
                             },
                             onChanged: (String value) {
-                              setState(() {
-                                email = value;
-                              });
+                              setState(() {});
                             },
                           ),
                           SizedBox(
                             height: 20,
                           ),
                           TextFormField(
+                            controller: _passwordController,
                             obscureText: hidePassword,
                             keyboardType: TextInputType.visiblePassword,
                             textInputAction: TextInputAction.go,
@@ -132,9 +170,7 @@ class _SignInState extends State<SignIn> {
                               return null;
                             },
                             onChanged: (String value) {
-                              setState(() {
-                                password = value;
-                              });
+                              setState(() {});
                             },
                           ),
                           const SizedBox(height: 40),
@@ -148,8 +184,8 @@ class _SignInState extends State<SignIn> {
                                   .colorScheme
                                   .onPrimaryContainer,
                             ),
-                            onPressed: !email.contains('@') ||
-                                    password.length < 8
+                            onPressed: !_emailController.text.contains('@') ||
+                                    _passwordController.text.length < 8
                                 ? null
                                 : () {
                                     if (formKey.currentState!.validate()) {
@@ -160,8 +196,9 @@ class _SignInState extends State<SignIn> {
                                         try {
                                           await FirebaseAuth.instance
                                               .signInWithEmailAndPassword(
-                                                  email: email,
-                                                  password: password);
+                                                  email: _emailController.text,
+                                                  password:
+                                                      _passwordController.text);
                                           Navigator.of(context).pushReplacement(
                                             MaterialPageRoute(
                                                 builder: (context) =>
@@ -206,9 +243,16 @@ class _SignInState extends State<SignIn> {
                     SizedBox(
                       height: 32,
                     ),
-                    GoogleSignInButton(
-                        clientId:
-                            '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com'),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () => _onSignInGoogle(),
+                        child: Text('Googleでログイン'),
+                      ),
+                    ),
+                    // GoogleSignInButton(
+                    //     clientId:
+                    //         '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com'),
                     SizedBox(
                       height: 32,
                     ),
@@ -228,7 +272,11 @@ class _SignInState extends State<SignIn> {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (context) => SignUp()),
+                              MaterialPageRoute(
+                                  builder: (context) => SignUp(
+                                        email: _emailController.text,
+                                        password: _passwordController.text,
+                                      )),
                             );
                           },
                           child: Row(
