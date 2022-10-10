@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(
               Icons.ballot_outlined,
             ),
-            label: '名刺一覧',
+            label: 'カード',
           ),
           NavigationDestination(
             selectedIcon: Icon(

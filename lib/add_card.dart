@@ -45,8 +45,8 @@ void handleExchange(String myCardId, anotherCardId) async {
       onError: (e) => print("Error updating document $e"));
 
   final addMyNotificationData = {
-    'title': '名刺リスト追加のお知らせ',
-    'content': '@$myCardIdさんの名刺リストに@$anotherCardIdさんが追加されました！',
+    'title': 'カードリスト追加のお知らせ',
+    'content': '@$myCardIdさんのカードリストに@$anotherCardIdさんが追加されました！',
     'created_at': DateTime.now(),
     'read': false,
     'tags': ['interaction'],
@@ -61,8 +61,8 @@ void handleExchange(String myCardId, anotherCardId) async {
       .add(addMyNotificationData);
 
   final addAnotherNotificationData = {
-    'title': '名刺リスト追加のお知らせ',
-    'content': '@$anotherCardIdさんの名刺リストに@$myCardIdさんが追加されました！',
+    'title': 'カードリスト追加のお知らせ',
+    'content': '@$anotherCardIdさんのカードリストに@$myCardIdさんが追加されました！',
     'created_at': DateTime.now(),
     'read': false,
     'tags': ['interaction'],
@@ -86,7 +86,7 @@ class _AddCardState extends State<AddCard> {
     final String? uid = getUid();
 
     return Scaffold(
-      appBar: AppBar(title: Text('名刺を追加')),
+      appBar: AppBar(title: Text('カードを追加')),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
@@ -117,7 +117,7 @@ class _AddCardState extends State<AddCard> {
                       )
                     : Column(
                         children: [
-                          Text('この名刺を追加しますか？'),
+                          Text('このカードを追加しますか？'),
                           SizedBox(height: 16),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -210,7 +210,7 @@ class _AddCardState extends State<AddCard> {
                                                       ),
                                                       Expanded(
                                                         child: Text(
-                                                          '名刺を追加しました',
+                                                          'カードを追加しました',
                                                           style: TextStyle(
                                                               color: Theme.of(
                                                                       context)

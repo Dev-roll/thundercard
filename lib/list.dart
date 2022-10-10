@@ -134,7 +134,7 @@ class _ListState extends State<List> {
                                         child: TextField(
                                           enabled: false,
                                           decoration: InputDecoration(
-                                            hintText: '名刺を検索',
+                                            hintText: 'カードを検索',
                                             filled: true,
                                             fillColor: Colors.transparent,
                                             disabledBorder: OutlineInputBorder(
@@ -188,7 +188,7 @@ class _ListState extends State<List> {
                                             }
                                             dynamic card = snapshot.data;
                                             if (!snapshot.hasData) {
-                                              return Text('名刺の情報の取得に失敗しました');
+                                              return Text('カードの情報の取得に失敗しました');
                                             }
                                             return Column(
                                               children: [
@@ -239,7 +239,7 @@ class _ListState extends State<List> {
                                           height: 20,
                                         ),
                                         Text(
-                                          'まだ名刺がありません',
+                                          'まだカードがありません',
                                           style: TextStyle(
                                               color: Theme.of(context)
                                                   .colorScheme
@@ -401,7 +401,7 @@ class _ListState extends State<List> {
                     backgroundColor: Colors.transparent,
                     foregroundColor:
                         Theme.of(context).colorScheme.onSecondaryContainer,
-                    label: '名刺を交換',
+                    label: 'カードを交換',
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => Theme(

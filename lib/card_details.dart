@@ -79,9 +79,9 @@ class _CardDetailsState extends State<CardDetails> {
           // (3) AlertDialogを作成する
           builder: (context) => AlertDialog(
                 icon: Icon(Icons.delete_rounded),
-                title: Text("名刺の削除"),
+                title: Text("カードの削除"),
                 content: Text(
-                  "この名刺を削除しますか？",
+                  "このカードを削除しますか？",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
