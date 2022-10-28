@@ -2,15 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'firebase_auth.dart';
 
-String? getCardId() {
-  FirebaseFirestore.instance
-      .collection('users')
-      .doc(getUid())
-      .get()
-      .then((value) {
-    return value['my_cards'][0];
-  }).catchError((error) => print("Failed to add user: $error"));
-}
+// Future<String> getCardId() async {
+//   final String? uid = getUid();
+//   print(uid);
+//   final DocumentReference user =
+//       FirebaseFirestore.instance.collection('users').doc(uid);
+//   final String myCardId = await user.get().then((DocumentSnapshot res) {
+//     final data = res.data() as Map<String, dynamic>;
+//     return data['my_cards'][0];
+//   });
+//   return myCardId;
+// }
 
 Future<String> getDisplayName(String cardId) async {
   DocumentReference card =

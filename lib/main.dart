@@ -6,12 +6,18 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:thundercard/api/my_card_id.dart';
 import 'package:thundercard/api/settings/display_card_theme.dart';
+import 'package:thundercard/home_page.dart';
 
 import 'api/settings/app_theme.dart';
 import 'auth_gate.dart';
 import 'constants.dart';
 import 'firebase_options.dart';
+
+final myCardIdProvider = ChangeNotifierProvider((ref) {
+  return MyCardId();
+});
 
 final appThemeProvider = ChangeNotifierProvider((ref) {
   return AppTheme();
