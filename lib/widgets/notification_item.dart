@@ -78,7 +78,9 @@ class _NotificationItemState extends State<NotificationItem> {
       child: Center(
         child: Card(
           elevation: widget.read ? 0 : 4,
-          color: Theme.of(context).colorScheme.surfaceVariant,
+          color: widget.read
+              ? Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.5)
+              : Theme.of(context).colorScheme.surfaceVariant,
           child: SizedBox(
             width: _screenSize.width * 0.91,
             height: 114,
