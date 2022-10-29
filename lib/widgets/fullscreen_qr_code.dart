@@ -58,7 +58,7 @@ class FullscreenQrCode extends StatelessWidget {
                           Navigator.of(context).pop();
                         },
                         icon: Icon(
-                          Icons.close_rounded,
+                          Icons.arrow_back_rounded,
                           size: 32,
                           color: white,
                         ),
