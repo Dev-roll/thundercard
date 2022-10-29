@@ -21,11 +21,7 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file('key.properties')
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-}
+def keystorePropertiesFile = rootProject.file("keystore.properties") 
 
 apply plugin: 'com.android.application'
 // START: FlutterFire Configuration
