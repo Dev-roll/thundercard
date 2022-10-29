@@ -72,6 +72,8 @@ dependencies:
   flutter_riverpod: ^2.0.2
   skeletons: ^0.0.3
   flutter_svg: ^1.1.5
+  firebase_core_platform_interface: 4.5.1 # note removed ^
+  firebase_messaging: ^13.0.4 # previously I only had this which was pulling in 4.5.2 which you do not want
   # flutter_launcher_icons: ^0.10.0
 
 dev_dependencies:
