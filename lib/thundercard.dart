@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:thundercard/api/current_brightness.dart';
+import 'package:thundercard/api/return_original_color.dart';
 import 'package:thundercard/my_card_details.dart';
 
 import 'api/colors.dart';
@@ -69,26 +71,65 @@ class _ThundercardState extends State<Thundercard> {
                     String thunderCardUrl =
                         'https://thundercard-test.web.app/?card_id=$myCardId';
                     // 'thundercard://user?card_id=$myCardId';
+                    // Color myPrimary = ColorScheme.fromSeed(
+                    //   seedColor: Color(returnOriginalColor(myCardId)),
+                    //   brightness:
+                    //       currentBrightness(Theme.of(context).colorScheme),
+                    // ).primary;
+                    // Color myPrimaryContainer = ColorScheme.fromSeed(
+                    //   seedColor: Color(returnOriginalColor(myCardId)),
+                    //   brightness:
+                    //       currentBrightness(Theme.of(context).colorScheme),
+                    // ).primaryContainer;
+                    Color myPrimary = Theme.of(context).colorScheme.primary;
+                    Color myPrimaryContainer =
+                        Theme.of(context).colorScheme.primaryContainer;
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .primary
-                                    .withOpacity(0.1),
-                                blurRadius: 40,
-                                spreadRadius: 8,
-                              ),
-                              BoxShadow(
-                                color: Color(0xff111111).withOpacity(0.25),
-                                blurRadius: 40,
-                                spreadRadius: 16,
-                              ),
-                            ],
+                            borderRadius: BorderRadius.circular(
+                                0.03 * MediaQuery.of(context).size.width),
+                            boxShadow: currentBrightness(
+                                        Theme.of(context).colorScheme) ==
+                                    Brightness.light
+                                ? [
+                                    BoxShadow(
+                                      color: myPrimary.withOpacity(0.1),
+                                      blurRadius: 8,
+                                      spreadRadius: 0,
+                                    ),
+                                    BoxShadow(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground
+                                          .withOpacity(0.25),
+                                      blurRadius: 20,
+                                      spreadRadius: 0,
+                                    ),
+                                    BoxShadow(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground
+                                          .withOpacity(0.25),
+                                      blurRadius: 60,
+                                      spreadRadius: 0,
+                                    ),
+                                  ]
+                                : [
+                                    BoxShadow(
+                                      color: myPrimary.withOpacity(0.08),
+                                      blurRadius: 20,
+                                      spreadRadius: 8,
+                                    ),
+                                    BoxShadow(
+                                      color:
+                                          myPrimaryContainer.withOpacity(0.15),
+                                      blurRadius: 20,
+                                      spreadRadius: 8,
+                                    ),
+                                  ],
                           ),
                           child: GestureDetector(
                             behavior: HitTestBehavior.opaque,

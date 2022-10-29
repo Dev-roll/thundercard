@@ -131,28 +131,36 @@ class Account extends ConsumerWidget {
                       //     ),
                       //   ]),
                       // ),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(8, 20, 8, 8),
+                        alignment: Alignment.center,
+                        child: ElevatedButton.icon(
+                          icon: Icon(
+                            // Icons.add_link_rounded,
+                            Icons.add_circle_outline_rounded,
+                          ),
+                          // label: const Text('他の認証方法とリンク'),
+                          label: const Text('認証方法を追加'),
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            foregroundColor: Theme.of(context)
+                                .colorScheme
+                                .onSecondaryContainer,
+                            backgroundColor: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => LinkAuth()),
+                            );
+                          },
+                          onLongPress: null,
+                        ),
+                      ),
                     ],
                   ),
-                ),
-                ElevatedButton.icon(
-                  icon: Icon(
-                    Icons.add_link_rounded,
-                  ),
-                  label: const Text('他の認証方法とリンク'),
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    foregroundColor: Theme.of(context).colorScheme.secondary,
-                    backgroundColor: Theme.of(context)
-                        .colorScheme
-                        .onSecondary
-                        .withOpacity(1),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => LinkAuth()),
-                    );
-                  },
-                  onLongPress: null,
                 ),
                 Divider(
                   height: 32,
