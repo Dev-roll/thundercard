@@ -71,6 +71,7 @@ dependencies:
   firebase_app_check: ^0.0.8
   flutter_riverpod: ^2.0.2
   skeletons: ^0.0.3
+  flutter_svg: ^1.1.5
   # flutter_launcher_icons: ^0.10.0
 
 dev_dependencies:
@@ -114,6 +115,15 @@ flutter:
   assets:
     - images/icon.png
     - images/icon_for_qr.png
+    - images/svg/large/thundercard_sharp.svg
+    - images/svg/large/thundercard_sharp_outlined.svg
+    - images/svg/large/thundercard_rounded.svg
+    - images/svg/large/thundercard_rounded_outlined.svg
+    - images/svg/normal/thundercard_sharp.svg
+    - images/svg/normal/thundercard_sharp_outlined.svg
+    - images/svg/normal/thundercard_rounded.svg
+    - images/svg/normal/thundercard_rounded_outlined.svg
+    - images/svg/qr/icon_for_qr.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
