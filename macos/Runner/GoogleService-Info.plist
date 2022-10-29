@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.thundercard</string>
+	<string>app.web.thundercard</string>
 	<key>PROJECT_ID</key>
 	<string>thundercard-test</string>
 	<key>STORAGE_BUCKET</key>
