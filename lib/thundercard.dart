@@ -71,19 +71,19 @@ class _ThundercardState extends State<Thundercard> {
                     String thunderCardUrl =
                         'https://thundercard-test.web.app/?card_id=$myCardId';
                     // 'thundercard://user?card_id=$myCardId';
-                    // Color myPrimary = ColorScheme.fromSeed(
-                    //   seedColor: Color(returnOriginalColor(myCardId)),
-                    //   brightness:
-                    //       currentBrightness(Theme.of(context).colorScheme),
-                    // ).primary;
-                    // Color myPrimaryContainer = ColorScheme.fromSeed(
-                    //   seedColor: Color(returnOriginalColor(myCardId)),
-                    //   brightness:
-                    //       currentBrightness(Theme.of(context).colorScheme),
-                    // ).primaryContainer;
-                    Color myPrimary = Theme.of(context).colorScheme.primary;
-                    Color myPrimaryContainer =
-                        Theme.of(context).colorScheme.primaryContainer;
+                    Color myPrimary = ColorScheme.fromSeed(
+                      seedColor: Color(returnOriginalColor(myCardId)),
+                      brightness:
+                          currentBrightness(Theme.of(context).colorScheme),
+                    ).primary;
+                    Color myPrimaryContainer = ColorScheme.fromSeed(
+                      seedColor: Color(returnOriginalColor(myCardId)),
+                      brightness:
+                          currentBrightness(Theme.of(context).colorScheme),
+                    ).primaryContainer;
+                    // Color myPrimary = Theme.of(context).colorScheme.primary;
+                    // Color myPrimaryContainer =
+                    //     Theme.of(context).colorScheme.primaryContainer;
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
