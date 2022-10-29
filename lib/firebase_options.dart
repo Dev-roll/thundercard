@@ -67,8 +67,9 @@ class DefaultFirebaseOptions {
     messagingSenderId: '277870400251',
     projectId: 'thundercard-test',
     storageBucket: 'thundercard-test.appspot.com',
-    iosClientId: '277870400251-o1b5l9l83o1k239q3g4ga8m0dlsvnqoh.apps.googleusercontent.com',
-    iosBundleId: 'com.example.thundercard',
+    iosClientId:
+        '277870400251-o1b5l9l83o1k239q3g4ga8m0dlsvnqoh.apps.googleusercontent.com',
+    iosBundleId: 'app.web.thundercard',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -77,7 +78,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '277870400251',
     projectId: 'thundercard-test',
     storageBucket: 'thundercard-test.appspot.com',
-    iosClientId: '277870400251-o1b5l9l83o1k239q3g4ga8m0dlsvnqoh.apps.googleusercontent.com',
-    iosBundleId: 'com.example.thundercard',
+    iosClientId:
+        '277870400251-o1b5l9l83o1k239q3g4ga8m0dlsvnqoh.apps.googleusercontent.com',
+    iosBundleId: 'app.web.thundercard',
   );
 }

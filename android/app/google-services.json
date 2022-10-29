@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:277870400251:android:c5dd3b9bfbe67f3c5e565e",
         "android_client_info": {
-          "package_name": "com.example.thundercard"
+          "package_name": "app.web.thundercard"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "277870400251-04qtakupsturhn6qnlap4uai2kv8tja0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.thundercard",
+            "package_name": "app.web.thundercard",
             "certificate_hash": "eef5d5e560c220a45dd6df40d40175e102facffc"
           }
         },
@@ -43,7 +43,7 @@
               "client_id": "277870400251-o1b5l9l83o1k239q3g4ga8m0dlsvnqoh.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.thundercard"
+                "bundle_id": "app.web.thundercard"
               }
             }
           ]
