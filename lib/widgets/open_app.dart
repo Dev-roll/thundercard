@@ -7,9 +7,11 @@ import '../constants.dart';
 import 'card_element.dart';
 
 class OpenApp extends StatefulWidget {
-  OpenApp({Key? key, required this.url, this.secondUrl}) : super(key: key);
+  OpenApp({Key? key, required this.url, this.secondUrl, this.child})
+      : super(key: key);
   final String url;
   String? secondUrl = '';
+  Widget? child;
 
   @override
   State<OpenApp> createState() => _OpenAppState();
@@ -18,20 +20,21 @@ class OpenApp extends StatefulWidget {
 class _OpenAppState extends State<OpenApp> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      child: CardElement(
-        txt: returnDisplayId(widget.url),
-        type: returnIconType(widget.url),
-        size: returnIconType(widget.url) == IconType.address ? 1.3 : 1,
-      ),
-      onTap: () {
-        _launchURL(
-          widget.url.trim(),
-          secondUrl: widget.secondUrl?.trim(),
+    return widget.child ??
+        GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          child: CardElement(
+            txt: returnDisplayId(widget.url),
+            type: returnIconType(widget.url),
+            size: returnIconType(widget.url) == IconType.address ? 1.3 : 1,
+          ),
+          onTap: () {
+            _launchURL(
+              widget.url.trim(),
+              secondUrl: widget.secondUrl?.trim(),
+            );
+          },
         );
-      },
-    );
   }
 
   Future _launchURL(String url, {String? secondUrl}) async {

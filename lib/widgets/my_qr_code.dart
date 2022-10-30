@@ -59,8 +59,7 @@ class _MyQrCodeState extends State<MyQrCode> {
                   borderRadius: BorderRadius.circular(13),
                   clipBehavior: Clip.hardEdge,
                   child: QrImage(
-                    data:
-                        'https://thundercard-test.web.app/?card_id=${widget.name}',
+                    data: '$initStr${widget.name}',
                     // data: 'thundercard://user?card_id=${widget.name}',
                     version: QrVersions.auto,
                     size: 200,

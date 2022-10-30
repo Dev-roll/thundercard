@@ -51,6 +51,9 @@ class _ScanQrCodeState extends State<ScanQrCode> {
   bool _isScanned = false;
   final GlobalKey _globalKey = GlobalKey();
   var myCardId = '';
+  var openUrl = '';
+  var _lastChangedDate = DateTime.now();
+  final linkTime = 10;
   // ByteData? _image;
   // Image? _image;
   // _doCapture();
@@ -92,8 +95,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
             Map<String, dynamic> user =
                 snapshot.data!.data() as Map<String, dynamic>;
             myCardId = user['my_cards'][0];
-            String thunderCardUrl =
-                'https://thundercard-test.web.app/?card_id=$myCardId';
+            String thunderCardUrl = '$initStr$myCardId';
             // String thunderCardUrl = 'thundercard://user?card_id=$myCardId';
             return Column(
               children: <Widget>[
@@ -622,9 +624,57 @@ class _ScanQrCodeState extends State<ScanQrCode> {
             ),
           );
         } else if (describeEnum(scanData.format) == 'qrcode') {
-          _transitionToNextPage(
-            scanData.code.toString().split('=').last,
-          );
+          final str = scanData.code.toString();
+          final nowDate = DateTime.now();
+          if (str.startsWith(initStr)) {
+            _transitionToNextPage(
+              str.split(initStr).last,
+            );
+          } else if (openUrl != str ||
+              nowDate.difference(_lastChangedDate).inSeconds >= linkTime) {
+            openUrl = str;
+            _lastChangedDate = nowDate;
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                elevation: 20,
+                backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+                behavior: SnackBarBehavior.floating,
+                clipBehavior: Clip.antiAlias,
+                dismissDirection: DismissDirection.horizontal,
+                margin: EdgeInsets.only(
+                  left: 8,
+                  right: 8,
+                  bottom: 40,
+                ),
+                duration: Duration(seconds: linkTime),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(28),
+                ),
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                      child: Icon(Icons.link_rounded),
+                    ),
+                    Expanded(
+                      child: Text(
+                        openUrl,
+                        style: TextStyle(
+                            color: white, overflow: TextOverflow.fade),
+                      ),
+                    ),
+                  ],
+                ),
+                action: SnackBarAction(
+                  label: '開く',
+                  onPressed: () {
+                    _launchURL(openUrl.trim());
+                  },
+                ),
+              ),
+            );
+          }
         }
       },
     );
@@ -646,6 +696,61 @@ class _ScanQrCodeState extends State<ScanQrCode> {
       this.controller?.resumeCamera();
       _isScanned = false;
     });
+  }
+
+  Future _launchURL(String url, {String? secondUrl}) async {
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(
+        Uri.parse(url),
+        mode: LaunchMode.externalApplication,
+      );
+    } else if (secondUrl != null && await canLaunchUrl(Uri.parse(secondUrl))) {
+      await launchUrl(
+        Uri.parse(secondUrl),
+        mode: LaunchMode.externalApplication,
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        elevation: 20,
+        backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+        behavior: SnackBarBehavior.floating,
+        clipBehavior: Clip.antiAlias,
+        dismissDirection: DismissDirection.horizontal,
+        margin: EdgeInsets.only(
+          left: 8,
+          right: 8,
+          bottom: MediaQuery.of(context).size.height - 180,
+        ),
+        duration: const Duration(seconds: 2),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(28),
+        ),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+              child: Icon(
+                Icons.error_outline_rounded,
+                color: Theme.of(context).colorScheme.error,
+              ),
+            ),
+            Expanded(
+              child: Text(
+                'アプリを開けません',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ),
+          ],
+        ),
+        action: SnackBarAction(
+          label: 'OK',
+          onPressed: () {},
+        ),
+      ));
+    }
   }
 
   // 変更前

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+// サービスに関する変数
+const String initStr = 'https://thundercard-test.web.app/?card_id=';
+
 // カードに表示する所属、肩書き等
 const List<String> dataTypes = [
   'company',
