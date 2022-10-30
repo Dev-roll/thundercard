@@ -4,11 +4,8 @@ import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:intl/intl.dart';
 
-import 'api/firebase_auth.dart';
-import 'widgets/custom_progress_indicator.dart';
 import 'widgets/my_card.dart';
 import 'constants.dart';
-import 'home_page.dart';
 
 class AddCard extends StatefulWidget {
   const AddCard({Key? key, required this.myCardId, required this.cardId})
@@ -82,184 +79,39 @@ class _AddCardState extends State<AddCard> {
   Widget build(BuildContext context) {
     final myCardId = widget.myCardId;
     final String addCardId = widget.cardId;
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
-    final String? uid = getUid();
 
     return Scaffold(
-      appBar: AppBar(title: Text('カードを交換')),
+      appBar: AppBar(title: const Text('カードを交換')),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
             child: Column(
               children: [
+                const SizedBox(height: 32),
                 MyCard(
                   cardId: addCardId,
                   cardType: CardType.normal,
+                  exchange: addCardId == myCardId ? false : true,
                 ),
-                SizedBox(height: 32),
-                addCardId == myCardId
-                    ? Column(
+                if (addCardId == myCardId)
+                  Column(
+                    children: [
+                      const SizedBox(height: 32),
+                      const Text('ユーザー自身のカードは交換できません'),
+                      const SizedBox(height: 24),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('ユーザー自身のカードは交換できません'),
-                          SizedBox(height: 16),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              OutlinedButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('OK'),
-                              ),
-                            ],
+                          OutlinedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('OK'),
                           ),
                         ],
-                      )
-                    : Column(
-                        children: [
-                          Text('カードを交換しますか？'),
-                          SizedBox(height: 16),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              FutureBuilder(
-                                future: users.doc(uid).get(),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot<DocumentSnapshot> snapshot) {
-                                  if (snapshot.hasError) {
-                                    return const Text('問題が発生しました');
-                                  }
-                                  if (snapshot.hasData &&
-                                      !snapshot.data!.exists) {
-                                    return const Text('ユーザー情報の取得に失敗しました');
-                                  }
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.done) {
-                                    Map<String, dynamic> user = snapshot.data!
-                                        .data() as Map<String, dynamic>;
-                                    String myCardId = user['my_cards'][0];
-                                    return Center(
-                                      child: Row(
-                                        children: [
-                                          OutlinedButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text('キャンセル'),
-                                          ),
-                                          SizedBox(width: 16),
-                                          ElevatedButton.icon(
-                                            icon:
-                                                Icon(Icons.swap_horiz_rounded),
-                                            label: const Text('交換'),
-                                            style: ElevatedButton.styleFrom(
-                                              elevation: 0,
-                                              foregroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .onPrimaryContainer,
-                                              backgroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondaryContainer,
-                                            ),
-                                            onPressed: () {
-                                              handleExchange(
-                                                  myCardId, addCardId);
-                                              // Navigator.of(context).push(
-                                              //   MaterialPageRoute(
-                                              //     builder: (context) => HomePage(index: 1),
-                                              //   ),
-                                              // );
-                                              // Navigator.of(context).pushAndRemoveUntil(
-                                              //   MaterialPageRoute(
-                                              //     builder: (context) => HomePage(index: 0),
-                                              //   ),
-                                              //   (_) => false,
-                                              // );
-                                              Navigator.of(context).pop();
-                                              Navigator.of(context).pop();
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  elevation: 20,
-                                                  backgroundColor:
-                                                      Theme.of(context)
-                                                          .colorScheme
-                                                          .surfaceVariant,
-                                                  behavior:
-                                                      SnackBarBehavior.floating,
-                                                  clipBehavior: Clip.antiAlias,
-                                                  dismissDirection:
-                                                      DismissDirection
-                                                          .horizontal,
-                                                  margin: EdgeInsets.only(
-                                                    left: 8,
-                                                    right: 8,
-                                                    bottom:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height -
-                                                            180,
-                                                  ),
-                                                  duration: const Duration(
-                                                      seconds: 2),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            28),
-                                                  ),
-                                                  content: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .fromLTRB(
-                                                                0, 0, 16, 0),
-                                                        child: Icon(Icons
-                                                            .file_download_done_rounded),
-                                                      ),
-                                                      Expanded(
-                                                        child: Text(
-                                                          'カードを交換しました',
-                                                          style: TextStyle(
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .onBackground,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .fade),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  // duration: const Duration(seconds: 12),
-                                                  action: SnackBarAction(
-                                                    label: 'OK',
-                                                    onPressed: () {},
-                                                  ),
-                                                ),
-                                              );
-                                              // Navigator.of(context).push(
-                                              //   MaterialPageRoute(
-                                              //     builder: (context) => HomePage(index: 1),
-                                              //   ),
-                                              // );
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  }
-                                  return const CustomProgressIndicator();
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      )
+                      ),
+                    ],
+                  ),
               ],
             ),
           ),
