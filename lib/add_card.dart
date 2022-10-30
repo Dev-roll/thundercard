@@ -86,7 +86,7 @@ class _AddCardState extends State<AddCard> {
     final String? uid = getUid();
 
     return Scaffold(
-      appBar: AppBar(title: Text('カードを追加')),
+      appBar: AppBar(title: Text('カードを交換')),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
@@ -100,7 +100,7 @@ class _AddCardState extends State<AddCard> {
                 addCardId == myCardId
                     ? Column(
                         children: [
-                          Text('ユーザー自身のカードは追加できません'),
+                          Text('ユーザー自身のカードは交換できません'),
                           SizedBox(height: 16),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -117,7 +117,7 @@ class _AddCardState extends State<AddCard> {
                       )
                     : Column(
                         children: [
-                          Text('このカードを追加しますか？'),
+                          Text('カードを交換しますか？'),
                           SizedBox(height: 16),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -148,7 +148,19 @@ class _AddCardState extends State<AddCard> {
                                             child: const Text('キャンセル'),
                                           ),
                                           SizedBox(width: 16),
-                                          ElevatedButton(
+                                          ElevatedButton.icon(
+                                            icon:
+                                                Icon(Icons.swap_horiz_rounded),
+                                            label: const Text('交換'),
+                                            style: ElevatedButton.styleFrom(
+                                              elevation: 0,
+                                              foregroundColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .onPrimaryContainer,
+                                              backgroundColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondaryContainer,
+                                            ),
                                             onPressed: () {
                                               handleExchange(
                                                   myCardId, addCardId);
@@ -210,7 +222,7 @@ class _AddCardState extends State<AddCard> {
                                                       ),
                                                       Expanded(
                                                         child: Text(
-                                                          'カードを追加しました',
+                                                          'カードを交換しました',
                                                           style: TextStyle(
                                                               color: Theme.of(
                                                                       context)
@@ -236,7 +248,6 @@ class _AddCardState extends State<AddCard> {
                                               //   ),
                                               // );
                                             },
-                                            child: const Text('追加'),
                                           ),
                                         ],
                                       ),
