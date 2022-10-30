@@ -29,8 +29,10 @@ class _SearchState extends State<Search> {
             .where((element) =>
                 element['cardId']!
                     .toLowerCase()
-                    .contains(keyword.toLowerCase()) ||
-                element['name']!.toLowerCase().contains(keyword.toLowerCase()))
+                    .contains(keyword.trim().toLowerCase()) ||
+                element['name']!
+                    .toLowerCase()
+                    .contains(keyword.trim().toLowerCase()))
             .toList();
       }
     });
@@ -125,20 +127,20 @@ class _SearchState extends State<Search> {
                             ),
                             Expanded(
                               child: Container(
-                                padding: EdgeInsets.only(top: 16),
+                                margin: EdgeInsets.only(right: 16),
                                 child: TextField(
                                   autofocus: true,
                                   decoration: InputDecoration(
                                     hintText: 'カードを検索',
                                     filled: true,
                                     fillColor: Colors.transparent,
-                                    enabledBorder: OutlineInputBorder(
+                                    enabledBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(
                                         color: Colors.transparent,
                                         width: 0,
                                       ),
                                     ),
-                                    focusedBorder: OutlineInputBorder(
+                                    focusedBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(
                                         color: Colors.transparent,
                                         width: 0,
