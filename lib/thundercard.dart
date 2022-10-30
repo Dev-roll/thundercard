@@ -342,7 +342,8 @@ class _ThundercardState extends State<Thundercard> {
       ),
       floatingActionButton: ElevatedButton.icon(
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
+          Navigator.of(context)
+              .push(MaterialPageRoute(
             builder: (context) => Theme(
               data: ThemeData(
                 colorSchemeSeed: Theme.of(context).colorScheme.primary,
@@ -351,7 +352,16 @@ class _ThundercardState extends State<Thundercard> {
               ),
               child: ScanQrCode(myCardId: myCardId),
             ),
-          ));
+          ))
+              .then((value) {
+            SystemChrome.setSystemUIOverlayStyle(
+              SystemUiOverlayStyle(
+                systemNavigationBarColor: alphaBlend(
+                    Theme.of(context).colorScheme.primary.withOpacity(0.08),
+                    Theme.of(context).colorScheme.surface),
+              ),
+            );
+          });
         },
         icon: Icon(
           Icons.qr_code_scanner_rounded,
