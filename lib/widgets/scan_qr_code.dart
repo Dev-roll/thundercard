@@ -206,12 +206,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                             tag: 'close_button',
                             child: IconButton(
                               onPressed: () {
-                                // Navigator.of(context).pushAndRemoveUntil(
-                                //   MaterialPageRoute(
-                                //     builder: (context) => HomePage(index: 0),
-                                //   ),
-                                //   (_) => false,
-                                // );
                                 Navigator.of(context).pop();
                               },
                               icon: Icon(
