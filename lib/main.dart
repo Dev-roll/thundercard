@@ -10,10 +10,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:thundercard/api/settings/display_card_theme.dart';
+import 'package:thundercard/auth_gate.dart';
 import 'package:thundercard/home_page.dart';
 
 import 'api/settings/app_theme.dart';
-import 'auth_gate.dart';
 import 'constants.dart';
 import 'firebase_options.dart';
 
@@ -59,6 +59,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appTheme = ref.watch(appThemeProvider);
+    // const providers = [EmailAuthProvider()];
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         return MaterialApp(
@@ -94,10 +95,7 @@ class MyApp extends ConsumerWidget {
           home: SignInScreen(actions: [
             AuthStateChangeAction((context, state) {
               Navigator.of(context).push(
-                PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      HomePage(index: 0),
-                ),
+                MaterialPageRoute(builder: (context) => AuthGate()),
               );
             })
           ]),
