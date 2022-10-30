@@ -49,7 +49,8 @@ class MyCard extends ConsumerWidget {
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('cards')
-          .doc(cardId)
+          .where('card_id', isEqualTo: cardId)
+          // .doc(cardId)
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -60,11 +61,17 @@ class MyCard extends ConsumerWidget {
         }
 
         dynamic data = snapshot.data;
-        final account = data?['account'];
+        final cardIds = data?.docs;
+        if (cardIds.length == 0) {
+          return Container(
+            child: Text('ユーザー(@$cardId)は存在しません'),
+          );
+        }
+        final account = cardIds[0]?['account'];
         late bool lightTheme;
         try {
           lightTheme = true;
-          lightTheme = data?['thundercard']?['light_theme'];
+          lightTheme = cardIds[0]?['thundercard']?['light_theme'];
         } catch (e) {
           debugPrint('$e');
         }
