@@ -21,16 +21,18 @@ class _SearchState extends State<Search> {
 
   void search(String keyword, List<Map<String, dynamic>> cardsToSearch) {
     setState(() {
-      if (keyword.trim().isEmpty) {
-        // searchedCards = [];
+      String kw = keyword.trim();
+      if (kw.length > 100) {
+        searchedCards = [];
+      }
+      kw = kw.toLowerCase();
+      if (kw.isEmpty) {
         searchedCards = cardsToSearch;
       } else {
         searchedCards = cardsToSearch
             .where((element) =>
-                element['cardId']!
-                    .toLowerCase()
-                    .contains(keyword.toLowerCase()) ||
-                element['name']!.toLowerCase().contains(keyword.toLowerCase()))
+                element['cardId']!.toLowerCase().contains(kw) ||
+                element['name']!.toLowerCase().contains(kw))
             .toList();
       }
     });
@@ -125,25 +127,27 @@ class _SearchState extends State<Search> {
                             ),
                             Expanded(
                               child: Container(
-                                padding: EdgeInsets.only(top: 16),
+                                margin: EdgeInsets.only(right: 16),
                                 child: TextField(
                                   autofocus: true,
+                                  maxLength: 128,
                                   decoration: InputDecoration(
                                     hintText: 'カードを検索',
                                     filled: true,
                                     fillColor: Colors.transparent,
-                                    enabledBorder: OutlineInputBorder(
+                                    enabledBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(
                                         color: Colors.transparent,
                                         width: 0,
                                       ),
                                     ),
-                                    focusedBorder: OutlineInputBorder(
+                                    focusedBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(
                                         color: Colors.transparent,
                                         width: 0,
                                       ),
                                     ),
+                                    counterText: '',
                                   ),
                                   onChanged: ((value) {
                                     delayedSearch(value, cardsToSearch);

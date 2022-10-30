@@ -11,6 +11,7 @@ import 'package:thundercard/constants.dart';
 import 'package:thundercard/link_auth.dart';
 import 'package:thundercard/main.dart';
 import 'package:thundercard/widgets/avatar.dart';
+import 'package:thundercard/widgets/custom_skeletons/skeleton_card_info.dart';
 import 'package:thundercard/widgets/dialog_util.dart';
 import 'package:thundercard/widgets/my_card.dart';
 import 'package:thundercard/widgets/normal_card.dart';
@@ -54,30 +55,30 @@ class Account extends ConsumerWidget {
           child: Center(
             child: Column(
               children: [
-                FutureBuilder<DocumentSnapshot>(
-                  future: users.doc(uid).get(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<DocumentSnapshot> snapshot) {
-                    if (snapshot.hasError) {
-                      return Text('問題が発生しました');
-                    }
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                  child: FutureBuilder<DocumentSnapshot>(
+                    future: users.doc(uid).get(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<DocumentSnapshot> snapshot) {
+                      Map<String, dynamic> user = {};
+                      if (snapshot.hasError) {
+                        return Text('問題が発生しました');
+                      }
 
-                    if (snapshot.hasData && !snapshot.data!.exists) {
-                      return Text('ユーザー情報の取得に失敗しました');
-                    }
+                      if (snapshot.hasData && !snapshot.data!.exists) {
+                        return Text('ユーザー情報の取得に失敗しました');
+                      }
 
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      Map<String, dynamic> user =
-                          snapshot.data!.data() as Map<String, dynamic>;
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        user = snapshot.data!.data() as Map<String, dynamic>;
+                        return CardInfo(
+                            cardId: user['my_cards'][0], editable: true);
+                      }
 
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                        child: CardInfo(
-                            cardId: user['my_cards'][0], editable: true),
-                      );
-                    }
-                    return const Center(child: CustomProgressIndicator());
-                  },
+                      return const SkeletonCardInfo();
+                    },
+                  ),
                 ),
                 Divider(
                   height: 32,

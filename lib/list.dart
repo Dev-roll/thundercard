@@ -130,14 +130,14 @@ class _ListState extends State<List> {
                                   ),
                                   Expanded(
                                     child: Container(
-                                      padding: EdgeInsets.only(top: 16),
+                                      margin: EdgeInsets.only(right: 16),
                                       child: TextField(
                                         enabled: false,
                                         decoration: InputDecoration(
                                           hintText: 'カードを検索',
                                           filled: true,
                                           fillColor: Colors.transparent,
-                                          disabledBorder: OutlineInputBorder(
+                                          disabledBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
                                               color: Colors.transparent,
                                               width: 0,

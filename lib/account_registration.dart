@@ -299,6 +299,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
       'is_user': true,
       'public': false,
       'uid': uid,
+      'card_id': _cardIdController.text,
       'exchanged_cards': [],
       'account': {
         'profiles': {
