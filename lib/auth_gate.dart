@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:flutterfire_ui/auth.dart';
@@ -104,7 +105,10 @@ class AuthGate extends StatelessWidget {
         // return AccountRegistration();
         // if (true) {
         if (!snapshot.hasData) {
-          return SignIn();
+          // return SignIn();
+          return SignInScreen();
+          // return HomePage(index: 0);
+          // return AccountRegistration();
           return Scaffold(
             body: SafeArea(
               child: Form(
@@ -165,10 +169,14 @@ class AuthGate extends StatelessWidget {
           builder:
               (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             if (snapshot.hasError) {
-              return const Text('問題が発生しました');
+              return const Scaffold(
+                body: Center(child: Text('問題が発生しました')),
+              );
             }
             if (snapshot.hasData && !snapshot.data!.exists) {
-              return AccountRegistration();
+              return const Scaffold(
+                body: Center(child: AccountRegistration()),
+              );
             }
             if (snapshot.connectionState == ConnectionState.done) {
               return HomePage(
