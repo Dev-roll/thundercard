@@ -316,7 +316,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                               bottom: MediaQuery.of(context)
                                                       .size
                                                       .height -
-                                                  100,
+                                                  160,
                                             ),
                                             duration:
                                                 const Duration(seconds: 2),
@@ -394,7 +394,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                               bottom: MediaQuery.of(context)
                                                       .size
                                                       .height -
-                                                  100,
+                                                  160,
                                             ),
                                             duration:
                                                 const Duration(seconds: 2),
@@ -608,7 +608,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
               margin: EdgeInsets.only(
                 left: 8,
                 right: 8,
-                bottom: MediaQuery.of(context).size.height - 180,
+                bottom: MediaQuery.of(context).size.height - 160,
               ),
               duration: const Duration(seconds: 2),
               shape: RoundedRectangleBorder(
@@ -713,7 +713,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
         margin: EdgeInsets.only(
           left: 8,
           right: 8,
-          bottom: MediaQuery.of(context).size.height - 180,
+          bottom: 40,
         ),
         duration: const Duration(seconds: 2),
         shape: RoundedRectangleBorder(
@@ -775,13 +775,13 @@ class _ScanQrCodeState extends State<ScanQrCode> {
           margin: EdgeInsets.only(
             left: 8,
             right: 8,
-            bottom: MediaQuery.of(context).size.height - 180,
+            bottom: MediaQuery.of(context).size.height - 160,
           ),
           duration: const Duration(seconds: 2),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(28),
           ),
-          content: Text('no Permission'),
+          content: Text('権限がありません'),
         ),
       );
     }
