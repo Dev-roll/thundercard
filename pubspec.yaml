@@ -56,7 +56,7 @@ dependencies:
   share_plus: ^4.1.0
   image_gallery_saver: ^1.7.1
   url_launcher: ^6.1.5
-  flutterfire_ui: ^0.4.3+9
+  # flutterfire_ui: ^0.4.3+9
   timelines: ^0.1.0
   timeline_tile: ^2.0.0
   google_mlkit_text_recognition: ^0.4.0
@@ -74,6 +74,9 @@ dependencies:
   flutter_svg: ^1.1.5
   firebase_core_platform_interface: 4.5.1 # note removed ^
   firebase_messaging: ^13.0.4 # previously I only had this which was pulling in 4.5.2 which you do not want
+  firebase_ui_auth: ^1.0.0-dev.0
+  firebase_ui_oauth_google: ^1.0.0-dev.0
+  firebase_ui_oauth_twitter: ^1.0.0-dev.0
   # flutter_launcher_icons: ^0.10.0
 
 dev_dependencies:

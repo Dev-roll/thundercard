@@ -8,20 +8,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:277870400251:android:c5dd3b9bfbe67f3c5e565e",
+        "mobilesdk_app_id": "1:277870400251:android:a556001c2bed8de55e565e",
         "android_client_info": {
           "package_name": "app.web.thundercard"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "277870400251-04qtakupsturhn6qnlap4uai2kv8tja0.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "app.web.thundercard",
-            "certificate_hash": "eef5d5e560c220a45dd6df40d40175e102facffc"
-          }
-        },
         {
           "client_id": "277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com",
           "client_type": 3
@@ -40,7 +32,43 @@
               "client_type": 3
             },
             {
-              "client_id": "277870400251-o1b5l9l83o1k239q3g4ga8m0dlsvnqoh.apps.googleusercontent.com",
+              "client_id": "277870400251-cdjer3h8fea10ahaa26402dt8he7ere4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.web.thundercard"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277870400251:android:c5dd3b9bfbe67f3c5e565e",
+        "android_client_info": {
+          "package_name": "com.example.thundercard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs7lQdIATKnpZ1MqLKhAbCnYA2Re1G68o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "277870400251-cdjer3h8fea10ahaa26402dt8he7ere4.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "app.web.thundercard"

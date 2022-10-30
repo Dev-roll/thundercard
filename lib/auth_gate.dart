@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutterfire_ui/auth.dart';
+// import 'package:flutterfire_ui/auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:thundercard/sign_in.dart';
 import 'package:thundercard/sign_up.dart';
@@ -142,9 +142,9 @@ class AuthGate extends StatelessWidget {
                         //   ),
                         // ),
                         SizedBox(height: 10),
-                        GoogleSignInButton(
-                            clientId:
-                                '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com')
+                        // GoogleSignInButton(
+                        //     clientId:
+                        //         '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com')
                         // ここまで新規追加
                       ],
                     ),

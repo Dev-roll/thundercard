@@ -1,5 +1,8 @@
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -7,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:thundercard/api/settings/display_card_theme.dart';
+import 'package:thundercard/home_page.dart';
 
 import 'api/settings/app_theme.dart';
 import 'auth_gate.dart';
@@ -21,8 +25,21 @@ final displayCardThemeProvider = ChangeNotifierProvider((ref) {
   return DisplayCardTheme();
 });
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseUIAuth.configureProviders([
+    // EmailProvider(),
+    GoogleProvider(
+        clientId:
+            '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com'), // ... other providers
+  ]);
+  await FirebaseAppCheck.instance.activate(
+    webRecaptchaSiteKey:
+        'recaptcha-v3-site-key', // If you're building a web app.
+  );
   // SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   // SystemChrome.setSystemUIOverlayStyle(
   //   const SystemUiOverlayStyle(
@@ -33,13 +50,6 @@ void main() async {
   //   // SystemUiOverlayStyle.dark,
   // );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  await FirebaseAppCheck.instance.activate(
-    webRecaptchaSiteKey:
-        'recaptcha-v3-site-key', // If you're building a web app.
-  );
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -81,7 +91,17 @@ class MyApp extends ConsumerWidget {
           supportedLocales: const [
             Locale('ja', 'JP'),
           ],
-          home: AuthGate(),
+          home: SignInScreen(actions: [
+            AuthStateChangeAction((context, state) {
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      HomePage(index: 0),
+                ),
+              );
+            })
+          ]),
+          // home: AuthGate(),
         );
       },
     );
