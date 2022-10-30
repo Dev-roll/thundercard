@@ -165,10 +165,6 @@ class _CardDetailsState extends State<CardDetails> {
               padding: const EdgeInsets.only(bottom: 20),
               child: Column(
                 children: [
-                  if (!widget.card['is_user'])
-                    widget.card?['thumbnail'] != null
-                        ? Image.network(widget.card?['thumbnail'])
-                        : const CustomProgressIndicator(),
                   widget.card['is_user']
                       ? Padding(
                           padding: const EdgeInsets.all(16.0),
@@ -182,6 +178,10 @@ class _CardDetailsState extends State<CardDetails> {
                           child:
                               CardInfo(cardId: widget.cardId, editable: true),
                         ),
+                  if (!widget.card['is_user'])
+                    widget.card?['thumbnail'] != null
+                        ? Image.network(widget.card?['thumbnail'])
+                        : const CustomProgressIndicator(),
                   if (widget.card['is_user'])
                     FutureBuilder(
                       future: getRoom(widget.cardId),
