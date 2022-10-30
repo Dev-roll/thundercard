@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
+import 'package:firebase_ui_oauth_twitter/firebase_ui_oauth_twitter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -35,6 +36,9 @@ Future<void> main() async {
     GoogleProvider(
         clientId:
             '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com'), // ... other providers
+    TwitterProvider(
+        apiKey: 'LXNJNGJDYjhZVTVZcFNxWEF1STk6MTpjaQ',
+        apiSecretKey: 'YfaH718ntW78V8j-GrPf-N_fmUxTjxcKg5B-g9qJjymboUgYFK')
   ]);
   await FirebaseAppCheck.instance.activate(
     webRecaptchaSiteKey:
