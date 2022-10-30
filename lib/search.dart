@@ -21,18 +21,18 @@ class _SearchState extends State<Search> {
 
   void search(String keyword, List<Map<String, dynamic>> cardsToSearch) {
     setState(() {
-      if (keyword.trim().isEmpty) {
-        // searchedCards = [];
+      String kw = keyword.trim();
+      if (kw.length > 100) {
+        searchedCards = [];
+      }
+      kw = kw.toLowerCase();
+      if (kw.isEmpty) {
         searchedCards = cardsToSearch;
       } else {
         searchedCards = cardsToSearch
             .where((element) =>
-                element['cardId']!
-                    .toLowerCase()
-                    .contains(keyword.trim().toLowerCase()) ||
-                element['name']!
-                    .toLowerCase()
-                    .contains(keyword.trim().toLowerCase()))
+                element['cardId']!.toLowerCase().contains(kw) ||
+                element['name']!.toLowerCase().contains(kw))
             .toList();
       }
     });
@@ -130,6 +130,7 @@ class _SearchState extends State<Search> {
                                 margin: EdgeInsets.only(right: 16),
                                 child: TextField(
                                   autofocus: true,
+                                  maxLength: 128,
                                   decoration: InputDecoration(
                                     hintText: 'カードを検索',
                                     filled: true,
@@ -146,6 +147,7 @@ class _SearchState extends State<Search> {
                                         width: 0,
                                       ),
                                     ),
+                                    counterText: '',
                                   ),
                                   onChanged: ((value) {
                                     delayedSearch(value, cardsToSearch);
