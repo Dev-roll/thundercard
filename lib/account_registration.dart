@@ -97,35 +97,38 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
     Future _openAlertDialog1(BuildContext context, textFieldState) async {
       // (2) showDialogでダイアログを表示する
       var ret = await showDialog(
-          context: context,
-          // (3) AlertDialogを作成する
-          builder: (context) => AlertDialog(
-                icon: Icon(Icons.delete_rounded),
-                title: Text("リンクの削除"),
-                content: Text(
-                  "このリンクを削除しますか？",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                ),
-                // (4) ボタンを設定
-                actions: [
-                  TextButton(
-                      onPressed: () => {
-                            //  (5) ダイアログを閉じる
-                            Navigator.pop(context, false)
-                          },
-                      onLongPress: null,
-                      child: Text("キャンセル")),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context, true);
-                        widget.controllerController.remove(textFieldState.id);
-                      },
-                      onLongPress: null,
-                      child: Text("削除")),
-                ],
-              ));
+        context: context,
+        // (3) AlertDialogを作成する
+        builder: (context) => AlertDialog(
+          icon: const Icon(Icons.delete_rounded),
+          title: const Text("リンクの削除"),
+          content: Text(
+            "このリンクを削除しますか？",
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          ),
+          // (4) ボタンを設定
+          actions: [
+            TextButton(
+              onPressed: () => {
+                //  (5) ダイアログを閉じる
+                Navigator.pop(context, false)
+              },
+              onLongPress: null,
+              child: const Text("キャンセル"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, true);
+                widget.controllerController.remove(textFieldState.id);
+              },
+              onLongPress: null,
+              child: const Text("削除"),
+            ),
+          ],
+        ),
+      );
     }
 
     return ValueListenableBuilder<List<TextFieldState>>(
@@ -156,7 +159,7 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color:
-                      Theme.of(context).colorScheme.secondary.withOpacity(0.2),
+                      Theme.of(context).colorScheme.primary.withOpacity(0.08),
                 ),
                 margin: const EdgeInsets.fromLTRB(0, 2, 0, 2),
                 child: Row(
@@ -201,15 +204,25 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                     const SizedBox(width: 12),
                     Expanded(
                       child: TextField(
+                        style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer),
                         controller: textFieldState.controller,
                         decoration:
-                            const InputDecoration.collapsed(hintText: ""),
+                            const InputDecoration.collapsed(hintText: ''),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                       child: IconButton(
-                        icon: const Icon(Icons.delete_rounded),
+                        icon: Icon(
+                          Icons.delete_rounded,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onBackground
+                              .withOpacity(0.5),
+                        ),
                         onPressed: () {
                           _openAlertDialog1(context, textFieldState);
                         },
@@ -257,6 +270,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
     final keys = controller.value.map(((e) {
       return e.selector;
     })).toList();
+
     var links = [];
     for (var i = 0; i < keys.length; i++) {
       links.add({
@@ -341,10 +355,10 @@ class _AccountRegistrationState extends State<AccountRegistration> {
           title: const Text('プロフィールを登録'),
           actions: [
             _cardIdController.text == '' || _nameController.text == ''
-                ? TextButton(
+                ? const TextButton(
                     onPressed: null,
                     onLongPress: null,
-                    child: const Text('登録'),
+                    child: Text('登録'),
                   )
                 : registrationButtonPressed
                     ? TextButton(
@@ -358,7 +372,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                             height: 24,
                             width: 24,
                           ),
-                          padding: EdgeInsets.all(4),
+                          padding: const EdgeInsets.all(4),
                         ),
                       )
                     : TextButton(
@@ -382,7 +396,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('ユーザーID（必須）'),
+                    const Text('ユーザーID（必須）'),
                     TextFormField(
                       controller: _cardIdController,
                       maxLength: 20,
@@ -390,11 +404,21 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                       validator: (value) {
                         return value!.isEmpty ? '必須' : null;
                       },
+                      decoration: InputDecoration(
+                        icon: const Icon(Icons.alternate_email_rounded),
+                        hintText: 'userid',
+                        hintStyle: TextStyle(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onBackground
+                              .withOpacity(0.5),
+                        ),
+                      ),
                       onChanged: (value) {
                         setState(() {});
                       },
                     ),
-                    Text('表示名（必須）'),
+                    const Text('表示名（必須）'),
                     TextFormField(
                       controller: _nameController,
                       maxLength: 20,
@@ -402,40 +426,122 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                       validator: (value) {
                         return value!.isEmpty ? '必須' : null;
                       },
+                      decoration: InputDecoration(
+                        icon: const Icon(Icons.account_circle_rounded),
+                        hintText: '表示名',
+                        hintStyle: TextStyle(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onBackground
+                              .withOpacity(0.5),
+                        ),
+                      ),
                       onChanged: (value) {
                         setState(() {});
                       },
-                    ),
-                    Text('自己紹介'),
-                    TextField(
-                      controller: _bioController,
-                      maxLength: 300,
                     ),
                     const Text('会社'),
                     TextField(
                       controller: _companyController,
                       maxLength: 20,
+                      decoration: InputDecoration(
+                        icon: Icon(iconTypeToIconData[IconType.company]),
+                        hintText: '会社・大学等',
+                        hintStyle: TextStyle(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onBackground
+                              .withOpacity(0.5),
+                        ),
+                      ),
                     ),
                     const Text('部門'),
                     TextField(
                       controller: _positionController,
                       maxLength: 20,
+                      decoration: InputDecoration(
+                        icon: Icon(iconTypeToIconData[IconType.position]),
+                        hintText: '○○部',
+                        hintStyle: TextStyle(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onBackground
+                              .withOpacity(0.5),
+                        ),
+                      ),
                     ),
                     const Text('住所'),
                     TextField(
                       controller: _addressController,
                       maxLength: 40,
+                      decoration: InputDecoration(
+                        icon: Icon(iconTypeToIconData[IconType.address]),
+                        hintText: '住所',
+                        hintStyle: TextStyle(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onBackground
+                              .withOpacity(0.5),
+                        ),
+                      ),
                     ),
-                    Text('SNS・連絡先'),
+                    const Text('自己紹介'),
+                    TextField(
+                      controller: _bioController,
+                      maxLength: 300,
+                      decoration: InputDecoration(
+                        icon: Icon(iconTypeToIconData[IconType.bio]),
+                        hintText: '自己紹介',
+                        hintStyle: TextStyle(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onBackground
+                              .withOpacity(0.5),
+                        ),
+                      ),
+                      maxLines: 30,
+                      minLines: 1,
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    const Text('SNS・連絡先'),
+                    const SizedBox(
+                      height: 16,
+                    ),
                     ReorderableMultiTextField(
                       controllerController: controller,
                     ),
-                    TextButton(
-                      onPressed: () {
-                        controller.add('url', '');
-                      },
-                      onLongPress: null,
-                      child: Text("追加"),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            controller.add('url', '');
+                          },
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            foregroundColor: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer,
+                            backgroundColor: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
+                          ),
+                          icon: const Icon(
+                            Icons.add_link_rounded,
+                          ),
+                          label: const Text(
+                            "SNS・連絡先を追加",
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
                     ),
                   ],
                 ),

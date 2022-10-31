@@ -107,8 +107,8 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
         context: context,
         // (3) AlertDialogを作成する
         builder: (context) => AlertDialog(
-          icon: Icon(Icons.delete_rounded),
-          title: Text("リンクの削除"),
+          icon: const Icon(Icons.delete_rounded),
+          title: const Text("リンクの削除"),
           content: Text(
             "このリンクを削除しますか？",
             style: TextStyle(
@@ -123,7 +123,7 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                 Navigator.pop(context, false)
               },
               onLongPress: null,
-              child: Text("キャンセル"),
+              child: const Text("キャンセル"),
             ),
             TextButton(
               onPressed: () {
@@ -131,7 +131,7 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                 widget.controllerController.remove(textFieldState.id);
               },
               onLongPress: null,
-              child: Text("OK"),
+              child: const Text("OK"),
             ),
           ],
         ),
@@ -363,10 +363,10 @@ class _AccountEditorState extends State<AccountEditor> {
           title: const Text('プロフィールを編集'),
           actions: [
             _nameController.text == ''
-                ? TextButton(
+                ? const TextButton(
                     onPressed: null,
                     onLongPress: null,
-                    child: const Text('保存'),
+                    child: Text('保存'),
                   )
                 : updateButtonPressed
                     ? TextButton(
@@ -380,7 +380,7 @@ class _AccountEditorState extends State<AccountEditor> {
                             height: 24,
                             width: 24,
                           ),
-                          padding: EdgeInsets.all(4),
+                          padding: const EdgeInsets.all(4),
                         ),
                       )
                     : TextButton(
@@ -408,8 +408,8 @@ class _AccountEditorState extends State<AccountEditor> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('ユーザーID'),
-                          SizedBox(
+                          const Text('ユーザーID'),
+                          const SizedBox(
                             height: 8,
                           ),
                           Text(
@@ -425,10 +425,10 @@ class _AccountEditorState extends State<AccountEditor> {
                           ),
                         ],
                       ),
-                    SizedBox(
+                    const SizedBox(
                       height: 24,
                     ),
-                    Text('表示名（必須）'),
+                    const Text('表示名（必須）'),
                     TextFormField(
                       controller: _nameController,
                       maxLength: 20,
@@ -437,7 +437,7 @@ class _AccountEditorState extends State<AccountEditor> {
                         return value!.isEmpty ? '必須' : null;
                       },
                       decoration: InputDecoration(
-                        icon: Icon(Icons.account_circle_rounded),
+                        icon: const Icon(Icons.account_circle_rounded),
                         hintText: '表示名',
                         hintStyle: TextStyle(
                           color: Theme.of(context)
@@ -495,7 +495,7 @@ class _AccountEditorState extends State<AccountEditor> {
                         ),
                       ),
                     ),
-                    Text('自己紹介'),
+                    const Text('自己紹介'),
                     TextField(
                       controller: _bioController,
                       maxLength: 300,
@@ -512,17 +512,17 @@ class _AccountEditorState extends State<AccountEditor> {
                       maxLines: 30,
                       minLines: 1,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 24,
                     ),
-                    Text('SNS・連絡先'),
-                    SizedBox(
+                    const Text('SNS・連絡先'),
+                    const SizedBox(
                       height: 16,
                     ),
                     ReorderableMultiTextField(
                       controllerController: controller,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Row(
@@ -541,16 +541,16 @@ class _AccountEditorState extends State<AccountEditor> {
                                 .colorScheme
                                 .secondaryContainer,
                           ),
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.add_link_rounded,
                           ),
-                          label: Text(
+                          label: const Text(
                             "SNS・連絡先を追加",
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                   ],
