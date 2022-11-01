@@ -62,9 +62,10 @@ class _CardDetailsState extends State<CardDetails> {
         }).then((value) {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-                builder: (context) => HomePage(
-                      index: 1,
-                    )),
+              builder: (context) => HomePage(
+                index: 1,
+              ),
+            ),
             (_) => false,
           );
           print("DocumentSnapshot successfully updated!");
@@ -75,54 +76,56 @@ class _CardDetailsState extends State<CardDetails> {
     Future _openAlertDialog1(BuildContext context) async {
       // (2) showDialogでダイアログを表示する
       var ret = await showDialog(
-          context: context,
-          // (3) AlertDialogを作成する
-          builder: (context) => AlertDialog(
-                icon: const Icon(Icons.delete_rounded),
-                title: const Text("カードの削除"),
-                content: Text(
-                  "このカードを削除しますか？",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                ),
-                // (4) ボタンを設定
-                actions: [
-                  TextButton(
-                    onPressed: () => {
-                      //  (5) ダイアログを閉じる
-                      Navigator.pop(context, false)
+        context: context,
+        // (3) AlertDialogを作成する
+        builder: (context) => AlertDialog(
+          icon: const Icon(Icons.delete_rounded),
+          title: const Text("カードの削除"),
+          content: Text(
+            "このカードを削除しますか？",
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          ),
+          // (4) ボタンを設定
+          actions: [
+            TextButton(
+              onPressed: () => {
+                //  (5) ダイアログを閉じる
+                Navigator.pop(context, false)
+              },
+              onLongPress: null,
+              child: const Text("キャンセル"),
+            ),
+            deleteButtonPressed
+                ? TextButton(
+                    onPressed: null,
+                    onLongPress: null,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      child: const SizedBox(
+                        height: 24,
+                        width: 24,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 3.0,
+                        ),
+                      ),
+                    ),
+                  )
+                : TextButton(
+                    onPressed: () {
+                      setState(() {
+                        deleteButtonPressed = true;
+                      });
+                      Navigator.pop(context, true);
+                      deleteThisCard();
                     },
                     onLongPress: null,
-                    child: const Text("キャンセル"),
+                    child: const Text("OK"),
                   ),
-                  deleteButtonPressed
-                      ? TextButton(
-                          onPressed: null,
-                          onLongPress: null,
-                          child: Container(
-                            padding: const EdgeInsets.all(4),
-                            child: const SizedBox(
-                              height: 24,
-                              width: 24,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 3.0,
-                              ),
-                            ),
-                          ),
-                        )
-                      : TextButton(
-                          onPressed: () {
-                            setState(() {
-                              deleteButtonPressed = true;
-                            });
-                            Navigator.pop(context, true);
-                            deleteThisCard();
-                          },
-                          onLongPress: null,
-                          child: Text("OK")),
-                ],
-              ));
+          ],
+        ),
+      );
     }
 
     return Scaffold(
