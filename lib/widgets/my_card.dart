@@ -49,6 +49,7 @@ class MyCard extends ConsumerWidget {
             Brightness.dark,
             Brightness.light,
           ][displayCardTheme.currentDisplayCardThemeIdx],
+          useMaterial3: true,
         ),
         child: PreviewCard(cardId: cardId),
       );
@@ -127,6 +128,7 @@ class MyCard extends ConsumerWidget {
                       Brightness.dark,
                       Brightness.light,
                     ][displayCardTheme.currentDisplayCardThemeIdx],
+                    useMaterial3: true,
                   ),
                   child: SwitchCard(
                     cardId: cardId,

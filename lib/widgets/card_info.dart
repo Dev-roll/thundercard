@@ -52,10 +52,11 @@ class CardInfo extends StatelessWidget {
                                 Brightness.light
                             ? Brightness.light
                             : Brightness.dark,
+                    useMaterial3: true,
                   ),
-                  child: Avatar(),
+                  child: const Avatar(),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 16,
                 ),
                 Expanded(
@@ -66,7 +67,7 @@ class CardInfo extends StatelessWidget {
                           Expanded(
                             child: Text(
                               '${account['profiles']['name']}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                               ),

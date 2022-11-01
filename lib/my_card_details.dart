@@ -9,10 +9,28 @@ class MyCardDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: SafeArea(
         child: Center(
-          child: MyCard(cardId: cardId, cardType: CardType.large),
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: const Icon(Icons.arrow_back_rounded),
+                  padding: const EdgeInsets.all(20),
+                ),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: SingleChildScrollView(
+                  child: MyCard(cardId: cardId, cardType: CardType.large),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
