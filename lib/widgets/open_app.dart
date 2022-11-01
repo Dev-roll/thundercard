@@ -7,11 +7,17 @@ import '../constants.dart';
 import 'card_element.dart';
 
 class OpenApp extends StatefulWidget {
-  OpenApp({Key? key, required this.url, this.secondUrl, this.child})
-      : super(key: key);
+  OpenApp({
+    Key? key,
+    required this.url,
+    this.secondUrl = '',
+    this.child,
+    this.large = false,
+  }) : super(key: key);
   final String url;
-  String? secondUrl = '';
+  String secondUrl;
   Widget? child;
+  bool large;
 
   @override
   State<OpenApp> createState() => _OpenAppState();
@@ -20,18 +26,25 @@ class OpenApp extends StatefulWidget {
 class _OpenAppState extends State<OpenApp> {
   @override
   Widget build(BuildContext context) {
+    double size;
+    if (widget.large == true) {
+      size = 1.4;
+    } else {
+      size = returnIconType(widget.url) == IconType.address ? 1.3 : 1;
+    }
     return widget.child ??
         GestureDetector(
           behavior: HitTestBehavior.opaque,
           child: CardElement(
             txt: returnDisplayId(widget.url),
             type: returnIconType(widget.url),
-            size: returnIconType(widget.url) == IconType.address ? 1.3 : 1,
+            size: size,
+            large: widget.large,
           ),
           onTap: () {
             _launchURL(
               widget.url.trim(),
-              secondUrl: widget.secondUrl?.trim(),
+              secondUrl: widget.secondUrl.trim(),
             );
           },
         );

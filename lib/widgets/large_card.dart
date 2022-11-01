@@ -17,6 +17,7 @@ class LargeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     var vw = screenSize.width * 0.01;
+    final double paddingX = 3 * vw;
 
     return SizedBox(
       width: 91 * vw,
@@ -30,7 +31,7 @@ class LargeCard extends StatelessWidget {
             ),
           ),
           Align(
-            alignment: const Alignment(1.6, 2.8),
+            alignment: const Alignment(1, 0.75),
             child: Icon(
               Icons.bolt_rounded,
               color: Theme.of(context).colorScheme.secondary.withOpacity(0.08),
@@ -38,7 +39,7 @@ class LargeCard extends StatelessWidget {
             ),
           ),
           Container(
-            padding: EdgeInsets.fromLTRB(4 * vw, 4 * vw, 4 * vw, 4 * vw),
+            padding: EdgeInsets.fromLTRB(5 * vw, 6 * vw, 6 * vw, 5 * vw),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(3 * vw),
             ),
@@ -48,9 +49,7 @@ class LargeCard extends StatelessWidget {
                   height: 36 * vw,
                   child: Column(
                     children: [
-                      // avatar
-                      Avatar(),
-                      // name etc
+                      const Avatar(),
                       Flexible(
                         child: StreamBuilder(
                           stream: FirebaseFirestore.instance
@@ -65,24 +64,45 @@ class LargeCard extends StatelessWidget {
                                 ? Container()
                                 : Container(
                                     padding: EdgeInsets.fromLTRB(
-                                        2 * vw, 0 * vw, 0 * vw, 0 * vw),
+                                        2 * vw, 0 * vw, 2 * vw, 0 * vw),
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                          CrossAxisAlignment.center,
                                       children: [
-                                        CardElement(
-                                          txt: name ?? '',
-                                          size: 3,
-                                          weight: 'bold',
-                                          opacity: 0.7,
+                                        Text(
+                                          name ?? '',
+                                          style: TextStyle(
+                                            fontSize: 2 * vw * 3,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSecondaryContainer
+                                                .withOpacity(0.7),
+                                            height: 1.2,
+                                            fontWeight: FontWeight.bold,
+                                            letterSpacing: 1.5,
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.fade,
+                                          softWrap: false,
                                         ),
                                         if (data?['is_user'])
-                                          CardElement(
-                                            txt: '@$cardId',
-                                            size: 1.5,
-                                            opacity: 0.5,
+                                          Text(
+                                            '@$cardId',
+                                            style: TextStyle(
+                                              fontSize: 2 * vw * 1.5,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSecondaryContainer
+                                                  .withOpacity(0.5),
+                                              height: 1.2,
+                                              fontWeight: FontWeight.normal,
+                                              letterSpacing: 0.2,
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.fade,
+                                            softWrap: false,
                                           ),
                                       ],
                                     ),
@@ -93,114 +113,95 @@ class LargeCard extends StatelessWidget {
                     ],
                   ),
                 ),
+                const SizedBox(height: 16),
                 Divider(
-                  height: 32,
+                  height: 1,
                   thickness: 1,
-                  indent: 16,
-                  endIndent: 16,
+                  indent: 1 * vw,
+                  endIndent: 1 * vw,
                   color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
                 ),
                 Flexible(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // left
-                      Flexible(
-                        child: StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection('cards')
-                              .doc(cardId)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            dynamic data = snapshot.data;
-                            final profiles = data?['account']['profiles'];
-                            const dataTypeList = dataTypes;
+                  child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('cards')
+                        .doc(cardId)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      dynamic data = snapshot.data;
+                      final profiles = data?['account']['profiles'];
+                      final links = data?['account']['links'];
+                      const dataTypeList = dataTypes;
 
-                            return profiles == null
-                                ? Container()
-                                : Container(
-                                    padding: EdgeInsets.fromLTRB(
-                                        1 * vw, 0 * vw, 0 * vw, 0 * vw),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        for (var i = 0;
-                                            i < dataTypeList.length;
-                                            i++)
-                                          if (profiles[dataTypeList[i]]
-                                                      ['value'] !=
-                                                  '' &&
-                                              profiles[dataTypeList[i]]
-                                                  ['display']['normal'])
-                                            dataTypeList[i] == 'address'
-                                                ? OpenApp(
-                                                    url: returnUrl(
-                                                        'address',
-                                                        profiles[
-                                                                dataTypeList[i]]
-                                                            ['value']),
-                                                  )
-                                                : CardElement(
-                                                    txt: profiles[
-                                                                dataTypeList[i]]
-                                                            ['value'] ??
-                                                        '',
-                                                    type: linkTypeToIconType[
-                                                            dataTypeList[i]] ??
-                                                        IconType.nl,
-                                                    line:
-                                                        dataTypeList[i] == 'bio'
-                                                            ? 2
-                                                            : 1,
-                                                    height:
-                                                        dataTypeList[i] == 'bio'
-                                                            ? 1.4
-                                                            : 1.2,
-                                                    size: 1.3,
-                                                  ),
-                                      ],
-                                    ),
-                                  );
-                          },
-                        ),
-                      ),
-                      // right
-                      Flexible(
-                        child: StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection('cards')
-                              .doc(cardId)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            dynamic data = snapshot.data;
-                            final links = data?['account']['links'];
-
-                            return links == null
-                                ? Container()
-                                : Container(
-                                    padding: EdgeInsets.fromLTRB(
-                                        1 * vw, 1 * vw, 1 * vw, 1 * vw),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        for (var i = 0; i < links.length; i++)
-                                          if (links[i]['display']['normal'])
-                                            Expanded(
-                                              child: OpenApp(
-                                                url: returnUrl(links[i]['key'],
-                                                    links[i]['value']),
+                      return profiles == null
+                          ? Container()
+                          : SingleChildScrollView(
+                              child: Container(
+                                padding: EdgeInsets.fromLTRB(
+                                    4 * vw, 0 * vw, 4 * vw, 0 * vw),
+                                child: Column(
+                                  children: [
+                                    const SizedBox(height: 16),
+                                    for (var i = 0;
+                                        i < dataTypeList.length;
+                                        i++)
+                                      if (profiles[dataTypeList[i]]['value'] !=
+                                              '' &&
+                                          profiles[dataTypeList[i]]['display']
+                                              ['normal'])
+                                        dataTypeList[i] == 'address'
+                                            ? Container(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    0, paddingX, 0, paddingX),
+                                                alignment: Alignment.center,
+                                                child: OpenApp(
+                                                  url: returnUrl(
+                                                      'address',
+                                                      profiles[dataTypeList[i]]
+                                                          ['value']),
+                                                  large: true,
+                                                ),
+                                              )
+                                            : Container(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    0, paddingX, 0, paddingX),
+                                                alignment: Alignment.center,
+                                                child: CardElement(
+                                                  txt: profiles[dataTypeList[i]]
+                                                          ['value'] ??
+                                                      '',
+                                                  type: linkTypeToIconType[
+                                                          dataTypeList[i]] ??
+                                                      IconType.nl,
+                                                  line: dataTypeList[i] == 'bio'
+                                                      ? 300
+                                                      : 1,
+                                                  height:
+                                                      dataTypeList[i] == 'bio'
+                                                          ? 1.4
+                                                          : 1.2,
+                                                  size: 1.4,
+                                                  large: true,
+                                                ),
                                               ),
-                                            ),
-                                      ],
-                                    ),
-                                  );
-                          },
-                        ),
-                      ),
-                    ],
+                                    for (var i = 0; i < links.length; i++)
+                                      if (links[i]['display']['normal'])
+                                        Container(
+                                          padding: EdgeInsets.fromLTRB(
+                                              0, paddingX, 0, paddingX),
+                                          alignment: Alignment.center,
+                                          child: OpenApp(
+                                            url: returnUrl(links[i]['key'],
+                                                links[i]['value']),
+                                            large: true,
+                                          ),
+                                        ),
+                                    const SizedBox(height: 16),
+                                  ],
+                                ),
+                              ),
+                            );
+                    },
                   ),
                 ),
               ],
