@@ -78,8 +78,8 @@ class _CardDetailsState extends State<CardDetails> {
           context: context,
           // (3) AlertDialogを作成する
           builder: (context) => AlertDialog(
-                icon: Icon(Icons.delete_rounded),
-                title: Text("カードの削除"),
+                icon: const Icon(Icons.delete_rounded),
+                title: const Text("カードの削除"),
                 content: Text(
                   "このカードを削除しますか？",
                   style: TextStyle(
@@ -89,25 +89,26 @@ class _CardDetailsState extends State<CardDetails> {
                 // (4) ボタンを設定
                 actions: [
                   TextButton(
-                      onPressed: () => {
-                            //  (5) ダイアログを閉じる
-                            Navigator.pop(context, false)
-                          },
-                      onLongPress: null,
-                      child: Text("キャンセル")),
+                    onPressed: () => {
+                      //  (5) ダイアログを閉じる
+                      Navigator.pop(context, false)
+                    },
+                    onLongPress: null,
+                    child: const Text("キャンセル"),
+                  ),
                   deleteButtonPressed
                       ? TextButton(
                           onPressed: null,
                           onLongPress: null,
                           child: Container(
-                            child: SizedBox(
+                            padding: const EdgeInsets.all(4),
+                            child: const SizedBox(
+                              height: 24,
+                              width: 24,
                               child: CircularProgressIndicator(
                                 strokeWidth: 3.0,
                               ),
-                              height: 24,
-                              width: 24,
                             ),
-                            padding: EdgeInsets.all(4),
                           ),
                         )
                       : TextButton(
@@ -140,13 +141,13 @@ class _CardDetailsState extends State<CardDetails> {
             itemBuilder: (BuildContext context) {
               return _usStates.map((String s) {
                 return PopupMenuItem(
+                  value: s,
                   child: Text(
                     s,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
-                  value: s,
                 );
               }).toList();
             },
@@ -205,18 +206,19 @@ class _CardDetailsState extends State<CardDetails> {
                                   onPressed: null,
                                   onLongPress: null,
                                   child: Container(
-                                    child: SizedBox(
+                                    padding: const EdgeInsets.all(4),
+                                    child: const SizedBox(
+                                      height: 24,
+                                      width: 24,
                                       child: CircularProgressIndicator(
                                         strokeWidth: 3.0,
                                       ),
-                                      height: 24,
-                                      width: 24,
                                     ),
-                                    padding: EdgeInsets.all(4),
                                   ),
                                 )
                               : ElevatedButton.icon(
-                                  icon: Icon(Icons.question_answer_rounded),
+                                  icon:
+                                      const Icon(Icons.question_answer_rounded),
                                   label: const Text('メッセージ'),
                                   style: ElevatedButton.styleFrom(
                                     elevation: 0,
