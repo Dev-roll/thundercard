@@ -179,8 +179,11 @@ class _CardDetailsState extends State<CardDetails> {
                         )
                       : Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child:
-                              CardInfo(cardId: widget.cardId, editable: true),
+                          child: CardInfo(
+                            cardId: widget.cardId,
+                            editable: true,
+                            isUser: false,
+                          ),
                         ),
                   if (!widget.card['is_user'])
                     widget.card?['thumbnail'] != null

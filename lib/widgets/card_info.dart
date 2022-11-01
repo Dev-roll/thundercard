@@ -13,9 +13,11 @@ class CardInfo extends StatelessWidget {
     Key? key,
     required this.cardId,
     required this.editable,
+    this.isUser = true,
   }) : super(key: key);
   final String cardId;
   final bool editable;
+  final bool isUser;
 
   @override
   Widget build(BuildContext context) {
@@ -77,22 +79,23 @@ class CardInfo extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              '@$cardId',
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground
-                                      .withOpacity(0.7)),
-                              softWrap: false,
-                              overflow: TextOverflow.fade,
+                      if (isUser)
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                '@$cardId',
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground
+                                        .withOpacity(0.7)),
+                                softWrap: false,
+                                overflow: TextOverflow.fade,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
                     ],
                   ),
                 ),
