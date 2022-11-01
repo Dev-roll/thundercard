@@ -62,9 +62,10 @@ class _CardDetailsState extends State<CardDetails> {
         }).then((value) {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-                builder: (context) => HomePage(
-                      index: 1,
-                    )),
+              builder: (context) => HomePage(
+                index: 1,
+              ),
+            ),
             (_) => false,
           );
           print("DocumentSnapshot successfully updated!");
@@ -75,53 +76,56 @@ class _CardDetailsState extends State<CardDetails> {
     Future _openAlertDialog1(BuildContext context) async {
       // (2) showDialogでダイアログを表示する
       var ret = await showDialog(
-          context: context,
-          // (3) AlertDialogを作成する
-          builder: (context) => AlertDialog(
-                icon: Icon(Icons.delete_rounded),
-                title: Text("カードの削除"),
-                content: Text(
-                  "このカードを削除しますか？",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+        context: context,
+        // (3) AlertDialogを作成する
+        builder: (context) => AlertDialog(
+          icon: const Icon(Icons.delete_rounded),
+          title: const Text("カードの削除"),
+          content: Text(
+            "このカードを削除しますか？",
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          ),
+          // (4) ボタンを設定
+          actions: [
+            TextButton(
+              onPressed: () => {
+                //  (5) ダイアログを閉じる
+                Navigator.pop(context, false)
+              },
+              onLongPress: null,
+              child: const Text("キャンセル"),
+            ),
+            deleteButtonPressed
+                ? TextButton(
+                    onPressed: null,
+                    onLongPress: null,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      child: const SizedBox(
+                        height: 24,
+                        width: 24,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 3.0,
+                        ),
+                      ),
+                    ),
+                  )
+                : TextButton(
+                    onPressed: () {
+                      setState(() {
+                        deleteButtonPressed = true;
+                      });
+                      Navigator.pop(context, true);
+                      deleteThisCard();
+                    },
+                    onLongPress: null,
+                    child: const Text("OK"),
                   ),
-                ),
-                // (4) ボタンを設定
-                actions: [
-                  TextButton(
-                      onPressed: () => {
-                            //  (5) ダイアログを閉じる
-                            Navigator.pop(context, false)
-                          },
-                      onLongPress: null,
-                      child: Text("キャンセル")),
-                  deleteButtonPressed
-                      ? TextButton(
-                          onPressed: null,
-                          onLongPress: null,
-                          child: Container(
-                            child: SizedBox(
-                              child: CircularProgressIndicator(
-                                strokeWidth: 3.0,
-                              ),
-                              height: 24,
-                              width: 24,
-                            ),
-                            padding: EdgeInsets.all(4),
-                          ),
-                        )
-                      : TextButton(
-                          onPressed: () {
-                            setState(() {
-                              deleteButtonPressed = true;
-                            });
-                            Navigator.pop(context, true);
-                            deleteThisCard();
-                          },
-                          onLongPress: null,
-                          child: Text("OK")),
-                ],
-              ));
+          ],
+        ),
+      );
     }
 
     return Scaffold(
@@ -140,13 +144,13 @@ class _CardDetailsState extends State<CardDetails> {
             itemBuilder: (BuildContext context) {
               return _usStates.map((String s) {
                 return PopupMenuItem(
+                  value: s,
                   child: Text(
                     s,
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
-                  value: s,
                 );
               }).toList();
             },
@@ -175,13 +179,19 @@ class _CardDetailsState extends State<CardDetails> {
                         )
                       : Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child:
-                              CardInfo(cardId: widget.cardId, editable: true),
+                          child: CardInfo(
+                            cardId: widget.cardId,
+                            editable: true,
+                            isUser: false,
+                          ),
                         ),
                   if (!widget.card['is_user'])
                     widget.card?['thumbnail'] != null
-                        ? Image.network(widget.card?['thumbnail'])
-                        : const CustomProgressIndicator(),
+                        ? Stack(children: [
+                            const CustomProgressIndicator(),
+                            Image.network(widget.card?['thumbnail']),
+                          ])
+                        : const Text('画像が見つかりませんでした'),
                   if (widget.card['is_user'])
                     FutureBuilder(
                       future: getRoom(widget.cardId),
@@ -202,18 +212,19 @@ class _CardDetailsState extends State<CardDetails> {
                                   onPressed: null,
                                   onLongPress: null,
                                   child: Container(
-                                    child: SizedBox(
+                                    padding: const EdgeInsets.all(4),
+                                    child: const SizedBox(
+                                      height: 24,
+                                      width: 24,
                                       child: CircularProgressIndicator(
                                         strokeWidth: 3.0,
                                       ),
-                                      height: 24,
-                                      width: 24,
                                     ),
-                                    padding: EdgeInsets.all(4),
                                   ),
                                 )
                               : ElevatedButton.icon(
-                                  icon: Icon(Icons.question_answer_rounded),
+                                  icon:
+                                      const Icon(Icons.question_answer_rounded),
                                   label: const Text('メッセージ'),
                                   style: ElevatedButton.styleFrom(
                                     elevation: 0,

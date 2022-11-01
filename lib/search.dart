@@ -31,7 +31,8 @@ class _SearchState extends State<Search> {
       } else {
         searchedCards = cardsToSearch
             .where((element) =>
-                element['cardId']!.toLowerCase().contains(kw) ||
+                element['isUser'] &&
+                    element['cardId']!.toLowerCase().contains(kw) ||
                 element['name']!.toLowerCase().contains(kw))
             .toList();
       }
@@ -56,10 +57,12 @@ class _SearchState extends State<Search> {
     cardsToSearch = [];
     widget.exchangedCardIds.forEach((exchangedCardId) async {
       final String displayName = await getDisplayName(exchangedCardId);
+      final bool isUser = await getIsUser(exchangedCardId);
       final DocumentSnapshot card = await getCard(exchangedCardId);
       cardsToSearch.add({
         'cardId': exchangedCardId,
         'name': displayName,
+        'isUser': isUser,
         'card': card,
       });
     });
@@ -89,10 +92,9 @@ class _SearchState extends State<Search> {
                   children: [
                     Container(
                       height: 52,
-                      margin: EdgeInsets.fromLTRB(24, 16, 24, 8),
+                      margin: const EdgeInsets.fromLTRB(24, 16, 24, 8),
                       decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.surfaceVariant,
-                        // .withOpacity(0.16),
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: GestureDetector(
@@ -113,7 +115,8 @@ class _SearchState extends State<Search> {
                                 Navigator.of(context).pop();
                               },
                               child: Container(
-                                padding: EdgeInsets.fromLTRB(20, 12, 0, 12),
+                                padding:
+                                    const EdgeInsets.fromLTRB(20, 12, 0, 12),
                                 child: Icon(
                                   Icons.arrow_back_rounded,
                                   color: Theme.of(context)
@@ -122,16 +125,16 @@ class _SearchState extends State<Search> {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 4,
                             ),
                             Expanded(
                               child: Container(
-                                margin: EdgeInsets.only(right: 16),
+                                margin: const EdgeInsets.only(right: 16),
                                 child: TextField(
                                   autofocus: true,
                                   maxLength: 128,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     hintText: 'カードを検索',
                                     filled: true,
                                     fillColor: Colors.transparent,
@@ -162,11 +165,11 @@ class _SearchState extends State<Search> {
                     const SizedBox(height: 20),
                     Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 20,
                         ),
-                        Text('検索結果'),
-                        SizedBox(
+                        const Text('検索結果'),
+                        const SizedBox(
                           width: 16,
                         ),
                         Text('$searchedCardsLength件'),
@@ -180,20 +183,21 @@ class _SearchState extends State<Search> {
                             itemBuilder: (context, index) {
                               return Column(
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 24,
                                   ),
                                   GestureDetector(
                                     behavior: HitTestBehavior.opaque,
                                     onTap: () {
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                        builder: (context) => CardDetails(
-                                          cardId: searchedCards[index]
-                                              ['cardId'],
-                                          card: searchedCards[index]['card'],
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => CardDetails(
+                                            cardId: searchedCards[index]
+                                                ['cardId'],
+                                            card: searchedCards[index]['card'],
+                                          ),
                                         ),
-                                      ));
+                                      );
                                     },
                                     child: MyCard(
                                         cardId: searchedCards[index]['cardId'],
@@ -201,9 +205,10 @@ class _SearchState extends State<Search> {
                                   ),
                                 ],
                               );
-                            })
+                            },
+                          )
                         : Container(
-                            padding: EdgeInsets.all(40),
+                            padding: const EdgeInsets.all(40),
                             alignment: Alignment.center,
                             child: Column(
                               children: [
@@ -215,7 +220,7 @@ class _SearchState extends State<Search> {
                                       .onBackground
                                       .withOpacity(0.3),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
                                 Text(
