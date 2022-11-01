@@ -118,14 +118,15 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                               ),
                               Stack(
                                 children: [
-                                  Container(
+                                  const SizedBox(
                                     width: 180,
                                     height: 216,
                                   ),
                                   Container(
                                     width: 180,
                                     height: 216,
-                                    padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 20, 0, 20),
                                     child: FittedBox(
                                       child: GestureDetector(
                                         behavior: HitTestBehavior.opaque,
@@ -163,7 +164,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                               ),
                               Container(
                                 width: 60,
-                                margin: EdgeInsets.only(bottom: 20),
+                                margin: const EdgeInsets.only(bottom: 20),
                                 child: Column(
                                   children: [
                                     IconButton(
@@ -188,8 +189,9 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                         );
                                         controller?.resumeCamera();
                                       },
-                                      icon: Icon(Icons.open_in_full_rounded),
-                                      padding: EdgeInsets.all(12),
+                                      icon: const Icon(
+                                          Icons.open_in_full_rounded),
+                                      padding: const EdgeInsets.all(12),
                                     ),
                                   ],
                                 ),
@@ -208,12 +210,12 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.arrow_back_rounded,
                                 size: 32,
                                 color: white,
                               ),
-                              padding: EdgeInsets.all(12),
+                              padding: const EdgeInsets.all(12),
                             ),
                           ),
                         ),
@@ -274,8 +276,8 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                         );
                                         applicationDocumentsFile.delete();
                                       },
-                                      icon: Icon(Icons.share_rounded),
-                                      padding: EdgeInsets.all(20),
+                                      icon: const Icon(Icons.share_rounded),
+                                      padding: const EdgeInsets.all(20),
                                     ),
                                   ),
                                   Padding(
@@ -327,16 +329,15 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                             content: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
-                                              children: [
+                                              children: const [
                                                 Padding(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          0, 0, 16, 0),
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      0, 0, 16, 0),
                                                   child: Icon(Icons
                                                       .file_download_done_rounded),
                                                 ),
                                                 Expanded(
-                                                  child: const Text(
+                                                  child: Text(
                                                     'QRコードをダウンロードしました',
                                                     style: TextStyle(
                                                         color: white,
@@ -365,8 +366,8 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                           ),
                                         );
                                       },
-                                      icon: Icon(Icons.save_alt_rounded),
-                                      padding: EdgeInsets.all(20),
+                                      icon: const Icon(Icons.save_alt_rounded),
+                                      padding: const EdgeInsets.all(20),
                                     ),
                                   ),
                                   Padding(
@@ -405,16 +406,15 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                             content: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
-                                              children: [
+                                              children: const [
                                                 Padding(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          0, 0, 16, 0),
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      0, 0, 16, 0),
                                                   child: Icon(Icons
                                                       .library_add_check_rounded),
                                                 ),
                                                 Expanded(
-                                                  child: const Text(
+                                                  child: Text(
                                                     'クリップボードにコピーしました',
                                                     style: TextStyle(
                                                         color: white,
@@ -431,8 +431,8 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                           ),
                                         );
                                       },
-                                      icon: Icon(Icons.copy_rounded),
-                                      padding: EdgeInsets.all(20),
+                                      icon: const Icon(Icons.copy_rounded),
+                                      padding: const EdgeInsets.all(20),
                                     ),
                                   ),
                                   // Padding(
@@ -497,7 +497,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
           key: qrKey,
           onQRViewCreated: _onQRViewCreated,
           overlay: QrScannerOverlayShape(
-              borderColor: Color(0xFFFFFFFF),
+              borderColor: const Color(0xFFFFFFFF),
               borderRadius: 12,
               borderLength: 0,
               borderWidth: 0,
@@ -516,8 +516,8 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                 ? MediaQuery.of(context).size.width * 0.4
                 : MediaQuery.of(context).size.height * 0.4,
             decoration: BoxDecoration(
-              color: Color(0x22FFFFFF),
-              border: Border.all(color: Color(0x88FFFFFF), width: 1),
+              color: const Color(0x22FFFFFF),
+              border: Border.all(color: const Color(0x88FFFFFF), width: 1),
               borderRadius: BorderRadius.circular(12),
             ),
           ),
@@ -526,7 +526,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
           alignment: Alignment.center,
           child: Icon(
             CupertinoIcons.qrcode,
-            color: Color(0x32FFFFFF),
+            color: const Color(0x32FFFFFF),
             size: (MediaQuery.of(context).size.width <
                     MediaQuery.of(context).size.height)
                 ? MediaQuery.of(context).size.width * 0.2
@@ -550,8 +550,8 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                           await controller?.toggleFlash();
                           setState(() {});
                         },
-                        icon: Icon(Icons.flashlight_on_rounded),
-                        padding: EdgeInsets.all(20),
+                        icon: const Icon(Icons.flashlight_on_rounded),
+                        padding: const EdgeInsets.all(20),
                         style: IconButton.styleFrom(
                           foregroundColor:
                               Theme.of(context).colorScheme.secondaryContainer,
@@ -566,8 +566,8 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                           await controller?.toggleFlash();
                           setState(() {});
                         },
-                        icon: Icon(Icons.flashlight_off_rounded),
-                        padding: EdgeInsets.all(20),
+                        icon: const Icon(Icons.flashlight_off_rounded),
+                        padding: const EdgeInsets.all(20),
                         style: IconButton.styleFrom(
                           foregroundColor: Theme.of(context)
                               .colorScheme
@@ -614,7 +614,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(28),
               ),
-              content: Text("QRコードを読み取れませんでした"),
+              content: const Text("QRコードを読み取れませんでした"),
             ),
           );
         } else if (describeEnum(scanData.format) == 'qrcode') {
@@ -635,7 +635,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                 behavior: SnackBarBehavior.floating,
                 clipBehavior: Clip.antiAlias,
                 dismissDirection: DismissDirection.horizontal,
-                margin: EdgeInsets.only(
+                margin: const EdgeInsets.only(
                   left: 8,
                   right: 8,
                   bottom: 40,
@@ -647,14 +647,14 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
                       child: Icon(Icons.link_rounded),
                     ),
                     Expanded(
                       child: Text(
                         openUrl,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: white, overflow: TextOverflow.fade),
                       ),
                     ),
@@ -678,7 +678,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
 
   Future<void> _transitionToNextPage(String data) async {
     if (!_isScanned) {
-      this.controller?.pauseCamera();
+      controller?.pauseCamera();
       _isScanned = true;
     }
 
@@ -687,7 +687,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
       builder: (context) => AddCard(myCardId: myCardId, cardId: data),
     ))
         .then((value) {
-      this.controller?.resumeCamera();
+      controller?.resumeCamera();
       _isScanned = false;
     });
   }
@@ -710,7 +710,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
         behavior: SnackBarBehavior.floating,
         clipBehavior: Clip.antiAlias,
         dismissDirection: DismissDirection.horizontal,
-        margin: EdgeInsets.only(
+        margin: const EdgeInsets.only(
           left: 8,
           right: 8,
           bottom: 40,
@@ -781,7 +781,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(28),
           ),
-          content: Text('権限がありません'),
+          content: const Text('権限がありません'),
         ),
       );
     }
