@@ -31,7 +31,8 @@ class _SearchState extends State<Search> {
       } else {
         searchedCards = cardsToSearch
             .where((element) =>
-                element['cardId']!.toLowerCase().contains(kw) ||
+                element['isUser'] &&
+                    element['cardId']!.toLowerCase().contains(kw) ||
                 element['name']!.toLowerCase().contains(kw))
             .toList();
       }
@@ -56,10 +57,12 @@ class _SearchState extends State<Search> {
     cardsToSearch = [];
     widget.exchangedCardIds.forEach((exchangedCardId) async {
       final String displayName = await getDisplayName(exchangedCardId);
+      final bool isUser = await getIsUser(exchangedCardId);
       final DocumentSnapshot card = await getCard(exchangedCardId);
       cardsToSearch.add({
         'cardId': exchangedCardId,
         'name': displayName,
+        'isUser': isUser,
         'card': card,
       });
     });

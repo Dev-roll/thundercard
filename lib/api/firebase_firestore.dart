@@ -12,6 +12,19 @@ String? getCardId() {
   }).catchError((error) => print("Failed to add user: $error"));
 }
 
+Future<bool> getIsUser(String cardId) async {
+  DocumentReference card =
+      FirebaseFirestore.instance.collection('cards').doc(cardId);
+  final bool isUser = await card.get().then((DocumentSnapshot res) {
+    final data = res.data() as Map<String, dynamic>;
+    return data['is_user'];
+  }).catchError((error) {
+    print("Failed to add user: $error");
+    return false;
+  });
+  return isUser;
+}
+
 Future<String> getDisplayName(String cardId) async {
   DocumentReference card =
       FirebaseFirestore.instance.collection('cards').doc(cardId);
