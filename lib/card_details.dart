@@ -180,8 +180,11 @@ class _CardDetailsState extends State<CardDetails> {
                         ),
                   if (!widget.card['is_user'])
                     widget.card?['thumbnail'] != null
-                        ? Image.network(widget.card?['thumbnail'])
-                        : const CustomProgressIndicator(),
+                        ? Stack(children: [
+                            const CustomProgressIndicator(),
+                            Image.network(widget.card?['thumbnail']),
+                          ])
+                        : const Text('画像が見つかりませんでした'),
                   if (widget.card['is_user'])
                     FutureBuilder(
                       future: getRoom(widget.cardId),
