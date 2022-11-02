@@ -135,13 +135,16 @@ class CardInfo extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(
-                            iconTypeToIconData[linkTypeToIconType['company']],
-                            size: 18,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onBackground
-                                .withOpacity(0.7),
+                          Container(
+                            padding: const EdgeInsets.only(top: 1),
+                            child: Icon(
+                              iconTypeToIconData[linkTypeToIconType['company']],
+                              size: 18,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.7),
+                            ),
                           ),
                           const SizedBox(width: 8),
                           Expanded(
@@ -158,14 +161,17 @@ class CardInfo extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(
-                            iconTypeToIconData[linkTypeToIconType['position']],
-                            // iconTypeToIconData[linkTypeToIconType['company']],
-                            size: 18,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onBackground
-                                .withOpacity(0.7),
+                          Container(
+                            padding: const EdgeInsets.only(top: 1),
+                            child: Icon(
+                              iconTypeToIconData[
+                                  linkTypeToIconType['position']],
+                              size: 18,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.7),
+                            ),
                           ),
                           const SizedBox(width: 8),
                           Expanded(
@@ -182,13 +188,16 @@ class CardInfo extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(
-                            iconTypeToIconData[linkTypeToIconType['address']],
-                            size: 18,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onBackground
-                                .withOpacity(0.7),
+                          Container(
+                            padding: const EdgeInsets.only(top: 1),
+                            child: Icon(
+                              iconTypeToIconData[linkTypeToIconType['address']],
+                              size: 18,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.7),
+                            ),
                           ),
                           const SizedBox(width: 8),
                           Expanded(
@@ -205,13 +214,16 @@ class CardInfo extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(
-                            iconTypeToIconData[linkTypeToIconType['bio']],
-                            size: 18,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onBackground
-                                .withOpacity(0.7),
+                          Container(
+                            padding: const EdgeInsets.only(top: 1),
+                            child: Icon(
+                              iconTypeToIconData[linkTypeToIconType['bio']],
+                              size: 18,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.7),
+                            ),
                           ),
                           const SizedBox(width: 8),
                           Expanded(
@@ -252,14 +264,17 @@ class CardInfo extends StatelessWidget {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Icon(
-                                iconTypeToIconData[linkTypeToIconType[
-                                    account['links'][i]['key']]],
-                                size: 18,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onBackground
-                                    .withOpacity(0.7),
+                              Container(
+                                padding: const EdgeInsets.only(top: 1),
+                                child: Icon(
+                                  iconTypeToIconData[linkTypeToIconType[
+                                      account['links'][i]['key']]],
+                                  size: 18,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground
+                                      .withOpacity(0.7),
+                                ),
                               ),
                               const SizedBox(width: 8),
                               Expanded(
