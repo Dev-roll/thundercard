@@ -86,10 +86,11 @@ class CardInfo extends StatelessWidget {
                               child: Text(
                                 '@$cardId',
                                 style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground
-                                        .withOpacity(0.7)),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground
+                                      .withOpacity(0.7),
+                                ),
                                 softWrap: false,
                                 overflow: TextOverflow.fade,
                               ),
@@ -101,7 +102,7 @@ class CardInfo extends StatelessWidget {
                 ),
                 if (editable)
                   Container(
-                    margin: EdgeInsets.only(left: 8),
+                    margin: const EdgeInsets.only(left: 8),
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
@@ -115,26 +116,22 @@ class CardInfo extends StatelessWidget {
                             Theme.of(context).colorScheme.onSecondaryContainer,
                         backgroundColor:
                             Theme.of(context).colorScheme.secondaryContainer,
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                       ),
                       child: const Icon(Icons.edit_rounded),
                     ),
                   ),
               ],
             ),
-            SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             Container(
-              padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 8,
-                  ),
+                  const SizedBox(height: 8),
                   if (account['profiles']['company']['value'] != '')
                     Container(
-                      margin: EdgeInsets.only(bottom: 20),
+                      margin: const EdgeInsets.only(bottom: 20),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -146,17 +143,18 @@ class CardInfo extends StatelessWidget {
                                 .onBackground
                                 .withOpacity(0.7),
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                                '${account['profiles']['company']['value']}'),
+                              '${account['profiles']['company']['value']}',
+                            ),
                           ),
                         ],
                       ),
                     ),
                   if (account['profiles']['position']['value'] != '')
                     Container(
-                      margin: EdgeInsets.only(bottom: 20),
+                      margin: const EdgeInsets.only(bottom: 20),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -169,17 +167,18 @@ class CardInfo extends StatelessWidget {
                                 .onBackground
                                 .withOpacity(0.7),
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                                '${account['profiles']['position']['value']}'),
+                              '${account['profiles']['position']['value']}',
+                            ),
                           ),
                         ],
                       ),
                     ),
                   if (account['profiles']['address']['value'] != '')
                     Container(
-                      margin: EdgeInsets.only(bottom: 20),
+                      margin: const EdgeInsets.only(bottom: 20),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -191,17 +190,18 @@ class CardInfo extends StatelessWidget {
                                 .onBackground
                                 .withOpacity(0.7),
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                                '${account['profiles']['address']['value']}'),
+                              '${account['profiles']['address']['value']}',
+                            ),
                           ),
                         ],
                       ),
                     ),
                   if (account['profiles']['bio']['value'] != '')
                     Container(
-                      margin: EdgeInsets.only(bottom: 20),
+                      margin: const EdgeInsets.only(bottom: 20),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -213,10 +213,12 @@ class CardInfo extends StatelessWidget {
                                 .onBackground
                                 .withOpacity(0.7),
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Expanded(
-                              child: Text(
-                                  '${account['profiles']['bio']['value']}')),
+                            child: Text(
+                              '${account['profiles']['bio']['value']}',
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -246,7 +248,7 @@ class CardInfo extends StatelessWidget {
                     children: [
                       for (var i = 0; i < account['links'].length; i++)
                         Container(
-                          margin: EdgeInsets.only(bottom: 20),
+                          margin: const EdgeInsets.only(bottom: 20),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -259,10 +261,12 @@ class CardInfo extends StatelessWidget {
                                     .onBackground
                                     .withOpacity(0.7),
                               ),
-                              SizedBox(width: 8),
+                              const SizedBox(width: 8),
                               Expanded(
-                                  child:
-                                      Text('${account['links'][i]['value']}')),
+                                child: Text(
+                                  '${account['links'][i]['value']}',
+                                ),
+                              ),
                             ],
                           ),
                         ),
