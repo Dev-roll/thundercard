@@ -302,6 +302,8 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                         //         myCardId, widgetImageBytes!);
                                         // final path = applicationDocumentsFile.path;
                                         ScaffoldMessenger.of(context)
+                                            .hideCurrentSnackBar();
+                                        ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
                                             elevation: 20,
@@ -377,59 +379,64 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                       onPressed: () async {
                                         await Clipboard.setData(
                                           ClipboardData(text: thunderCardUrl),
-                                        );
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            elevation: 20,
-                                            backgroundColor: Theme.of(context)
-                                                .colorScheme
-                                                .surfaceVariant,
-                                            behavior: SnackBarBehavior.floating,
-                                            clipBehavior: Clip.antiAlias,
-                                            dismissDirection:
-                                                DismissDirection.horizontal,
-                                            margin: EdgeInsets.only(
-                                              left: 8,
-                                              right: 8,
-                                              bottom: MediaQuery.of(context)
-                                                      .size
-                                                      .height -
-                                                  160,
-                                            ),
-                                            duration:
-                                                const Duration(seconds: 2),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(28),
-                                            ),
-                                            content: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: const [
-                                                Padding(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      0, 0, 16, 0),
-                                                  child: Icon(Icons
-                                                      .library_add_check_rounded),
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    'クリップボードにコピーしました',
-                                                    style: TextStyle(
-                                                        color: white,
-                                                        overflow:
-                                                            TextOverflow.fade),
+                                        ).then((value) {
+                                          ScaffoldMessenger.of(context)
+                                              .hideCurrentSnackBar();
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              elevation: 20,
+                                              backgroundColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .surfaceVariant,
+                                              behavior:
+                                                  SnackBarBehavior.floating,
+                                              clipBehavior: Clip.antiAlias,
+                                              dismissDirection:
+                                                  DismissDirection.horizontal,
+                                              margin: EdgeInsets.only(
+                                                left: 8,
+                                                right: 8,
+                                                bottom: MediaQuery.of(context)
+                                                        .size
+                                                        .height -
+                                                    160,
+                                              ),
+                                              duration:
+                                                  const Duration(seconds: 2),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(28),
+                                              ),
+                                              content: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: const [
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            0, 0, 16, 0),
+                                                    child: Icon(Icons
+                                                        .library_add_check_rounded),
                                                   ),
-                                                ),
-                                              ],
+                                                  Expanded(
+                                                    child: Text(
+                                                      'クリップボードにコピーしました',
+                                                      style: TextStyle(
+                                                          color: white,
+                                                          overflow: TextOverflow
+                                                              .fade),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              action: SnackBarAction(
+                                                label: 'OK',
+                                                onPressed: () {},
+                                              ),
                                             ),
-                                            action: SnackBarAction(
-                                              label: 'OK',
-                                              onPressed: () {},
-                                            ),
-                                          ),
-                                        );
+                                          );
+                                        });
                                       },
                                       icon: const Icon(Icons.copy_rounded),
                                       padding: const EdgeInsets.all(20),
@@ -591,13 +598,14 @@ class _ScanQrCodeState extends State<ScanQrCode> {
     this.controller = controller;
     controller.resumeCamera();
     controller.scannedDataStream.listen(
-      (scanData) {
+      (scanData) async {
         log(scanData.code.toString());
         HapticFeedback.vibrate();
         setState(() {
           result = scanData;
         });
         if (scanData.code == null) {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               elevation: 20,
@@ -628,6 +636,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
               nowDate.difference(_lastChangedDate).inSeconds >= linkTime) {
             openUrl = str;
             _lastChangedDate = nowDate;
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 elevation: 20,
@@ -647,9 +656,12 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
-                      child: Icon(Icons.link_rounded),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                      child: await canLaunchUrl(Uri.parse(openUrl.trim()))
+                          ? const Icon(Icons.link_rounded)
+                          : const Icon(Icons.link_off_rounded),
+                      // : const Icon(Icons.description_rounded),
                     ),
                     Expanded(
                       child: Text(
@@ -658,14 +670,101 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                             color: white, overflow: TextOverflow.fade),
                       ),
                     ),
+                    IconButton(
+                      onPressed: () async {
+                        await Share.share(
+                          openUrl.trim(),
+                          subject: 'QRコードで読み取った文字列',
+                        );
+                      },
+                      icon: Icon(
+                        Icons.share_rounded,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () async {
+                        await Clipboard.setData(
+                          ClipboardData(text: openUrl.trim()),
+                        ).then((value) {
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              elevation: 20,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.surfaceVariant,
+                              behavior: SnackBarBehavior.floating,
+                              clipBehavior: Clip.antiAlias,
+                              dismissDirection: DismissDirection.horizontal,
+                              margin: EdgeInsets.only(
+                                left: 8,
+                                right: 8,
+                                bottom:
+                                    MediaQuery.of(context).size.height - 160,
+                              ),
+                              duration: const Duration(seconds: 2),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(28),
+                              ),
+                              content: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
+                                    child:
+                                        Icon(Icons.library_add_check_rounded),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      'クリップボードにコピーしました',
+                                      style: TextStyle(
+                                          color: white,
+                                          overflow: TextOverflow.fade),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              action: SnackBarAction(
+                                label: 'OK',
+                                onPressed: () {},
+                              ),
+                            ),
+                          );
+                        });
+                      },
+                      icon: Icon(
+                        Icons.copy_rounded,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    await canLaunchUrl(Uri.parse(openUrl.trim()))
+                        ? IconButton(
+                            onPressed: () {
+                              _launchURL(openUrl.trim());
+                            },
+                            icon: Icon(
+                              Icons.open_in_new_rounded,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          )
+                        : IconButton(
+                            onPressed: null,
+                            icon: Icon(
+                              Icons.open_in_new_off_rounded,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.25),
+                            ),
+                          ),
                   ],
                 ),
-                action: SnackBarAction(
-                  label: '開く',
-                  onPressed: () {
-                    _launchURL(openUrl.trim());
-                  },
-                ),
+                // action: SnackBarAction(
+                //   label: '開く',
+                //   onPressed: () {
+
+                //   },
+                // ),
               ),
             );
           }
@@ -704,6 +803,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
         mode: LaunchMode.externalApplication,
       );
     } else {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         elevation: 20,
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
@@ -765,6 +865,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
     log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
     if (!p) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           elevation: 20,
