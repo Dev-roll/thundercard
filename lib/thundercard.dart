@@ -178,87 +178,98 @@ class _ThundercardState extends State<Thundercard> {
                                         path,
                                       ],
                                       text: thunderCardUrl,
-                                      subject: '${myCardId}さんのThundercardの共有',
+                                      subject: '$myCardIdさんのThundercardの共有',
                                     );
                                     applicationDocumentsFile.delete();
                                   },
-                                  icon: Icon(Icons.share_rounded),
-                                  padding: EdgeInsets.all(20),
+                                  icon: const Icon(Icons.share_rounded),
+                                  padding: const EdgeInsets.all(20),
                                 ),
                               ),
                               Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(20, 0, 20, 0),
                                 child: IconButton(
-                                  onPressed: () async {
-                                    final bytes =
-                                        await exportToImage(_globalKey);
+                                  onPressed: () {
                                     //byte data→Uint8List
-                                    final widgetImageBytes = bytes?.buffer
-                                        .asUint8List(bytes.offsetInBytes,
-                                            bytes.lengthInBytes);
-                                    final result =
-                                        await ImageGallerySaver.saveImage(
-                                      widgetImageBytes!,
-                                      name: myCardId,
-                                    );
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        elevation: 20,
-                                        backgroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .surfaceVariant,
-                                        behavior: SnackBarBehavior.floating,
-                                        clipBehavior: Clip.antiAlias,
-                                        dismissDirection:
-                                            DismissDirection.horizontal,
-                                        margin: EdgeInsets.only(
-                                          left: 8,
-                                          right: 8,
-                                          bottom: MediaQuery.of(context)
-                                                  .size
-                                                  .height -
-                                              180,
-                                        ),
-                                        duration: const Duration(seconds: 2),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(28),
-                                        ),
-                                        content: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      0, 0, 16, 0),
-                                              child: Icon(Icons
-                                                  .file_download_done_rounded),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                'カードをダウンロードしました',
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onBackground,
-                                                    overflow:
-                                                        TextOverflow.fade),
+                                    exportToImage(_globalKey)
+                                        .then(
+                                          (bytes) => bytes?.buffer.asUint8List(
+                                            bytes.offsetInBytes,
+                                            bytes.lengthInBytes,
+                                          ),
+                                        )
+                                        .then(
+                                          (widgetImageBytes) =>
+                                              ImageGallerySaver.saveImage(
+                                            widgetImageBytes!,
+                                            name: myCardId,
+                                          ),
+                                        )
+                                        .then(
+                                          (value) =>
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                            SnackBar(
+                                              elevation: 20,
+                                              backgroundColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .surfaceVariant,
+                                              behavior:
+                                                  SnackBarBehavior.floating,
+                                              clipBehavior: Clip.antiAlias,
+                                              dismissDirection:
+                                                  DismissDirection.horizontal,
+                                              margin: EdgeInsets.only(
+                                                left: 8,
+                                                right: 8,
+                                                bottom: MediaQuery.of(context)
+                                                        .size
+                                                        .height -
+                                                    180,
+                                              ),
+                                              duration:
+                                                  const Duration(seconds: 2),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(28),
+                                              ),
+                                              content: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  const Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            0, 0, 16, 0),
+                                                    child: Icon(Icons
+                                                        .file_download_done_rounded),
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      'カードをダウンロードしました',
+                                                      style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .onBackground,
+                                                          overflow: TextOverflow
+                                                              .fade),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              // duration: const Duration(seconds: 12),
+                                              action: SnackBarAction(
+                                                label: 'OK',
+                                                onPressed: () {},
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                        // duration: const Duration(seconds: 12),
-                                        action: SnackBarAction(
-                                          label: 'OK',
-                                          onPressed: () {},
-                                        ),
-                                      ),
-                                    );
+                                          ),
+                                        );
                                   },
-                                  icon: Icon(Icons.save_alt_rounded),
-                                  padding: EdgeInsets.all(20),
+                                  icon: const Icon(Icons.save_alt_rounded),
+                                  padding: const EdgeInsets.all(20),
                                 ),
                               ),
                               Padding(
@@ -268,63 +279,64 @@ class _ThundercardState extends State<Thundercard> {
                                   onPressed: () async {
                                     await Clipboard.setData(
                                       ClipboardData(text: thunderCardUrl),
-                                    );
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        elevation: 20,
-                                        backgroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .surfaceVariant,
-                                        behavior: SnackBarBehavior.floating,
-                                        clipBehavior: Clip.antiAlias,
-                                        dismissDirection:
-                                            DismissDirection.horizontal,
-                                        margin: EdgeInsets.only(
-                                          left: 8,
-                                          right: 8,
-                                          bottom: MediaQuery.of(context)
-                                                  .size
-                                                  .height -
-                                              180,
-                                        ),
-                                        duration: const Duration(seconds: 2),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(28),
-                                        ),
-                                        content: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      0, 0, 16, 0),
-                                              child: Icon(Icons
-                                                  .library_add_check_rounded),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                'クリップボードにコピーしました',
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onBackground,
-                                                    overflow:
-                                                        TextOverflow.fade),
+                                    ).then(
+                                      (value) => ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          elevation: 20,
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .surfaceVariant,
+                                          behavior: SnackBarBehavior.floating,
+                                          clipBehavior: Clip.antiAlias,
+                                          dismissDirection:
+                                              DismissDirection.horizontal,
+                                          margin: EdgeInsets.only(
+                                            left: 8,
+                                            right: 8,
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .height -
+                                                180,
+                                          ),
+                                          duration: const Duration(seconds: 2),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(28),
+                                          ),
+                                          content: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              const Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    0, 0, 16, 0),
+                                                child: Icon(Icons
+                                                    .library_add_check_rounded),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        action: SnackBarAction(
-                                          label: 'OK',
-                                          onPressed: () {},
+                                              Expanded(
+                                                child: Text(
+                                                  'クリップボードにコピーしました',
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onBackground,
+                                                      overflow:
+                                                          TextOverflow.fade),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          action: SnackBarAction(
+                                            label: 'OK',
+                                            onPressed: () {},
+                                          ),
                                         ),
                                       ),
                                     );
                                   },
-                                  icon: Icon(Icons.copy_rounded),
-                                  padding: EdgeInsets.all(20),
+                                  icon: const Icon(Icons.copy_rounded),
+                                  padding: const EdgeInsets.all(20),
                                 ),
                               ),
                             ],
@@ -363,11 +375,11 @@ class _ThundercardState extends State<Thundercard> {
             );
           });
         },
-        icon: Icon(
+        icon: const Icon(
           Icons.qr_code_scanner_rounded,
           size: 26,
         ),
-        label: Text(
+        label: const Text(
           'カードを交換',
           style: TextStyle(fontSize: 16),
         ),
