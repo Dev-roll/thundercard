@@ -11,30 +11,23 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/basic.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:thundercard/home_page.dart';
-import 'package:thundercard/thundercard.dart';
 import 'package:thundercard/add_card.dart';
 import 'package:thundercard/widgets/fullscreen_qr_code.dart';
 import 'package:thundercard/widgets/my_qr_code.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 import '../api/export_to_image.dart';
 import '../api/get_application_documents_file.dart';
-import '../notifications.dart';
 import '../api/firebase_auth.dart';
 import '../constants.dart';
-import '../main.dart';
 
 class ScanQrCode extends StatefulWidget {
   const ScanQrCode({Key? key, required this.myCardId}) : super(key: key);
@@ -291,11 +284,15 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                         final widgetImageBytes = bytes?.buffer
                                             .asUint8List(bytes.offsetInBytes,
                                                 bytes.lengthInBytes);
-                                        final result =
-                                            await ImageGallerySaver.saveImage(
+                                        await ImageGallerySaver.saveImage(
                                           widgetImageBytes!,
                                           name: myCardId,
                                         );
+                                        // final result =
+                                        //     await ImageGallerySaver.saveImage(
+                                        //   widgetImageBytes!,
+                                        //   name: myCardId,
+                                        // );
                                         //App directoryファイルに保存
                                         // final applicationDocumentsFile =
                                         //     await getApplicationDocumentsFile(
