@@ -63,11 +63,11 @@ class Account extends ConsumerWidget {
                         AsyncSnapshot<DocumentSnapshot> snapshot) {
                       Map<String, dynamic> user = {};
                       if (snapshot.hasError) {
-                        return Text('問題が発生しました');
+                        return const Text('問題が発生しました');
                       }
 
                       if (snapshot.hasData && !snapshot.data!.exists) {
-                        return Text('ユーザー情報の取得に失敗しました');
+                        return const Text('ユーザー情報の取得に失敗しました');
                       }
 
                       if (snapshot.connectionState == ConnectionState.done) {
@@ -88,7 +88,7 @@ class Account extends ConsumerWidget {
                   color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
                 ),
                 Container(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -133,10 +133,10 @@ class Account extends ConsumerWidget {
                       //   ]),
                       // ),
                       Container(
-                        padding: EdgeInsets.fromLTRB(8, 20, 8, 8),
+                        padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
                         alignment: Alignment.center,
                         child: ElevatedButton.icon(
-                          icon: Icon(
+                          icon: const Icon(
                             // Icons.add_link_rounded,
                             Icons.add_circle_outline_rounded,
                           ),
@@ -154,7 +154,7 @@ class Account extends ConsumerWidget {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => LinkAuth()),
+                                  builder: (context) => const LinkAuth()),
                             );
                           },
                           onLongPress: null,
@@ -171,7 +171,7 @@ class Account extends ConsumerWidget {
                   color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
                 ),
                 Container(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -207,11 +207,11 @@ class Account extends ConsumerWidget {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 icon: [
-                                  Icon(Icons.brightness_medium_rounded),
-                                  Icon(Icons.brightness_low_rounded),
-                                  Icon(Icons.brightness_high_rounded),
+                                  const Icon(Icons.brightness_medium_rounded),
+                                  const Icon(Icons.brightness_low_rounded),
+                                  const Icon(Icons.brightness_high_rounded),
                                 ][appTheme.currentAppThemeIdx],
-                                title: Text('アプリのテーマ'),
+                                title: const Text('アプリのテーマ'),
                                 content: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -226,7 +226,7 @@ class Account extends ConsumerWidget {
                                           .withOpacity(0.5),
                                     ),
                                     RadioListTile(
-                                      title: Text('自動切り替え'),
+                                      title: const Text('自動切り替え'),
                                       activeColor:
                                           Theme.of(context).colorScheme.primary,
                                       value: 0,
@@ -236,7 +236,7 @@ class Account extends ConsumerWidget {
                                       },
                                     ),
                                     RadioListTile(
-                                      title: Text('ダークモード'),
+                                      title: const Text('ダークモード'),
                                       activeColor:
                                           Theme.of(context).colorScheme.primary,
                                       value: 1,
@@ -246,7 +246,7 @@ class Account extends ConsumerWidget {
                                       },
                                     ),
                                     RadioListTile(
-                                      title: Text('ライトモード'),
+                                      title: const Text('ライトモード'),
                                       activeColor:
                                           Theme.of(context).colorScheme.primary,
                                       value: 2,
@@ -273,14 +273,14 @@ class Account extends ConsumerWidget {
                                       appTheme.change(appTheme.appThemeIdx);
                                       Navigator.pop(context, false);
                                     },
-                                    child: Text('キャンセル'),
+                                    child: const Text('キャンセル'),
                                   ),
                                   TextButton(
                                     onPressed: () {
                                       appTheme.update();
                                       Navigator.pop(context, false);
                                     },
-                                    child: Text('決定'),
+                                    child: const Text('決定'),
                                   ),
                                 ],
                               );
@@ -288,7 +288,7 @@ class Account extends ConsumerWidget {
                           );
                         },
                         child: Container(
-                          padding: EdgeInsets.fromLTRB(8, 20, 8, 8),
+                          padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
                           child: Row(children: [
                             [
                               Icon(
@@ -310,9 +310,7 @@ class Account extends ConsumerWidget {
                                     .onSurfaceVariant,
                               ),
                             ][appTheme.currentAppThemeIdx],
-                            SizedBox(
-                              width: 8,
-                            ),
+                            const SizedBox(width: 8),
                             Text(
                               'アプリのテーマ',
                               style: TextStyle(
@@ -321,24 +319,22 @@ class Account extends ConsumerWidget {
                                     .onSurfaceVariant,
                               ),
                             ),
-                            SizedBox(
-                              width: 16,
-                            ),
+                            const SizedBox(width: 16),
                             Expanded(
                               child: Container(
                                 alignment: Alignment.centerRight,
                                 child: [
-                                  Text(
+                                  const Text(
                                     '自動切り替え',
                                     softWrap: false,
                                     overflow: TextOverflow.fade,
                                   ),
-                                  Text(
+                                  const Text(
                                     'ダークモード',
                                     softWrap: false,
                                     overflow: TextOverflow.fade,
                                   ),
-                                  Text(
+                                  const Text(
                                     'ライトモード',
                                     softWrap: false,
                                     overflow: TextOverflow.fade,
@@ -356,8 +352,9 @@ class Account extends ConsumerWidget {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                icon: Icon(Icons.settings_brightness_rounded),
-                                title: Text('カードのテーマ'),
+                                icon: const Icon(
+                                    Icons.settings_brightness_rounded),
+                                title: const Text('カードのテーマ'),
                                 scrollable: true,
                                 content: Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -384,21 +381,22 @@ class Account extends ConsumerWidget {
                                       ),
                                     ),
                                     Container(
-                                      padding:
-                                          EdgeInsets.fromLTRB(16, 8, 16, 8),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          16, 8, 16, 8),
                                       child: Column(
                                         children: [
                                           Row(
                                             children: [
                                               Flexible(
                                                 child: Container(
-                                                  padding: EdgeInsets.fromLTRB(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
                                                     0,
                                                     0,
                                                     4,
                                                     0,
                                                   ),
-                                                  child: FittedBox(
+                                                  child: const FittedBox(
                                                     child: MyCard(
                                                       cardId: 'Light',
                                                       cardType:
@@ -410,9 +408,10 @@ class Account extends ConsumerWidget {
                                               ),
                                               Flexible(
                                                 child: Container(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      4, 0, 0, 0),
-                                                  child: FittedBox(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          4, 0, 0, 0),
+                                                  child: const FittedBox(
                                                     child: MyCard(
                                                       cardId: 'Dark',
                                                       cardType:
@@ -438,9 +437,10 @@ class Account extends ConsumerWidget {
                                           .withOpacity(0.5),
                                     ),
                                     Container(
-                                      padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+                                      padding:
+                                          const EdgeInsets.fromLTRB(0, 8, 0, 8),
                                       child: RadioListTile(
-                                        title: Text('オリジナル'),
+                                        title: const Text('オリジナル'),
                                         subtitle: Text(
                                           'カードのテーマを変更せずに表示',
                                           style: TextStyle(
@@ -465,9 +465,10 @@ class Account extends ConsumerWidget {
                                       ),
                                     ),
                                     Container(
-                                      padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+                                      padding:
+                                          const EdgeInsets.fromLTRB(0, 8, 0, 8),
                                       child: RadioListTile(
-                                        title: Text('自動切り替え'),
+                                        title: const Text('自動切り替え'),
                                         subtitle: Text(
                                           'アプリと同じテーマでカードを表示',
                                           style: TextStyle(
@@ -492,9 +493,10 @@ class Account extends ConsumerWidget {
                                       ),
                                     ),
                                     Container(
-                                      padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+                                      padding:
+                                          const EdgeInsets.fromLTRB(0, 8, 0, 8),
                                       child: RadioListTile(
-                                        title: Text('ダークモード'),
+                                        title: const Text('ダークモード'),
                                         subtitle: Text(
                                           'カードをダークモードで表示',
                                           style: TextStyle(
@@ -519,9 +521,10 @@ class Account extends ConsumerWidget {
                                       ),
                                     ),
                                     Container(
-                                      padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+                                      padding:
+                                          const EdgeInsets.fromLTRB(0, 8, 0, 8),
                                       child: RadioListTile(
-                                        title: Text('ライトモード'),
+                                        title: const Text('ライトモード'),
                                         subtitle: Text(
                                           'カードをライトモードで表示',
                                           style: TextStyle(
@@ -562,7 +565,7 @@ class Account extends ConsumerWidget {
                                     onPressed: () {
                                       Navigator.pop(context, false);
                                     },
-                                    child: Text('キャンセル'),
+                                    child: const Text('キャンセル'),
                                   ),
                                 ],
                               );
@@ -570,7 +573,7 @@ class Account extends ConsumerWidget {
                           );
                         },
                         child: Container(
-                          padding: EdgeInsets.fromLTRB(8, 20, 8, 8),
+                          padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
                           child: Row(children: [
                             Icon(
                               Icons.settings_brightness_rounded,
@@ -578,9 +581,7 @@ class Account extends ConsumerWidget {
                                   .colorScheme
                                   .onSurfaceVariant,
                             ),
-                            SizedBox(
-                              width: 8,
-                            ),
+                            const SizedBox(width: 8),
                             Text(
                               'カードのテーマ',
                               style: TextStyle(
@@ -589,29 +590,27 @@ class Account extends ConsumerWidget {
                                     .onSurfaceVariant,
                               ),
                             ),
-                            SizedBox(
-                              width: 16,
-                            ),
+                            const SizedBox(width: 16),
                             Expanded(
                               child: Container(
                                 alignment: Alignment.centerRight,
                                 child: [
-                                  Text(
+                                  const Text(
                                     'オリジナル',
                                     softWrap: false,
                                     overflow: TextOverflow.fade,
                                   ),
-                                  Text(
+                                  const Text(
                                     '自動切り替え',
                                     softWrap: false,
                                     overflow: TextOverflow.fade,
                                   ),
-                                  Text(
+                                  const Text(
                                     'ダークモード',
                                     softWrap: false,
                                     overflow: TextOverflow.fade,
                                   ),
-                                  Text(
+                                  const Text(
                                     'ライトモード',
                                     softWrap: false,
                                     overflow: TextOverflow.fade,
@@ -632,11 +631,11 @@ class Account extends ConsumerWidget {
                   endIndent: 16,
                   color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 28,
                 ),
                 ElevatedButton.icon(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.logout_rounded,
                   ),
                   label: const Text('サインアウト'),
@@ -650,54 +649,57 @@ class Account extends ConsumerWidget {
                   ),
                   onPressed: () async {
                     await showDialog(
-                        context: context,
-                        // (3) AlertDialogを作成する
-                        builder: (context) => AlertDialog(
-                              icon: Icon(Icons.logout_rounded),
-                              title: Text('サインアウト'),
-                              content: Text(
-                                'このアカウントからサインアウトしますか？',
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurfaceVariant,
-                                ),
-                              ),
-                              // (4) ボタンを設定
-                              actions: [
-                                TextButton(
-                                    onPressed: () => {
-                                          //  (5) ダイアログを閉じる
-                                          Navigator.pop(context, false)
-                                        },
-                                    onLongPress: null,
-                                    child: Text('キャンセル')),
-                                TextButton(
-                                    onPressed: () async {
-                                      Navigator.pop(context, true);
-                                      await FirebaseAuth.instance.signOut();
-                                      Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                          builder: (context) => AuthGate(),
-                                        ),
-                                        (_) => false,
-                                      );
-                                    },
-                                    onLongPress: null,
-                                    child: Text('サインアウト')),
-                              ],
-                            ));
+                      context: context,
+                      // (3) AlertDialogを作成する
+                      builder: (context) => AlertDialog(
+                        icon: const Icon(Icons.logout_rounded),
+                        title: const Text('サインアウト'),
+                        content: Text(
+                          'このアカウントからサインアウトしますか？',
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                        // (4) ボタンを設定
+                        actions: [
+                          TextButton(
+                              onPressed: () => {
+                                    //  (5) ダイアログを閉じる
+                                    Navigator.pop(context, false)
+                                  },
+                              onLongPress: null,
+                              child: const Text('キャンセル')),
+                          TextButton(
+                            onPressed: () async {
+                              Navigator.pop(context, true);
+                              await FirebaseAuth.instance.signOut().then(
+                                    (value) => Navigator.of(context)
+                                        .pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                        builder: (context) => AuthGate(),
+                                      ),
+                                      (_) => false,
+                                    ),
+                                  );
+                            },
+                            onLongPress: null,
+                            child: const Text('サインアウト'),
+                          ),
+                        ],
+                      ),
+                    );
                   },
                   onLongPress: null,
                 ),
                 // メンテナンス
-                SizedBox(height: 28),
-                OutlinedButton(
+                const SizedBox(height: 28),
+                const OutlinedButton(
                   onPressed: maintenance,
                   onLongPress: null,
                   child: Text('管理者用'),
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
               ],
             ),
           ),
