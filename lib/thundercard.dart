@@ -75,7 +75,7 @@ class _ThundercardState extends State<Thundercard> {
                 onPressed: () {
                   drawerKey.currentState!.openDrawer();
                 },
-                icon: Icon(Icons.menu_rounded),
+                icon: const Icon(Icons.menu_rounded),
               ),
               title: Row(
                 mainAxisSize: MainAxisSize.min,

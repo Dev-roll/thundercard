@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
             ? SystemChrome.setSystemUIOverlayStyle(
                 SystemUiOverlayStyle(
                   systemNavigationBarColor: alphaBlend(
-                    Color(0x80000000),
+                    const Color(0x80000000),
                     alphaBlend(
                         Theme.of(context).colorScheme.primary.withOpacity(0.08),
                         Theme.of(context).colorScheme.surface),
@@ -104,13 +104,13 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
       },
-      drawerScrimColor: Color(0x80000000),
+      drawerScrimColor: const Color(0x80000000),
       drawerEdgeDragWidth: MediaQuery.of(context).size.width * 0.5,
       drawer: Drawer(
         backgroundColor: alphaBlend(
             Theme.of(context).colorScheme.primary.withOpacity(0.05),
             Theme.of(context).colorScheme.surface),
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(16),
                 bottomRight: Radius.circular(16))),
@@ -122,11 +122,11 @@ class _HomePageState extends State<HomePage> {
             Row(
               children: [
                 IconButton(
-                  padding: EdgeInsets.all(18),
+                  padding: const EdgeInsets.all(18),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  icon: Icon(Icons.menu_open_rounded),
+                  icon: const Icon(Icons.menu_open_rounded),
                 ),
                 const SizedBox(width: 16),
                 SvgPicture.string(
@@ -147,7 +147,7 @@ class _HomePageState extends State<HomePage> {
               endIndent: 0,
               color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             // DrawerHeader(
@@ -158,9 +158,9 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: [
                   ListTile(
-                    leading:
-                        SizedBox(width: 32, child: FittedBox(child: Avatar())),
-                    title: Text('username'),
+                    leading: const SizedBox(
+                        width: 32, child: FittedBox(child: Avatar())),
+                    title: const Text('username'),
                     onTap: () {
                       Navigator.of(context).pop();
                     },
@@ -169,8 +169,8 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.policy_rounded),
-              title: Text('プライバシーポリシー'),
+              leading: const Icon(Icons.policy_rounded),
+              title: const Text('プライバシーポリシー'),
               onTap: () {
                 // Navigator.of(context).push(
                 //   MaterialPageRoute(
@@ -178,6 +178,7 @@ class _HomePageState extends State<HomePage> {
                 // );
               },
             ),
+            const SizedBox(height: 16),
           ],
         ),
       ),
@@ -232,10 +233,10 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: <Widget>[
-        Thundercard(),
-        List(),
+        const Thundercard(),
+        const List(),
         // List(uid: uid),
-        Notifications(),
+        const Notifications(),
         Account(),
       ][widget.index],
     );
