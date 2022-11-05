@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
 
 import '../../constants.dart';
+import '../theme_storage.dart';
 
 class AppTheme extends ChangeNotifier {
-  int appThemeIdx = 0 % 3; // 要変更
-  // int appThemeIdx = <データベースに記録された値> % 3 に変更する
+  AppTheme() {
+    _init();
+  }
 
+  final ThemeStorage storage = ThemeStorage();
+
+  int appThemeIdx = 0 % 3;
   late int currentAppThemeIdx = appThemeIdx;
   late ThemeMode currentAppTheme = themeList[appThemeIdx];
+
+  void _init() {
+    storage.readTheme().then((value) {
+      appThemeIdx = value % 3;
+      currentAppThemeIdx = appThemeIdx;
+      currentAppTheme = themeList[appThemeIdx];
+      notifyListeners();
+    });
+  }
 
   void change(int i) {
     currentAppThemeIdx = i % 3;
@@ -22,6 +36,8 @@ class AppTheme extends ChangeNotifier {
   }
 
   void update() {
-    // currentAppThemeIdxをデータベースのapp_themeに保存
+    // TODO: currentAppThemeIdxをデータベースのapp_themeに保存
+    appThemeIdx = currentAppThemeIdx;
+    storage.writeTheme(appThemeIdx);
   }
 }
