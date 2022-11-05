@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
 
-class ThemeStorage {
+class AppThemeStorage {
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
 
@@ -15,7 +15,7 @@ class ThemeStorage {
     return File('$path/appThemeIdx.txt');
   }
 
-  Future<int> readTheme() async {
+  Future<int> readAppTheme() async {
     try {
       final file = await _localFile;
 
@@ -30,7 +30,7 @@ class ThemeStorage {
     }
   }
 
-  Future<File> writeTheme(int appThemeIdx) async {
+  Future<File> writeAppTheme(int appThemeIdx) async {
     final file = await _localFile;
 
     print('write -> $appThemeIdx');

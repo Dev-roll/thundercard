@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,7 +9,6 @@ import 'package:thundercard/widgets/custom_skeletons/skeleton_card.dart';
 import '../add_card.dart';
 import '../api/current_brightness.dart';
 import '../api/firebase_auth.dart';
-import '../api/settings/display_card_theme.dart';
 import '../main.dart';
 import 'custom_progress_indicator.dart';
 import 'switch_card.dart';
@@ -34,7 +30,7 @@ class MyCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final displayCardTheme = ref.watch(displayCardThemeProvider);
+    final customTheme = ref.watch(customThemeProvider);
     CollectionReference? users;
     String? uid;
     if (cardType == CardType.preview) {
@@ -48,7 +44,7 @@ class MyCard extends ConsumerWidget {
                 : Brightness.dark,
             Brightness.dark,
             Brightness.light,
-          ][displayCardTheme.currentDisplayCardThemeIdx],
+          ][customTheme.currentDisplayCardThemeIdx],
           useMaterial3: true,
         ),
         child: PreviewCard(cardId: cardId),
@@ -127,7 +123,7 @@ class MyCard extends ConsumerWidget {
                           : Brightness.dark,
                       Brightness.dark,
                       Brightness.light,
-                    ][displayCardTheme.currentDisplayCardThemeIdx],
+                    ][customTheme.currentDisplayCardThemeIdx],
                     useMaterial3: true,
                   ),
                   child: SwitchCard(
