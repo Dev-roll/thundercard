@@ -18,23 +18,15 @@ class CardThemeStorage {
   Future<int> readCardTheme() async {
     try {
       final file = await _localFile;
-
-      // Read the file
       final contents = await file.readAsString();
-      print('read -> $contents');
-
       return int.parse(contents);
     } catch (e) {
-      // If encountering an error, return 0
       return 0;
     }
   }
 
   Future<File> writeCardTheme(int displayCardThemeIdx) async {
     final file = await _localFile;
-
-    print('write -> $displayCardThemeIdx');
-    // Write the file
     return file.writeAsString('$displayCardThemeIdx');
   }
 }
