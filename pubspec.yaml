@@ -117,17 +117,19 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - images/icon.png
-    - images/icon_for_qr.png
-    - images/svg/large/thundercard_sharp.svg
-    - images/svg/large/thundercard_sharp_outlined.svg
-    - images/svg/large/thundercard_rounded.svg
-    - images/svg/large/thundercard_rounded_outlined.svg
-    - images/svg/normal/thundercard_sharp.svg
-    - images/svg/normal/thundercard_sharp_outlined.svg
-    - images/svg/normal/thundercard_rounded.svg
-    - images/svg/normal/thundercard_rounded_outlined.svg
-    - images/svg/qr/icon_for_qr.svg
+    - images/
+    # **一斉に指定しているため、個別のファイル名の指定は不要**
+    # - images/icon.png
+    # - images/icon_for_qr.png
+    # - images/svg/large/thundercard_sharp.svg
+    # - images/svg/large/thundercard_sharp_outlined.svg
+    # - images/svg/large/thundercard_rounded.svg
+    # - images/svg/large/thundercard_rounded_outlined.svg
+    # - images/svg/normal/thundercard_sharp.svg
+    # - images/svg/normal/thundercard_sharp_outlined.svg
+    # - images/svg/normal/thundercard_rounded.svg
+    # - images/svg/normal/thundercard_rounded_outlined.svg
+    # - images/svg/qr/icon_for_qr.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
