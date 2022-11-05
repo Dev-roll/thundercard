@@ -6,19 +6,14 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
-import 'package:thundercard/api/settings/display_card_theme.dart';
 
-import 'api/settings/app_theme.dart';
+import 'api/settings/custom_theme.dart';
 import 'auth_gate.dart';
 import 'constants.dart';
 import 'firebase_options.dart';
 
-final appThemeProvider = ChangeNotifierProvider((ref) {
-  return AppTheme();
-});
-
-final displayCardThemeProvider = ChangeNotifierProvider((ref) {
-  return DisplayCardTheme();
+final customThemeProvider = ChangeNotifierProvider((ref) {
+  return CustomTheme();
 });
 
 void main() async {
@@ -48,7 +43,7 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appTheme = ref.watch(appThemeProvider);
+    final customTheme = ref.watch(customThemeProvider);
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         return MaterialApp(
@@ -71,7 +66,7 @@ class MyApp extends ConsumerWidget {
             textTheme:
                 GoogleFonts.interTextTheme(Theme.of(context).primaryTextTheme),
           ),
-          themeMode: appTheme.currentAppTheme,
+          themeMode: customTheme.currentAppTheme,
           locale: Locale('ja', 'JP'),
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,

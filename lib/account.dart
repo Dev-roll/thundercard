@@ -5,31 +5,22 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thundercard/api/current_brightness.dart';
 import 'package:thundercard/api/current_brightness_reverse.dart';
-import 'package:thundercard/api/firebase_firestore.dart';
-import 'package:thundercard/api/settings/display_card_theme.dart';
 import 'package:thundercard/constants.dart';
 import 'package:thundercard/link_auth.dart';
 import 'package:thundercard/main.dart';
-import 'package:thundercard/widgets/avatar.dart';
 import 'package:thundercard/widgets/custom_skeletons/skeleton_card_info.dart';
 import 'package:thundercard/widgets/dialog_util.dart';
 import 'package:thundercard/widgets/my_card.dart';
-import 'package:thundercard/widgets/normal_card.dart';
-import 'package:thundercard/widgets/preview_card.dart';
 
 import 'api/colors.dart';
 import 'api/firebase_auth.dart';
-import 'api/settings/app_theme.dart';
 import 'home_page.dart';
 import 'widgets/card_info.dart';
-import 'widgets/custom_progress_indicator.dart';
 import 'widgets/maintenance.dart';
 import 'auth_gate.dart';
 
 class Account extends ConsumerWidget {
-  Account({Key? key}) : super(key: key);
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  const Account({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,8 +38,8 @@ class Account extends ConsumerWidget {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     final String? uid = getUid();
-    final appTheme = ref.watch(appThemeProvider);
-    final displayCardTheme = ref.watch(displayCardThemeProvider);
+    final customTheme = ref.watch(customThemeProvider);
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -210,7 +201,7 @@ class Account extends ConsumerWidget {
                                   const Icon(Icons.brightness_medium_rounded),
                                   const Icon(Icons.brightness_low_rounded),
                                   const Icon(Icons.brightness_high_rounded),
-                                ][appTheme.currentAppThemeIdx],
+                                ][customTheme.currentAppThemeIdx],
                                 title: const Text('アプリのテーマ'),
                                 content: Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -230,9 +221,11 @@ class Account extends ConsumerWidget {
                                       activeColor:
                                           Theme.of(context).colorScheme.primary,
                                       value: 0,
-                                      groupValue: appTheme.currentAppThemeIdx,
+                                      groupValue:
+                                          customTheme.currentAppThemeIdx,
                                       onChanged: (value) {
-                                        appTheme.change(value as int);
+                                        customTheme
+                                            .appThemeChange(value as int);
                                       },
                                     ),
                                     RadioListTile(
@@ -240,9 +233,11 @@ class Account extends ConsumerWidget {
                                       activeColor:
                                           Theme.of(context).colorScheme.primary,
                                       value: 1,
-                                      groupValue: appTheme.currentAppThemeIdx,
+                                      groupValue:
+                                          customTheme.currentAppThemeIdx,
                                       onChanged: (value) {
-                                        appTheme.change(value as int);
+                                        customTheme
+                                            .appThemeChange(value as int);
                                       },
                                     ),
                                     RadioListTile(
@@ -250,9 +245,11 @@ class Account extends ConsumerWidget {
                                       activeColor:
                                           Theme.of(context).colorScheme.primary,
                                       value: 2,
-                                      groupValue: appTheme.currentAppThemeIdx,
+                                      groupValue:
+                                          customTheme.currentAppThemeIdx,
                                       onChanged: (value) {
-                                        appTheme.change(value as int);
+                                        customTheme
+                                            .appThemeChange(value as int);
                                       },
                                     ),
                                     Divider(
@@ -270,14 +267,15 @@ class Account extends ConsumerWidget {
                                 actions: [
                                   TextButton(
                                     onPressed: () {
-                                      appTheme.change(appTheme.appThemeIdx);
+                                      customTheme.appThemeChange(
+                                          customTheme.appThemeIdx);
                                       Navigator.pop(context, false);
                                     },
                                     child: const Text('キャンセル'),
                                   ),
                                   TextButton(
                                     onPressed: () {
-                                      appTheme.update();
+                                      customTheme.appThemeUpdate();
                                       Navigator.pop(context, false);
                                     },
                                     child: const Text('決定'),
@@ -309,7 +307,7 @@ class Account extends ConsumerWidget {
                                     .colorScheme
                                     .onSurfaceVariant,
                               ),
-                            ][appTheme.currentAppThemeIdx],
+                            ][customTheme.currentAppThemeIdx],
                             const SizedBox(width: 8),
                             Text(
                               'アプリのテーマ',
@@ -339,7 +337,7 @@ class Account extends ConsumerWidget {
                                     softWrap: false,
                                     overflow: TextOverflow.fade,
                                   )
-                                ][appTheme.currentAppThemeIdx],
+                                ][customTheme.currentAppThemeIdx],
                               ),
                             )
                           ]),
@@ -436,117 +434,97 @@ class Account extends ConsumerWidget {
                                           .outline
                                           .withOpacity(0.5),
                                     ),
-                                    Container(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 8, 0, 8),
-                                      child: RadioListTile(
-                                        title: const Text('オリジナル'),
-                                        subtitle: Text(
-                                          'カードのテーマを変更せずに表示',
-                                          style: TextStyle(
-                                            height: 1.6,
-                                            fontSize: 12,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurfaceVariant
-                                                .withOpacity(0.7),
-                                          ),
+                                    RadioListTile(
+                                      title: const Text('オリジナル'),
+                                      subtitle: Text(
+                                        'カードのテーマを変更せずに表示',
+                                        style: TextStyle(
+                                          height: 1.6,
+                                          fontSize: 12,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant
+                                              .withOpacity(0.7),
                                         ),
-                                        activeColor: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        value: 0,
-                                        groupValue: displayCardTheme
-                                            .currentDisplayCardThemeIdx,
-                                        onChanged: (value) {
-                                          displayCardTheme.update(value as int);
-                                          Navigator.of(context).pop();
-                                        },
                                       ),
+                                      activeColor:
+                                          Theme.of(context).colorScheme.primary,
+                                      value: 0,
+                                      groupValue: customTheme
+                                          .currentDisplayCardThemeIdx,
+                                      onChanged: (value) {
+                                        customTheme
+                                            .cardThemeChange(value as int);
+                                      },
                                     ),
-                                    Container(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 8, 0, 8),
-                                      child: RadioListTile(
-                                        title: const Text('自動切り替え'),
-                                        subtitle: Text(
-                                          'アプリと同じテーマでカードを表示',
-                                          style: TextStyle(
-                                            height: 1.6,
-                                            fontSize: 12,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurfaceVariant
-                                                .withOpacity(0.7),
-                                          ),
+                                    RadioListTile(
+                                      title: const Text('自動切り替え'),
+                                      subtitle: Text(
+                                        'アプリと同じテーマでカードを表示',
+                                        style: TextStyle(
+                                          height: 1.6,
+                                          fontSize: 12,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant
+                                              .withOpacity(0.7),
                                         ),
-                                        activeColor: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        value: 1,
-                                        groupValue: displayCardTheme
-                                            .currentDisplayCardThemeIdx,
-                                        onChanged: (value) {
-                                          displayCardTheme.update(value as int);
-                                          Navigator.of(context).pop();
-                                        },
                                       ),
+                                      activeColor:
+                                          Theme.of(context).colorScheme.primary,
+                                      value: 1,
+                                      groupValue: customTheme
+                                          .currentDisplayCardThemeIdx,
+                                      onChanged: (value) {
+                                        customTheme
+                                            .cardThemeChange(value as int);
+                                      },
                                     ),
-                                    Container(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 8, 0, 8),
-                                      child: RadioListTile(
-                                        title: const Text('ダークモード'),
-                                        subtitle: Text(
-                                          'カードをダークモードで表示',
-                                          style: TextStyle(
-                                            height: 1.6,
-                                            fontSize: 12,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurfaceVariant
-                                                .withOpacity(0.7),
-                                          ),
+                                    RadioListTile(
+                                      title: const Text('ダークモード'),
+                                      subtitle: Text(
+                                        'カードをダークモードで表示',
+                                        style: TextStyle(
+                                          height: 1.6,
+                                          fontSize: 12,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant
+                                              .withOpacity(0.7),
                                         ),
-                                        activeColor: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        value: 2,
-                                        groupValue: displayCardTheme
-                                            .currentDisplayCardThemeIdx,
-                                        onChanged: (value) {
-                                          displayCardTheme.update(value as int);
-                                          Navigator.of(context).pop();
-                                        },
                                       ),
+                                      activeColor:
+                                          Theme.of(context).colorScheme.primary,
+                                      value: 2,
+                                      groupValue: customTheme
+                                          .currentDisplayCardThemeIdx,
+                                      onChanged: (value) {
+                                        customTheme
+                                            .cardThemeChange(value as int);
+                                      },
                                     ),
-                                    Container(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 8, 0, 8),
-                                      child: RadioListTile(
-                                        title: const Text('ライトモード'),
-                                        subtitle: Text(
-                                          'カードをライトモードで表示',
-                                          style: TextStyle(
-                                            height: 1.6,
-                                            fontSize: 12,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurfaceVariant
-                                                .withOpacity(0.7),
-                                          ),
+                                    RadioListTile(
+                                      title: const Text('ライトモード'),
+                                      subtitle: Text(
+                                        'カードをライトモードで表示',
+                                        style: TextStyle(
+                                          height: 1.6,
+                                          fontSize: 12,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant
+                                              .withOpacity(0.7),
                                         ),
-                                        activeColor: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        value: 3,
-                                        groupValue: displayCardTheme
-                                            .currentDisplayCardThemeIdx,
-                                        onChanged: (value) {
-                                          displayCardTheme.update(value as int);
-                                          Navigator.of(context).pop();
-                                        },
                                       ),
+                                      activeColor:
+                                          Theme.of(context).colorScheme.primary,
+                                      value: 3,
+                                      groupValue: customTheme
+                                          .currentDisplayCardThemeIdx,
+                                      onChanged: (value) {
+                                        customTheme
+                                            .cardThemeChange(value as int);
+                                      },
                                     ),
                                     Divider(
                                       height: 16,
@@ -563,10 +541,19 @@ class Account extends ConsumerWidget {
                                 actions: [
                                   TextButton(
                                     onPressed: () {
+                                      customTheme.cardThemeChange(
+                                          customTheme.displayCardThemeIdx);
                                       Navigator.pop(context, false);
                                     },
                                     child: const Text('キャンセル'),
                                   ),
+                                  TextButton(
+                                    onPressed: () {
+                                      customTheme.cardThemeUpdate();
+                                      Navigator.pop(context, false);
+                                    },
+                                    child: const Text('決定'),
+                                  )
                                 ],
                               );
                             },
@@ -615,7 +602,7 @@ class Account extends ConsumerWidget {
                                     softWrap: false,
                                     overflow: TextOverflow.fade,
                                   )
-                                ][displayCardTheme.currentDisplayCardThemeIdx],
+                                ][customTheme.currentDisplayCardThemeIdx],
                               ),
                             )
                           ]),
