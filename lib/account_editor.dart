@@ -185,6 +185,13 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                     DropdownButton(
                       items: linksDropdownMenuItem,
                       value: selectedKey,
+                      icon: Icon(
+                        Icons.arrow_drop_down_rounded,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onBackground
+                            .withOpacity(0.5),
+                      ),
                       underline: const SizedBox(
                         width: 0,
                         height: 0,

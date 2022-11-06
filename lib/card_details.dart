@@ -44,8 +44,8 @@ class _CardDetailsState extends State<CardDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final String? uid = getUid();
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    // final String? uid = getUid();
+    // CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     void deleteThisCard() {
       FirebaseFirestore.instance
@@ -72,9 +72,9 @@ class _CardDetailsState extends State<CardDetails> {
       }).catchError((error) => debugPrint('Failed to add user: $error'));
     }
 
-    Future _openAlertDialog1(BuildContext context) async {
+    Future openAlertDialog1(BuildContext context) async {
       // (2) showDialogでダイアログを表示する
-      var ret = await showDialog(
+      await showDialog(
         context: context,
         // (3) AlertDialogを作成する
         builder: (context) => AlertDialog(
@@ -162,7 +162,7 @@ class _CardDetailsState extends State<CardDetails> {
             },
             onSelected: (String s) {
               if (s == '削除') {
-                _openAlertDialog1(context);
+                openAlertDialog1(context);
               }
             },
           )

@@ -48,7 +48,6 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
     //         getDateTime.day == _now.day)
     //     ? _time
     //     : '';
-    var _screenSize = MediaQuery.of(context).size;
 
     void deleteThisNotification() {
       debugPrint(widget.documentId);
