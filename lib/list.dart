@@ -93,7 +93,7 @@ class _ListState extends State<List> {
                         children: [
                           Container(
                             height: 52,
-                            margin: EdgeInsets.fromLTRB(24, 16, 24, 8),
+                            margin: const EdgeInsets.fromLTRB(24, 16, 24, 8),
                             decoration: BoxDecoration(
                               color: Theme.of(context)
                                   .colorScheme
@@ -110,14 +110,16 @@ class _ListState extends State<List> {
                                             secondaryAnimation) =>
                                         Search(
                                             exchangedCardIds: exchangedCards),
-                                    transitionDuration: Duration(seconds: 0),
+                                    transitionDuration:
+                                        const Duration(seconds: 0),
                                   ),
                                 );
                               },
                               child: Row(
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.fromLTRB(20, 12, 0, 12),
+                                    padding: const EdgeInsets.fromLTRB(
+                                        20, 12, 0, 12),
                                     child: Icon(
                                       Icons.search_rounded,
                                       color: Theme.of(context)
@@ -125,15 +127,13 @@ class _ListState extends State<List> {
                                           .onSurfaceVariant,
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 4,
-                                  ),
+                                  const SizedBox(width: 4),
                                   Expanded(
                                     child: Container(
-                                      margin: EdgeInsets.only(right: 16),
+                                      margin: const EdgeInsets.only(right: 16),
                                       child: TextField(
                                         enabled: false,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           hintText: 'カードを検索',
                                           filled: true,
                                           fillColor: Colors.transparent,
@@ -161,14 +161,10 @@ class _ListState extends State<List> {
                                     itemCount: exchangedCards.length + 2,
                                     itemBuilder: (context, index) {
                                       if (index == 0) {
-                                        return SizedBox(
-                                          height: 16,
-                                        );
+                                        return const SizedBox(height: 16);
                                       }
                                       if (index == exchangedCards.length + 1) {
-                                        return SizedBox(
-                                          height: 80,
-                                        );
+                                        return const SizedBox(height: 80);
                                       }
                                       return StreamBuilder<
                                           DocumentSnapshot<Object?>>(
@@ -183,11 +179,12 @@ class _ListState extends State<List> {
                                           }
                                           if (snapshot.connectionState ==
                                               ConnectionState.waiting) {
-                                            return SkeletonCard();
+                                            return const SkeletonCard();
                                           }
                                           dynamic card = snapshot.data;
                                           if (!snapshot.hasData) {
-                                            return Text('カードの情報の取得に失敗しました');
+                                            return const Text(
+                                                'カードの情報の取得に失敗しました');
                                           }
                                           return Column(
                                             children: [
@@ -211,9 +208,7 @@ class _ListState extends State<List> {
                                                   cardType: CardType.normal,
                                                 ),
                                               ),
-                                              SizedBox(
-                                                height: 24,
-                                              ),
+                                              const SizedBox(height: 24),
                                             ],
                                           );
                                         },
@@ -233,9 +228,7 @@ class _ListState extends State<List> {
                                             .onBackground
                                             .withOpacity(0.3),
                                       ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
+                                      const SizedBox(height: 20),
                                       Text(
                                         'まだカードがありません',
                                         style: TextStyle(
@@ -256,7 +249,7 @@ class _ListState extends State<List> {
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             floatingActionButton: SpeedDial(
               // animatedIcon: AnimatedIcons.menu_close,
-              animatedIconTheme: IconThemeData(size: 24.0),
+              animatedIconTheme: const IconThemeData(size: 24.0),
               // / This is ignored if animatedIcon is non null
               // child: Text("open"),
               // activeChild: Text("close"),
@@ -290,7 +283,7 @@ class _ListState extends State<List> {
                   : null,
               buttonSize:
                   buttonSize, // it's the SpeedDial size which defaults to 56 itself
-              iconTheme: IconThemeData(size: 24),
+              iconTheme: const IconThemeData(size: 24),
               label: extend
                   ? const Text("Open")
                   : null, // The label of the main button.
@@ -326,19 +319,20 @@ class _ListState extends State<List> {
               isOpenOnStart: false,
               animationDuration: const Duration(milliseconds: 200),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16)),
+                borderRadius: BorderRadius.circular(16),
+              ),
               // childMargin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              childMargin: EdgeInsets.fromLTRB(0, 0, 8, 0),
+              childMargin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
               children: [
                 SpeedDialChild(
                   child: !rmicons
                       ? Container(
-                          padding: EdgeInsets.all(8),
-                          margin: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
+                          margin: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.primary,
                             borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                 color: Color(0xaa000000),
                                 blurRadius: 8,
@@ -359,13 +353,15 @@ class _ListState extends State<List> {
                   label: '画像をもとに追加',
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => UploadImagePage(
-                              cardId: user['my_cards'][0],
-                            ),
-                        fullscreenDialog: true));
+                      builder: (context) => UploadImagePage(
+                        cardId: user['my_cards'][0],
+                      ),
+                      fullscreenDialog: true,
+                    ));
                   },
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   labelBackgroundColor: Colors.transparent,
                   labelShadow: [],
                   elevation: 0,
@@ -373,12 +369,12 @@ class _ListState extends State<List> {
                 SpeedDialChild(
                   child: !rmicons
                       ? Container(
-                          padding: EdgeInsets.all(8),
-                          margin: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
+                          margin: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.primary,
                             borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                 color: Color(0xaa000000),
                                 blurRadius: 8,
@@ -411,7 +407,8 @@ class _ListState extends State<List> {
                     ));
                   },
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   labelBackgroundColor: Colors.transparent,
                   labelShadow: [],
                   elevation: 0,
