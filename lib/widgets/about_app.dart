@@ -1,11 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
-import '../api/colors.dart';
-import '../home_page.dart';
-
 class AboutApp extends StatelessWidget {
+  const AboutApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,9 +11,9 @@ class AboutApp extends StatelessWidget {
         title: const Text('Thundercardについて'),
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(14.0, 0, 14.0, 0),
-        child: const Markdown(data: '''
+      body: const Padding(
+        padding: EdgeInsets.fromLTRB(14.0, 0, 14.0, 0),
+        child: Markdown(data: '''
 ## 未来の名刺，全く新しいSNS。
 
 Thundercardは名刺をヒントに開発された全く新しいSNSです。

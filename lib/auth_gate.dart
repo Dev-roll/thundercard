@@ -104,7 +104,7 @@ class AuthGate extends StatelessWidget {
         // return AccountRegistration();
         // if (true) {
         if (!snapshot.hasData) {
-          return SignIn();
+          return const SignIn();
           return Scaffold(
             body: SafeArea(
               child: Form(
@@ -118,12 +118,12 @@ class AuthGate extends StatelessWidget {
                         //　~中略~
 
                         // ここから新規追加
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () => _onSignInWithAnonymousUser(),
-                            child: Text('登録せず利用'),
+                            child: const Text('登録せず利用'),
                           ),
                         ),
                         // SizedBox(
@@ -141,8 +141,8 @@ class AuthGate extends StatelessWidget {
                         //     child: Text('Google'),
                         //   ),
                         // ),
-                        SizedBox(height: 10),
-                        GoogleSignInButton(
+                        const SizedBox(height: 10),
+                        const GoogleSignInButton(
                             clientId:
                                 '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com')
                         // ここまで新規追加
@@ -168,7 +168,7 @@ class AuthGate extends StatelessWidget {
               return const Text('問題が発生しました');
             }
             if (snapshot.hasData && !snapshot.data!.exists) {
-              return AccountRegistration();
+              return const AccountRegistration();
             }
             if (snapshot.connectionState == ConnectionState.done) {
               return HomePage(

@@ -66,7 +66,7 @@ class MyCard extends ConsumerWidget {
               return const Text('問題が発生しました');
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return SkeletonCard();
+              return const SkeletonCard();
             }
 
             dynamic data = snapshot.data;
@@ -74,19 +74,17 @@ class MyCard extends ConsumerWidget {
             if (cardIds.length == 0) {
               return Column(
                 children: [
-                  Container(
-                    child: NotFoundCard(cardId: cardId),
-                  ),
+                  NotFoundCard(cardId: cardId),
                   if (exchange)
                     Column(
                       children: [
                         const SizedBox(height: 32),
                         Container(
-                          padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
+                          padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
                           width: double.infinity,
                           child: Text(
                             'ユーザー (@$cardId) が見つからなかったため、交換できません',
-                            style: TextStyle(height: 1.6),
+                            style: const TextStyle(height: 1.6),
                           ),
                         ),
                         const SizedBox(height: 24),
@@ -101,7 +99,7 @@ class MyCard extends ConsumerWidget {
                 ],
               );
             }
-            final account = cardIds[0]?['account'];
+            // final account = cardIds[0]?['account'];
             late bool lightTheme;
             try {
               lightTheme = true;
@@ -164,9 +162,10 @@ class MyCard extends ConsumerWidget {
                                         },
                                         child: const Text('キャンセル'),
                                       ),
-                                      SizedBox(width: 16),
+                                      const SizedBox(width: 16),
                                       ElevatedButton.icon(
-                                        icon: Icon(Icons.swap_horiz_rounded),
+                                        icon: const Icon(
+                                            Icons.swap_horiz_rounded),
                                         label: const Text('交換'),
                                         style: ElevatedButton.styleFrom(
                                           elevation: 0,
@@ -211,9 +210,10 @@ class MyCard extends ConsumerWidget {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
                                                 children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                        .fromLTRB(0, 0, 16, 0),
+                                                  const Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            0, 0, 16, 0),
                                                     child: Icon(Icons
                                                         .file_download_done_rounded),
                                                   ),

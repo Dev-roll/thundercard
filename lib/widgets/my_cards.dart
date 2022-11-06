@@ -16,7 +16,7 @@ class _MyCardsState extends State<MyCards> {
   Future<String> getThumbnail(String cardId) async {
     final storageRef = FirebaseStorage.instance.ref();
     final imageUrl =
-        await storageRef.child("cards/$cardId/card.jpg").getDownloadURL();
+        await storageRef.child('cards/$cardId/card.jpg').getDownloadURL();
     return imageUrl;
   }
 

@@ -1,10 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:thundercard/widgets/avatar.dart';
-import '../constants.dart';
-import '../api/return_url.dart';
 import 'card_element.dart';
-import 'open_app.dart';
 
 class PreviewCard extends StatelessWidget {
   const PreviewCard({
@@ -46,7 +42,7 @@ class PreviewCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // avatar
-                Avatar(),
+                const Avatar(),
                 // name etc
                 Flexible(
                   child: Container(

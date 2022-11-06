@@ -11,8 +11,6 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import 'package:image_picker/image_picker.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
-import 'home_page.dart';
-
 class UploadImagePage extends StatefulWidget {
   const UploadImagePage({Key? key, required this.cardId}) : super(key: key);
   final String? cardId;
@@ -27,7 +25,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
   late final TextEditingController _nameController = TextEditingController();
   late final TextEditingController _recognizedTextController =
       TextEditingController();
-  var _editText = '';
+  var editText = '';
   var isCompleted = false;
   var uploadButtonPressed = false;
 
@@ -107,8 +105,8 @@ class _UploadImagePageState extends State<UploadImagePage> {
           },
           'links': [],
         },
-      }).then((value) => debugPrint("DocumentSnapshot successfully updated!"),
-          onError: (e) => debugPrint("Error updating document $e"));
+      }).then((value) => debugPrint('DocumentSnapshot successfully updated!'),
+          onError: (e) => debugPrint('Error updating document $e'));
     }
 
     void updateExchangedCards() {
@@ -116,8 +114,8 @@ class _UploadImagePageState extends State<UploadImagePage> {
           FirebaseFirestore.instance.collection('cards').doc(widget.cardId);
       doc.update({
         'exchanged_cards': FieldValue.arrayUnion([docId])
-      }).then((value) => debugPrint("DocumentSnapshot successfully updated!"),
-          onError: (e) => debugPrint("Error updating document $e"));
+      }).then((value) => debugPrint('DocumentSnapshot successfully updated!'),
+          onError: (e) => debugPrint('Error updating document $e'));
     }
 
     void uploadPic() async {
@@ -386,7 +384,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
                       TextField(
                         onChanged: (value) {
                           setState(() {
-                            _editText = value;
+                            editText = value;
                           });
                         },
                         controller: _nameController,

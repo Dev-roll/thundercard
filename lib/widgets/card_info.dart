@@ -21,9 +21,9 @@ class CardInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference cards = FirebaseFirestore.instance.collection('cards');
-    var screenSize = MediaQuery.of(context).size;
-    var vw = screenSize.width * 0.01;
+    // CollectionReference cards = FirebaseFirestore.instance.collection('cards');
+    // var screenSize = MediaQuery.of(context).size;
+    // var vw = screenSize.width * 0.01;
 
     return StreamBuilder(
       stream: FirebaseFirestore.instance

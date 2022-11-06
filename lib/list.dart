@@ -57,11 +57,11 @@ class _ListState extends State<List> {
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
-          return const Text("問題が発生しました");
+          return const Text('問題が発生しました');
         }
 
         if (snapshot.hasData && !snapshot.data!.exists) {
-          return const Text("ユーザー情報の取得に失敗しました");
+          return const Text('ユーザー情報の取得に失敗しました');
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
@@ -85,160 +85,154 @@ class _ListState extends State<List> {
                     final exchangedCards = data?['exchanged_cards'];
                     final exchangedCardsLength = exchangedCards?.length ?? 0;
 
-                    return Container(
-                      // padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 52,
-                            margin: const EdgeInsets.fromLTRB(24, 16, 24, 8),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .surfaceVariant
-                                  .withOpacity(0.5),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  PageRouteBuilder(
-                                    pageBuilder: (context, animation,
-                                            secondaryAnimation) =>
-                                        Search(
-                                            exchangedCardIds: exchangedCards),
-                                    transitionDuration:
-                                        const Duration(seconds: 0),
-                                  ),
-                                );
-                              },
-                              child: Row(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        20, 12, 0, 12),
-                                    child: Icon(
-                                      Icons.search_rounded,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Expanded(
-                                    child: Container(
-                                      margin: const EdgeInsets.only(right: 16),
-                                      child: TextField(
-                                        enabled: false,
-                                        decoration: const InputDecoration(
-                                          hintText: 'カードを検索',
-                                          filled: true,
-                                          fillColor: Colors.transparent,
-                                          disabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Colors.transparent,
-                                              width: 0,
-                                            ),
-                                          ),
-                                        ),
-                                        onChanged: ((value) {}),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                    return Column(
+                      children: [
+                        Container(
+                          height: 52,
+                          margin: const EdgeInsets.fromLTRB(24, 16, 24, 8),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .surfaceVariant
+                                .withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(30),
                           ),
-                          (exchangedCardsLength != 0)
-                              ? Expanded(
-                                  child: ListView.builder(
-                                    // shrinkWrap: true,
-                                    // physics:
-                                    //     const NeverScrollableScrollPhysics(),
-                                    itemCount: exchangedCards.length + 2,
-                                    itemBuilder: (context, index) {
-                                      if (index == 0) {
-                                        return const SizedBox(height: 16);
-                                      }
-                                      if (index == exchangedCards.length + 1) {
-                                        return const SizedBox(height: 80);
-                                      }
-                                      return StreamBuilder<
-                                          DocumentSnapshot<Object?>>(
-                                        stream: cards
-                                            .doc(exchangedCards[index - 1])
-                                            .snapshots(),
-                                        builder: (BuildContext context,
-                                            AsyncSnapshot<DocumentSnapshot>
-                                                snapshot) {
-                                          if (snapshot.hasError) {
-                                            return const Text('問題が発生しました');
-                                          }
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return const SkeletonCard();
-                                          }
-                                          dynamic card = snapshot.data;
-                                          if (!snapshot.hasData) {
-                                            return const Text(
-                                                'カードの情報の取得に失敗しました');
-                                          }
-                                          return Column(
-                                            children: [
-                                              GestureDetector(
-                                                behavior:
-                                                    HitTestBehavior.opaque,
-                                                onTap: () {
-                                                  Navigator.of(context)
-                                                      .push(MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        CardDetails(
-                                                      cardId: exchangedCards[
-                                                          index - 1],
-                                                      card: card,
-                                                    ),
-                                                  ));
-                                                },
-                                                child: MyCard(
-                                                  cardId:
-                                                      exchangedCards[index - 1],
-                                                  cardType: CardType.normal,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 24),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
-                                )
-                              : Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.priority_high_rounded,
-                                        size: 120,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onBackground
-                                            .withOpacity(0.3),
-                                      ),
-                                      const SizedBox(height: 20),
-                                      Text(
-                                        'まだカードがありません',
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurfaceVariant),
-                                      ),
-                                    ],
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: () {
+                              Navigator.of(context).push(
+                                PageRouteBuilder(
+                                  pageBuilder: (context, animation,
+                                          secondaryAnimation) =>
+                                      Search(exchangedCardIds: exchangedCards),
+                                  transitionDuration:
+                                      const Duration(seconds: 0),
+                                ),
+                              );
+                            },
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(20, 12, 0, 12),
+                                  child: Icon(
+                                    Icons.search_rounded,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
                                   ),
                                 ),
-                        ],
-                      ),
+                                const SizedBox(width: 4),
+                                Expanded(
+                                  child: Container(
+                                    margin: const EdgeInsets.only(right: 16),
+                                    child: TextField(
+                                      enabled: false,
+                                      decoration: const InputDecoration(
+                                        hintText: 'カードを検索',
+                                        filled: true,
+                                        fillColor: Colors.transparent,
+                                        disabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                            width: 0,
+                                          ),
+                                        ),
+                                      ),
+                                      onChanged: ((value) {}),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        (exchangedCardsLength != 0)
+                            ? Expanded(
+                                child: ListView.builder(
+                                  // shrinkWrap: true,
+                                  // physics:
+                                  //     const NeverScrollableScrollPhysics(),
+                                  itemCount: exchangedCards.length + 2,
+                                  itemBuilder: (context, index) {
+                                    if (index == 0) {
+                                      return const SizedBox(height: 16);
+                                    }
+                                    if (index == exchangedCards.length + 1) {
+                                      return const SizedBox(height: 80);
+                                    }
+                                    return StreamBuilder<
+                                        DocumentSnapshot<Object?>>(
+                                      stream: cards
+                                          .doc(exchangedCards[index - 1])
+                                          .snapshots(),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<DocumentSnapshot>
+                                              snapshot) {
+                                        if (snapshot.hasError) {
+                                          return const Text('問題が発生しました');
+                                        }
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const SkeletonCard();
+                                        }
+                                        dynamic card = snapshot.data;
+                                        if (!snapshot.hasData) {
+                                          return const Text('カードの情報の取得に失敗しました');
+                                        }
+                                        return Column(
+                                          children: [
+                                            GestureDetector(
+                                              behavior: HitTestBehavior.opaque,
+                                              onTap: () {
+                                                Navigator.of(context)
+                                                    .push(MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      CardDetails(
+                                                    cardId: exchangedCards[
+                                                        index - 1],
+                                                    card: card,
+                                                  ),
+                                                ));
+                                              },
+                                              child: MyCard(
+                                                cardId:
+                                                    exchangedCards[index - 1],
+                                                cardType: CardType.normal,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 24),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              )
+                            : Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.priority_high_rounded,
+                                      size: 120,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground
+                                          .withOpacity(0.3),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Text(
+                                      'まだカードがありません',
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                      ],
                     );
                   },
                 ),
@@ -249,8 +243,8 @@ class _ListState extends State<List> {
               // animatedIcon: AnimatedIcons.menu_close,
               animatedIconTheme: const IconThemeData(size: 24.0),
               // / This is ignored if animatedIcon is non null
-              // child: Text("open"),
-              // activeChild: Text("close"),
+              // child: Text('open'),
+              // activeChild: Text('close'),
               icon: Icons.add_rounded,
               activeIcon: Icons.close_rounded,
               foregroundColor:
@@ -273,7 +267,7 @@ class _ListState extends State<List> {
                               horizontal: 22, vertical: 18),
                         ),
                         child: const Text(
-                          "Custom Dial Root",
+                          'Custom Dial Root',
                           style: TextStyle(fontSize: 17),
                         ),
                       );
@@ -283,10 +277,10 @@ class _ListState extends State<List> {
                   buttonSize, // it's the SpeedDial size which defaults to 56 itself
               iconTheme: const IconThemeData(size: 24),
               label: extend
-                  ? const Text("Open")
+                  ? const Text('Open')
                   : null, // The label of the main button.
               /// The active label of the main button, Defaults to label if not specified.
-              activeLabel: extend ? const Text("Close") : null,
+              activeLabel: extend ? const Text('Close') : null,
 
               /// Transition Builder between label and activeLabel, defaults to FadeTransition.
               // labelTransitionBuilder: (widget, animation) => ScaleTransition(scale: animation,child: widget),

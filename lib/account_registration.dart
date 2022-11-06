@@ -45,7 +45,7 @@ class ReorderableMultiTextFieldController
   void remove(String id) {
     final removedText = value.where((element) => element.id == id);
     if (removedText.isEmpty) {
-      throw "Textがありません";
+      throw 'Textがありません';
     }
 
     value = value.where((element) => element.id != id).toList();
@@ -101,9 +101,9 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
         // (3) AlertDialogを作成する
         builder: (context) => AlertDialog(
           icon: const Icon(Icons.delete_rounded),
-          title: const Text("リンクの削除"),
+          title: const Text('リンクの削除'),
           content: Text(
-            "このリンクを削除しますか？",
+            'このリンクを削除しますか？',
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
@@ -116,7 +116,7 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                 Navigator.pop(context, false)
               },
               onLongPress: null,
-              child: const Text("キャンセル"),
+              child: const Text('キャンセル'),
             ),
             TextButton(
               onPressed: () {
@@ -124,7 +124,7 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                 widget.controllerController.remove(textFieldState.id);
               },
               onLongPress: null,
-              child: const Text("削除"),
+              child: const Text('削除'),
             ),
           ],
         ),
@@ -297,8 +297,8 @@ class _AccountRegistrationState extends State<AccountRegistration> {
         .set({
           'my_cards': [_cardIdController.text]
         })
-        .then((value) => debugPrint("User Added"))
-        .catchError((error) => debugPrint("Failed to add user: $error"));
+        .then((value) => debugPrint('User Added'))
+        .catchError((error) => debugPrint('Failed to add user: $error'));
 
     final registerNotificationData = {
       'title': '登録完了のお知らせ',
@@ -543,7 +543,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                             Icons.add_link_rounded,
                           ),
                           label: const Text(
-                            "SNS・連絡先を追加",
+                            'SNS・連絡先を追加',
                           ),
                         ),
                       ],

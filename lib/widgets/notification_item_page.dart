@@ -65,9 +65,9 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
             ),
             (_) => false,
           );
-          debugPrint("Document deleted");
+          debugPrint('Document deleted');
         },
-        onError: (e) => debugPrint("Error updating document $e"),
+        onError: (e) => debugPrint('Error updating document $e'),
       );
     }
 
@@ -78,9 +78,9 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
           // (3) AlertDialogを作成する
           builder: (context) => AlertDialog(
                 icon: const Icon(Icons.delete_rounded),
-                title: const Text("通知の削除"),
+                title: const Text('通知の削除'),
                 content: Text(
-                  "この通知を削除しますか？",
+                  'この通知を削除しますか？',
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
@@ -92,13 +92,13 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
                             //  (5) ダイアログを閉じる
                             Navigator.pop(context, false)
                           },
-                      child: const Text("キャンセル")),
+                      child: const Text('キャンセル')),
                   TextButton(
                       onPressed: () {
                         Navigator.pop(context, true);
                         deleteThisNotification();
                       },
-                      child: const Text("OK")),
+                      child: const Text('OK')),
                 ],
               ));
     }
@@ -144,7 +144,7 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
               }).toList();
             },
             onSelected: (String s) {
-              if (s == "未読にする") {
+              if (s == '未読にする') {
                 FirebaseFirestore.instance
                     .collection('cards')
                     .doc(widget.myCardId)
@@ -159,9 +159,9 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
                       (_) => false,
                     );
                   },
-                  onError: (e) => debugPrint("Error updating document $e"),
+                  onError: (e) => debugPrint('Error updating document $e'),
                 );
-              } else if (s == "削除") {
+              } else if (s == '削除') {
                 openAlertDialog1(context);
               }
               // if (s == '削除') {

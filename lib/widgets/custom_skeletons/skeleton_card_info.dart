@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../api/current_brightness.dart';
-import '../avatar.dart';
-
 class SkeletonCardInfo extends StatelessWidget {
   const SkeletonCardInfo({super.key});
 
@@ -33,9 +30,7 @@ class SkeletonCardInfo extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
-              width: 16,
-            ),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 children: [
@@ -44,7 +39,7 @@ class SkeletonCardInfo extends StatelessWidget {
                       Container(
                         width: 120,
                         height: 26,
-                        margin: EdgeInsets.fromLTRB(0, 0, 0, 4),
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 4),
                         decoration: BoxDecoration(
                           color: Theme.of(context)
                               .colorScheme
@@ -60,7 +55,7 @@ class SkeletonCardInfo extends StatelessWidget {
                       Container(
                         width: 80,
                         height: 16,
-                        margin: EdgeInsets.fromLTRB(0, 4, 0, 0),
+                        margin: const EdgeInsets.fromLTRB(0, 4, 0, 0),
                         decoration: BoxDecoration(
                           color: Theme.of(context)
                               .colorScheme
@@ -75,23 +70,21 @@ class SkeletonCardInfo extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 8),
+              margin: const EdgeInsets.only(left: 8),
               child: ElevatedButton(
                 onPressed: null,
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                 ),
                 child: const Icon(Icons.edit_rounded),
               ),
             ),
           ],
         ),
-        SizedBox(
-          height: 20,
-        ),
+        const SizedBox(height: 20),
         Container(
-          margin: EdgeInsets.all(12),
+          margin: const EdgeInsets.all(12),
           height: 16,
           width: 60 * vw,
           decoration: BoxDecoration(
@@ -100,7 +93,7 @@ class SkeletonCardInfo extends StatelessWidget {
           ),
         ),
         Container(
-          margin: EdgeInsets.all(12),
+          margin: const EdgeInsets.all(12),
           height: 16,
           width: 32 * vw,
           decoration: BoxDecoration(
@@ -109,7 +102,7 @@ class SkeletonCardInfo extends StatelessWidget {
           ),
         ),
         Container(
-          margin: EdgeInsets.all(12),
+          margin: const EdgeInsets.all(12),
           height: 16,
           width: 40 * vw,
           decoration: BoxDecoration(
@@ -117,9 +110,7 @@ class SkeletonCardInfo extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
         ),
-        SizedBox(
-          height: 20,
-        ),
+        const SizedBox(height: 20),
       ],
     );
   }

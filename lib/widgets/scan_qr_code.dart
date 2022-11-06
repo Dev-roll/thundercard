@@ -1,23 +1,14 @@
 import 'dart:developer';
 import 'dart:io';
-import 'dart:ui' as ui;
+// import 'dart:ui' as ui;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/basic.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/foundation.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/add_card.dart';
 import 'package:thundercard/widgets/fullscreen_qr_code.dart';
@@ -619,7 +610,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(28),
               ),
-              content: const Text("QRコードを読み取れませんでした"),
+              content: const Text('QRコードを読み取れませんでした'),
             ),
           );
         } else if (describeEnum(scanData.format) == 'qrcode') {

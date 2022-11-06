@@ -49,7 +49,7 @@ class SmallCard extends StatelessWidget {
                   child: Row(
                     children: [
                       // avatar
-                      Avatar(),
+                      const Avatar(),
                       // name etc
                       Flexible(
                         child: StreamBuilder(
