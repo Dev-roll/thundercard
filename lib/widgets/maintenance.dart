@@ -127,7 +127,7 @@ maintenance() {
     //     .where('tags', arrayContains: 'interaction')
     //     .where('title', isEqualTo: 'テスト')
     //     .get()
-    //     .then((QuerySnapshot querySnapshot) => (querySnapshot.docs.forEach((element) {print(element['created_at']);})));
+    //     .then((QuerySnapshot querySnapshot) => (querySnapshot.docs.forEach((element) {debugPrint(element['created_at']);})));
 
     // update
     // FirebaseFirestore.instance
@@ -135,7 +135,7 @@ maintenance() {
     //     .doc(currentCardId)
     //     .update(account)
     //     .then((element) {
-    //   print('completed');
+    //   debugPrint('completed');
     // });
 
     // set
@@ -144,7 +144,7 @@ maintenance() {
     //     .doc(currentCardId)
     //     .set(account)
     //     .then((element) {
-    //   print('completed');
+    //   debugPrint('completed');
     // });
 
     // add
@@ -155,7 +155,7 @@ maintenance() {
     //     // .doc(currentDocId)
     //     .add(notification)
     //     .then((element) {
-    //   print('completed');
+    //   debugPrint('completed');
     // });
 
     // queryを使って削除
@@ -175,7 +175,7 @@ maintenance() {
     //     .get()
     //     .then((snapshot) {
     //   snapshot.docs.forEach((element) {
-    //     print('$currentCardId / ${element['title']} / ${element['content']} / ${element['created_at']} / ${element['read']}');
+    //     debugPrint('$currentCardId / ${element['title']} / ${element['content']} / ${element['created_at']} / ${element['read']}');
     //     element.reference.delete();
     //   });
     // });
@@ -191,7 +191,7 @@ maintenance() {
     //     .get()
     //     .then((snapshot) {
     //   snapshot.docs.forEach((element) {
-    //     print(
+    //     debugPrint(
     //         '$currentCardId / ${element['title']} / ${element['content']} / ${element['created_at']} / ${element['read']} / ${element['notification_id']}');
     //     element.reference.update({
     //       'title': '【更新】アカウント情報の追加・更新について',
@@ -217,7 +217,7 @@ maintenance() {
     //     .get()
     //     .then((snapshot) {
     //   snapshot.docs.forEach((element) {
-    //     print(
+    //     debugPrint(
     //         '$currentCardId / ${element['title']} / ${element['content']} / ${element['created_at']} / ${element['read']} / ${element['notification_id']}');
     //     element.reference.delete();
     //     // element.reference.delete();

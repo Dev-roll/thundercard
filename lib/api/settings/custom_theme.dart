@@ -54,7 +54,6 @@ class CustomTheme extends ChangeNotifier {
 
   void cardThemeChange(int i) {
     currentDisplayCardThemeIdx = i % 4;
-    print(currentDisplayCardThemeIdx);
     notifyListeners();
   }
 

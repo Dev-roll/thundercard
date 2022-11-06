@@ -43,7 +43,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
         _recognizedTextController.text = recognizedTextTemp;
       });
     } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
+      debugPrint('Failed to pick image: $e');
     }
   }
 
@@ -60,7 +60,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
         _recognizedTextController.text = recognizedTextTemp;
       });
     } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
+      debugPrint('Failed to pick image: $e');
     }
   }
 
@@ -82,7 +82,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
     void updateDocumentData(String imageURL) {
       final doc = FirebaseFirestore.instance.collection('cards').doc(docId);
       doc.set({
-        'thumbnail': '$imageURL',
+        'thumbnail': imageURL,
         'is_user': false,
         'account': {
           'profiles': {
@@ -106,8 +106,8 @@ class _UploadImagePageState extends State<UploadImagePage> {
           },
           'links': [],
         },
-      }).then((value) => print("DocumentSnapshot successfully updated!"),
-          onError: (e) => print("Error updating document $e"));
+      }).then((value) => debugPrint("DocumentSnapshot successfully updated!"),
+          onError: (e) => debugPrint("Error updating document $e"));
     }
 
     void updateExchangedCards() {
@@ -115,8 +115,8 @@ class _UploadImagePageState extends State<UploadImagePage> {
           FirebaseFirestore.instance.collection('cards').doc(widget.cardId);
       doc.update({
         'exchanged_cards': FieldValue.arrayUnion([docId])
-      }).then((value) => print("DocumentSnapshot successfully updated!"),
-          onError: (e) => print("Error updating document $e"));
+      }).then((value) => debugPrint("DocumentSnapshot successfully updated!"),
+          onError: (e) => debugPrint("Error updating document $e"));
     }
 
     void uploadPic() async {
@@ -134,7 +134,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
             FirebaseStorage.instance.ref().child('cards/$docId/$uploadName');
         final task = await storageRef.putFile(file);
         final String imageURL = await task.ref.getDownloadURL();
-        print('ここ大事 -> $imageURL');
+        debugPrint('ここ大事 -> $imageURL');
         updateDocumentData(imageURL);
         updateExchangedCards();
         Navigator.of(context).pop();
@@ -157,8 +157,8 @@ class _UploadImagePageState extends State<UploadImagePage> {
             content: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
                   child: Icon(Icons.file_download_done_rounded),
                 ),
                 Expanded(
@@ -185,7 +185,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
         //   (_) => false,
         // );
       } catch (e) {
-        print(e);
+        debugPrint('$e');
       }
     }
 
@@ -234,8 +234,8 @@ class _UploadImagePageState extends State<UploadImagePage> {
                   child: Column(
                     // alignment: const Alignment(0.0, 0),
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      const Text(
+                    children: const <Widget>[
+                      Text(
                         '',
                         style: TextStyle(
                           fontSize: 20,
@@ -250,8 +250,8 @@ class _UploadImagePageState extends State<UploadImagePage> {
                       left: 12, right: 32, top: 0, bottom: 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const Text(
+                    children: const <Widget>[
+                      Text(
                         '名刺等の画像を追加',
                         style: TextStyle(
                           fontSize: 20,
@@ -276,8 +276,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
                 ),
                 hasIndicator: false,
                 endChild: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 28, right: 32, top: 24, bottom: 36),
+                  padding: const EdgeInsets.fromLTRB(28, 24, 32, 36),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -291,7 +290,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
                             onLongPress: null,
                             child: const Text('写真を撮影'),
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           ElevatedButton(
                             onPressed: pickImage,
                             onLongPress: null,
@@ -445,10 +444,10 @@ class _UploadImagePageState extends State<UploadImagePage> {
                   child: Column(
                     // alignment: const Alignment(0.0, 0),
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      const Text(
+                    children: const <Widget>[
+                      Text(
                         '',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 20,
                           // fontWeight: FontWeight.bold,
                         ),
@@ -461,10 +460,10 @@ class _UploadImagePageState extends State<UploadImagePage> {
                       left: 12, right: 32, top: 0, bottom: 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      const Text(
+                    children: const <Widget>[
+                      Text(
                         'カードを登録',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 20,
                           // fontWeight: FontWeight.bold,
                         ),
@@ -497,14 +496,14 @@ class _UploadImagePageState extends State<UploadImagePage> {
                               onPressed: null,
                               onLongPress: null,
                               child: Container(
-                                child: SizedBox(
+                                padding: const EdgeInsets.all(4),
+                                child: const SizedBox(
+                                  height: 24,
+                                  width: 24,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 3.0,
                                   ),
-                                  height: 24,
-                                  width: 24,
                                 ),
-                                padding: EdgeInsets.all(4),
                               ),
                             )
                           : ElevatedButton(

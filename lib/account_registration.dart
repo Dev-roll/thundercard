@@ -282,15 +282,15 @@ class _AccountRegistrationState extends State<AccountRegistration> {
         },
       });
     }
-    print(links);
+    debugPrint('$links');
 
     users
         .doc(uid)
         .set({
           'my_cards': [_cardIdController.text]
         })
-        .then((value) => print("User Added"))
-        .catchError((error) => print("Failed to add user: $error"));
+        .then((value) => debugPrint("User Added"))
+        .catchError((error) => debugPrint("Failed to add user: $error"));
 
     final registerNotificationData = {
       'title': '登録完了のお知らせ',
@@ -341,8 +341,8 @@ class _AccountRegistrationState extends State<AccountRegistration> {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => AuthGate()),
       );
-      print('Card Registered');
-    }).catchError((error) => print('カードの登録に失敗しました: $error'));
+      debugPrint('Card Registered');
+    }).catchError((error) => debugPrint('カードの登録に失敗しました: $error'));
   }
 
   @override

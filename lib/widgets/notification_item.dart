@@ -53,7 +53,7 @@ class _NotificationItemState extends State<NotificationItem> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        print(widget.documentId);
+        debugPrint(widget.documentId);
         FirebaseFirestore.instance
             .collection('cards')
             .doc(widget.myCardId)

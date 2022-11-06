@@ -81,9 +81,9 @@ class AuthGate extends StatelessWidget {
   //     final email = result.email;
   //     final password = result.id;
 
-  //     print(result);
+  //     debugPrint(result);
   //   } catch (error) {
-  //     print(error);
+  //     debugPrint(error);
   //   }
   // }
 

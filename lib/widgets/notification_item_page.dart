@@ -54,7 +54,7 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
     var _usStates = ["未読にする", "削除"];
 
     void deleteThisNotification() {
-      print(widget.documentId);
+      debugPrint(widget.documentId);
       FirebaseFirestore.instance
           .collection('cards')
           .doc(widget.myCardId)
@@ -69,9 +69,9 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
             ),
             (_) => false,
           );
-          print("Document deleted");
+          debugPrint("Document deleted");
         },
-        onError: (e) => print("Error updating document $e"),
+        onError: (e) => debugPrint("Error updating document $e"),
       );
     }
 
@@ -155,7 +155,7 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
                       (_) => false,
                     );
                   },
-                  onError: (e) => print("Error updating document $e"),
+                  onError: (e) => debugPrint("Error updating document $e"),
                 );
               } else if (s == "削除") {
                 _openAlertDialog1(context);
