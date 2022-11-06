@@ -227,3 +227,20 @@ final List<ThemeMode> themeList = [
   ThemeMode.dark,
   ThemeMode.light
 ];
+
+// メニュー
+const menuItmCardDetails = <String>[
+  '削除',
+];
+const menuIcnCardDetails = <Icon>[
+  Icon(Icons.delete_outline_rounded),
+];
+
+const menuItmNotificationItemPage = <String>[
+  '未読にする',
+  '削除',
+];
+const menuIcnNotificationItemPage = <Icon>[
+  Icon(Icons.mark_email_unread_rounded),
+  Icon(Icons.delete_outline_rounded),
+];

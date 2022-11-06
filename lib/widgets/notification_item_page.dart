@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:thundercard/constants.dart';
 
 import '../api/colors.dart';
 import '../home_page.dart';
@@ -51,7 +52,6 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
     //     ? _time
     //     : '';
     var _screenSize = MediaQuery.of(context).size;
-    var _usStates = ["未読にする", "削除"];
 
     void deleteThisNotification() {
       debugPrint(widget.documentId);
@@ -127,15 +127,23 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
             elevation: 8,
             position: PopupMenuPosition.under,
             itemBuilder: (BuildContext context) {
-              return _usStates.map((String s) {
+              return menuItmNotificationItemPage.map((String s) {
                 return PopupMenuItem(
-                  child: Text(
-                    s,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-                  ),
                   value: s,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      menuIcnNotificationItemPage[
+                          menuItmNotificationItemPage.indexOf(s)],
+                      const SizedBox(width: 8),
+                      Text(
+                        s,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               }).toList();
             },
