@@ -193,7 +193,7 @@ class Account extends ConsumerWidget {
                               builder: (context) => HomePage(index: 3),
                             ),
                           );
-                          await DialogUtil.show(
+                          await showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
@@ -267,15 +267,16 @@ class Account extends ConsumerWidget {
                                 actions: [
                                   TextButton(
                                     onPressed: () {
-                                      customTheme.appThemeChange(
-                                          customTheme.appThemeIdx);
                                       Navigator.pop(context, false);
                                     },
                                     child: const Text('キャンセル'),
                                   ),
                                   TextButton(
                                     onPressed: () {
-                                      customTheme.appThemeUpdate();
+                                      if (customTheme.currentAppThemeIdx !=
+                                          customTheme.appThemeIdx) {
+                                        customTheme.appThemeUpdate();
+                                      }
                                       Navigator.pop(context, false);
                                     },
                                     child: const Text('決定'),
@@ -283,7 +284,13 @@ class Account extends ConsumerWidget {
                                 ],
                               );
                             },
-                          );
+                          ).then((value) {
+                            if (customTheme.currentAppThemeIdx !=
+                                customTheme.appThemeIdx) {
+                              customTheme
+                                  .appThemeChange(customTheme.appThemeIdx);
+                            }
+                          });
                         },
                         child: Container(
                           padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
@@ -541,15 +548,17 @@ class Account extends ConsumerWidget {
                                 actions: [
                                   TextButton(
                                     onPressed: () {
-                                      customTheme.cardThemeChange(
-                                          customTheme.displayCardThemeIdx);
                                       Navigator.pop(context, false);
                                     },
                                     child: const Text('キャンセル'),
                                   ),
                                   TextButton(
                                     onPressed: () {
-                                      customTheme.cardThemeUpdate();
+                                      if (customTheme
+                                              .currentDisplayCardThemeIdx !=
+                                          customTheme.displayCardThemeIdx) {
+                                        customTheme.cardThemeUpdate();
+                                      }
                                       Navigator.pop(context, false);
                                     },
                                     child: const Text('決定'),
@@ -557,7 +566,13 @@ class Account extends ConsumerWidget {
                                 ],
                               );
                             },
-                          );
+                          ).then((value) {
+                            if (customTheme.currentDisplayCardThemeIdx !=
+                                customTheme.displayCardThemeIdx) {
+                              customTheme.cardThemeChange(
+                                  customTheme.displayCardThemeIdx);
+                            }
+                          });
                         },
                         child: Container(
                           padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
@@ -606,6 +621,55 @@ class Account extends ConsumerWidget {
                               ),
                             )
                           ]),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(
+                  height: 32,
+                  thickness: 1,
+                  indent: 16,
+                  endIndent: 16,
+                  color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'エクスポート',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
+                        alignment: Alignment.center,
+                        child: Column(
+                          children: [
+                            ElevatedButton.icon(
+                              icon: const Icon(
+                                Icons.add_circle_outline_rounded,
+                              ),
+                              label: const Text('認証方法を追加'),
+                              style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                foregroundColor: Theme.of(context)
+                                    .colorScheme
+                                    .onSecondaryContainer,
+                                backgroundColor: Theme.of(context)
+                                    .colorScheme
+                                    .secondaryContainer,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => const LinkAuth()),
+                                );
+                              },
+                              onLongPress: null,
+                            ),
+                          ],
                         ),
                       ),
                     ],
