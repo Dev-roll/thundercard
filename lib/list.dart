@@ -57,11 +57,11 @@ class _ListState extends State<List> {
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
-          return const Text("問題が発生しました");
+          return const Text('問題が発生しました');
         }
 
         if (snapshot.hasData && !snapshot.data!.exists) {
-          return const Text("ユーザー情報の取得に失敗しました");
+          return const Text('ユーザー情報の取得に失敗しました');
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
@@ -249,8 +249,8 @@ class _ListState extends State<List> {
               // animatedIcon: AnimatedIcons.menu_close,
               animatedIconTheme: const IconThemeData(size: 24.0),
               // / This is ignored if animatedIcon is non null
-              // child: Text("open"),
-              // activeChild: Text("close"),
+              // child: Text('open'),
+              // activeChild: Text('close'),
               icon: Icons.add_rounded,
               activeIcon: Icons.close_rounded,
               foregroundColor:
@@ -273,7 +273,7 @@ class _ListState extends State<List> {
                               horizontal: 22, vertical: 18),
                         ),
                         child: const Text(
-                          "Custom Dial Root",
+                          'Custom Dial Root',
                           style: TextStyle(fontSize: 17),
                         ),
                       );
@@ -283,10 +283,10 @@ class _ListState extends State<List> {
                   buttonSize, // it's the SpeedDial size which defaults to 56 itself
               iconTheme: const IconThemeData(size: 24),
               label: extend
-                  ? const Text("Open")
+                  ? const Text('Open')
                   : null, // The label of the main button.
               /// The active label of the main button, Defaults to label if not specified.
-              activeLabel: extend ? const Text("Close") : null,
+              activeLabel: extend ? const Text('Close') : null,
 
               /// Transition Builder between label and activeLabel, defaults to FadeTransition.
               // labelTransitionBuilder: (widget, animation) => ScaleTransition(scale: animation,child: widget),

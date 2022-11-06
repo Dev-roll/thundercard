@@ -33,13 +33,13 @@ void handleExchange(String myCardId, anotherCardId) async {
   myCard.update({
     'exchanged_cards': FieldValue.arrayUnion([anotherCardId]),
     'rooms.$anotherCardId': room.toJson()
-  }).then((value) => debugPrint("DocumentSnapshot successfully updated"),
-      onError: (e) => debugPrint("Error updating document $e"));
+  }).then((value) => debugPrint('DocumentSnapshot successfully updated'),
+      onError: (e) => debugPrint('Error updating document $e'));
   anotherCard.update({
     'exchanged_cards': FieldValue.arrayUnion([myCardId]),
     'rooms.$myCardId': room.toJson()
-  }).then((value) => debugPrint("DocumentSnapshot successfully updated"),
-      onError: (e) => debugPrint("Error updating document $e"));
+  }).then((value) => debugPrint('DocumentSnapshot successfully updated'),
+      onError: (e) => debugPrint('Error updating document $e'));
 
   final addMyNotificationData = {
     'title': 'カードリスト追加のお知らせ',

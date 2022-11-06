@@ -107,8 +107,8 @@ class _UploadImagePageState extends State<UploadImagePage> {
           },
           'links': [],
         },
-      }).then((value) => debugPrint("DocumentSnapshot successfully updated!"),
-          onError: (e) => debugPrint("Error updating document $e"));
+      }).then((value) => debugPrint('DocumentSnapshot successfully updated!'),
+          onError: (e) => debugPrint('Error updating document $e'));
     }
 
     void updateExchangedCards() {
@@ -116,8 +116,8 @@ class _UploadImagePageState extends State<UploadImagePage> {
           FirebaseFirestore.instance.collection('cards').doc(widget.cardId);
       doc.update({
         'exchanged_cards': FieldValue.arrayUnion([docId])
-      }).then((value) => debugPrint("DocumentSnapshot successfully updated!"),
-          onError: (e) => debugPrint("Error updating document $e"));
+      }).then((value) => debugPrint('DocumentSnapshot successfully updated!'),
+          onError: (e) => debugPrint('Error updating document $e'));
     }
 
     void uploadPic() async {

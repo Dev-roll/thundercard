@@ -619,7 +619,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(28),
               ),
-              content: const Text("QRコードを読み取れませんでした"),
+              content: const Text('QRコードを読み取れませんでした'),
             ),
           );
         } else if (describeEnum(scanData.format) == 'qrcode') {

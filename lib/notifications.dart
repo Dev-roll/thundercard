@@ -38,11 +38,11 @@ class _NotificationsState extends State<Notifications> {
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
-            return const Text("問題が発生しました");
+            return const Text('問題が発生しました');
           }
 
           if (snapshot.hasData && !snapshot.data!.exists) {
-            return const Text("ユーザー情報の取得に失敗しました");
+            return const Text('ユーザー情報の取得に失敗しました');
           }
 
           if (snapshot.connectionState == ConnectionState.done) {

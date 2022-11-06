@@ -10,7 +10,7 @@ String? getCardId() {
       .get()
       .then((value) {
     return value['my_cards'][0];
-  }).catchError((error) => debugPrint("Failed to add user: $error"));
+  }).catchError((error) => debugPrint('Failed to add user: $error'));
 }
 
 Future<bool> getIsUser(String cardId) async {
@@ -20,7 +20,7 @@ Future<bool> getIsUser(String cardId) async {
     final data = res.data() as Map<String, dynamic>;
     return data['is_user'];
   }).catchError((error) {
-    debugPrint("Failed to add user: $error");
+    debugPrint('Failed to add user: $error');
     return false;
   });
   return isUser;
@@ -33,7 +33,7 @@ Future<String> getDisplayName(String cardId) async {
     final data = res.data() as Map<String, dynamic>;
     return data['account']['profiles']['name'];
   }).catchError((error) {
-    debugPrint("Failed to add user: $error");
+    debugPrint('Failed to add user: $error');
     return 'Cannot get name';
   });
   return displayName;
@@ -43,7 +43,7 @@ Future<DocumentSnapshot> getCard(String cardId) async {
   DocumentReference card =
       FirebaseFirestore.instance.collection('cards').doc(cardId);
   final DocumentSnapshot res = await card.get().catchError((error) {
-    debugPrint("Failed to add user: $error");
+    debugPrint('Failed to add user: $error');
   });
   return res;
 }
