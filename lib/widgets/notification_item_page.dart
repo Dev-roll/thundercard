@@ -8,13 +8,13 @@ import '../home_page.dart';
 class NotificationItemPage extends StatefulWidget {
   const NotificationItemPage({
     Key? key,
-    required String this.title,
-    required String this.content,
-    required String this.createdAt,
-    required bool this.read,
-    int this.index = -1,
-    required String this.myCardId,
-    required String this.documentId,
+    required this.title,
+    required this.content,
+    required this.createdAt,
+    required this.read,
+    this.index = -1,
+    required this.myCardId,
+    required this.documentId,
   }) : super(key: key);
   final String title;
   final String content;
@@ -30,16 +30,13 @@ class NotificationItemPage extends StatefulWidget {
 
 class _NotificationItemPageState extends State<NotificationItemPage> {
   @override
-  final DateTime _now = DateTime.now();
   Widget build(BuildContext context) {
     final getDateTime = DateTime.parse(widget.createdAt);
-    String _year = getDateTime.year.toString();
-    String _date =
-        getDateTime.month.toString() + '/' + getDateTime.day.toString();
-    String _time = getDateTime.hour.toString() +
-        ':' +
-        getDateTime.minute.toString().padLeft(2, '0');
-    String displayDateTime = _year + ' ' + _date + ' ' + _time;
+    String year = getDateTime.year.toString();
+    String date = '${getDateTime.month}/${getDateTime.day}';
+    String time =
+        '${getDateTime.hour}:${getDateTime.minute.toString().padLeft(2, '0')}';
+    String displayDateTime = '$year $date $time';
     // displayDateTime +=
     //     (getDateTime.year != _now.year) ? _year + ' ' + _date : '';
     // displayDateTime += (getDateTime.year == _now.year &&
@@ -75,14 +72,14 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
       );
     }
 
-    Future _openAlertDialog1(BuildContext context) async {
+    Future openAlertDialog1(BuildContext context) async {
       // (2) showDialogでダイアログを表示する
-      var ret = await showDialog(
+      await showDialog(
           context: context,
           // (3) AlertDialogを作成する
           builder: (context) => AlertDialog(
-                icon: Icon(Icons.delete_rounded),
-                title: Text("通知の削除"),
+                icon: const Icon(Icons.delete_rounded),
+                title: const Text("通知の削除"),
                 content: Text(
                   "この通知を削除しますか？",
                   style: TextStyle(
@@ -96,13 +93,13 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
                             //  (5) ダイアログを閉じる
                             Navigator.pop(context, false)
                           },
-                      child: Text("キャンセル")),
+                      child: const Text("キャンセル")),
                   TextButton(
                       onPressed: () {
                         Navigator.pop(context, true);
                         deleteThisNotification();
                       },
-                      child: Text("OK")),
+                      child: const Text("OK")),
                 ],
               ));
     }
@@ -166,7 +163,7 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
                   onError: (e) => debugPrint("Error updating document $e"),
                 );
               } else if (s == "削除") {
-                _openAlertDialog1(context);
+                openAlertDialog1(context);
               }
               // if (s == '削除') {
               //   _openAlertDialog1(context);
@@ -191,7 +188,7 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: EdgeInsets.fromLTRB(6, 16, 6, 6),
+                  padding: const EdgeInsets.fromLTRB(6, 16, 6, 6),
                   child: Text(
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -212,9 +209,7 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
                         height: 2,
                       ),
                     ),
-                    SizedBox(
-                      width: 12,
-                    )
+                    const SizedBox(width: 12)
                   ],
                 ),
                 Divider(
@@ -225,10 +220,10 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
                   color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(8, 4, 8, 20),
+                  padding: const EdgeInsets.fromLTRB(8, 4, 8, 20),
                   child: Text(
                     widget.content,
-                    style: TextStyle(
+                    style: const TextStyle(
                       height: 1.8,
                     ),
                   ),
