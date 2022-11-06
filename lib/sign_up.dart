@@ -91,14 +91,14 @@ class _SignUpState extends State<SignUp> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
+                    const Text(
                       'サインアップ',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Icon(
@@ -106,7 +106,7 @@ class _SignUpState extends State<SignUp> {
                       size: 32,
                       color: Theme.of(context).colorScheme.secondary,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 32,
                     ),
                     Form(
@@ -136,7 +136,7 @@ class _SignUpState extends State<SignUp> {
                               setState(() {});
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           TextFormField(
@@ -175,7 +175,7 @@ class _SignUpState extends State<SignUp> {
                               setState(() {});
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           TextFormField(
@@ -218,10 +218,10 @@ class _SignUpState extends State<SignUp> {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               elevation: 0,
-                              primary: Theme.of(context)
+                              backgroundColor: Theme.of(context)
                                   .colorScheme
                                   .secondaryContainer,
-                              onPrimary: Theme.of(context)
+                              foregroundColor: Theme.of(context)
                                   .colorScheme
                                   .onPrimaryContainer,
                             ),
@@ -266,30 +266,30 @@ class _SignUpState extends State<SignUp> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 32,
                     ),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () => _onSignInWithAnonymousUser(),
-                        child: Text('登録せず利用'),
+                        child: const Text('登録せず利用'),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 32,
                     ),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () => _onSignInGoogle(),
-                        child: Text('Googleでログイン'),
+                        child: const Text('Googleでログイン'),
                       ),
                     ),
                     // GoogleSignInButton(
                     //     clientId:
                     //         '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com'),
-                    SizedBox(
+                    const SizedBox(
                       height: 32,
                     ),
                     Row(
@@ -317,7 +317,7 @@ class _SignUpState extends State<SignUp> {
                           },
                           child: Row(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 width: 8,
                                 height: 40,
                               ),
@@ -325,7 +325,7 @@ class _SignUpState extends State<SignUp> {
                                 Icons.login,
                                 color: Theme.of(context).colorScheme.primary,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 4,
                               ),
                               Text(
@@ -334,7 +334,7 @@ class _SignUpState extends State<SignUp> {
                                     color:
                                         Theme.of(context).colorScheme.primary),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 8,
                               ),
                             ],
