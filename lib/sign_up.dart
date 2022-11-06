@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterfire_ui/auth.dart';
+// import 'package:flutterfire_ui/auth.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:thundercard/auth_gate.dart';
 
-import 'home_page.dart';
 import 'sign_in.dart';
 
 class SignUp extends StatefulWidget {
@@ -119,7 +119,7 @@ class _SignUpState extends State<SignUp> {
                             autocorrect: true,
                             textInputAction: TextInputAction.next,
                             decoration: const InputDecoration(
-                              icon: Icon(Icons.mail),
+                              icon: Icon(Icons.mail_rounded),
                               hintText: 'example@example.com',
                               labelText: 'メールアドレス',
                             ),
@@ -145,14 +145,14 @@ class _SignUpState extends State<SignUp> {
                             keyboardType: TextInputType.visiblePassword,
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
-                              icon: const Icon(Icons.lock),
+                              icon: const Icon(Icons.lock_rounded),
                               labelText: 'パスワード',
                               suffixIcon: IconButton(
                                 splashRadius: 20,
                                 icon: Icon(
                                   hidePassword
-                                      ? Icons.visibility_off
-                                      : Icons.visibility,
+                                      ? Icons.visibility_off_rounded
+                                      : Icons.visibility_rounded,
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -182,14 +182,14 @@ class _SignUpState extends State<SignUp> {
                             obscureText: hidePassword,
                             keyboardType: TextInputType.visiblePassword,
                             decoration: InputDecoration(
-                              icon: const Icon(Icons.lock),
+                              icon: const Icon(Icons.lock_rounded),
                               labelText: 'パスワード（確認用）',
                               suffixIcon: IconButton(
                                 splashRadius: 20,
                                 icon: Icon(
                                   hidePassword
-                                      ? Icons.visibility_off
-                                      : Icons.visibility,
+                                      ? Icons.visibility_off_rounded
+                                      : Icons.visibility_rounded,
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -218,12 +218,10 @@ class _SignUpState extends State<SignUp> {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               elevation: 0,
-                              backgroundColor: Theme.of(context)
-                                  .colorScheme
-                                  .secondaryContainer,
-                              foregroundColor: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                              foregroundColor:
+                                  Theme.of(context).colorScheme.onPrimary,
                             ),
                             onPressed: !_emailController.text.contains('@') ||
                                     _passwordController.text.length < 8 ||
@@ -235,19 +233,21 @@ class _SignUpState extends State<SignUp> {
                                       FocusManager.instance.primaryFocus
                                           ?.unfocus();
                                       // サインアップの処理を書く
-                                      () async {
+                                      () {
                                         try {
-                                          await FirebaseAuth.instance
+                                          FirebaseAuth.instance
                                               .signInWithEmailAndPassword(
                                                   email: _emailController.text,
                                                   password:
-                                                      _passwordController.text);
-
-                                          Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    AuthGate()),
-                                          );
+                                                      _passwordController.text)
+                                              .then((value) {
+                                            Navigator.of(context)
+                                                .pushReplacement(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AuthGate()),
+                                            );
+                                          });
                                         } catch (e) {
                                           debugPrint('$e');
                                         }
@@ -261,36 +261,67 @@ class _SignUpState extends State<SignUp> {
                                       // }
                                     }
                                   },
-                            child: const Text('サインアップ'),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                SizedBox(width: 8),
+                                Icon(Icons.person_add_alt),
+                                SizedBox(width: 8),
+                                Text('サインアップ'),
+                                SizedBox(width: 8),
+                              ],
+                            ),
                           )
                         ],
                       ),
                     ),
                     const SizedBox(
-                      height: 32,
+                      height: 60,
                     ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () => _onSignInWithAnonymousUser(),
-                        child: const Text('登録せず利用'),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor: Colors.transparent,
+                      ),
+                      onPressed: () => _onSignInWithAnonymousUser(),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(Icons.person_off_rounded),
+                          SizedBox(width: 8),
+                          Text('登録せず利用'),
+                        ],
                       ),
                     ),
                     const SizedBox(
-                      height: 32,
+                      height: 8,
                     ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () => _onSignInGoogle(),
-                        child: const Text('Googleでログイン'),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor: Colors.transparent,
+                      ),
+                      onPressed: () => _onSignInGoogle(),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            FontAwesomeIcons.google,
+                            size: 20,
+                          ),
+                          SizedBox(width: 8),
+                          Text('Googleでログイン'),
+                        ],
                       ),
                     ),
                     // GoogleSignInButton(
                     //     clientId:
                     //         '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com'),
                     const SizedBox(
-                      height: 32,
+                      height: 20,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -322,7 +353,7 @@ class _SignUpState extends State<SignUp> {
                                 height: 40,
                               ),
                               Icon(
-                                Icons.login,
+                                Icons.login_rounded,
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                               const SizedBox(
