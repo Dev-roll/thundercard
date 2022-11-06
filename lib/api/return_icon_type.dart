@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:thundercard/constants.dart';
 
 IconType returnIconType(String url) {

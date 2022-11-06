@@ -1,21 +1,8 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/basic.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../constants.dart';
-import '../main.dart';
 
 class MyQrCode extends StatefulWidget {
   const MyQrCode({Key? key, required this.name}) : super(key: key);
@@ -29,7 +16,7 @@ class MyQrCode extends StatefulWidget {
 class _MyQrCodeState extends State<MyQrCode> {
   @override
   Widget build(BuildContext context) {
-    final iconColorNum = 'cccccc';
+    // final iconColorNum = 'cccccc';
     // final iconColorNum = Theme.of(context)
     //     .colorScheme
     //     .tertiary
@@ -50,7 +37,7 @@ class _MyQrCodeState extends State<MyQrCode> {
               alignment: Alignment.center,
               child: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xFFCCCCCC), width: 3),
+                  border: Border.all(color: const Color(0xFFCCCCCC), width: 3),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 // foregroundDecoration:
@@ -64,9 +51,9 @@ class _MyQrCodeState extends State<MyQrCode> {
                     version: QrVersions.auto,
                     size: 200,
                     // foregroundColor: white,
-                    eyeStyle: QrEyeStyle(
+                    eyeStyle: const QrEyeStyle(
                         color: Color(0xFFCCCCCC), eyeShape: QrEyeShape.square),
-                    dataModuleStyle: QrDataModuleStyle(
+                    dataModuleStyle: const QrDataModuleStyle(
                         color: Color(0xFFCCCCCC),
                         dataModuleShape: QrDataModuleShape.circle),
                     backgroundColor: Theme.of(context).colorScheme.onSecondary,

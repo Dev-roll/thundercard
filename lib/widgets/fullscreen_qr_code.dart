@@ -19,7 +19,7 @@ class FullscreenQrCode extends StatelessWidget {
           child: Center(
             child: Stack(
               children: [
-                Container(
+                SizedBox(
                   width: double.infinity,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -32,14 +32,14 @@ class FullscreenQrCode extends StatelessWidget {
                           child: MyQrCode(name: name),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Text(
                         '@$name',
                         style: GoogleFonts.quicksand(
                           fontSize: 32,
-                          color: Color(0xFFCCCCCC),
+                          color: const Color(0xFFCCCCCC),
                           fontWeight: FontWeight.bold,
                         ),
                         // TextStyle(fontSize: 32, color: Color(0xFFCCCCCC)),
@@ -57,12 +57,12 @@ class FullscreenQrCode extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.arrow_back_rounded,
                           size: 32,
                           color: white,
                         ),
-                        padding: EdgeInsets.all(12),
+                        padding: const EdgeInsets.all(12),
                       ),
                     ),
                   ),

@@ -1,11 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
-import '../api/colors.dart';
-import '../home_page.dart';
-
 class PrivacyPolicy extends StatelessWidget {
+  const PrivacyPolicy({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,9 +11,9 @@ class PrivacyPolicy extends StatelessWidget {
         title: const Text('プライバシーポリシー'),
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(14.0, 0, 14.0, 0),
-        child: const Markdown(data: '''
+      body: const Padding(
+        padding: EdgeInsets.fromLTRB(14.0, 0, 14.0, 0),
+        child: Markdown(data: '''
 ## Privacy Policy
 
 Devroll built the Thundercard app as a Free app. This SERVICE is provided by Devroll at no cost and is intended for use as is.

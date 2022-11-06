@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:skeletons/skeletons.dart';
 
 class SkeletonCard extends StatelessWidget {
   const SkeletonCard({super.key});

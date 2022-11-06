@@ -1,11 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
-import '../api/colors.dart';
-import '../home_page.dart';
-
 class Version extends StatelessWidget {
+  const Version({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,9 +11,9 @@ class Version extends StatelessWidget {
         title: const Text('バージョン情報'),
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(14.0, 0, 14.0, 0),
-        child: const Markdown(data: '''
+      body: const Padding(
+        padding: EdgeInsets.fromLTRB(14.0, 0, 14.0, 0),
+        child: Markdown(data: '''
 - Thundercard 4(1.0.0) 2022/11/07
 '''),
       ),

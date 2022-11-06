@@ -1,11 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
-import '../api/colors.dart';
-import '../home_page.dart';
-
 class Authors extends StatelessWidget {
+  const Authors({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,9 +11,9 @@ class Authors extends StatelessWidget {
         title: const Text('開発者'),
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(14.0, 0, 14.0, 0),
-        child: const Markdown(data: '''
+      body: const Padding(
+        padding: EdgeInsets.fromLTRB(14.0, 0, 14.0, 0),
+        child: Markdown(data: '''
 このアプリケーションは以下のメンバーによって開発されました。
 
 - [@notchcoder](https://github.com/notchcoder)

@@ -1,11 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterfire_ui/auth.dart';
+// import 'package:flutterfire_ui/auth.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:thundercard/auth_gate.dart';
-
-import 'home_page.dart';
-import 'sign_in.dart';
 
 class LinkAuth extends StatefulWidget {
   const LinkAuth({Key? key}) : super(key: key);
@@ -73,14 +71,14 @@ class _LinkAuthState extends State<LinkAuth> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
+                    const Text(
                       'サインアップ',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Icon(
@@ -88,7 +86,7 @@ class _LinkAuthState extends State<LinkAuth> {
                       size: 32,
                       color: Theme.of(context).colorScheme.secondary,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 32,
                     ),
                     Form(
@@ -101,7 +99,7 @@ class _LinkAuthState extends State<LinkAuth> {
                             autocorrect: true,
                             textInputAction: TextInputAction.next,
                             decoration: const InputDecoration(
-                              icon: Icon(Icons.mail),
+                              icon: Icon(Icons.mail_rounded),
                               hintText: 'example@example.com',
                               labelText: 'メールアドレス',
                             ),
@@ -118,7 +116,7 @@ class _LinkAuthState extends State<LinkAuth> {
                               setState(() {});
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           TextFormField(
@@ -127,14 +125,14 @@ class _LinkAuthState extends State<LinkAuth> {
                             keyboardType: TextInputType.visiblePassword,
                             textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
-                              icon: const Icon(Icons.lock),
+                              icon: const Icon(Icons.lock_rounded),
                               labelText: 'パスワード',
                               suffixIcon: IconButton(
                                 splashRadius: 20,
                                 icon: Icon(
                                   hidePassword
-                                      ? Icons.visibility_off
-                                      : Icons.visibility,
+                                      ? Icons.visibility_off_rounded
+                                      : Icons.visibility_rounded,
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -157,21 +155,21 @@ class _LinkAuthState extends State<LinkAuth> {
                               setState(() {});
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           TextFormField(
                             obscureText: hidePassword,
                             keyboardType: TextInputType.visiblePassword,
                             decoration: InputDecoration(
-                              icon: const Icon(Icons.lock),
+                              icon: const Icon(Icons.lock_rounded),
                               labelText: 'パスワード（確認用）',
                               suffixIcon: IconButton(
                                 splashRadius: 20,
                                 icon: Icon(
                                   hidePassword
-                                      ? Icons.visibility_off
-                                      : Icons.visibility,
+                                      ? Icons.visibility_off_rounded
+                                      : Icons.visibility_rounded,
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -200,12 +198,10 @@ class _LinkAuthState extends State<LinkAuth> {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               elevation: 0,
-                              primary: Theme.of(context)
-                                  .colorScheme
-                                  .secondaryContainer,
-                              onPrimary: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                              foregroundColor:
+                                  Theme.of(context).colorScheme.onPrimary,
                             ),
                             onPressed: !_emailController.text.contains('@') ||
                                     _passwordController.text.length < 8 ||
@@ -269,25 +265,47 @@ class _LinkAuthState extends State<LinkAuth> {
                                       // }
                                     }
                                   },
-                            child: const Text('サインアップ'),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                SizedBox(width: 8),
+                                Icon(Icons.person_add_alt),
+                                SizedBox(width: 8),
+                                Text('サインアップ'),
+                                SizedBox(width: 8),
+                              ],
+                            ),
                           )
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 32,
                     ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () => googleSignIn(),
-                        child: Text('Googleでログイン'),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor: Colors.transparent,
+                      ),
+                      onPressed: () => googleSignIn(),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            FontAwesomeIcons.google,
+                            size: 20,
+                          ),
+                          SizedBox(width: 8),
+                          Text('Googleでログイン'),
+                        ],
                       ),
                     ),
                     // GoogleSignInButton(
                     //     clientId:
                     //         '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com'),
-                    SizedBox(
+                    const SizedBox(
                       height: 32,
                     ),
                   ],

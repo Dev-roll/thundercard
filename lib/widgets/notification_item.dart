@@ -6,13 +6,13 @@ import 'notification_item_page.dart';
 class NotificationItem extends StatefulWidget {
   const NotificationItem({
     Key? key,
-    required String this.title,
-    required String this.content,
-    required String this.createdAt,
-    required bool this.read,
-    int this.index = -1,
-    required String this.myCardId,
-    required String this.documentId,
+    required this.title,
+    required this.content,
+    required this.createdAt,
+    required this.read,
+    this.index = -1,
+    required this.myCardId,
+    required this.documentId,
   }) : super(key: key);
   final String title;
   final String content;
@@ -28,28 +28,25 @@ class NotificationItem extends StatefulWidget {
 
 class _NotificationItemState extends State<NotificationItem> {
   @override
-  final DateTime _now = DateTime.now();
   Widget build(BuildContext context) {
+    final DateTime now = DateTime.now();
     final getDateTime = DateTime.parse(widget.createdAt);
-    String _year = getDateTime.year.toString();
-    String _date =
-        getDateTime.month.toString() + '/' + getDateTime.day.toString();
-    String _time = getDateTime.hour.toString() +
-        ':' +
-        getDateTime.minute.toString().padLeft(2, '0');
+    String year = getDateTime.year.toString();
+    String date = '${getDateTime.month}/${getDateTime.day}';
+    String time =
+        '${getDateTime.hour}:${getDateTime.minute.toString().padLeft(2, '0')}';
     String displayDateTime = '';
-    displayDateTime +=
-        (getDateTime.year != _now.year) ? _year + ' ' + _date : '';
-    displayDateTime += (getDateTime.year == _now.year &&
-            (getDateTime.month != _now.month || getDateTime.day != _now.day))
-        ? _date
+    displayDateTime += (getDateTime.year != now.year) ? '$year $date' : '';
+    displayDateTime += (getDateTime.year == now.year &&
+            (getDateTime.month != now.month || getDateTime.day != now.day))
+        ? date
         : '';
-    displayDateTime += (getDateTime.year == _now.year &&
-            getDateTime.month == _now.month &&
-            getDateTime.day == _now.day)
-        ? _time
+    displayDateTime += (getDateTime.year == now.year &&
+            getDateTime.month == now.month &&
+            getDateTime.day == now.day)
+        ? time
         : '';
-    var _screenSize = MediaQuery.of(context).size;
+    var screenSize = MediaQuery.of(context).size;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
@@ -82,7 +79,7 @@ class _NotificationItemState extends State<NotificationItem> {
               ? Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.5)
               : Theme.of(context).colorScheme.surfaceVariant,
           child: SizedBox(
-            width: _screenSize.width * 0.91,
+            width: screenSize.width * 0.91,
             height: 114,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -92,31 +89,27 @@ class _NotificationItemState extends State<NotificationItem> {
                   Row(
                     children: [
                       Expanded(
-                        child: Container(
-                          child: Text(
-                            style: TextStyle(
-                              color: widget.read
-                                  ? Theme.of(context)
-                                      .colorScheme
-                                      .onSurface
-                                      .withOpacity(0.5)
-                                  : Theme.of(context).colorScheme.onBackground,
-                              fontSize: 16,
-                              height: 1.2,
-                              fontWeight: widget.read
-                                  ? FontWeight.normal
-                                  : FontWeight.w500,
-                            ),
-                            overflow: TextOverflow.fade,
-                            maxLines: 1,
-                            softWrap: false,
-                            widget.title,
+                        child: Text(
+                          style: TextStyle(
+                            color: widget.read
+                                ? Theme.of(context)
+                                    .colorScheme
+                                    .onSurface
+                                    .withOpacity(0.5)
+                                : Theme.of(context).colorScheme.onBackground,
+                            fontSize: 16,
+                            height: 1.2,
+                            fontWeight: widget.read
+                                ? FontWeight.normal
+                                : FontWeight.w500,
                           ),
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          softWrap: false,
+                          widget.title,
                         ),
                       ),
-                      SizedBox(
-                        width: 8,
-                      ),
+                      const SizedBox(width: 8),
                       Text(
                         displayDateTime,
                         style: TextStyle(
@@ -128,10 +121,7 @@ class _NotificationItemState extends State<NotificationItem> {
                               : Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
-                      if (!widget.read)
-                        SizedBox(
-                          width: 6,
-                        ),
+                      if (!widget.read) const SizedBox(width: 6),
                       if (!widget.read)
                         Container(
                           width: 8,
@@ -157,7 +147,7 @@ class _NotificationItemState extends State<NotificationItem> {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(0, 4, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
                       child: Text(widget.content),
                     ),
                   ),

@@ -100,7 +100,7 @@ class Links {
 class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
   @override
   Widget build(BuildContext context) {
-    Future _openAlertDialog1(BuildContext context, textFieldState) async {
+    Future openAlertDialog1(BuildContext context, textFieldState) async {
       // (2) showDialogでダイアログを表示する
       await showDialog(
         context: context,
@@ -236,7 +236,7 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                               .withOpacity(0.5),
                         ),
                         onPressed: () {
-                          _openAlertDialog1(context, textFieldState);
+                          openAlertDialog1(context, textFieldState);
                         },
                       ),
                     ),

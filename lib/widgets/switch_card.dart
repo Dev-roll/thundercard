@@ -1,12 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'card_element.dart';
-import 'open_app.dart';
-import '../api/return_url.dart';
 import 'large_card.dart';
 import 'normal_card.dart';
 import '../constants.dart';
-import 'preview_card.dart';
 import 'small_card.dart';
 
 class SwitchCard extends StatelessWidget {
@@ -22,8 +17,8 @@ class SwitchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
-    var vw = screenSize.width * 0.01;
+    // var screenSize = MediaQuery.of(context).size;
+    // var vw = screenSize.width * 0.01;
 
     switch (cardType) {
       case CardType.small:

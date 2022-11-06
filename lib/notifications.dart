@@ -69,7 +69,7 @@ class _NotificationsState extends State<Notifications> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(
                                   width: 8,
@@ -88,7 +88,7 @@ class _NotificationsState extends State<Notifications> {
                               tabs: [
                                 Tab(
                                   // child: Icon(Icons.notifications_on_rounded),
-                                  child: Container(
+                                  child: SizedBox(
                                     width: 120,
                                     height: double.infinity,
                                     child: Row(
@@ -106,9 +106,7 @@ class _NotificationsState extends State<Notifications> {
                                               .onSecondaryContainer
                                               .withOpacity(0.75),
                                         ),
-                                        SizedBox(
-                                          width: 6,
-                                        ),
+                                        const SizedBox(width: 6),
                                         Text(
                                           '交流',
                                           style: TextStyle(
@@ -120,15 +118,13 @@ class _NotificationsState extends State<Notifications> {
                                         ),
                                         // Text('つながり'),
                                         // Text('やりとり'),
-                                        SizedBox(
-                                          width: 2,
-                                        ),
+                                        const SizedBox(width: 2),
                                       ],
                                     ),
                                   ),
                                 ),
                                 Tab(
-                                  child: Container(
+                                  child: SizedBox(
                                     width: 152,
                                     height: double.infinity,
                                     child: Row(
@@ -143,9 +139,7 @@ class _NotificationsState extends State<Notifications> {
                                               .onSecondaryContainer
                                               .withOpacity(0.75),
                                         ),
-                                        SizedBox(
-                                          width: 6,
-                                        ),
+                                        const SizedBox(width: 6),
                                         Text(
                                           'お知らせ',
                                           style: TextStyle(
@@ -155,9 +149,7 @@ class _NotificationsState extends State<Notifications> {
                                                 .withOpacity(0.75),
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: 2,
-                                        ),
+                                        const SizedBox(width: 2),
                                       ],
                                     ),
                                   ),
@@ -200,17 +192,18 @@ class _NotificationsState extends State<Notifications> {
 
                           // データが取得できなかったときに表示するWidget
                           if (!snapshot.hasData) {
-                            return Text('通知の取得に失敗しました');
+                            return const Text('通知の取得に失敗しました');
                           }
 
                           dynamic data = snapshot.data;
                           final interactions = data?.docs;
-                          final interactions_length = interactions.length;
+                          final interactionsLength = interactions.length;
 
-                          return (interactions_length != 0)
+                          return (interactionsLength != 0)
                               ? SingleChildScrollView(
                                   child: Container(
-                                    padding: EdgeInsets.fromLTRB(0, 12, 0, 16),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 12, 0, 16),
                                     child: Center(
                                       child: Column(
                                         mainAxisAlignment:
@@ -220,7 +213,7 @@ class _NotificationsState extends State<Notifications> {
                                               shrinkWrap: true,
                                               physics:
                                                   const NeverScrollableScrollPhysics(),
-                                              itemCount: interactions_length,
+                                              itemCount: interactionsLength,
                                               itemBuilder: (context, index) {
                                                 DateTime time =
                                                     interactions[index]
@@ -257,9 +250,7 @@ class _NotificationsState extends State<Notifications> {
                                             .onBackground
                                             .withOpacity(0.3),
                                       ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
+                                      const SizedBox(height: 20),
                                       Text(
                                         'まだ交流の通知はありません',
                                         style: TextStyle(
@@ -299,16 +290,17 @@ class _NotificationsState extends State<Notifications> {
 
                           // データが取得できなかったときに表示するWidget
                           if (!snapshot.hasData) {
-                            return Text('通知の取得に失敗しました');
+                            return const Text('通知の取得に失敗しました');
                           }
                           dynamic data = snapshot.data;
                           final news = data?.docs;
-                          final news_length = news.length;
+                          final newsLength = news.length;
 
-                          return (news_length != 0)
+                          return (newsLength != 0)
                               ? SingleChildScrollView(
                                   child: Container(
-                                    padding: EdgeInsets.fromLTRB(0, 12, 0, 16),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 12, 0, 16),
                                     child: Center(
                                       child: Column(
                                         mainAxisAlignment:
@@ -351,9 +343,7 @@ class _NotificationsState extends State<Notifications> {
                                             .onBackground
                                             .withOpacity(0.3),
                                       ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
+                                      const SizedBox(height: 20),
                                       Text(
                                         'まだお知らせはありません',
                                         style: TextStyle(
