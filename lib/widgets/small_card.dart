@@ -29,14 +29,6 @@ class SmallCard extends StatelessWidget {
               color: Theme.of(context).colorScheme.secondaryContainer,
             ),
           ),
-          Align(
-            alignment: const Alignment(1.6, 2.8),
-            child: Icon(
-              Icons.bolt_rounded,
-              color: Theme.of(context).colorScheme.secondary.withOpacity(0.08),
-              size: 52 * vw,
-            ),
-          ),
           Container(
             padding: EdgeInsets.fromLTRB(4 * vw, 4 * vw, 4 * vw, 4 * vw),
             decoration: BoxDecoration(
