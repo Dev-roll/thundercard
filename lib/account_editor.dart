@@ -4,7 +4,6 @@ import 'package:uuid/uuid.dart';
 import 'api/colors.dart';
 import 'api/firebase_auth.dart';
 import 'package:intl/intl.dart';
-import 'auth_gate.dart';
 import 'constants.dart';
 
 class AccountEditor extends StatefulWidget {
@@ -36,7 +35,7 @@ class ReorderableMultiTextFieldController
 
   void add(key, text) {
     final state = TextFieldState(
-      Uuid().v4(),
+      const Uuid().v4(),
       key,
       TextEditingController(text: text),
     );
@@ -57,7 +56,7 @@ class ReorderableMultiTextFieldController
 
     value = value.where((element) => element.id != id).toList();
 
-    Future.delayed(Duration(seconds: 1)).then(
+    Future.delayed(const Duration(seconds: 1)).then(
       (value) => removedText.first.controller.dispose(),
     );
   }
@@ -81,7 +80,7 @@ class ReorderableMultiTextFieldController
 
 class ReorderableMultiTextField extends StatefulWidget {
   final ReorderableMultiTextFieldController controllerController;
-  ReorderableMultiTextField({
+  const ReorderableMultiTextField({
     Key? key,
     required this.controllerController,
   }) : super(key: key);
@@ -103,7 +102,7 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
   Widget build(BuildContext context) {
     Future _openAlertDialog1(BuildContext context, textFieldState) async {
       // (2) showDialogでダイアログを表示する
-      var ret = await showDialog(
+      await showDialog(
         context: context,
         // (3) AlertDialogを作成する
         builder: (context) => AlertDialog(
@@ -146,6 +145,7 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
         final linksDropdownMenuItem = links
             .map((entry) => DropdownMenuItem(
                   value: entry,
+                  alignment: AlignmentDirectional.center,
                   child: Icon(
                     linkTypeToIconData[entry],
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -373,14 +373,14 @@ class _AccountEditorState extends State<AccountEditor> {
                         onPressed: null,
                         onLongPress: null,
                         child: Container(
-                          child: SizedBox(
+                          padding: const EdgeInsets.all(4),
+                          child: const SizedBox(
+                            height: 24,
+                            width: 24,
                             child: CircularProgressIndicator(
                               strokeWidth: 3.0,
                             ),
-                            height: 24,
-                            width: 24,
                           ),
-                          padding: const EdgeInsets.all(4),
                         ),
                       )
                     : TextButton(
