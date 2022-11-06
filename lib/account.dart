@@ -1,15 +1,18 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/api/current_brightness.dart';
 import 'package:thundercard/api/current_brightness_reverse.dart';
 import 'package:thundercard/constants.dart';
 import 'package:thundercard/link_auth.dart';
 import 'package:thundercard/main.dart';
 import 'package:thundercard/widgets/custom_skeletons/skeleton_card_info.dart';
-import 'package:thundercard/widgets/dialog_util.dart';
 import 'package:thundercard/widgets/my_card.dart';
 
 import 'api/colors.dart';
@@ -193,7 +196,7 @@ class Account extends ConsumerWidget {
                               builder: (context) => HomePage(index: 3),
                             ),
                           );
-                          await DialogUtil.show(
+                          await showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
@@ -267,15 +270,16 @@ class Account extends ConsumerWidget {
                                 actions: [
                                   TextButton(
                                     onPressed: () {
-                                      customTheme.appThemeChange(
-                                          customTheme.appThemeIdx);
                                       Navigator.pop(context, false);
                                     },
                                     child: const Text('キャンセル'),
                                   ),
                                   TextButton(
                                     onPressed: () {
-                                      customTheme.appThemeUpdate();
+                                      if (customTheme.currentAppThemeIdx !=
+                                          customTheme.appThemeIdx) {
+                                        customTheme.appThemeUpdate();
+                                      }
                                       Navigator.pop(context, false);
                                     },
                                     child: const Text('決定'),
@@ -283,7 +287,13 @@ class Account extends ConsumerWidget {
                                 ],
                               );
                             },
-                          );
+                          ).then((value) {
+                            if (customTheme.currentAppThemeIdx !=
+                                customTheme.appThemeIdx) {
+                              customTheme
+                                  .appThemeChange(customTheme.appThemeIdx);
+                            }
+                          });
                         },
                         child: Container(
                           padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
@@ -346,6 +356,11 @@ class Account extends ConsumerWidget {
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () async {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(index: 3),
+                            ),
+                          );
                           await showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -541,15 +556,17 @@ class Account extends ConsumerWidget {
                                 actions: [
                                   TextButton(
                                     onPressed: () {
-                                      customTheme.cardThemeChange(
-                                          customTheme.displayCardThemeIdx);
                                       Navigator.pop(context, false);
                                     },
                                     child: const Text('キャンセル'),
                                   ),
                                   TextButton(
                                     onPressed: () {
-                                      customTheme.cardThemeUpdate();
+                                      if (customTheme
+                                              .currentDisplayCardThemeIdx !=
+                                          customTheme.displayCardThemeIdx) {
+                                        customTheme.cardThemeUpdate();
+                                      }
                                       Navigator.pop(context, false);
                                     },
                                     child: const Text('決定'),
@@ -557,7 +574,13 @@ class Account extends ConsumerWidget {
                                 ],
                               );
                             },
-                          );
+                          ).then((value) {
+                            if (customTheme.currentDisplayCardThemeIdx !=
+                                customTheme.displayCardThemeIdx) {
+                              customTheme.cardThemeChange(
+                                  customTheme.displayCardThemeIdx);
+                            }
+                          });
                         },
                         child: Container(
                           padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
@@ -606,6 +629,91 @@ class Account extends ConsumerWidget {
                               ),
                             )
                           ]),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(
+                  height: 32,
+                  thickness: 1,
+                  indent: 16,
+                  endIndent: 16,
+                  color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'アプリ内のデータ',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
+                        alignment: Alignment.center,
+                        child: Column(
+                          children: [
+                            // ElevatedButton.icon(
+                            //   icon: const Icon(
+                            //     Icons.save_alt_rounded,
+                            //   ),
+                            //   label: const Text('端末にダウンロード'),
+                            //   style: ElevatedButton.styleFrom(
+                            //     elevation: 0,
+                            //     foregroundColor: Theme.of(context)
+                            //         .colorScheme
+                            //         .onSecondaryContainer,
+                            //     backgroundColor: Theme.of(context)
+                            //         .colorScheme
+                            //         .secondaryContainer,
+                            //   ),
+                            //   onPressed: () async {
+                            //     final path =
+                            //         await getApplicationDocumentsDirectory()
+                            //             .then((value) => value.path);
+                            //     Share.shareFiles(
+                            //       [
+                            //         '$path/appThemeIdx.txt',
+                            //       ],
+                            //       text: 'usernameのデータ',
+                            //       subject: 'usernameさんのデータの共有',
+                            //     );
+                            //   },
+                            //   onLongPress: null,
+                            // ),
+                            ElevatedButton.icon(
+                              icon: const Icon(
+                                Icons.share_rounded,
+                              ),
+                              label: const Text('データを共有'),
+                              style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                foregroundColor: Theme.of(context)
+                                    .colorScheme
+                                    .onSecondaryContainer,
+                                backgroundColor: Theme.of(context)
+                                    .colorScheme
+                                    .secondaryContainer,
+                              ),
+                              onPressed: () async {
+                                final path =
+                                    await getApplicationDocumentsDirectory()
+                                        .then((value) => value.path);
+                                Share.shareFiles(
+                                  [
+                                    // '$path/list.txt',
+                                    '$path/appThemeIdx.txt',
+                                    '$path/displayCardThemeIdx.txt',
+                                  ],
+                                  text: 'Thundercardアプリのデータ',
+                                  subject: 'Thundercardアプリのデータ共有',
+                                );
+                              },
+                              onLongPress: null,
+                            ),
+                          ],
                         ),
                       ),
                     ],

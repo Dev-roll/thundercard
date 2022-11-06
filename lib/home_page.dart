@@ -56,34 +56,6 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       key: drawerKey,
-      // appBar: widget.index == 0
-      //     ? AppBar(
-      //         backgroundColor: alphaBlend(
-      //             Theme.of(context).colorScheme.primary.withOpacity(0.08),
-      //             Theme.of(context).colorScheme.surface),
-      //         systemOverlayStyle: SystemUiOverlayStyle(
-      //           systemNavigationBarColor: alphaBlend(
-      //               Theme.of(context).colorScheme.primary.withOpacity(0.08),
-      //               Theme.of(context).colorScheme.surface),
-      //           statusBarColor: Colors.transparent,
-      //         ),
-      //         title: Row(
-      //           mainAxisSize: MainAxisSize.min,
-      //           children: [
-      //             SvgPicture.string(
-      //               '<svg width="400" height="400" viewBox="0 0 400 400" fill="#$iconColorNum" xmlns="http://www.w3.org/2000/svg"><path d="M193.367 13.2669C197.432 5.13606 205.742 0 214.833 0H260.584C269.504 0 275.306 9.38775 271.317 17.3666L174.633 210.733C170.568 218.864 162.258 224 153.167 224H107.416C98.4958 224 92.6939 214.612 96.6833 206.633L193.367 13.2669Z"/><path d="M225.367 189.267C229.432 181.136 237.742 176 246.833 176H292.584C301.504 176 307.306 185.388 303.317 193.367L206.633 386.733C202.568 394.864 194.258 400 185.167 400H139.416C130.496 400 124.694 390.612 128.683 382.633L225.367 189.267Z"/></svg>',
-      //               width: 18,
-      //             ),
-      //             const SizedBox(width: 8),
-      //             const Text(
-      //               'Thundercard',
-      //               style: TextStyle(fontSize: 18),
-      //             ),
-      //           ],
-      //         ),
-      //         centerTitle: true,
-      //       )
-      //     : null,
       onDrawerChanged: (isOpened) {
         isOpened
             ? SystemChrome.setSystemUIOverlayStyle(
@@ -105,15 +77,18 @@ class _HomePageState extends State<HomePage> {
               );
       },
       drawerScrimColor: const Color(0x80000000),
-      drawerEdgeDragWidth: MediaQuery.of(context).size.width * 0.5,
+      drawerEdgeDragWidth:
+          widget.index == 0 ? MediaQuery.of(context).size.width * 0.5 : 0,
       drawer: Drawer(
         backgroundColor: alphaBlend(
             Theme.of(context).colorScheme.primary.withOpacity(0.05),
             Theme.of(context).colorScheme.surface),
         shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(16),
-                bottomRight: Radius.circular(16))),
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(16),
+            bottomRight: Radius.circular(16),
+          ),
+        ),
         child: Column(
           children: [
             SizedBox(
@@ -237,7 +212,7 @@ class _HomePageState extends State<HomePage> {
         const List(),
         // List(uid: uid),
         const Notifications(),
-        Account(),
+        const Account(),
       ][widget.index],
     );
   }
