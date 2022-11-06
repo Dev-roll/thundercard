@@ -29,7 +29,7 @@ class ReorderableMultiTextFieldController
 
   void add(key, text) {
     final state = TextFieldState(
-      Uuid().v4(),
+      const Uuid().v4(),
       key,
       TextEditingController(text: text),
     );
@@ -50,7 +50,7 @@ class ReorderableMultiTextFieldController
 
     value = value.where((element) => element.id != id).toList();
 
-    Future.delayed(Duration(seconds: 1)).then(
+    Future.delayed(const Duration(seconds: 1)).then(
       (value) => removedText.first.controller.dispose(),
     );
   }
@@ -74,7 +74,7 @@ class ReorderableMultiTextFieldController
 
 class ReorderableMultiTextField extends StatefulWidget {
   final ReorderableMultiTextFieldController controllerController;
-  ReorderableMultiTextField({
+  const ReorderableMultiTextField({
     Key? key,
     required this.controllerController,
   }) : super(key: key);
@@ -94,9 +94,9 @@ class Links {
 class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
   @override
   Widget build(BuildContext context) {
-    Future _openAlertDialog1(BuildContext context, textFieldState) async {
+    Future openAlertDialog1(BuildContext context, textFieldState) async {
       // (2) showDialogでダイアログを表示する
-      var ret = await showDialog(
+      await showDialog(
         context: context,
         // (3) AlertDialogを作成する
         builder: (context) => AlertDialog(
@@ -139,6 +139,7 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
         final linksDropdownMenuItem = links
             .map((entry) => DropdownMenuItem(
                   value: entry,
+                  alignment: AlignmentDirectional.center,
                   child: Row(children: [
                     const SizedBox(
                       width: 4,
@@ -180,6 +181,13 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                     DropdownButton(
                       items: linksDropdownMenuItem,
                       value: selectedKey,
+                      icon: Icon(
+                        Icons.arrow_drop_down_rounded,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onBackground
+                            .withOpacity(0.5),
+                      ),
                       underline: const SizedBox(
                         width: 0,
                         height: 0,
@@ -224,7 +232,7 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                               .withOpacity(0.5),
                         ),
                         onPressed: () {
-                          _openAlertDialog1(context, textFieldState);
+                          openAlertDialog1(context, textFieldState);
                         },
                       ),
                     ),
@@ -365,14 +373,14 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                         onPressed: null,
                         onLongPress: null,
                         child: Container(
-                          child: SizedBox(
+                          padding: const EdgeInsets.all(4),
+                          child: const SizedBox(
+                            height: 24,
+                            width: 24,
                             child: CircularProgressIndicator(
                               strokeWidth: 3.0,
                             ),
-                            height: 24,
-                            width: 24,
                           ),
-                          padding: const EdgeInsets.all(4),
                         ),
                       )
                     : TextButton(

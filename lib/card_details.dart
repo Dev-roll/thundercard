@@ -44,9 +44,8 @@ class _CardDetailsState extends State<CardDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final String? uid = getUid();
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
-    var _usStates = ["削除"];
+    // final String? uid = getUid();
+    // CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     void deleteThisCard() {
       FirebaseFirestore.instance
@@ -68,21 +67,21 @@ class _CardDetailsState extends State<CardDetails> {
             ),
             (_) => false,
           );
-          debugPrint("DocumentSnapshot successfully updated!");
-        }, onError: (e) => debugPrint("Error updating document $e"));
-      }).catchError((error) => debugPrint("Failed to add user: $error"));
+          debugPrint('DocumentSnapshot successfully updated!');
+        }, onError: (e) => debugPrint('Error updating document $e'));
+      }).catchError((error) => debugPrint('Failed to add user: $error'));
     }
 
-    Future _openAlertDialog1(BuildContext context) async {
+    Future openAlertDialog1(BuildContext context) async {
       // (2) showDialogでダイアログを表示する
-      var ret = await showDialog(
+      await showDialog(
         context: context,
         // (3) AlertDialogを作成する
         builder: (context) => AlertDialog(
           icon: const Icon(Icons.delete_rounded),
-          title: const Text("カードの削除"),
+          title: const Text('カードの削除'),
           content: Text(
-            "このカードを削除しますか？",
+            'このカードを削除しますか？',
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
@@ -95,7 +94,7 @@ class _CardDetailsState extends State<CardDetails> {
                 Navigator.pop(context, false)
               },
               onLongPress: null,
-              child: const Text("キャンセル"),
+              child: const Text('キャンセル'),
             ),
             deleteButtonPressed
                 ? TextButton(
@@ -121,7 +120,7 @@ class _CardDetailsState extends State<CardDetails> {
                       deleteThisCard();
                     },
                     onLongPress: null,
-                    child: const Text("OK"),
+                    child: const Text('OK'),
                   ),
           ],
         ),
@@ -142,21 +141,28 @@ class _CardDetailsState extends State<CardDetails> {
             elevation: 8,
             position: PopupMenuPosition.under,
             itemBuilder: (BuildContext context) {
-              return _usStates.map((String s) {
+              return menuItmCardDetails.map((String s) {
                 return PopupMenuItem(
                   value: s,
-                  child: Text(
-                    s,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      menuIcnCardDetails[menuItmCardDetails.indexOf(s)],
+                      const SizedBox(width: 8),
+                      Text(
+                        s,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
+                    ],
                   ),
                 );
               }).toList();
             },
             onSelected: (String s) {
               if (s == '削除') {
-                _openAlertDialog1(context);
+                openAlertDialog1(context);
               }
             },
           )
@@ -199,11 +205,11 @@ class _CardDetailsState extends State<CardDetails> {
                           (BuildContext context, AsyncSnapshot<Room> snapshot) {
                         if (snapshot.hasError) {
                           debugPrint('${snapshot.error}');
-                          return const Text("問題が発生しました");
+                          return const Text('問題が発生しました');
                         }
 
                         // if (snapshot.hasData && !snapshot.data!.exists) {
-                        //   return const Text("Document does not exist");
+                        //   return const Text('Document does not exist');
                         // }
 
                         if (snapshot.connectionState == ConnectionState.done) {
