@@ -353,6 +353,11 @@ class Account extends ConsumerWidget {
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () async {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(index: 3),
+                            ),
+                          );
                           await showDialog(
                             context: context,
                             builder: (BuildContext context) {
