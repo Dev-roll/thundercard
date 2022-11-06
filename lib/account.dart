@@ -3,13 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/api/current_brightness.dart';
 import 'package:thundercard/api/current_brightness_reverse.dart';
 import 'package:thundercard/constants.dart';
 import 'package:thundercard/link_auth.dart';
 import 'package:thundercard/main.dart';
 import 'package:thundercard/widgets/custom_skeletons/skeleton_card_info.dart';
-import 'package:thundercard/widgets/dialog_util.dart';
 import 'package:thundercard/widgets/my_card.dart';
 
 import 'api/colors.dart';
@@ -644,7 +645,7 @@ class Account extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'エクスポート',
+                        'アプリ内のデータ',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       Container(
@@ -652,11 +653,39 @@ class Account extends ConsumerWidget {
                         alignment: Alignment.center,
                         child: Column(
                           children: [
+                            // ElevatedButton.icon(
+                            //   icon: const Icon(
+                            //     Icons.save_alt_rounded,
+                            //   ),
+                            //   label: const Text('端末にダウンロード'),
+                            //   style: ElevatedButton.styleFrom(
+                            //     elevation: 0,
+                            //     foregroundColor: Theme.of(context)
+                            //         .colorScheme
+                            //         .onSecondaryContainer,
+                            //     backgroundColor: Theme.of(context)
+                            //         .colorScheme
+                            //         .secondaryContainer,
+                            //   ),
+                            //   onPressed: () async {
+                            //     final path =
+                            //         await getApplicationDocumentsDirectory()
+                            //             .then((value) => value.path);
+                            //     Share.shareFiles(
+                            //       [
+                            //         '$path/appThemeIdx.txt',
+                            //       ],
+                            //       text: 'usernameのデータ',
+                            //       subject: 'usernameさんのデータの共有',
+                            //     );
+                            //   },
+                            //   onLongPress: null,
+                            // ),
                             ElevatedButton.icon(
                               icon: const Icon(
-                                Icons.add_circle_outline_rounded,
+                                Icons.share_rounded,
                               ),
-                              label: const Text('認証方法を追加'),
+                              label: const Text('データを共有'),
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
                                 foregroundColor: Theme.of(context)
@@ -666,10 +695,18 @@ class Account extends ConsumerWidget {
                                     .colorScheme
                                     .secondaryContainer,
                               ),
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (context) => const LinkAuth()),
+                              onPressed: () async {
+                                final path =
+                                    await getApplicationDocumentsDirectory()
+                                        .then((value) => value.path);
+                                Share.shareFiles(
+                                  [
+                                    '$path/list.txt',
+                                    '$path/appThemeIdx.txt',
+                                    '$path/displayCardThemeIdx.txt',
+                                  ],
+                                  text: 'Thundercardアプリのデータ',
+                                  subject: 'Thundercardアプリのデータ共有',
                                 );
                               },
                               onLongPress: null,
