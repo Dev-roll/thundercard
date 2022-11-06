@@ -36,7 +36,8 @@ class MyCard extends ConsumerWidget {
     if (cardType == CardType.preview) {
       return Theme(
         data: ThemeData(
-          colorSchemeSeed: Color(returnOriginalColor(cardId)),
+          colorSchemeSeed:
+              light ? const Color(0xFFFF94EF) : const Color(0xFF3986D2),
           brightness: [
             light ? Brightness.light : Brightness.dark,
             currentBrightness(Theme.of(context).colorScheme) == Brightness.light
