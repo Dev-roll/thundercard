@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:thundercard/widgets/about_app.dart';
 import 'package:thundercard/widgets/avatar.dart';
+import 'package:thundercard/widgets/version.dart';
 
 import 'api/firebase_auth.dart';
 import 'api/colors.dart';
@@ -11,6 +13,8 @@ import 'account.dart';
 import 'list.dart';
 import 'notifications.dart';
 import 'thundercard.dart';
+import 'widgets/authors.dart';
+import 'widgets/privacy_policy.dart';
 
 final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
 
@@ -144,13 +148,47 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.policy_rounded),
+              leading: const Icon(Icons.description_outlined),
+              title: const Text('Thundercardについて'),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) {
+                    return AboutApp();
+                  }),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.people_alt_outlined),
+              title: const Text('開発者'),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) {
+                    return Authors();
+                  }),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.policy_outlined),
               title: const Text('プライバシーポリシー'),
               onTap: () {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //       builder: (context) => const LinkAuth()),
-                // );
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) {
+                    return PrivacyPolicy();
+                  }),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.history_outlined),
+              title: const Text('バージョン情報'),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) {
+                    return Version();
+                  }),
+                );
               },
             ),
             const SizedBox(height: 16),
