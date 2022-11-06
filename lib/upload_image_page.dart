@@ -84,6 +84,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
       doc.set({
         'thumbnail': imageURL,
         'is_user': false,
+        'card_id': docId,
         'account': {
           'profiles': {
             'name': _nameController.text,
@@ -400,7 +401,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('検出されたテキスト（β）'),
+                            const Text('検出されたテキスト'),
                             TextField(
                               keyboardType: TextInputType.multiline,
                               maxLines: null,
