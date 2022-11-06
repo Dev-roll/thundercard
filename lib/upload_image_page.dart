@@ -43,7 +43,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
         _recognizedTextController.text = recognizedTextTemp;
       });
     } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
+      debugPrint('Failed to pick image: $e');
     }
   }
 
@@ -60,7 +60,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
         _recognizedTextController.text = recognizedTextTemp;
       });
     } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
+      debugPrint('Failed to pick image: $e');
     }
   }
 
@@ -106,8 +106,8 @@ class _UploadImagePageState extends State<UploadImagePage> {
           },
           'links': [],
         },
-      }).then((value) => print("DocumentSnapshot successfully updated!"),
-          onError: (e) => print("Error updating document $e"));
+      }).then((value) => debugPrint("DocumentSnapshot successfully updated!"),
+          onError: (e) => debugPrint("Error updating document $e"));
     }
 
     void updateExchangedCards() {
@@ -115,8 +115,8 @@ class _UploadImagePageState extends State<UploadImagePage> {
           FirebaseFirestore.instance.collection('cards').doc(widget.cardId);
       doc.update({
         'exchanged_cards': FieldValue.arrayUnion([docId])
-      }).then((value) => print("DocumentSnapshot successfully updated!"),
-          onError: (e) => print("Error updating document $e"));
+      }).then((value) => debugPrint("DocumentSnapshot successfully updated!"),
+          onError: (e) => debugPrint("Error updating document $e"));
     }
 
     void uploadPic() async {
@@ -134,7 +134,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
             FirebaseStorage.instance.ref().child('cards/$docId/$uploadName');
         final task = await storageRef.putFile(file);
         final String imageURL = await task.ref.getDownloadURL();
-        print('ここ大事 -> $imageURL');
+        debugPrint('ここ大事 -> $imageURL');
         updateDocumentData(imageURL);
         updateExchangedCards();
         Navigator.of(context).pop();
@@ -185,7 +185,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
         //   (_) => false,
         // );
       } catch (e) {
-        print(e);
+        debugPrint('$e');
       }
     }
 

@@ -42,18 +42,19 @@ class _LinkAuthState extends State<LinkAuth> {
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "provider-already-linked":
-          print("The provider has already been linked to the user.");
+          debugPrint("The provider has already been linked to the user.");
           break;
         case "invalid-credential":
-          print("The provider's credential is not valid.");
+          debugPrint("The provider's credential is not valid.");
           break;
         case "credential-already-in-use":
-          print("The account corresponding to the credential already exists, "
+          debugPrint(
+              "The account corresponding to the credential already exists, "
               "or is already linked to a Firebase User.");
           break;
         // See the API reference for the full list of error codes.
         default:
-          print("Unknown error.");
+          debugPrint("Unknown error.");
       }
     }
   }
@@ -241,21 +242,21 @@ class _LinkAuthState extends State<LinkAuth> {
                                         } on FirebaseAuthException catch (e) {
                                           switch (e.code) {
                                             case "provider-already-linked":
-                                              print(
+                                              debugPrint(
                                                   "The provider has already been linked to the user.");
                                               break;
                                             case "invalid-credential":
-                                              print(
+                                              debugPrint(
                                                   "The provider's credential is not valid.");
                                               break;
                                             case "credential-already-in-use":
-                                              print(
+                                              debugPrint(
                                                   "The account corresponding to the credential already exists, "
                                                   "or is already linked to a Firebase User.");
                                               break;
                                             // See the API reference for the full list of error codes.
                                             default:
-                                              print("Unknown error.");
+                                              debugPrint("Unknown error.");
                                           }
                                         }
                                       }();

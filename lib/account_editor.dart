@@ -299,7 +299,7 @@ class _AccountEditorState extends State<AccountEditor> {
         },
       });
     }
-    print(links);
+    debugPrint('$links');
 
     final updateNotificationData = {
       'title': 'アカウント情報更新のお知らせ',
@@ -342,8 +342,8 @@ class _AccountEditorState extends State<AccountEditor> {
       }
     }, SetOptions(merge: true)).then((value) {
       Navigator.of(context).pop();
-      print('Card Updated');
-    }).catchError((error) => print('Failed to update card: $error'));
+      debugPrint('Card Updated');
+    }).catchError((error) => debugPrint('Failed to update card: $error'));
   }
 
   @override

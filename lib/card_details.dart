@@ -68,9 +68,9 @@ class _CardDetailsState extends State<CardDetails> {
             ),
             (_) => false,
           );
-          print("DocumentSnapshot successfully updated!");
-        }, onError: (e) => print("Error updating document $e"));
-      }).catchError((error) => print("Failed to add user: $error"));
+          debugPrint("DocumentSnapshot successfully updated!");
+        }, onError: (e) => debugPrint("Error updating document $e"));
+      }).catchError((error) => debugPrint("Failed to add user: $error"));
     }
 
     Future _openAlertDialog1(BuildContext context) async {
@@ -198,7 +198,7 @@ class _CardDetailsState extends State<CardDetails> {
                       builder:
                           (BuildContext context, AsyncSnapshot<Room> snapshot) {
                         if (snapshot.hasError) {
-                          print(snapshot.error);
+                          debugPrint('${snapshot.error}');
                           return const Text("問題が発生しました");
                         }
 

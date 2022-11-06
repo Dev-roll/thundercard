@@ -917,7 +917,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
   //     var pngBytes = byteData!.buffer.asUint8List();
   //     return Image.memory(pngBytes);
   //   } catch (e) {
-  //     print(e);
+  //     debugPrint(e);
   //   }
   //   return null;
   // }
@@ -978,7 +978,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
   //     //   await launchUrl(Uri.parse(picedFile.path));
   //     // }
   //   } on PlatformException catch (e) {
-  //     print('Failed to pick image: $e');
+  //     debugPrint('Failed to pick image: $e');
   //   }
   // }
 }

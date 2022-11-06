@@ -189,7 +189,7 @@ class _NotificationsState extends State<Notifications> {
 
                           // エラー時に表示するWidget
                           if (snapshot.hasError) {
-                            print(snapshot.error);
+                            debugPrint('${snapshot.error}');
                             return Text('エラーが発生しました: ${snapshot.error}');
                           }
 
@@ -288,7 +288,7 @@ class _NotificationsState extends State<Notifications> {
 
                           // エラー時に表示するWidget
                           if (snapshot.hasError) {
-                            print(snapshot.error);
+                            debugPrint('${snapshot.error}');
                             return Text('エラーが発生しました: ${snapshot.error}');
                           }
 
