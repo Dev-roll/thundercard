@@ -217,8 +217,25 @@ class _ReorderableMultiTextFieldState extends State<ReorderableMultiTextField> {
                                 .colorScheme
                                 .onPrimaryContainer),
                         controller: textFieldState.controller,
-                        decoration:
-                            const InputDecoration.collapsed(hintText: ''),
+                        cursorHeight: 20,
+                        decoration: const InputDecoration(
+                          hintText: '',
+                          contentPadding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                          filled: true,
+                          fillColor: Colors.transparent,
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                              width: 0,
+                            ),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                              width: 0,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Padding(
