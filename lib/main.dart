@@ -34,6 +34,7 @@ void main() async {
   await FirebaseAppCheck.instance.activate(
     webRecaptchaSiteKey:
         'recaptcha-v3-site-key', // If you're building a web app.
+    // androidDebugProvider: true,
   );
   runApp(const ProviderScope(child: MyApp()));
 }

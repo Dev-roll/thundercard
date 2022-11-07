@@ -49,37 +49,41 @@ class DefaultFirebaseOptions {
     messagingSenderId: '277870400251',
     projectId: 'thundercard-test',
     authDomain: 'thundercard-test.firebaseapp.com',
+    databaseURL: 'https://thundercard-test-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'thundercard-test.appspot.com',
     measurementId: 'G-MNVXSEFK9W',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBs7lQdIATKnpZ1MqLKhAbCnYA2Re1G68o',
-    appId: '1:277870400251:android:c5dd3b9bfbe67f3c5e565e',
+    appId: '1:277870400251:android:a556001c2bed8de55e565e',
     messagingSenderId: '277870400251',
     projectId: 'thundercard-test',
+    databaseURL: 'https://thundercard-test-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'thundercard-test.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBo4ki_DZqi1bs_5UPHMaU5WfBYcAQTMZc',
-    appId: '1:277870400251:ios:8aa37626421d7f875e565e',
+    appId: '1:277870400251:ios:73d921a6f5689ae15e565e',
     messagingSenderId: '277870400251',
     projectId: 'thundercard-test',
+    databaseURL: 'https://thundercard-test-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'thundercard-test.appspot.com',
-    iosClientId:
-        '277870400251-o1b5l9l83o1k239q3g4ga8m0dlsvnqoh.apps.googleusercontent.com',
+    androidClientId: '277870400251-o9mt13717eaekjq3gpd4vmvhbvule2ja.apps.googleusercontent.com',
+    iosClientId: '277870400251-cdjer3h8fea10ahaa26402dt8he7ere4.apps.googleusercontent.com',
     iosBundleId: 'app.web.thundercard',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyBo4ki_DZqi1bs_5UPHMaU5WfBYcAQTMZc',
-    appId: '1:277870400251:ios:8aa37626421d7f875e565e',
+    appId: '1:277870400251:ios:73d921a6f5689ae15e565e',
     messagingSenderId: '277870400251',
     projectId: 'thundercard-test',
+    databaseURL: 'https://thundercard-test-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'thundercard-test.appspot.com',
-    iosClientId:
-        '277870400251-o1b5l9l83o1k239q3g4ga8m0dlsvnqoh.apps.googleusercontent.com',
+    androidClientId: '277870400251-o9mt13717eaekjq3gpd4vmvhbvule2ja.apps.googleusercontent.com',
+    iosClientId: '277870400251-cdjer3h8fea10ahaa26402dt8he7ere4.apps.googleusercontent.com',
     iosBundleId: 'app.web.thundercard',
   );
 }
