@@ -42,7 +42,7 @@ Future<void> main() async {
     ),
   ]);
 
-  runApp(const FirebaseAuthUIExample());
+  runApp(const MyApp());
 }
 
 // Overrides a label for en locale
@@ -56,8 +56,8 @@ class LabelOverrides extends DefaultLocalizations {
   String get passwordInputLabel => 'パスワード';
 }
 
-class FirebaseAuthUIExample extends StatelessWidget {
-  const FirebaseAuthUIExample({Key? key}) : super(key: key);
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   String get initialRoute {
     final auth = FirebaseAuth.instance;
