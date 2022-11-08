@@ -232,26 +232,22 @@ class _SignUpState extends State<SignUp> {
                                     if (formKey.currentState!.validate()) {
                                       FocusManager.instance.primaryFocus
                                           ?.unfocus();
-                                      // サインアップの処理を書く
-                                      () {
-                                        try {
-                                          FirebaseAuth.instance
-                                              .signInWithEmailAndPassword(
-                                                  email: _emailController.text,
-                                                  password:
-                                                      _passwordController.text)
-                                              .then((value) {
-                                            Navigator.of(context)
-                                                .pushReplacement(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      AuthGate()),
-                                            );
-                                          });
-                                        } catch (e) {
-                                          debugPrint('$e');
-                                        }
-                                      }();
+                                      try {
+                                        FirebaseAuth.instance
+                                            .createUserWithEmailAndPassword(
+                                                email: _emailController.text,
+                                                password:
+                                                    _passwordController.text)
+                                            .then((value) {
+                                          Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AuthGate()),
+                                          );
+                                        });
+                                      } catch (e) {
+                                        debugPrint('$e');
+                                      }
                                       // if (true) {
                                       //   // うまくいった場合は画面遷移
                                       //   Navigator.of(context).pushReplacement(
