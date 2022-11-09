@@ -78,6 +78,7 @@ dependencies:
   firebase_messaging: ^13.0.4 # previously I only had this which was pulling in 4.5.2 which you do not want
   # flutter_launcher_icons: ^0.10.0
   flutter_markdown: ^0.6.13
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
