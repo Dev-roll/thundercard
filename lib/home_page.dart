@@ -153,7 +153,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) {
-                    return AboutApp();
+                    return const AboutApp();
                   }),
                 );
               },
@@ -164,7 +164,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) {
-                    return Authors();
+                    return const Authors();
                   }),
                 );
               },
@@ -175,7 +175,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) {
-                    return PrivacyPolicy();
+                    return const PrivacyPolicy();
                   }),
                 );
               },
@@ -186,7 +186,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) {
-                    return Version();
+                    return const Version();
                   }),
                 );
               },
