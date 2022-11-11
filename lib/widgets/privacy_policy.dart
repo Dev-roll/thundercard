@@ -14,7 +14,7 @@ class PrivacyPolicy extends StatelessWidget {
       body: const Padding(
         padding: EdgeInsets.fromLTRB(14.0, 0, 14.0, 0),
         child: Markdown(data: '''
-## Privacy Policy
+2022/11/07
 
 Devroll built the Thundercard app as a Free app. This SERVICE is provided by Devroll at no cost and is intended for use as is.
 
