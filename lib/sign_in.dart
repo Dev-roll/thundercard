@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutterfire_ui/auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:thundercard/auth_gate.dart';
+import 'package:thundercard/widgets/privacy_policy.dart';
+import 'package:thundercard/widgets/terms_of_use.dart';
 
 import 'sign_up.dart';
 
@@ -333,6 +336,43 @@ class _SignInState extends State<SignIn> {
                           ),
                         ),
                       ],
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        style: const TextStyle(height: 1.6),
+                        children: [
+                          const TextSpan(text: 'このサービスのご利用を開始することで，'),
+                          TextSpan(
+                              text: 'プライバシーポリシー',
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) {
+                                      return const PrivacyPolicy();
+                                    }),
+                                  );
+                                }),
+                          const TextSpan(text: 'および'),
+                          TextSpan(
+                              text: '利用規約',
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) {
+                                      return const TermsOfUse();
+                                    }),
+                                  );
+                                }),
+                          const TextSpan(text: 'に同意したものとみなします。'),
+                        ],
+                      ),
                     ),
                   ],
                 ),
