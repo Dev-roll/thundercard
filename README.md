@@ -1,4 +1,5 @@
 # Thundercard
+![icon_for_google_play](https://user-images.githubusercontent.com/79978827/201389846-4e72c211-884e-4a65-85c5-95077eceeca8.png)
 
 ## 未来の名刺，全く新しいSNS。
 
