@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:thundercard/widgets/about_app.dart';
 import 'package:thundercard/widgets/avatar.dart';
+import 'package:thundercard/widgets/terms_of_use.dart';
 import 'package:thundercard/widgets/version.dart';
 
 import 'api/firebase_auth.dart';
@@ -176,6 +177,17 @@ class _HomePageState extends State<HomePage> {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) {
                     return const PrivacyPolicy();
+                  }),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.gavel_rounded),
+              title: const Text('利用規約'),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) {
+                    return const TermsOfUse();
                   }),
                 );
               },
