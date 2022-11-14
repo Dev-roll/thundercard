@@ -70,7 +70,7 @@ class DefaultFirebaseOptions {
     projectId: 'thundercard-test',
     databaseURL: 'https://thundercard-test-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'thundercard-test.appspot.com',
-    androidClientId: '277870400251-o9mt13717eaekjq3gpd4vmvhbvule2ja.apps.googleusercontent.com',
+    androidClientId: '277870400251-3ggi3hqj28s5ulrq1mrr6ncohq1kfkap.apps.googleusercontent.com',
     iosClientId: '277870400251-cdjer3h8fea10ahaa26402dt8he7ere4.apps.googleusercontent.com',
     iosBundleId: 'app.web.thundercard',
   );
@@ -82,7 +82,7 @@ class DefaultFirebaseOptions {
     projectId: 'thundercard-test',
     databaseURL: 'https://thundercard-test-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'thundercard-test.appspot.com',
-    androidClientId: '277870400251-o9mt13717eaekjq3gpd4vmvhbvule2ja.apps.googleusercontent.com',
+    androidClientId: '277870400251-3ggi3hqj28s5ulrq1mrr6ncohq1kfkap.apps.googleusercontent.com',
     iosClientId: '277870400251-cdjer3h8fea10ahaa26402dt8he7ere4.apps.googleusercontent.com',
     iosBundleId: 'app.web.thundercard',
   );
