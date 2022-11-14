@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "277870400251-3ggi3hqj28s5ulrq1mrr6ncohq1kfkap.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.web.thundercard",
+            "certificate_hash": "60b4291a47fc8fbc7beb2725fafa723881eaacf2"
+          }
+        },
+        {
           "client_id": "277870400251-o9mt13717eaekjq3gpd4vmvhbvule2ja.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -22,6 +30,42 @@
             "certificate_hash": "eef5d5e560c220a45dd6df40d40175e102facffc"
           }
         },
+        {
+          "client_id": "277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs7lQdIATKnpZ1MqLKhAbCnYA2Re1G68o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "277870400251-cdjer3h8fea10ahaa26402dt8he7ere4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.web.thundercard"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277870400251:android:8aaf90062c0645d55e565e",
+        "android_client_info": {
+          "package_name": "app.web.thundercard221114"
+        }
+      },
+      "oauth_client": [
         {
           "client_id": "277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com",
           "client_type": 3
