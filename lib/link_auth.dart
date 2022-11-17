@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutterfire_ui/auth.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -490,7 +491,7 @@ class _LinkAuthState extends State<LinkAuth> {
                     const SizedBox(
                       height: 8,
                     ),
-                    if (Platform.isIOS || Platform.isMacOS)
+                    if (!kIsWeb && (Platform.isIOS || Platform.isMacOS))
                       SignInButton(
                         Buttons.Apple,
                         onPressed: () {
