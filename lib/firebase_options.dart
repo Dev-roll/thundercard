@@ -65,14 +65,14 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBo4ki_DZqi1bs_5UPHMaU5WfBYcAQTMZc',
-    appId: '1:277870400251:ios:73d921a6f5689ae15e565e',
+    appId: '1:277870400251:ios:5084db0eac4a47bb5e565e',
     messagingSenderId: '277870400251',
     projectId: 'thundercard-test',
     databaseURL: 'https://thundercard-test-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'thundercard-test.appspot.com',
     androidClientId: '277870400251-3ggi3hqj28s5ulrq1mrr6ncohq1kfkap.apps.googleusercontent.com',
-    iosClientId: '277870400251-cdjer3h8fea10ahaa26402dt8he7ere4.apps.googleusercontent.com',
-    iosBundleId: 'app.web.thundercard',
+    iosClientId: '277870400251-vgch323tnegebpcis8f0sddfldstnr38.apps.googleusercontent.com',
+    iosBundleId: 'app.web.thundercard221115',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(

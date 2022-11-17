@@ -17,8 +17,8 @@ import 'api/colors.dart';
 import 'api/firebase_auth.dart';
 import 'home_page.dart';
 import 'widgets/card_info.dart';
-import 'widgets/maintenance.dart';
 import 'auth_gate.dart';
+// import 'widgets/maintenance.dart';
 
 class Account extends ConsumerWidget {
   const Account({Key? key}) : super(key: key);
@@ -785,13 +785,104 @@ class Account extends ConsumerWidget {
                   },
                   onLongPress: null,
                 ),
-                // メンテナンス
                 const SizedBox(height: 28),
-                const OutlinedButton(
-                  onPressed: maintenance,
-                  onLongPress: null,
-                  child: Text('管理者用'),
+                Divider(
+                  height: 32,
+                  thickness: 1,
+                  indent: 16,
+                  endIndent: 16,
+                  color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
                 ),
+                const SizedBox(height: 28),
+                OutlinedButton.icon(
+                  icon: const Icon(
+                    Icons.person_off_rounded,
+                  ),
+                  label: const Text('アカウントを削除'),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    foregroundColor: Theme.of(context).colorScheme.error,
+                    // backgroundColor: Theme.of(context).colorScheme.error,
+                  ),
+                  onPressed: () async {
+                    await showDialog(
+                      context: context,
+                      // (3) AlertDialogを作成する
+                      builder: (context) => AlertDialog(
+                        icon: const Icon(Icons.person_off_rounded),
+                        title: Text('アカウントを削除'),
+                        content: Text(
+                          'このアカウントを削除しますか？',
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                        // (4) ボタンを設定
+                        actions: [
+                          TextButton(
+                              onPressed: () => {
+                                    //  (5) ダイアログを閉じる
+                                    Navigator.pop(context, false)
+                                  },
+                              onLongPress: null,
+                              child: const Text('キャンセル')),
+                          TextButton(
+                            onPressed: () async {
+                              final data = {
+                                "uid": uid,
+                                "createdAt": Timestamp.now(),
+                              };
+                              await FirebaseFirestore.instance
+                                  .collection('deleted_users')
+                                  .add(data)
+                                  .then((value) async {
+                                await FirebaseAuth.instance.signOut();
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) => AuthGate()),
+                                );
+                              }).catchError(
+                                      (e) => print("Failed to add user: $e"));
+                            },
+                            onLongPress: null,
+                            child: Text(
+                              'アカウントを削除',
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.error),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  onLongPress: null,
+                ),
+                // OutlinedButton(
+                //   onPressed: () async {
+                //     final data = {
+                //       "uid": uid,
+                //       "createdAt": Timestamp.now(),
+                //     };
+                //     await FirebaseFirestore.instance
+                //         .collection('deleted_users')
+                //         .add(data)
+                //         .then((value) async {
+                //       await FirebaseAuth.instance.signOut();
+                //       Navigator.of(context).pushReplacement(
+                //         MaterialPageRoute(builder: (context) => AuthGate()),
+                //       );
+                //     }).catchError((e) => print("Failed to add user: $e"));
+                //   },
+                //   child: Text('退会する'),
+                // ),
+                // メンテナンス
+                // const SizedBox(height: 28),
+                // const OutlinedButton(
+                //   onPressed: maintenance,
+                //   onLongPress: null,
+                //   child: Text('管理者用'),
+                // ),
                 const SizedBox(height: 40),
               ],
             ),

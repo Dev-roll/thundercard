@@ -424,11 +424,13 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                     const Text('ユーザーID（必須）'),
                     TextFormField(
                       controller: _cardIdController,
+                      keyboardType: TextInputType.emailAddress,
                       maxLength: 20,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         return value!.isEmpty ? '必須' : null;
                       },
+                      textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         icon: const Icon(Icons.alternate_email_rounded),
                         hintText: 'userid',
@@ -451,6 +453,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                       validator: (value) {
                         return value!.isEmpty ? '必須' : null;
                       },
+                      textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         icon: const Icon(Icons.account_circle_rounded),
                         hintText: '表示名',
@@ -469,6 +472,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                     TextField(
                       controller: _companyController,
                       maxLength: 20,
+                      textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         icon: Icon(iconTypeToIconData[IconType.company]),
                         hintText: '会社・大学等',
@@ -484,6 +488,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                     TextField(
                       controller: _positionController,
                       maxLength: 20,
+                      textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         icon: Icon(iconTypeToIconData[IconType.position]),
                         hintText: '○○部',
@@ -499,6 +504,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                     TextField(
                       controller: _addressController,
                       maxLength: 40,
+                      textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
                         icon: Icon(iconTypeToIconData[IconType.address]),
                         hintText: '住所',
@@ -514,6 +520,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                     TextField(
                       controller: _bioController,
                       maxLength: 300,
+                      textInputAction: TextInputAction.done,
                       decoration: InputDecoration(
                         icon: Icon(iconTypeToIconData[IconType.bio]),
                         hintText: '自己紹介',
