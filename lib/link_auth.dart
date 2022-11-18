@@ -417,6 +417,7 @@ class _LinkAuthState extends State<LinkAuth> {
                                                       .instance.currentUser
                                                       ?.linkWithCredential(
                                                           credential);
+                                              Navigator.of(context).pop();
                                               Navigator.of(context)
                                                   .pushReplacement(
                                                 MaterialPageRoute(
