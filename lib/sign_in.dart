@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 // import 'package:flutterfire_ui/auth.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:flutterfire_ui/auth.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:thundercard/auth_gate.dart';
 import 'package:thundercard/widgets/privacy_policy.dart';
@@ -122,7 +123,7 @@ class _SignInState extends State<SignIn> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: Text('エラー'),
+              title: const Text('エラー'),
               content: Text(e.toString()),
             );
           });
@@ -358,28 +359,38 @@ class _SignInState extends State<SignIn> {
                     const SizedBox(
                       height: 8,
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        backgroundColor: Colors.transparent,
-                      ),
-                      onPressed: () => _onSignInGoogle(),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(
-                            FontAwesomeIcons.google,
-                            size: 20,
-                          ),
-                          SizedBox(width: 8),
-                          Text('Googleでログイン'),
-                        ],
-                      ),
-                    ),
-                    // GoogleSignInButton(
-                    //     clientId:
-                    //         '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com'),
+                    // if (!(kIsWeb || Platform.isIOS || Platform.isMacOS))
+                    //   ElevatedButton(
+                    //     style: ElevatedButton.styleFrom(
+                    //       elevation: 0,
+                    //       backgroundColor: Colors.transparent,
+                    //     ),
+                    //     onPressed: () => _onSignInGoogle(),
+                    //     child: Row(
+                    //       mainAxisSize: MainAxisSize.min,
+                    //       mainAxisAlignment: MainAxisAlignment.center,
+                    //       children: const [
+                    //         Icon(
+                    //           FontAwesomeIcons.google,
+                    //           size: 20,
+                    //         ),
+                    //         SizedBox(width: 8),
+                    //         Text('Googleでログイン'),
+                    //       ],
+                    //     ),
+                    //   ),
+                    if (kIsWeb || !(Platform.isIOS || Platform.isMacOS))
+                      const GoogleSignInButton(
+                          clientId:
+                              '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com'),
+                    // if (!kIsWeb && Platform.isIOS)
+                    //   const GoogleSignInButton(
+                    //       clientId:
+                    //           '277870400251-7s65salaj527fnrhcr1ls4jq2k7le21f.apps.googleusercontent.com'),
+                    // if (!kIsWeb && Platform.isMacOS)
+                    //   const GoogleSignInButton(
+                    //       clientId:
+                    //           '277870400251-g3q7bmmb90ptq3krepjv1bhngm687icd.apps.googleusercontent.com'),
                     const SizedBox(
                       height: 8,
                     ),

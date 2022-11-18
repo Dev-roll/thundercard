@@ -5,9 +5,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutterfire_ui/auth.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:flutterfire_ui/auth.dart';
+// import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:thundercard/auth_gate.dart';
 
@@ -65,48 +66,48 @@ class _LinkAuthState extends State<LinkAuth> {
     }
   }
 
-  Future<void> _onSignInWithApple(User? user) async {
-    try {
-      // AuthorizationCredentialAppleIDのインスタンスを取得
-      final appleCredential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-      );
+  // Future<void> _onSignInWithApple(User? user) async {
+  //   try {
+  //     // AuthorizationCredentialAppleIDのインスタンスを取得
+  //     final appleCredential = await SignInWithApple.getAppleIDCredential(
+  //       scopes: [
+  //         AppleIDAuthorizationScopes.email,
+  //         AppleIDAuthorizationScopes.fullName,
+  //       ],
+  //     );
 
-      // OAthCredentialのインスタンスを作成
-      OAuthProvider oauthProvider = OAuthProvider('apple.com');
-      final credential = oauthProvider.credential(
-        idToken: appleCredential.identityToken,
-        accessToken: appleCredential.authorizationCode,
-      );
+  //     // OAthCredentialのインスタンスを作成
+  //     OAuthProvider oauthProvider = OAuthProvider('apple.com');
+  //     final credential = oauthProvider.credential(
+  //       idToken: appleCredential.identityToken,
+  //       accessToken: appleCredential.authorizationCode,
+  //     );
 
-      if (user != null && user.isAnonymous) {
-        await user.linkWithCredential(credential);
-        Navigator.of(context).pop();
-      } else {
-        await FirebaseAuth.instance.signInWithCredential(credential);
+  //     if (user != null && user.isAnonymous) {
+  //       await user.linkWithCredential(credential);
+  //       Navigator.of(context).pop();
+  //     } else {
+  //       await FirebaseAuth.instance.signInWithCredential(credential);
 
-        if (Navigator.of(context).canPop()) {
-          Navigator.of(context).pop();
-        } else {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => AuthGate()),
-          );
-        }
-      }
-    } catch (e) {
-      await showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('エラー'),
-              content: Text(e.toString()),
-            );
-          });
-    }
-  }
+  //       if (Navigator.of(context).canPop()) {
+  //         Navigator.of(context).pop();
+  //       } else {
+  //         Navigator.of(context).pushReplacement(
+  //           MaterialPageRoute(builder: (context) => AuthGate()),
+  //         );
+  //       }
+  //     }
+  //   } catch (e) {
+  //     await showDialog(
+  //         context: context,
+  //         builder: (context) {
+  //           return AlertDialog(
+  //             title: Text('エラー'),
+  //             content: Text(e.toString()),
+  //           );
+  //         });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -467,38 +468,48 @@ class _LinkAuthState extends State<LinkAuth> {
                     const SizedBox(
                       height: 32,
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        backgroundColor: Colors.transparent,
-                      ),
-                      onPressed: () => googleSignIn(),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(
-                            FontAwesomeIcons.google,
-                            size: 20,
-                          ),
-                          SizedBox(width: 8),
-                          Text('Googleでサインアップ'),
-                        ],
-                      ),
-                    ),
-                    // GoogleSignInButton(
-                    //     clientId:
-                    //         '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com'),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    if (!kIsWeb && (Platform.isIOS || Platform.isMacOS))
-                      SignInButton(
-                        Buttons.Apple,
-                        onPressed: () {
-                          _onSignInWithApple(user);
-                        },
-                      ),
+                    // if (!(kIsWeb || Platform.isIOS || Platform.isMacOS))
+                    // ElevatedButton(
+                    //   style: ElevatedButton.styleFrom(
+                    //     elevation: 0,
+                    //     backgroundColor: Colors.transparent,
+                    //   ),
+                    //   onPressed: () => _onSignInGoogle(),
+                    //   child: Row(
+                    //     mainAxisSize: MainAxisSize.min,
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: const [
+                    //       Icon(
+                    //         FontAwesomeIcons.google,
+                    //         size: 20,
+                    //       ),
+                    //       SizedBox(width: 8),
+                    //       Text('Googleでサインアップ'),
+                    //     ],
+                    //   ),
+                    // ),
+                    if (kIsWeb || !(Platform.isIOS || Platform.isMacOS))
+                      const GoogleSignInButton(
+                          clientId:
+                              '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com'),
+                    // if (!kIsWeb && Platform.isIOS)
+                    //   const GoogleSignInButton(
+                    //       clientId:
+                    //           '277870400251-7s65salaj527fnrhcr1ls4jq2k7le21f.apps.googleusercontent.com'),
+                    // if (!kIsWeb && Platform.isMacOS)
+                    //   const GoogleSignInButton(
+                    //       clientId:
+                    //           '277870400251-g3q7bmmb90ptq3krepjv1bhngm687icd.apps.googleusercontent.com'),
+                    // const SizedBox(
+                    //   height: 8,
+                    // ),
+                    // if (!kIsWeb && (Platform.isIOS || Platform.isMacOS))
+                    //   SignInButton(
+                    //     Buttons.Apple,
+                    //     onPressed: () {
+                    //       _onSignInWithApple(user);
+                    //     },
+                    //   ),
                     const SizedBox(
                       height: 32,
                     ),

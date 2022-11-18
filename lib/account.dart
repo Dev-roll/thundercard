@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -842,8 +844,8 @@ class Account extends ConsumerWidget {
                                   MaterialPageRoute(
                                       builder: (context) => AuthGate()),
                                 );
-                              }).catchError(
-                                      (e) => print("Failed to add user: $e"));
+                              }).catchError((e) =>
+                                      debugPrint("Failed to add user: $e"));
                             },
                             onLongPress: null,
                             child: Text(
