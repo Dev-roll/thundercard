@@ -3,6 +3,7 @@
 <img src="https://user-images.githubusercontent.com/79978827/201389846-4e72c211-884e-4a65-85c5-95077eceeca8.png" alt="ThundercardIcon">
 
 - [Google Play Store](https://play.google.com/store/apps/details?id=app.web.thundercard)
+- [App Store](https://apps.apple.com/jp/app/thundercard/id6444411283)
 - [Web版](https://thundercard-test.web.app/)
 
 ## 未来の名刺，全く新しいSNS。
