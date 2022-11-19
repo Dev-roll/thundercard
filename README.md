@@ -1,6 +1,8 @@
 # Thundercard
 
-<img src="https://user-images.githubusercontent.com/79978827/201389846-4e72c211-884e-4a65-85c5-95077eceeca8.png" alt="ThundercardIcon">
+<!-- <img src="https://user-images.githubusercontent.com/79978827/201389846-4e72c211-884e-4a65-85c5-95077eceeca8.png" alt="ThundercardIcon"> -->
+<img width="2560" alt="thumbnail" src="https://user-images.githubusercontent.com/79978827/202828236-809fb30e-9d46-46aa-87da-18882e1f35b1.png">
+
 
 - [Google Play Store](https://play.google.com/store/apps/details?id=app.web.thundercard)
 - [App Store](https://apps.apple.com/jp/app/thundercard/id6444411283)
