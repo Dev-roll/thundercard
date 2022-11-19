@@ -421,10 +421,11 @@ class _SignInState extends State<SignIn> {
                           onTap: () {
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (context) => SignUp(
-                                        email: _emailController.text,
-                                        password: _passwordController.text,
-                                      )),
+                                builder: (context) => SignUp(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                ),
+                              ),
                             );
                           },
                           child: Row(
@@ -461,33 +462,54 @@ class _SignInState extends State<SignIn> {
                       text: TextSpan(
                         style: const TextStyle(height: 1.6),
                         children: [
-                          const TextSpan(text: 'このサービスのご利用を開始することで，'),
                           TextSpan(
-                              text: 'プライバシーポリシー',
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) {
+                            text: 'このサービスのご利用を開始することで，',
+                            style: TextStyle(
+                                color:
+                                    Theme.of(context).colorScheme.onBackground),
+                          ),
+                          TextSpan(
+                            text: 'プライバシーポリシー',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
                                       return const PrivacyPolicy();
-                                    }),
-                                  );
-                                }),
-                          const TextSpan(text: 'および'),
+                                    },
+                                  ),
+                                );
+                              },
+                          ),
                           TextSpan(
-                              text: '利用規約',
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) {
+                            text: 'および',
+                            style: TextStyle(
+                                color:
+                                    Theme.of(context).colorScheme.onBackground),
+                          ),
+                          TextSpan(
+                            text: '利用規約',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
                                       return const TermsOfUse();
-                                    }),
-                                  );
-                                }),
-                          const TextSpan(text: 'に同意したものとみなします。'),
+                                    },
+                                  ),
+                                );
+                              },
+                          ),
+                          TextSpan(
+                            text: 'に同意したものとみなします。',
+                            style: TextStyle(
+                                color:
+                                    Theme.of(context).colorScheme.onBackground),
+                          ),
                         ],
                       ),
                     ),
