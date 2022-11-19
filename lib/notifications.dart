@@ -54,9 +54,7 @@ class _NotificationsState extends State<Notifications> {
               initialIndex: 0,
               child: Scaffold(
                 appBar: PreferredSize(
-                  preferredSize: Size.fromHeight(Platform.isAndroid
-                      ? 40 + MediaQuery.of(context).padding.top
-                      : MediaQuery.of(context).padding.top),
+                  preferredSize: const Size.fromHeight(72),
                   child: AppBar(
                     automaticallyImplyLeading: false,
                     // backgroundColor: Theme.of(context).colorScheme.background,
