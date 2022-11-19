@@ -5,17 +5,18 @@
 
 <br>
 
-<a href='https://play.google.com/store/apps/details?id=app.web.thundercard'>
-  <img height='100' alt='Google Play で手に入れよう' src='https://user-images.githubusercontent.com/79978827/202829645-f94b905b-cbd1-489a-8d9d-fe4b0ff905e4.png'/>
-</a>
-<br><br>
-<a href="https://apps.apple.com/jp/app/thundercard/id6444411283">
-  <img height="83" alt="Download on the App Store" src="https://user-images.githubusercontent.com/79978827/202832969-1b5dbf42-5a30-4d20-90cd-3f362881c87a.svg">
-</a>
-
-<br><br>
-
-- [Web版](https://thundercard-test.web.app/)
+<p align="center">
+  <a href="https://play.google.com/store/apps/details?id=app.web.thundercard">
+    <img height="83" alt="Google Play で手に入れよう" src="https://user-images.githubusercontent.com/79978827/202835768-d29ed02e-2415-4dbf-9cbd-d2644f607239.png"/>
+  </a>
+  <br><br>
+  <a href="https://apps.apple.com/jp/app/thundercard/id6444411283">
+    <img height="83" alt="Download on the App Store" src="https://user-images.githubusercontent.com/79978827/202835640-2b81b246-1f03-49fa-b643-ca6dcc53ebe3.png">
+  <br><br>
+  <a href="https://thundercard-test.web.app/">
+    <img height="83" alt="Web" src="https://user-images.githubusercontent.com/79978827/202837185-a93ef2f0-4e6c-4a3f-83c3-71f1093b0ea7.png">
+  </a>
+</p>
 
 <!-- - [Google Play Store](https://play.google.com/store/apps/details?id=app.web.thundercard)
 - [App Store](https://apps.apple.com/jp/app/thundercard/id6444411283)
