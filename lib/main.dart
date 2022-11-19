@@ -1,5 +1,8 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -64,8 +67,11 @@ class MyApp extends ConsumerWidget {
             colorSchemeSeed: darkDynamic?.harmonized().primary ?? seedColor,
             brightness: Brightness.dark,
             visualDensity: VisualDensity.standard,
-            textTheme:
-                GoogleFonts.interTextTheme(Theme.of(context).primaryTextTheme),
+            textTheme: kIsWeb
+                ? GoogleFonts.zenKakuGothicNewTextTheme(
+                    Theme.of(context).primaryTextTheme)
+                : GoogleFonts.interTextTheme(
+                    Theme.of(context).primaryTextTheme),
           ),
           themeMode: customTheme.currentAppTheme,
           locale: Locale('ja', 'JP'),
