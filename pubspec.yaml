@@ -15,7 +15,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.4+11
+version: 1.0.5+12
 
 environment:
   sdk: ">=2.17.6 <3.0.0"
@@ -76,7 +76,7 @@ dependencies:
   flutter_svg: ^1.1.5
   firebase_core_platform_interface: 4.5.1 # note removed ^
   firebase_messaging: ^13.0.4 # previously I only had this which was pulling in 4.5.2 which you do not want
-  # flutter_launcher_icons: ^0.10.0
+  flutter_launcher_icons: ^0.11.0
   flutter_markdown: ^0.6.13
   intl: ^0.17.0
   sign_in_with_apple: ^3.3.0
@@ -92,15 +92,17 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  flutter_launcher_icons: "^0.10.0"
+  # flutter_launcher_icons: "^0.10.0"
 
 flutter_icons:
   android: "launcher_icon"
+  image_path_android: "images/icon_android.png"
+  min_sdk_android: 210 # android min sdk min:16, default 21
   ios: true
-  image_path: "images/icon.png"
+  image_path_ios: "images/icon.png"
+  remove_alpha_ios: true
   adaptive_icon_background: "#333333"
   adaptive_icon_foreground: "images/icon.png"
-  min_sdk_android: 210 # android min sdk min:16, default 21
   web:
     generate: true
     image_path: "images/icon.png"
@@ -110,6 +112,9 @@ flutter_icons:
     generate: true
     image_path: "images/icon.png"
     icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "images/icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
