@@ -16,6 +16,8 @@
   <a href="https://thundercard-test.web.app/">
     <img height="83" alt="Web" src="https://user-images.githubusercontent.com/79978827/202837185-a93ef2f0-4e6c-4a3f-83c3-71f1093b0ea7.png">
   </a>
+  <br><br>
+  Google Play および Google Play ロゴは、Google LLC の商標です。
 </p>
 
 <!-- - [Google Play Store](https://play.google.com/store/apps/details?id=app.web.thundercard)
