@@ -44,9 +44,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>The camera may be accessed to capture your business cards.</string>
+	<string>QRコードスキャンおよび名刺撮影を有効にするには、カメラへのアクセスを許可する必要があります。</string>
+	<!-- <string>The camera may be accessed to capture your business cards.</string> -->
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>The photo library may be accessed in order to import your business cards.</string>
+	<string>名刺画像の選択およびファイルの共有を有効にするには、ライブラリへのアクセスを許可する必要があります。</string>
+	<!-- <string>The photo library may be accessed in order to import your business cards.</string> -->
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
