@@ -1,12 +1,28 @@
-# Thundercard
-
+<!-- h1 align="center">Thundercard</h1 -->
 <!-- <img src="https://user-images.githubusercontent.com/79978827/201389846-4e72c211-884e-4a65-85c5-95077eceeca8.png" alt="ThundercardIcon"> -->
-<img width="2560" alt="thumbnail" src="https://user-images.githubusercontent.com/79978827/202828236-809fb30e-9d46-46aa-87da-18882e1f35b1.png">
 
+<img width="2560" alt="Thundercard" src="https://user-images.githubusercontent.com/79978827/202828236-809fb30e-9d46-46aa-87da-18882e1f35b1.png">
 
-- [Google Play Store](https://play.google.com/store/apps/details?id=app.web.thundercard)
-- [App Store](https://apps.apple.com/jp/app/thundercard/id6444411283)
+<br>
+
+<a href='https://play.google.com/store/apps/details?id=app.web.thundercard'>
+  <img height='100' alt='Google Play で手に入れよう' src='https://user-images.githubusercontent.com/79978827/202829645-f94b905b-cbd1-489a-8d9d-fe4b0ff905e4.png'/>
+</a>
+<br><br>
+<a href="https://apps.apple.com/jp/app/thundercard/id6444411283">
+  <img height="83" alt="Download on the App Store" src="https://user-images.githubusercontent.com/79978827/202832969-1b5dbf42-5a30-4d20-90cd-3f362881c87a.svg">
+</a>
+
+<br><br>
+
 - [Web版](https://thundercard-test.web.app/)
+
+<!-- - [Google Play Store](https://play.google.com/store/apps/details?id=app.web.thundercard)
+- [App Store](https://apps.apple.com/jp/app/thundercard/id6444411283)
+- [Web版](https://thundercard-test.web.app/) -->
+
+<br><br>
+
 
 ## 未来の名刺，全く新しいSNS。
 
