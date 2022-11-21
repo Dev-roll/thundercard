@@ -284,16 +284,18 @@ class _UploadImagePageState extends State<UploadImagePage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ElevatedButton(
+                          ElevatedButton.icon(
+                            icon: const Icon(Icons.photo_camera_rounded),
                             onPressed: pickImageC,
                             onLongPress: null,
-                            child: const Text('写真を撮影'),
+                            label: const Text('写真を撮影'),
                           ),
                           const SizedBox(height: 16),
-                          ElevatedButton(
+                          ElevatedButton.icon(
+                            icon: const Icon(Icons.photo_rounded),
                             onPressed: pickImage,
                             onLongPress: null,
-                            child: const Text('画像を選択'),
+                            label: const Text('画像を選択'),
                           ),
                         ],
                       ),

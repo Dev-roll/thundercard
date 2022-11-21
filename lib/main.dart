@@ -52,7 +52,7 @@ class MyApp extends ConsumerWidget {
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Thundercard_app',
+          title: 'Thundercard',
           theme: ThemeData(
             useMaterial3: true,
             // fontFamily: '',
