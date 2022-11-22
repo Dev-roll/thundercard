@@ -99,7 +99,7 @@ flutter_icons:
   image_path_android: "images/icon_android.png"
   min_sdk_android: 210 # android min sdk min:16, default 21
   ios: true
-  image_path_ios: "images/icon.png"
+  image_path_ios: "images/icon_error.png"
   remove_alpha_ios: true
   adaptive_icon_background: "#333333"
   adaptive_icon_foreground: "images/icon_android.png"
