@@ -14,6 +14,7 @@ class Version extends StatelessWidget {
       body: const Padding(
         padding: EdgeInsets.fromLTRB(14.0, 0, 14.0, 0),
         child: Markdown(data: '''
+- 14(1.0.6) 2022/11/22 アカウント登録の不具合を修正
 - 13(1.0.5) 2022/11/20 App Store再リリース／アイコンを修正
 - 12(1.0.5) 2022/11/19 通知ページの表示を改善
 - 11(1.0.4) 2022/11/18 画面遷移／Singin with Googleの不具合を修正

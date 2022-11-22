@@ -288,86 +288,141 @@ class _AccountRegistrationState extends State<AccountRegistration> {
     super.initState();
   }
 
-  void registerCard() {
-    final values = controller.value.map(((e) {
-      return e.controller.text;
-    })).toList();
-    final keys = controller.value.map(((e) {
-      return e.selector;
-    })).toList();
-
-    var links = [];
-    for (var i = 0; i < keys.length; i++) {
-      links.add({
-        'key': keys[i],
-        'value': values[i],
-        'display': {
-          'extended': true,
-          'normal': true,
-        },
-      });
-    }
-    debugPrint('$links');
-
-    users
-        .doc(uid)
-        .set({
-          'my_cards': [_cardIdController.text]
-        })
-        .then((value) => debugPrint('User Added'))
-        .catchError((error) => debugPrint('Failed to add user: $error'));
-
-    final registerNotificationData = {
-      'title': '登録完了のお知らせ',
-      'content':
-          '${_nameController.text}(@${_cardIdController.text})さんのアカウント登録が完了しました',
-      'created_at': DateTime.now(),
-      'read': false,
-      'tags': ['news'],
-      'notification_id':
-          'account-registration-${_cardIdController.text}-${DateFormat('yyyy-MM-dd-Hm').format(DateTime.now())}',
-    };
-
+  registerCard() {
     FirebaseFirestore.instance
         .collection('cards')
-        .doc(_cardIdController.text)
-        .collection('notifications')
-        .add(registerNotificationData);
+        .where('card_id', isEqualTo: _cardIdController.text)
+        .get()
+        .then((snapshot) {
+      final data = snapshot.docs;
+      debugPrint('$data');
+      if (data.isNotEmpty) {
+        debugPrint(data[0]['card_id']);
+        setState(() {
+          registrationButtonPressed = false;
+        });
+        return ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            elevation: 20,
+            backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+            behavior: SnackBarBehavior.floating,
+            clipBehavior: Clip.antiAlias,
+            dismissDirection: DismissDirection.horizontal,
+            margin: EdgeInsets.only(
+              left: 8,
+              right: 8,
+              bottom: MediaQuery.of(context).size.height - 180,
+            ),
+            duration: const Duration(seconds: 3),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(28),
+            ),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
+                  child: Icon(Icons.error_rounded),
+                ),
+                Expanded(
+                  child: Text(
+                    'このユーザーIDはすでに存在しています。別のIDを入力してください。',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onBackground,
+                        overflow: TextOverflow.fade),
+                  ),
+                ),
+              ],
+            ),
+            // duration: const Duration(seconds: 12),
+            action: SnackBarAction(
+              label: 'OK',
+              onPressed: () {},
+            ),
+          ),
+        );
+      } else {
+        final values = controller.value.map(((e) {
+          return e.controller.text;
+        })).toList();
+        final keys = controller.value.map(((e) {
+          return e.selector;
+        })).toList();
 
-    cards.doc(_cardIdController.text).set({
-      'is_user': true,
-      'public': false,
-      'uid': uid,
-      'card_id': _cardIdController.text,
-      'exchanged_cards': [],
-      'account': {
-        'profiles': {
-          'name': _nameController.text,
-          'bio': {
-            'value': _bioController.text,
-            'display': {'extended': true, 'normal': true},
-          },
-          'company': {
-            'value': _companyController.text,
-            'display': {'extended': true, 'normal': true},
-          },
-          'position': {
-            'value': _positionController.text,
-            'display': {'extended': true, 'normal': true},
-          },
-          'address': {
-            'value': _addressController.text,
-            'display': {'extended': true, 'normal': true},
-          },
-        },
-        'links': links,
+        var links = [];
+        for (var i = 0; i < keys.length; i++) {
+          links.add({
+            'key': keys[i],
+            'value': values[i],
+            'display': {
+              'extended': true,
+              'normal': true,
+            },
+          });
+        }
+        debugPrint('$links');
+
+        users
+            .doc(uid)
+            .set({
+              'my_cards': [_cardIdController.text]
+            })
+            .then((value) => debugPrint('User Added'))
+            .catchError((error) => debugPrint('Failed to add user: $error'));
+
+        final registerNotificationData = {
+          'title': '登録完了のお知らせ',
+          'content':
+              '${_nameController.text}(@${_cardIdController.text})さんのアカウント登録が完了しました',
+          'created_at': DateTime.now(),
+          'read': false,
+          'tags': ['news'],
+          'notification_id':
+              'account-registration-${_cardIdController.text}-${DateFormat('yyyy-MM-dd-Hm').format(DateTime.now())}',
+        };
+
+        FirebaseFirestore.instance
+            .collection('cards')
+            .doc(_cardIdController.text)
+            .collection('notifications')
+            .add(registerNotificationData);
+
+        cards.doc(_cardIdController.text).set({
+          'is_user': true,
+          'public': false,
+          'uid': uid,
+          'card_id': _cardIdController.text,
+          'exchanged_cards': [],
+          'account': {
+            'profiles': {
+              'name': _nameController.text,
+              'bio': {
+                'value': _bioController.text,
+                'display': {'extended': true, 'normal': true},
+              },
+              'company': {
+                'value': _companyController.text,
+                'display': {'extended': true, 'normal': true},
+              },
+              'position': {
+                'value': _positionController.text,
+                'display': {'extended': true, 'normal': true},
+              },
+              'address': {
+                'value': _addressController.text,
+                'display': {'extended': true, 'normal': true},
+              },
+            },
+            'links': links,
+          }
+        }).then((value) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => AuthGate()),
+          );
+          debugPrint('Card Registered');
+        }).catchError((error) => debugPrint('カードの登録に失敗しました: $error'));
       }
-    }).then((value) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => AuthGate()),
-      );
-      debugPrint('Card Registered');
-    }).catchError((error) => debugPrint('カードの登録に失敗しました: $error'));
+    });
   }
 
   @override
