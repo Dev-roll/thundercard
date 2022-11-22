@@ -10,7 +10,7 @@
     <img height="83" alt="Google Play で手に入れよう" src="https://user-images.githubusercontent.com/79978827/202835768-d29ed02e-2415-4dbf-9cbd-d2644f607239.png"/>
   </a>
   <br><br>
-  <a href="https://apps.apple.com/jp/app/thundercard/id6444411283">
+  <a href="https://apps.apple.com/us/app/thundercard/id6444392874">
     <img height="83" alt="Download on the App Store" src="https://user-images.githubusercontent.com/79978827/202835640-2b81b246-1f03-49fa-b643-ca6dcc53ebe3.png">
   <br><br>
   <a href="https://thundercard-test.web.app/">
@@ -19,10 +19,6 @@
   <br><br>
   Google Play および Google Play ロゴは、Google LLC の商標です。
 </p>
-
-<!-- - [Google Play Store](https://play.google.com/store/apps/details?id=app.web.thundercard)
-- [App Store](https://apps.apple.com/jp/app/thundercard/id6444411283)
-- [Web版](https://thundercard-test.web.app/) -->
 
 <br><br>
 
