@@ -281,6 +281,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   late ReorderableMultiTextFieldController controller;
   var registrationButtonPressed = false;
+  var forbiddenId = '';
 
   @override
   void initState() {
@@ -301,6 +302,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
         setState(() {
           registrationButtonPressed = false;
         });
+        forbiddenId = _cardIdController.text;
         return ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             elevation: 20,
@@ -308,25 +310,28 @@ class _AccountRegistrationState extends State<AccountRegistration> {
             behavior: SnackBarBehavior.floating,
             clipBehavior: Clip.antiAlias,
             dismissDirection: DismissDirection.horizontal,
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
               left: 8,
               right: 8,
-              bottom: MediaQuery.of(context).size.height - 180,
+              bottom: 24,
             ),
-            duration: const Duration(seconds: 3),
+            duration: const Duration(seconds: 5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(28),
             ),
             content: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
-                  child: Icon(Icons.error_rounded),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                  child: Icon(
+                    Icons.error_rounded,
+                    color: Theme.of(context).colorScheme.error,
+                  ),
                 ),
                 Expanded(
                   child: Text(
-                    'このユーザーIDはすでに存在しています。別のIDを入力してください。',
+                    'ユーザーIDはすでに存在しています。別のIDを入力してください。',
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.onBackground,
                         overflow: TextOverflow.fade),
@@ -483,7 +488,11 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                       maxLength: 20,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
-                        return value!.isEmpty ? '必須' : null;
+                        return value!.isEmpty
+                            ? '必須'
+                            : value == forbiddenId
+                                ? '@$forbiddenId はすでに存在しています'
+                                : null;
                       },
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(
