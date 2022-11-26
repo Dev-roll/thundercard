@@ -31,7 +31,11 @@ class MyCardDetails extends StatelessWidget {
                       maxHeight: MediaQuery.of(context).size.height - 100,
                     ),
                     child: FittedBox(
-                      child: MyCard(cardId: cardId, cardType: CardType.large),
+                      child: MyCard(
+                        cardId: cardId,
+                        cardType: CardType.large,
+                        pd: 100,
+                      ),
                     ),
                   ),
                 ),
