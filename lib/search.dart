@@ -88,92 +88,102 @@ class _SearchState extends State<Search> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 40),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      height: 52,
-                      margin: const EdgeInsets.fromLTRB(24, 16, 24, 8),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surfaceVariant,
-                        borderRadius: BorderRadius.circular(30),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxWidth: 720,
                       ),
-                      child: GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () {
-                          // Navigator.of(context).push(
-                          //   MaterialPageRoute(
-                          //     builder: (context) =>
-                          //         Search(exchangedCardIds: exchangedCards),
-                          //   ),
-                          // );
-                        },
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Container(
-                                padding:
-                                    const EdgeInsets.fromLTRB(20, 12, 0, 12),
-                                child: Icon(
-                                  Icons.arrow_back_rounded,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurfaceVariant,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            Expanded(
-                              child: Container(
-                                margin: const EdgeInsets.only(right: 16),
-                                child: TextField(
-                                  autofocus: true,
-                                  maxLength: 128,
-                                  decoration: const InputDecoration(
-                                    hintText: 'カードを検索',
-                                    filled: true,
-                                    fillColor: Colors.transparent,
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 0,
-                                      ),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.transparent,
-                                        width: 0,
-                                      ),
-                                    ),
-                                    counterText: '',
+                      child: Container(
+                        height: 52,
+                        margin: const EdgeInsets.fromLTRB(24, 16, 24, 8),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surfaceVariant,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            // Navigator.of(context).push(
+                            //   MaterialPageRoute(
+                            //     builder: (context) =>
+                            //         Search(exchangedCardIds: exchangedCards),
+                            //   ),
+                            // );
+                          },
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Container(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(20, 12, 0, 12),
+                                  child: Icon(
+                                    Icons.arrow_back_rounded,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
                                   ),
-                                  onChanged: ((value) {
-                                    delayedSearch(value, cardsToSearch);
-                                  }),
                                 ),
                               ),
-                            ),
-                          ],
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 16),
+                                  child: TextField(
+                                    autofocus: true,
+                                    maxLength: 128,
+                                    decoration: const InputDecoration(
+                                      hintText: 'カードを検索',
+                                      filled: true,
+                                      fillColor: Colors.transparent,
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.transparent,
+                                          width: 0,
+                                        ),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Colors.transparent,
+                                          width: 0,
+                                        ),
+                                      ),
+                                      counterText: '',
+                                    ),
+                                    onChanged: ((value) {
+                                      delayedSearch(value, cardsToSearch);
+                                    }),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        const Text('検索結果'),
-                        const SizedBox(
-                          width: 16,
-                        ),
-                        Text('$searchedCardsLength件'),
-                      ],
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxWidth: 680,
+                      ),
+                      child: Row(
+                        children: [
+                          const SizedBox(
+                            width: 32,
+                          ),
+                          const Text('検索結果'),
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          Text('$searchedCardsLength件'),
+                        ],
+                      ),
                     ),
                     (searchedCardsLength != 0)
                         ? ListView.builder(
