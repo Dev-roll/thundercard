@@ -62,7 +62,7 @@ class NotFoundCard extends StatelessWidget {
                           .colorScheme
                           .onBackground
                           .withOpacity(0.5),
-                      fontSize: 14,
+                      fontSize: 3.6 * vw,
                     ),
                   ),
                 ),
