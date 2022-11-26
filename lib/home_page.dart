@@ -144,20 +144,35 @@ class _HomePageState extends State<HomePage> {
                             //   decoration: BoxDecoration(color: Colors.lightBlue),
                             //   child: Text('Test App'),
                             // ),
-                            ListTile(
-                              leading: const SizedBox(
-                                width: 32,
-                                child: FittedBox(child: Avatar()),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 12),
+                              child: ListTile(
+                                leading: const SizedBox(
+                                  width: 32,
+                                  child: FittedBox(child: Avatar()),
+                                ),
+                                title: const Text('username'),
+                                selected: true,
+                                selectedTileColor: Theme.of(context)
+                                    .colorScheme
+                                    .primary
+                                    .withOpacity(0.1),
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(40),
+                                    bottomRight: Radius.circular(40),
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
                               ),
-                              title: const Text('username'),
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
                             ),
                             const Spacer(),
                             ListTile(
                               leading: const Icon(Icons.description_outlined),
                               title: const Text('Thundercardについて'),
+                              dense: true,
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(builder: (context) {
@@ -169,6 +184,7 @@ class _HomePageState extends State<HomePage> {
                             ListTile(
                               leading: const Icon(Icons.people_alt_outlined),
                               title: const Text('開発者'),
+                              dense: true,
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(builder: (context) {
@@ -180,6 +196,7 @@ class _HomePageState extends State<HomePage> {
                             ListTile(
                               leading: const Icon(Icons.policy_outlined),
                               title: const Text('プライバシーポリシー'),
+                              dense: true,
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(builder: (context) {
@@ -191,6 +208,7 @@ class _HomePageState extends State<HomePage> {
                             ListTile(
                               leading: const Icon(Icons.gavel_rounded),
                               title: const Text('利用規約'),
+                              dense: true,
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(builder: (context) {
@@ -202,6 +220,7 @@ class _HomePageState extends State<HomePage> {
                             ListTile(
                               leading: const Icon(Icons.history_outlined),
                               title: const Text('バージョン情報'),
+                              dense: true,
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(builder: (context) {
