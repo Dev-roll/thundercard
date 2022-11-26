@@ -192,8 +192,9 @@ class Account extends ConsumerWidget {
                         behavior: HitTestBehavior.opaque,
                         onTap: () async {
                           Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) => HomePage(index: 3),
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) => HomePage(index: 3),
+                              transitionDuration: Duration(seconds: 0),
                             ),
                           );
                           await showDialog(
@@ -357,8 +358,9 @@ class Account extends ConsumerWidget {
                         behavior: HitTestBehavior.opaque,
                         onTap: () async {
                           Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) => HomePage(index: 3),
+                            PageRouteBuilder(
+                              pageBuilder: (_, __, ___) => HomePage(index: 3),
+                              transitionDuration: Duration(seconds: 0),
                             ),
                           );
                           await showDialog(
@@ -393,50 +395,50 @@ class Account extends ConsumerWidget {
                                             .withOpacity(0.7),
                                       ),
                                     ),
-                                    Container(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          16, 8, 16, 8),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Flexible(
-                                                child: Container(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                    0,
-                                                    0,
-                                                    4,
-                                                    0,
-                                                  ),
-                                                  child: const FittedBox(
-                                                    child: MyCard(
-                                                      cardId: 'Light',
-                                                      cardType:
-                                                          CardType.preview,
-                                                      light: true,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Flexible(
-                                                child: Container(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          4, 0, 0, 0),
-                                                  child: const FittedBox(
-                                                    child: MyCard(
-                                                      cardId: 'Dark',
-                                                      cardType:
-                                                          CardType.preview,
-                                                      light: false,
-                                                    ),
+                                    ConstrainedBox(
+                                      constraints: BoxConstraints(
+                                        maxWidth: 400,
+                                      ),
+                                      child: Container(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            16, 8, 16, 8),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Flexible(
+                                              fit: FlexFit.tight,
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 0, 4, 0),
+                                                child: const FittedBox(
+                                                  child: MyCard(
+                                                    cardId: 'Light',
+                                                    cardType: CardType.preview,
+                                                    light: true,
                                                   ),
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                        ],
+                                            ),
+                                            Flexible(
+                                              fit: FlexFit.tight,
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        4, 0, 0, 0),
+                                                child: const FittedBox(
+                                                  child: MyCard(
+                                                    cardId: 'Dark',
+                                                    cardType: CardType.preview,
+                                                    light: false,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     Divider(
@@ -449,97 +451,105 @@ class Account extends ConsumerWidget {
                                           .outline
                                           .withOpacity(0.5),
                                     ),
-                                    RadioListTile(
-                                      title: const Text('オリジナル'),
-                                      subtitle: Text(
-                                        'カードのテーマを変更せずに表示',
-                                        style: TextStyle(
-                                          height: 1.6,
-                                          fontSize: 12,
-                                          color: Theme.of(context)
+                                    Column(
+                                      children: [
+                                        RadioListTile(
+                                          title: const Text('オリジナル'),
+                                          subtitle: Text(
+                                            'カードのテーマを変更せずに表示',
+                                            style: TextStyle(
+                                              height: 1.6,
+                                              fontSize: 12,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurfaceVariant
+                                                  .withOpacity(0.7),
+                                            ),
+                                          ),
+                                          activeColor: Theme.of(context)
                                               .colorScheme
-                                              .onSurfaceVariant
-                                              .withOpacity(0.7),
+                                              .primary,
+                                          value: 0,
+                                          groupValue: customTheme
+                                              .currentDisplayCardThemeIdx,
+                                          onChanged: (value) {
+                                            customTheme
+                                                .cardThemeChange(value as int);
+                                          },
                                         ),
-                                      ),
-                                      activeColor:
-                                          Theme.of(context).colorScheme.primary,
-                                      value: 0,
-                                      groupValue: customTheme
-                                          .currentDisplayCardThemeIdx,
-                                      onChanged: (value) {
-                                        customTheme
-                                            .cardThemeChange(value as int);
-                                      },
-                                    ),
-                                    RadioListTile(
-                                      title: const Text('自動切り替え'),
-                                      subtitle: Text(
-                                        'アプリと同じテーマでカードを表示',
-                                        style: TextStyle(
-                                          height: 1.6,
-                                          fontSize: 12,
-                                          color: Theme.of(context)
+                                        RadioListTile(
+                                          title: const Text('自動切り替え'),
+                                          subtitle: Text(
+                                            'アプリと同じテーマでカードを表示',
+                                            style: TextStyle(
+                                              height: 1.6,
+                                              fontSize: 12,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurfaceVariant
+                                                  .withOpacity(0.7),
+                                            ),
+                                          ),
+                                          activeColor: Theme.of(context)
                                               .colorScheme
-                                              .onSurfaceVariant
-                                              .withOpacity(0.7),
+                                              .primary,
+                                          value: 1,
+                                          groupValue: customTheme
+                                              .currentDisplayCardThemeIdx,
+                                          onChanged: (value) {
+                                            customTheme
+                                                .cardThemeChange(value as int);
+                                          },
                                         ),
-                                      ),
-                                      activeColor:
-                                          Theme.of(context).colorScheme.primary,
-                                      value: 1,
-                                      groupValue: customTheme
-                                          .currentDisplayCardThemeIdx,
-                                      onChanged: (value) {
-                                        customTheme
-                                            .cardThemeChange(value as int);
-                                      },
-                                    ),
-                                    RadioListTile(
-                                      title: const Text('ダークモード'),
-                                      subtitle: Text(
-                                        'カードをダークモードで表示',
-                                        style: TextStyle(
-                                          height: 1.6,
-                                          fontSize: 12,
-                                          color: Theme.of(context)
+                                        RadioListTile(
+                                          title: const Text('ダークモード'),
+                                          subtitle: Text(
+                                            'カードをダークモードで表示',
+                                            style: TextStyle(
+                                              height: 1.6,
+                                              fontSize: 12,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurfaceVariant
+                                                  .withOpacity(0.7),
+                                            ),
+                                          ),
+                                          activeColor: Theme.of(context)
                                               .colorScheme
-                                              .onSurfaceVariant
-                                              .withOpacity(0.7),
+                                              .primary,
+                                          value: 2,
+                                          groupValue: customTheme
+                                              .currentDisplayCardThemeIdx,
+                                          onChanged: (value) {
+                                            customTheme
+                                                .cardThemeChange(value as int);
+                                          },
                                         ),
-                                      ),
-                                      activeColor:
-                                          Theme.of(context).colorScheme.primary,
-                                      value: 2,
-                                      groupValue: customTheme
-                                          .currentDisplayCardThemeIdx,
-                                      onChanged: (value) {
-                                        customTheme
-                                            .cardThemeChange(value as int);
-                                      },
-                                    ),
-                                    RadioListTile(
-                                      title: const Text('ライトモード'),
-                                      subtitle: Text(
-                                        'カードをライトモードで表示',
-                                        style: TextStyle(
-                                          height: 1.6,
-                                          fontSize: 12,
-                                          color: Theme.of(context)
+                                        RadioListTile(
+                                          title: const Text('ライトモード'),
+                                          subtitle: Text(
+                                            'カードをライトモードで表示',
+                                            style: TextStyle(
+                                              height: 1.6,
+                                              fontSize: 12,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurfaceVariant
+                                                  .withOpacity(0.7),
+                                            ),
+                                          ),
+                                          activeColor: Theme.of(context)
                                               .colorScheme
-                                              .onSurfaceVariant
-                                              .withOpacity(0.7),
+                                              .primary,
+                                          value: 3,
+                                          groupValue: customTheme
+                                              .currentDisplayCardThemeIdx,
+                                          onChanged: (value) {
+                                            customTheme
+                                                .cardThemeChange(value as int);
+                                          },
                                         ),
-                                      ),
-                                      activeColor:
-                                          Theme.of(context).colorScheme.primary,
-                                      value: 3,
-                                      groupValue: customTheme
-                                          .currentDisplayCardThemeIdx,
-                                      onChanged: (value) {
-                                        customTheme
-                                            .cardThemeChange(value as int);
-                                      },
+                                      ],
                                     ),
                                     Divider(
                                       height: 16,
