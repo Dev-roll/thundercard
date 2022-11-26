@@ -186,11 +186,18 @@ class _ThundercardState extends State<Thundercard> {
                                       ),
                                     );
                                   },
-                                  child: RepaintBoundary(
-                                    key: _globalKey,
-                                    child: MyCard(
-                                      cardId: myCardId,
-                                      cardType: CardType.normal,
+                                  child: ConstrainedBox(
+                                    constraints: const BoxConstraints(
+                                      maxHeight: 400,
+                                    ),
+                                    child: FittedBox(
+                                      child: RepaintBoundary(
+                                        key: _globalKey,
+                                        child: MyCard(
+                                          cardId: myCardId,
+                                          cardType: CardType.normal,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),

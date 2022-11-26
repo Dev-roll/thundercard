@@ -199,9 +199,17 @@ class _SearchState extends State<Search> {
                                         ),
                                       );
                                     },
-                                    child: MyCard(
-                                        cardId: searchedCards[index]['cardId'],
-                                        cardType: CardType.normal),
+                                    child: ConstrainedBox(
+                                      constraints: const BoxConstraints(
+                                        maxHeight: 400,
+                                      ),
+                                      child: FittedBox(
+                                        child: MyCard(
+                                            cardId: searchedCards[index]
+                                                ['cardId'],
+                                            cardType: CardType.normal),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               );

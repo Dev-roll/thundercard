@@ -195,10 +195,18 @@ class _ListState extends State<List> {
                                                   ),
                                                 ));
                                               },
-                                              child: MyCard(
-                                                cardId:
-                                                    exchangedCards[index - 1],
-                                                cardType: CardType.normal,
+                                              child: ConstrainedBox(
+                                                constraints:
+                                                    const BoxConstraints(
+                                                  maxHeight: 400,
+                                                ),
+                                                child: FittedBox(
+                                                  child: MyCard(
+                                                    cardId: exchangedCards[
+                                                        index - 1],
+                                                    cardType: CardType.normal,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                             const SizedBox(height: 24),
