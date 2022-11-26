@@ -842,8 +842,8 @@ class Account extends ConsumerWidget {
                           TextButton(
                             onPressed: () async {
                               final data = {
-                                "uid": uid,
-                                "createdAt": Timestamp.now(),
+                                'uid': uid,
+                                'createdAt': Timestamp.now(),
                               };
                               await FirebaseFirestore.instance
                                   .collection('deleted_users')
@@ -855,7 +855,7 @@ class Account extends ConsumerWidget {
                                       builder: (context) => AuthGate()),
                                 );
                               }).catchError((e) =>
-                                      debugPrint("Failed to add user: $e"));
+                                      debugPrint('Failed to add user: $e'));
                             },
                             onLongPress: null,
                             child: Text(
