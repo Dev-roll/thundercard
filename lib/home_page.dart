@@ -127,83 +127,98 @@ class _HomePageState extends State<HomePage> {
               endIndent: 0,
               color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
             ),
-            const SizedBox(
-              height: 16,
-            ),
-            // DrawerHeader(
-            //   decoration: BoxDecoration(color: Colors.lightBlue),
-            //   child: Text('Test App'),
-            // ),
             Expanded(
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: const SizedBox(
-                        width: 32, child: FittedBox(child: Avatar())),
-                    title: const Text('username'),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
+              child: LayoutBuilder(
+                builder: (context, constrains) {
+                  return SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints:
+                          BoxConstraints(minHeight: constrains.maxHeight),
+                      child: IntrinsicHeight(
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            // DrawerHeader(
+                            //   decoration: BoxDecoration(color: Colors.lightBlue),
+                            //   child: Text('Test App'),
+                            // ),
+                            ListTile(
+                              leading: const SizedBox(
+                                width: 32,
+                                child: FittedBox(child: Avatar()),
+                              ),
+                              title: const Text('username'),
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            const Spacer(),
+                            ListTile(
+                              leading: const Icon(Icons.description_outlined),
+                              title: const Text('Thundercardについて'),
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) {
+                                    return const AboutApp();
+                                  }),
+                                );
+                              },
+                            ),
+                            ListTile(
+                              leading: const Icon(Icons.people_alt_outlined),
+                              title: const Text('開発者'),
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) {
+                                    return const Authors();
+                                  }),
+                                );
+                              },
+                            ),
+                            ListTile(
+                              leading: const Icon(Icons.policy_outlined),
+                              title: const Text('プライバシーポリシー'),
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) {
+                                    return const PrivacyPolicy();
+                                  }),
+                                );
+                              },
+                            ),
+                            ListTile(
+                              leading: const Icon(Icons.gavel_rounded),
+                              title: const Text('利用規約'),
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) {
+                                    return const TermsOfUse();
+                                  }),
+                                );
+                              },
+                            ),
+                            ListTile(
+                              leading: const Icon(Icons.history_outlined),
+                              title: const Text('バージョン情報'),
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) {
+                                    return const Version();
+                                  }),
+                                );
+                              },
+                            ),
+                            const SizedBox(height: 16),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
-            ListTile(
-              leading: const Icon(Icons.description_outlined),
-              title: const Text('Thundercardについて'),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) {
-                    return const AboutApp();
-                  }),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.people_alt_outlined),
-              title: const Text('開発者'),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) {
-                    return const Authors();
-                  }),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.policy_outlined),
-              title: const Text('プライバシーポリシー'),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) {
-                    return const PrivacyPolicy();
-                  }),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.gavel_rounded),
-              title: const Text('利用規約'),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) {
-                    return const TermsOfUse();
-                  }),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.history_outlined),
-              title: const Text('バージョン情報'),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) {
-                    return const Version();
-                  }),
-                );
-              },
-            ),
-            const SizedBox(height: 16),
           ],
         ),
       ),
