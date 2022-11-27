@@ -6,14 +6,8 @@ class AboutApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Thundercardについて'),
-        backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-      ),
-      body: const Padding(
-        padding: EdgeInsets.fromLTRB(14.0, 0, 14.0, 0),
-        child: Markdown(data: '''
+    return const Markdown(
+        shrinkWrap: true, physics: NeverScrollableScrollPhysics(), data: '''
 ## 未来の名刺，全く新しいSNS。
 
 Thundercardは名刺をヒントに開発された全く新しいSNSです。
@@ -63,8 +57,6 @@ ThundercardはGoogleが提唱するデザインシステム Material Design 3 �
 Material Design 3 のカラーシステムを採用したため、色弱の方も含めて、ボタンや文字をはっきりと認識することができます。
 ダークモードにも対応しています。
 
-'''),
-      ),
-    );
+''');
   }
 }

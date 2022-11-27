@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:thundercard/md_page.dart';
 import 'package:thundercard/widgets/about_app.dart';
 import 'package:thundercard/widgets/avatar.dart';
 import 'package:thundercard/widgets/terms_of_use.dart';
@@ -204,7 +205,10 @@ class _HomePageState extends State<HomePage> {
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(builder: (context) {
-                                    return const AboutApp();
+                                    return const MdPage(
+                                      title: Text('Thundercardについて'),
+                                      content: AboutApp(),
+                                    );
                                   }),
                                 );
                               },
@@ -219,7 +223,10 @@ class _HomePageState extends State<HomePage> {
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(builder: (context) {
-                                    return const Authors();
+                                    return const MdPage(
+                                      title: Text('開発者'),
+                                      content: Authors(),
+                                    );
                                   }),
                                 );
                               },
@@ -234,7 +241,10 @@ class _HomePageState extends State<HomePage> {
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(builder: (context) {
-                                    return const PrivacyPolicy();
+                                    return const MdPage(
+                                      title: Text('プライバシーポリシー'),
+                                      content: PrivacyPolicy(),
+                                    );
                                   }),
                                 );
                               },
@@ -249,7 +259,10 @@ class _HomePageState extends State<HomePage> {
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(builder: (context) {
-                                    return const TermsOfUse();
+                                    return const MdPage(
+                                      title: Text('利用規約'),
+                                      content: TermsOfUse(),
+                                    );
                                   }),
                                 );
                               },
@@ -264,7 +277,10 @@ class _HomePageState extends State<HomePage> {
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(builder: (context) {
-                                    return const Version();
+                                    return const MdPage(
+                                      title: Text('バージョン情報'),
+                                      content: Version(),
+                                    );
                                   }),
                                 );
                               },
