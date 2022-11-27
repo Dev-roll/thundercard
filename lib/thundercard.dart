@@ -30,7 +30,7 @@ class Thundercard extends StatefulWidget {
 class _ThundercardState extends State<Thundercard> {
   final String? uid = getUid();
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-  final GlobalKey _globalKey = GlobalKey();
+  final GlobalKey _myCardKey = GlobalKey();
   var myCardId = '';
 
   @override
@@ -204,7 +204,7 @@ class _ThundercardState extends State<Thundercard> {
                                         ),
                                         child: FittedBox(
                                           child: RepaintBoundary(
-                                            key: _globalKey,
+                                            key: _myCardKey,
                                             child: MyCard(
                                               cardId: myCardId,
                                               cardType: CardType.normal,
@@ -232,7 +232,7 @@ class _ThundercardState extends State<Thundercard> {
                                               onPressed: () async {
                                                 final bytes =
                                                     await exportToImage(
-                                                        _globalKey);
+                                                        _myCardKey);
                                                 //byte data→Uint8List
                                                 final widgetImageBytes =
                                                     bytes?.buffer.asUint8List(
@@ -269,7 +269,7 @@ class _ThundercardState extends State<Thundercard> {
                                             child: IconButton(
                                               onPressed: () {
                                                 //byte data→Uint8List
-                                                exportToImage(_globalKey)
+                                                exportToImage(_myCardKey)
                                                     .then(
                                                       (bytes) => bytes?.buffer
                                                           .asUint8List(

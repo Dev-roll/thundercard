@@ -45,7 +45,8 @@ class Account extends ConsumerWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Expanded(
+        child: SizedBox(
+          width: double.infinity,
           child: SingleChildScrollView(
             child: Center(
               child: ConstrainedBox(
