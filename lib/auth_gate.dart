@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lottie/lottie.dart';
 import 'package:thundercard/sign_in.dart';
 
 import 'api/current_brightness.dart';
 import 'api/current_brightness_reverse.dart';
-import 'widgets/custom_progress_indicator.dart';
 import 'account_registration.dart';
 import 'home_page.dart';
 
@@ -47,9 +47,9 @@ class AuthGate extends StatelessWidget {
                 index: 0,
               );
             }
-            return const Scaffold(
+            return Scaffold(
               body: Center(
-                child: CustomProgressIndicator(),
+                child: Lottie.asset('images/json/launch.json'),
               ),
             );
           },
