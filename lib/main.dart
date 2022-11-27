@@ -59,7 +59,10 @@ class MyApp extends ConsumerWidget {
             colorSchemeSeed: lightDynamic?.harmonized().primary ?? seedColor,
             brightness: Brightness.light,
             visualDensity: VisualDensity.standard,
-            textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme),
+            textTheme: kIsWeb
+                ? GoogleFonts.zenKakuGothicNewTextTheme(
+                    Theme.of(context).textTheme)
+                : GoogleFonts.interTextTheme(Theme.of(context).textTheme),
           ),
           darkTheme: ThemeData(
             useMaterial3: true,
