@@ -61,9 +61,8 @@ class MyApp extends ConsumerWidget {
             visualDensity: VisualDensity.standard,
             textTheme: kIsWeb
                 ? GoogleFonts.zenKakuGothicNewTextTheme(
-                    Theme.of(context).primaryTextTheme)
-                : GoogleFonts.interTextTheme(
-                    Theme.of(context).primaryTextTheme),
+                    Theme.of(context).textTheme)
+                : GoogleFonts.interTextTheme(Theme.of(context).textTheme),
           ),
           darkTheme: ThemeData(
             useMaterial3: true,

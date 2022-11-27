@@ -538,8 +538,8 @@ class _SignUpState extends State<SignUp> {
                     const SizedBox(
                       height: 40,
                     ),
-                    RichText(
-                      text: TextSpan(
+                    Text.rich(
+                      TextSpan(
                         style: const TextStyle(height: 1.6),
                         children: [
                           TextSpan(

@@ -458,8 +458,8 @@ class _SignInState extends State<SignIn> {
                     const SizedBox(
                       height: 40,
                     ),
-                    RichText(
-                      text: TextSpan(
+                    Text.rich(
+                      TextSpan(
                         style: const TextStyle(height: 1.6),
                         children: [
                           TextSpan(
