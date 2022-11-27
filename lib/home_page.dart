@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:thundercard/md_page.dart';
-import 'package:thundercard/widgets/about_app.dart';
+import 'package:thundercard/widgets/md/about_app.dart';
 import 'package:thundercard/widgets/avatar.dart';
-import 'package:thundercard/widgets/terms_of_use.dart';
-import 'package:thundercard/widgets/version.dart';
+import 'package:thundercard/widgets/md/terms_of_use.dart';
+import 'package:thundercard/widgets/md/version.dart';
 
 import 'api/firebase_auth.dart';
 import 'api/colors.dart';
@@ -15,8 +15,8 @@ import 'account.dart';
 import 'list.dart';
 import 'notifications.dart';
 import 'thundercard.dart';
-import 'widgets/authors.dart';
-import 'widgets/privacy_policy.dart';
+import 'widgets/md/authors.dart';
+import 'widgets/md/privacy_policy.dart';
 
 final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
 
@@ -213,7 +213,7 @@ class _HomePageState extends State<HomePage> {
                                   MaterialPageRoute(builder: (context) {
                                     return const MdPage(
                                       title: Text('Thundercardについて'),
-                                      content: AboutApp(),
+                                      data: aboutAppData,
                                     );
                                   }),
                                 );
@@ -237,7 +237,7 @@ class _HomePageState extends State<HomePage> {
                                   MaterialPageRoute(builder: (context) {
                                     return const MdPage(
                                       title: Text('開発者'),
-                                      content: Authors(),
+                                      data: authorsData,
                                     );
                                   }),
                                 );
@@ -261,7 +261,7 @@ class _HomePageState extends State<HomePage> {
                                   MaterialPageRoute(builder: (context) {
                                     return const MdPage(
                                       title: Text('プライバシーポリシー'),
-                                      content: PrivacyPolicy(),
+                                      data: privacyPolicyData,
                                     );
                                   }),
                                 );
@@ -285,7 +285,7 @@ class _HomePageState extends State<HomePage> {
                                   MaterialPageRoute(builder: (context) {
                                     return const MdPage(
                                       title: Text('利用規約'),
-                                      content: TermsOfUse(),
+                                      data: termsOfUseData,
                                     );
                                   }),
                                 );
@@ -309,7 +309,7 @@ class _HomePageState extends State<HomePage> {
                                   MaterialPageRoute(builder: (context) {
                                     return const MdPage(
                                       title: Text('バージョン情報'),
-                                      content: Version(),
+                                      data: versionData,
                                     );
                                   }),
                                 );

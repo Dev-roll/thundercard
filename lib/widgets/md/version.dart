@@ -1,13 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-
-class Version extends StatelessWidget {
-  const Version({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Markdown(
-        shrinkWrap: true, physics: NeverScrollableScrollPhysics(), data: '''
+const String versionData = '''
 - 16(1.0.8) 2022/11/27 レスポンシブ対応
 - 15(1.0.7) 2022/11/23 SnackBarの不具合を修正
 - 14(1.0.6) 2022/11/22 アカウント登録の不具合を修正
@@ -21,6 +12,4 @@ class Version extends StatelessWidget {
 - 6(1.0.1) 2022/11/09 交換に関する不具合を修正
 - 5(1.0.0) 2022/11/08 Google Playリリース
 - 4(1.0.0) 2022/11/07 Google Play提出
-''');
-  }
-}
+''';
