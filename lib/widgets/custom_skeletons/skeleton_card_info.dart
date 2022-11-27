@@ -17,8 +17,8 @@ class SkeletonCardInfo extends StatelessWidget {
                 Align(
                   alignment: const Alignment(0, 0),
                   child: Container(
-                    width: 16 * vw,
-                    height: 16 * vw,
+                    width: 68,
+                    height: 68,
                     decoration: BoxDecoration(
                       color: Theme.of(context)
                           .colorScheme

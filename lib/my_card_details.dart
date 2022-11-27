@@ -26,7 +26,18 @@ class MyCardDetails extends StatelessWidget {
               Align(
                 alignment: Alignment.center,
                 child: SingleChildScrollView(
-                  child: MyCard(cardId: cardId, cardType: CardType.large),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height - 100,
+                    ),
+                    child: FittedBox(
+                      child: MyCard(
+                        cardId: cardId,
+                        cardType: CardType.large,
+                        pd: 100,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],

@@ -180,54 +180,69 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(14.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.fromLTRB(6, 16, 6, 6),
-                  child: Text(
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      fontSize: 20,
-                      height: 1.4,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    widget.title,
-                  ),
+        child: Expanded(
+          child: SingleChildScrollView(
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: 800,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      displayDateTime,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        height: 2,
+                child: Padding(
+                  padding: const EdgeInsets.all(14.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(6, 16, 6, 6),
+                        child: Text(
+                          widget.title,
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                            fontSize: 20,
+                            height: 1.4,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 12)
-                  ],
-                ),
-                Divider(
-                  height: 24,
-                  thickness: 1,
-                  indent: 0,
-                  endIndent: 0,
-                  color: Theme.of(context).colorScheme.outline.withOpacity(0.5),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(8, 4, 8, 20),
-                  child: Text(
-                    widget.content,
-                    style: const TextStyle(
-                      height: 1.8,
-                    ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            displayDateTime,
+                            style: TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant,
+                              height: 2,
+                            ),
+                          ),
+                          const SizedBox(width: 12)
+                        ],
+                      ),
+                      Divider(
+                        height: 24,
+                        thickness: 1,
+                        indent: 0,
+                        endIndent: 0,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .outline
+                            .withOpacity(0.5),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(8, 4, 8, 20),
+                        child: Text(
+                          widget.content,
+                          style: const TextStyle(
+                            height: 1.8,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ),

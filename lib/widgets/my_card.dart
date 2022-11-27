@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thundercard/api/return_original_color.dart';
+import 'package:thundercard/widgets/custom_skeletons/skeleton_card_large.dart';
 import 'package:thundercard/widgets/not_found_card.dart';
 import 'package:thundercard/widgets/preview_card.dart';
 import 'package:thundercard/widgets/custom_skeletons/skeleton_card.dart';
@@ -21,12 +22,14 @@ class MyCard extends ConsumerWidget {
     required this.cardType,
     this.light = true,
     this.exchange = false,
+    this.pd = 200,
   }) : super(key: key);
 
   final String cardId;
   final CardType cardType;
   final bool light;
   final bool exchange;
+  final double pd;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -67,6 +70,11 @@ class MyCard extends ConsumerWidget {
               return const Text('問題が発生しました');
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
+              if (cardType == CardType.large) {
+                return SkeletonCardLarge(
+                  pd: pd,
+                );
+              }
               return const SkeletonCard();
             }
 

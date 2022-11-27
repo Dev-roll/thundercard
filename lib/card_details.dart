@@ -178,9 +178,17 @@ class _CardDetailsState extends State<CardDetails> {
                   widget.card['is_user']
                       ? Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child: MyCard(
-                            cardId: widget.cardId,
-                            cardType: CardType.large,
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxHeight:
+                                  MediaQuery.of(context).size.height - 200,
+                            ),
+                            child: FittedBox(
+                              child: MyCard(
+                                cardId: widget.cardId,
+                                cardType: CardType.large,
+                              ),
+                            ),
                           ),
                         )
                       : Padding(

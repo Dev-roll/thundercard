@@ -6,14 +6,8 @@ class Version extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('バージョン情報'),
-        backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-      ),
-      body: const Padding(
-        padding: EdgeInsets.fromLTRB(14.0, 0, 14.0, 0),
-        child: Markdown(data: '''
+    return const Markdown(
+        shrinkWrap: true, physics: NeverScrollableScrollPhysics(), data: '''
 - 15(1.0.7) 2022/11/23 SnackBarの不具合を修正
 - 14(1.0.6) 2022/11/22 アカウント登録の不具合を修正
 - 13(1.0.5) 2022/11/20 App Store再リリース／アイコンを修正
@@ -26,8 +20,6 @@ class Version extends StatelessWidget {
 - 6(1.0.1) 2022/11/09 交換に関する不具合を修正
 - 5(1.0.0) 2022/11/08 Google Playリリース
 - 4(1.0.0) 2022/11/07 Google Play提出
-'''),
-      ),
-    );
+''');
   }
 }

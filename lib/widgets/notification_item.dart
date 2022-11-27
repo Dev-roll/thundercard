@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -72,87 +74,84 @@ class _NotificationItemState extends State<NotificationItem> {
           ),
         );
       },
-      child: Center(
-        child: Card(
-          elevation: widget.read ? 0 : 4,
-          color: widget.read
-              ? Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.5)
-              : Theme.of(context).colorScheme.surfaceVariant,
-          child: SizedBox(
-            width: screenSize.width * 0.91,
-            height: 114,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          style: TextStyle(
-                            color: widget.read
-                                ? Theme.of(context)
-                                    .colorScheme
-                                    .onSurface
-                                    .withOpacity(0.5)
-                                : Theme.of(context).colorScheme.onBackground,
-                            fontSize: 16,
-                            height: 1.2,
-                            fontWeight: widget.read
-                                ? FontWeight.normal
-                                : FontWeight.w500,
-                          ),
-                          overflow: TextOverflow.fade,
-                          maxLines: 1,
-                          softWrap: false,
-                          widget.title,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        displayDateTime,
+      child: Card(
+        elevation: widget.read ? 0 : 4,
+        color: widget.read
+            ? Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.5)
+            : Theme.of(context).colorScheme.surfaceVariant,
+        child: SizedBox(
+          width: min(screenSize.width * 0.91, 800),
+          height: 114,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
                         style: TextStyle(
                           color: widget.read
                               ? Theme.of(context)
                                   .colorScheme
                                   .onSurface
                                   .withOpacity(0.5)
-                              : Theme.of(context).colorScheme.onSurfaceVariant,
+                              : Theme.of(context).colorScheme.onBackground,
+                          fontSize: 16,
+                          height: 1.2,
+                          fontWeight:
+                              widget.read ? FontWeight.normal : FontWeight.w500,
+                        ),
+                        overflow: TextOverflow.fade,
+                        maxLines: 1,
+                        softWrap: false,
+                        widget.title,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      displayDateTime,
+                      style: TextStyle(
+                        color: widget.read
+                            ? Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withOpacity(0.5)
+                            : Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                    if (!widget.read) const SizedBox(width: 6),
+                    if (!widget.read)
+                      Container(
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      if (!widget.read) const SizedBox(width: 6),
-                      if (!widget.read)
-                        Container(
-                          width: 8,
-                          height: 8,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.tertiary,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                    ],
+                  ],
+                ),
+                DefaultTextStyle(
+                  style: TextStyle(
+                    color: widget.read
+                        ? Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.5)
+                        : Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontSize: 13,
+                    height: 1.5,
                   ),
-                  DefaultTextStyle(
-                    style: TextStyle(
-                      color: widget.read
-                          ? Theme.of(context)
-                              .colorScheme
-                              .onSurface
-                              .withOpacity(0.5)
-                          : Theme.of(context).colorScheme.onSurfaceVariant,
-                      fontSize: 13,
-                      height: 1.5,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
-                      child: Text(widget.content),
-                    ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
+                    child: Text(widget.content),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

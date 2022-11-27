@@ -88,10 +88,17 @@ class _AddCardState extends State<AddCard> {
             child: Column(
               children: [
                 const SizedBox(height: 32),
-                MyCard(
-                  cardId: addCardId,
-                  cardType: CardType.normal,
-                  exchange: addCardId == myCardId ? false : true,
+                ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxHeight: 400,
+                  ),
+                  child: FittedBox(
+                    child: MyCard(
+                      cardId: addCardId,
+                      cardType: CardType.normal,
+                      exchange: addCardId == myCardId ? false : true,
+                    ),
+                  ),
                 ),
                 if (addCardId == myCardId)
                   Column(

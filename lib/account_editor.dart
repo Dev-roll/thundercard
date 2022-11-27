@@ -421,163 +421,173 @@ class _AccountEditorState extends State<AccountEditor> {
           backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
         ),
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    if (widget.data?['is_user'])
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('ユーザーID'),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            '@${widget.cardId}',
-                            style:
-                                Theme.of(context).textTheme.bodyLarge?.copyWith(
+          child: SizedBox(
+            width: double.infinity,
+            child: SingleChildScrollView(
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxWidth: 800,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        if (widget.data?['is_user'])
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('ユーザーID'),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                '@${widget.cardId}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onBackground
                                           .withOpacity(0.7),
                                       fontSize: 20,
                                     ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    const Text('表示名（必須）'),
-                    TextFormField(
-                      controller: _nameController,
-                      maxLength: 20,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) {
-                        return value!.isEmpty ? '必須' : null;
-                      },
-                      decoration: InputDecoration(
-                        icon: const Icon(Icons.account_circle_rounded),
-                        hintText: '表示名',
-                        hintStyle: TextStyle(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onBackground
-                              .withOpacity(0.5),
+                        const SizedBox(
+                          height: 24,
                         ),
-                      ),
-                      onChanged: (value) {
-                        setState(() {});
-                      },
-                    ),
-                    const Text('会社'),
-                    TextField(
-                      controller: _companyController,
-                      maxLength: 20,
-                      decoration: InputDecoration(
-                        icon: Icon(iconTypeToIconData[IconType.company]),
-                        hintText: '会社・大学等',
-                        hintStyle: TextStyle(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onBackground
-                              .withOpacity(0.5),
-                        ),
-                      ),
-                    ),
-                    const Text('部門'),
-                    TextField(
-                      controller: _positionController,
-                      maxLength: 20,
-                      decoration: InputDecoration(
-                        icon: Icon(iconTypeToIconData[IconType.position]),
-                        hintText: '○○部',
-                        hintStyle: TextStyle(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onBackground
-                              .withOpacity(0.5),
-                        ),
-                      ),
-                    ),
-                    const Text('住所'),
-                    TextField(
-                      controller: _addressController,
-                      maxLength: 40,
-                      decoration: InputDecoration(
-                        icon: Icon(iconTypeToIconData[IconType.address]),
-                        hintText: '住所',
-                        hintStyle: TextStyle(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onBackground
-                              .withOpacity(0.5),
-                        ),
-                      ),
-                    ),
-                    const Text('自己紹介'),
-                    TextField(
-                      controller: _bioController,
-                      maxLength: 300,
-                      decoration: InputDecoration(
-                        icon: Icon(iconTypeToIconData[IconType.bio]),
-                        hintText: '自己紹介',
-                        hintStyle: TextStyle(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onBackground
-                              .withOpacity(0.5),
-                        ),
-                      ),
-                      maxLines: 30,
-                      minLines: 1,
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    const Text('SNS・連絡先'),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    ReorderableMultiTextField(
-                      controllerController: controller,
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            controller.add('url', '');
+                        const Text('表示名（必須）'),
+                        TextFormField(
+                          controller: _nameController,
+                          maxLength: 20,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) {
+                            return value!.isEmpty ? '必須' : null;
                           },
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            foregroundColor: Theme.of(context)
-                                .colorScheme
-                                .onPrimaryContainer,
-                            backgroundColor: Theme.of(context)
-                                .colorScheme
-                                .secondaryContainer,
+                          decoration: InputDecoration(
+                            icon: const Icon(Icons.account_circle_rounded),
+                            hintText: '表示名',
+                            hintStyle: TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.5),
+                            ),
                           ),
-                          icon: const Icon(
-                            Icons.add_link_rounded,
+                          onChanged: (value) {
+                            setState(() {});
+                          },
+                        ),
+                        const Text('会社'),
+                        TextField(
+                          controller: _companyController,
+                          maxLength: 20,
+                          decoration: InputDecoration(
+                            icon: Icon(iconTypeToIconData[IconType.company]),
+                            hintText: '会社・大学等',
+                            hintStyle: TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.5),
+                            ),
                           ),
-                          label: const Text(
-                            'SNS・連絡先を追加',
+                        ),
+                        const Text('部門'),
+                        TextField(
+                          controller: _positionController,
+                          maxLength: 20,
+                          decoration: InputDecoration(
+                            icon: Icon(iconTypeToIconData[IconType.position]),
+                            hintText: '○○部',
+                            hintStyle: TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.5),
+                            ),
                           ),
+                        ),
+                        const Text('住所'),
+                        TextField(
+                          controller: _addressController,
+                          maxLength: 40,
+                          decoration: InputDecoration(
+                            icon: Icon(iconTypeToIconData[IconType.address]),
+                            hintText: '住所',
+                            hintStyle: TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.5),
+                            ),
+                          ),
+                        ),
+                        const Text('自己紹介'),
+                        TextField(
+                          controller: _bioController,
+                          maxLength: 300,
+                          decoration: InputDecoration(
+                            icon: Icon(iconTypeToIconData[IconType.bio]),
+                            hintText: '自己紹介',
+                            hintStyle: TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.5),
+                            ),
+                          ),
+                          maxLines: 30,
+                          minLines: 1,
+                        ),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        const Text('SNS・連絡先'),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        ReorderableMultiTextField(
+                          controllerController: controller,
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                controller.add('url', '');
+                              },
+                              style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                foregroundColor: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer,
+                                backgroundColor: Theme.of(context)
+                                    .colorScheme
+                                    .secondaryContainer,
+                              ),
+                              icon: const Icon(
+                                Icons.add_link_rounded,
+                              ),
+                              label: const Text(
+                                'SNS・連絡先を追加',
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),

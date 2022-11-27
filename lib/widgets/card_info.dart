@@ -56,7 +56,11 @@ class CardInfo extends StatelessWidget {
                             : Brightness.dark,
                     useMaterial3: true,
                   ),
-                  child: const Avatar(),
+                  child: const SizedBox(
+                    width: 68,
+                    height: 68,
+                    child: FittedBox(child: Avatar()),
+                  ),
                 ),
                 const SizedBox(
                   width: 16,
