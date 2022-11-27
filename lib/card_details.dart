@@ -128,9 +128,6 @@ class _CardDetailsState extends State<CardDetails> {
       );
     }
 
-    String? thumstr = widget.card?['thumbnail'];
-    Image? thumbnail = Image.network(thumstr ?? '');
-
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -204,7 +201,7 @@ class _CardDetailsState extends State<CardDetails> {
                           ),
                         ),
                   if (!widget.card['is_user'])
-                    thumstr != null
+                    widget.card?['thumbnail'] != null
                         ? Stack(
                             children: [
                               const CustomProgressIndicator(),
@@ -212,13 +209,19 @@ class _CardDetailsState extends State<CardDetails> {
                                 onTap: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(builder: (context) {
-                                      return PreviewImg(image: thumbnail);
+                                      return PreviewImg(
+                                        image: Image.network(
+                                          widget.card?['thumbnail'],
+                                        ),
+                                      );
                                     }),
                                   );
                                 },
                                 child: Hero(
                                   tag: 'card_image',
-                                  child: thumbnail,
+                                  child: Image.network(
+                                    widget.card?['thumbnail'],
+                                  ),
                                 ),
                               ),
                             ],
