@@ -196,9 +196,15 @@ class _HomePageState extends State<HomePage> {
                                   .withOpacity(0.25),
                             ),
                             ListTile(
-                              leading: const Padding(
-                                padding: EdgeInsets.only(left: 12),
-                                child: Icon(Icons.description_outlined),
+                              leading: Padding(
+                                padding: const EdgeInsets.only(left: 12),
+                                child: Icon(
+                                  Icons.description_outlined,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground
+                                      .withOpacity(0.5),
+                                ),
                               ),
                               title: const Text('Thundercardについて'),
                               dense: true,
@@ -214,9 +220,15 @@ class _HomePageState extends State<HomePage> {
                               },
                             ),
                             ListTile(
-                              leading: const Padding(
-                                padding: EdgeInsets.only(left: 12),
-                                child: Icon(Icons.people_alt_outlined),
+                              leading: Padding(
+                                padding: const EdgeInsets.only(left: 12),
+                                child: Icon(
+                                  Icons.people_alt_outlined,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground
+                                      .withOpacity(0.5),
+                                ),
                               ),
                               title: const Text('開発者'),
                               dense: true,
@@ -232,9 +244,15 @@ class _HomePageState extends State<HomePage> {
                               },
                             ),
                             ListTile(
-                              leading: const Padding(
-                                padding: EdgeInsets.only(left: 12),
-                                child: Icon(Icons.policy_outlined),
+                              leading: Padding(
+                                padding: const EdgeInsets.only(left: 12),
+                                child: Icon(
+                                  Icons.policy_outlined,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground
+                                      .withOpacity(0.5),
+                                ),
                               ),
                               title: const Text('プライバシーポリシー'),
                               dense: true,
@@ -250,9 +268,15 @@ class _HomePageState extends State<HomePage> {
                               },
                             ),
                             ListTile(
-                              leading: const Padding(
-                                padding: EdgeInsets.only(left: 12),
-                                child: Icon(Icons.gavel_rounded),
+                              leading: Padding(
+                                padding: const EdgeInsets.only(left: 12),
+                                child: Icon(
+                                  Icons.gavel_rounded,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground
+                                      .withOpacity(0.5),
+                                ),
                               ),
                               title: const Text('利用規約'),
                               dense: true,
@@ -268,9 +292,15 @@ class _HomePageState extends State<HomePage> {
                               },
                             ),
                             ListTile(
-                              leading: const Padding(
-                                padding: EdgeInsets.only(left: 12),
-                                child: Icon(Icons.history_outlined),
+                              leading: Padding(
+                                padding: const EdgeInsets.only(left: 12),
+                                child: Icon(
+                                  Icons.history_outlined,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground
+                                      .withOpacity(0.5),
+                                ),
                               ),
                               title: const Text('バージョン情報'),
                               dense: true,

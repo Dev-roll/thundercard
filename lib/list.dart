@@ -37,7 +37,7 @@ class _ListState extends State<List> {
   var extend = false;
   var visible = true;
   var rmicons = false;
-  var myCardId;
+  var myCardId = '';
 
   @override
   Widget build(BuildContext context) {

@@ -81,6 +81,7 @@ dependencies:
   intl: ^0.17.0
   sign_in_with_apple: ^3.3.0
   flutter_signin_button: ^2.0.0
+  lottie: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -139,6 +140,7 @@ flutter:
     - images/svg/normal/thundercard_rounded.svg
     - images/svg/normal/thundercard_rounded_outlined.svg
     - images/svg/qr/icon_for_qr.svg
+    - images/json/launch.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:thundercard/api/colors.dart';
+import 'package:thundercard/widgets/preview_img.dart';
 
 import 'api/firebase_auth.dart';
 import 'widgets/card_info.dart';
@@ -127,6 +128,9 @@ class _CardDetailsState extends State<CardDetails> {
       );
     }
 
+    String? thumstr = widget.card?['thumbnail'];
+    Image? thumbnail = Image.network(thumstr ?? '');
+
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -200,11 +204,25 @@ class _CardDetailsState extends State<CardDetails> {
                           ),
                         ),
                   if (!widget.card['is_user'])
-                    widget.card?['thumbnail'] != null
-                        ? Stack(children: [
-                            const CustomProgressIndicator(),
-                            Image.network(widget.card?['thumbnail']),
-                          ])
+                    thumstr != null
+                        ? Stack(
+                            children: [
+                              const CustomProgressIndicator(),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) {
+                                      return PreviewImg(image: thumbnail);
+                                    }),
+                                  );
+                                },
+                                child: Hero(
+                                  tag: 'card_image',
+                                  child: thumbnail,
+                                ),
+                              ),
+                            ],
+                          )
                         : const Text('画像が見つかりませんでした'),
                   if (widget.card['is_user'])
                     FutureBuilder(
