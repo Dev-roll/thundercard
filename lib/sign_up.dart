@@ -584,24 +584,11 @@ class _SignUpState extends State<SignUp> {
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Text.rich(
-                      TextSpan(
-                        style: const TextStyle(height: 1.6),
-                        children: [
-                          TextSpan(
-                            text: 'このサービスのご利用を開始することで，',
-                            style: TextStyle(
-                                color:
-                                    Theme.of(context).colorScheme.onBackground),
+                          const SizedBox(
+                            height: 40,
                           ),
-                          RichText(
-                            text: TextSpan(
+                          Text.rich(
+                            TextSpan(
                               style: const TextStyle(height: 1.6),
                               children: [
                                 TextSpan(
