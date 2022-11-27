@@ -180,7 +180,8 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
       ),
       body: SafeArea(
-        child: Expanded(
+        child: SizedBox(
+          width: double.infinity,
           child: SingleChildScrollView(
             child: Center(
               child: ConstrainedBox(
