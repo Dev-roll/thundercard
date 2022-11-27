@@ -7,7 +7,7 @@ import '../constants.dart';
 import 'card_element.dart';
 
 class OpenApp extends StatefulWidget {
-  OpenApp({
+  const OpenApp({
     Key? key,
     required this.url,
     this.secondUrl = '',
@@ -15,9 +15,9 @@ class OpenApp extends StatefulWidget {
     this.large = false,
   }) : super(key: key);
   final String url;
-  String secondUrl;
-  Widget? child;
-  bool large;
+  final String secondUrl;
+  final Widget? child;
+  final bool large;
 
   @override
   State<OpenApp> createState() => _OpenAppState();
