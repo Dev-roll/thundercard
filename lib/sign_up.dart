@@ -15,6 +15,7 @@ import 'package:thundercard/auth_gate.dart';
 import 'package:thundercard/widgets/privacy_policy.dart';
 import 'package:thundercard/widgets/terms_of_use.dart';
 
+import 'md_page.dart';
 import 'sign_in.dart';
 
 class SignUp extends StatefulWidget {
@@ -609,7 +610,10 @@ class _SignUpState extends State<SignUp> {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) {
-                                            return const PrivacyPolicy();
+                                            return const MdPage(
+                                              title: Text('プライバシーポリシー'),
+                                              content: PrivacyPolicy(),
+                                            );
                                           },
                                         ),
                                       );
@@ -633,7 +637,10 @@ class _SignUpState extends State<SignUp> {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) {
-                                            return const TermsOfUse();
+                                            return const MdPage(
+                                              title: Text('利用規約'),
+                                              content: TermsOfUse(),
+                                            );
                                           },
                                         ),
                                       );
