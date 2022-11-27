@@ -194,392 +194,416 @@ class _UploadImagePageState extends State<UploadImagePage> {
       child: Scaffold(
         appBar: AppBar(),
         body: SafeArea(
-          child: ListView(
-            children: <Widget>[
-              const SizedBox(height: 24),
-              // 1st
-              TimelineTile(
-                alignment: TimelineAlign.manual,
-                lineXY: 0.1,
-                beforeLineStyle: LineStyle(
-                  color: image != null
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context)
-                          .colorScheme
-                          .onBackground
-                          .withOpacity(0.7),
-                  thickness: 2,
-                ),
-                indicatorStyle: IndicatorStyle(
-                  indicatorXY: 0.44,
-                  drawGap: true,
-                  width: 30,
-                  height: 30,
-                  indicator: image == null && _nameController.text != ''
-                      ? Icon(
-                          Icons.error_outline_rounded,
-                          color: Theme.of(context).colorScheme.error,
-                        )
-                      : _nameController.text == ''
-                          ? const Icon(Icons.circle_outlined)
-                          : Icon(
-                              Icons.check_circle_rounded,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                ),
-                startChild: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 16, right: 12, top: 0, bottom: 0),
-                  child: Column(
-                    // alignment: const Alignment(0.0, 0),
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const <Widget>[
-                      Text(
-                        '',
-                        style: TextStyle(
-                          fontSize: 20,
-                          // fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                endChild: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 12, right: 32, top: 0, bottom: 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
-                      Text(
-                        '名刺等の画像を追加',
-                        style: TextStyle(
-                          fontSize: 20,
-                          // fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              TimelineTile(
-                alignment: TimelineAlign.manual,
-                lineXY: 0.1,
-                beforeLineStyle: LineStyle(
-                  color: image != null
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context)
-                          .colorScheme
-                          .onBackground
-                          .withOpacity(0.7),
-                  thickness: 2,
-                ),
-                hasIndicator: false,
-                endChild: Padding(
-                  padding: const EdgeInsets.fromLTRB(28, 24, 32, 36),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      image != null ? Image.file(image!) : Container(),
-                      const SizedBox(height: 6),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ElevatedButton.icon(
-                            icon: const Icon(Icons.photo_camera_rounded),
-                            onPressed: pickImageC,
-                            onLongPress: null,
-                            label: const Text('写真を撮影'),
+          child: SizedBox(
+            width: double.infinity,
+            child: Center(
+              child: SingleChildScrollView(
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxWidth: 800,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const SizedBox(height: 24),
+                        // 1st
+                        TimelineTile(
+                          alignment: TimelineAlign.manual,
+                          lineXY: 0.1,
+                          beforeLineStyle: LineStyle(
+                            color: image != null
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .onBackground
+                                    .withOpacity(0.7),
+                            thickness: 2,
                           ),
-                          const SizedBox(height: 16),
-                          ElevatedButton.icon(
-                            icon: const Icon(Icons.photo_rounded),
-                            onPressed: pickImage,
-                            onLongPress: null,
-                            label: const Text('画像を選択'),
+                          indicatorStyle: IndicatorStyle(
+                            indicatorXY: 0.44,
+                            drawGap: true,
+                            width: 30,
+                            height: 30,
+                            indicator: image == null &&
+                                    _nameController.text != ''
+                                ? Icon(
+                                    Icons.error_outline_rounded,
+                                    color: Theme.of(context).colorScheme.error,
+                                  )
+                                : _nameController.text == ''
+                                    ? const Icon(Icons.circle_outlined)
+                                    : Icon(
+                                        Icons.check_circle_rounded,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      ),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              //2nd
-              TimelineTile(
-                isFirst: true,
-                alignment: TimelineAlign.manual,
-                lineXY: 0.1,
-                beforeLineStyle: LineStyle(
-                  color: _nameController.text != ''
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context)
-                          .colorScheme
-                          .onBackground
-                          .withOpacity(0.7),
-                  thickness: 2,
-                ),
-                indicatorStyle: IndicatorStyle(
-                  indicatorXY: 0.44,
-                  drawGap: true,
-                  width: 30,
-                  height: 30,
-                  indicator: _nameController.text == ''
-                      ? const Icon(Icons.circle_outlined)
-                      : Icon(
-                          Icons.check_circle_rounded,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                ),
-                startChild: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 16, right: 12, top: 0, bottom: 0),
-                  child: Column(
-                    // alignment: const Alignment(0.0, 0),
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const <Widget>[
-                      Text(
-                        '',
-                        style: TextStyle(
-                          fontSize: 20,
-                          // fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                endChild: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 12, right: 32, top: 0, bottom: 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
-                      Text(
-                        '名前を入力',
-                        style: TextStyle(
-                          fontSize: 20,
-                          // fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              TimelineTile(
-                alignment: TimelineAlign.manual,
-                lineXY: 0.1,
-                beforeLineStyle: LineStyle(
-                  color: _nameController.text != ''
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context)
-                          .colorScheme
-                          .onBackground
-                          .withOpacity(0.7),
-                  thickness: 2,
-                ),
-                hasIndicator: false,
-                endChild: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 28, right: 32, top: 24, bottom: 36),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      TextField(
-                        onChanged: (value) {
-                          setState(() {
-                            editText = value;
-                          });
-                        },
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: '名前',
-                        ),
-                        textInputAction: TextInputAction.done,
-                      ),
-                      const SizedBox(height: 36),
-                      if (image != null)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('検出されたテキスト'),
-                            TextField(
-                              keyboardType: TextInputType.multiline,
-                              maxLines: null,
-                              controller: _recognizedTextController,
-                            ),
-                          ],
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-
-              // 3rd
-              TimelineTile(
-                alignment: TimelineAlign.manual,
-                lineXY: 0.1,
-                beforeLineStyle: LineStyle(
-                  color: isCompleted
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context)
-                          .colorScheme
-                          .onBackground
-                          .withOpacity(0.7),
-                  thickness: 2,
-                ),
-                indicatorStyle: IndicatorStyle(
-                  indicatorXY: 0.44,
-                  drawGap: true,
-                  width: 30,
-                  height: 30,
-                  indicator: isCompleted
-                      ? Icon(
-                          Icons.check_circle_rounded,
-                          color: Theme.of(context).colorScheme.primary,
-                        )
-                      : const Icon(Icons.circle_outlined),
-                ),
-                startChild: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 16, right: 12, top: 0, bottom: 0),
-                  child: Column(
-                    // alignment: const Alignment(0.0, 0),
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const <Widget>[
-                      Text(
-                        '',
-                        style: TextStyle(
-                          fontSize: 20,
-                          // fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                endChild: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 12, right: 32, top: 0, bottom: 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
-                      Text(
-                        'カードを登録',
-                        style: TextStyle(
-                          fontSize: 20,
-                          // fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              TimelineTile(
-                alignment: TimelineAlign.manual,
-                lineXY: 0.1,
-                beforeLineStyle: LineStyle(
-                  color: isCompleted
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context)
-                          .colorScheme
-                          .onBackground
-                          .withOpacity(0.7),
-                  thickness: 2,
-                ),
-                hasIndicator: false,
-                endChild: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 28, right: 32, top: 24, bottom: 48),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      uploadButtonPressed
-                          ? ElevatedButton(
-                              onPressed: null,
-                              onLongPress: null,
-                              child: Container(
-                                padding: const EdgeInsets.all(4),
-                                child: const SizedBox(
-                                  height: 24,
-                                  width: 24,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 3.0,
+                          startChild: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 16, right: 12, top: 0, bottom: 0),
+                            child: Column(
+                              // alignment: const Alignment(0.0, 0),
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: const <Widget>[
+                                Text(
+                                  '',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    // fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              ),
-                            )
-                          : ElevatedButton(
-                              onPressed:
-                                  _nameController.text != '' && image != null
-                                      ? uploadPic
-                                      : null,
-                              onLongPress: null,
-                              child: const Text('登録'),
+                              ],
                             ),
-                    ],
-                  ),
-                ),
-              ),
+                          ),
+                          endChild: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 12, right: 32, top: 0, bottom: 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const <Widget>[
+                                Text(
+                                  '名刺等の画像を追加',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    // fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        TimelineTile(
+                          alignment: TimelineAlign.manual,
+                          lineXY: 0.1,
+                          beforeLineStyle: LineStyle(
+                            color: image != null
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .onBackground
+                                    .withOpacity(0.7),
+                            thickness: 2,
+                          ),
+                          hasIndicator: false,
+                          endChild: Padding(
+                            padding: const EdgeInsets.fromLTRB(28, 24, 32, 36),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                image != null
+                                    ? Image.file(image!)
+                                    : Container(),
+                                const SizedBox(height: 6),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ElevatedButton.icon(
+                                      icon: const Icon(
+                                          Icons.photo_camera_rounded),
+                                      onPressed: pickImageC,
+                                      onLongPress: null,
+                                      label: const Text('写真を撮影'),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    ElevatedButton.icon(
+                                      icon: const Icon(Icons.photo_rounded),
+                                      onPressed: pickImage,
+                                      onLongPress: null,
+                                      label: const Text('画像を選択'),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
 
-              // 4th
-              TimelineTile(
-                isLast: true,
-                alignment: TimelineAlign.manual,
-                lineXY: 0.1,
-                beforeLineStyle: LineStyle(
-                  color: _nameController.text != ''
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context)
-                          .colorScheme
-                          .onBackground
-                          .withOpacity(0.7),
-                  thickness: 2,
-                ),
-                indicatorStyle: IndicatorStyle(
-                  indicatorXY: 0.44,
-                  drawGap: true,
-                  width: 30,
-                  height: 30,
-                  indicator: Icon(
-                    Icons.task_alt_rounded,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                startChild: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 16, right: 12, top: 0, bottom: 0),
-                  child: Column(
-                    // alignment: const Alignment(0.0, 0),
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const <Widget>[
-                      Text(
-                        '',
-                        style: TextStyle(
-                          fontSize: 20,
-                          // fontWeight: FontWeight.bold,
+                        //2nd
+                        TimelineTile(
+                          isFirst: true,
+                          alignment: TimelineAlign.manual,
+                          lineXY: 0.1,
+                          beforeLineStyle: LineStyle(
+                            color: _nameController.text != ''
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .onBackground
+                                    .withOpacity(0.7),
+                            thickness: 2,
+                          ),
+                          indicatorStyle: IndicatorStyle(
+                            indicatorXY: 0.44,
+                            drawGap: true,
+                            width: 30,
+                            height: 30,
+                            indicator: _nameController.text == ''
+                                ? const Icon(Icons.circle_outlined)
+                                : Icon(
+                                    Icons.check_circle_rounded,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                          ),
+                          startChild: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 16, right: 12, top: 0, bottom: 0),
+                            child: Column(
+                              // alignment: const Alignment(0.0, 0),
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: const <Widget>[
+                                Text(
+                                  '',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    // fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          endChild: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 12, right: 32, top: 0, bottom: 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const <Widget>[
+                                Text(
+                                  '名前を入力',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    // fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                endChild: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 12, right: 32, top: 0, bottom: 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
-                      Text(
-                        '',
-                        style: TextStyle(
-                          fontSize: 20,
-                          // fontWeight: FontWeight.bold,
+                        TimelineTile(
+                          alignment: TimelineAlign.manual,
+                          lineXY: 0.1,
+                          beforeLineStyle: LineStyle(
+                            color: _nameController.text != ''
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .onBackground
+                                    .withOpacity(0.7),
+                            thickness: 2,
+                          ),
+                          hasIndicator: false,
+                          endChild: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 28, right: 32, top: 24, bottom: 36),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                TextField(
+                                  onChanged: (value) {
+                                    setState(() {
+                                      editText = value;
+                                    });
+                                  },
+                                  controller: _nameController,
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: '名前',
+                                  ),
+                                  textInputAction: TextInputAction.done,
+                                ),
+                                const SizedBox(height: 36),
+                                if (image != null)
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text('検出されたテキスト'),
+                                      TextField(
+                                        keyboardType: TextInputType.multiline,
+                                        maxLines: null,
+                                        controller: _recognizedTextController,
+                                      ),
+                                    ],
+                                  ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+
+                        // 3rd
+                        TimelineTile(
+                          alignment: TimelineAlign.manual,
+                          lineXY: 0.1,
+                          beforeLineStyle: LineStyle(
+                            color: isCompleted
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .onBackground
+                                    .withOpacity(0.7),
+                            thickness: 2,
+                          ),
+                          indicatorStyle: IndicatorStyle(
+                            indicatorXY: 0.44,
+                            drawGap: true,
+                            width: 30,
+                            height: 30,
+                            indicator: isCompleted
+                                ? Icon(
+                                    Icons.check_circle_rounded,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  )
+                                : const Icon(Icons.circle_outlined),
+                          ),
+                          startChild: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 16, right: 12, top: 0, bottom: 0),
+                            child: Column(
+                              // alignment: const Alignment(0.0, 0),
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: const <Widget>[
+                                Text(
+                                  '',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    // fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          endChild: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 12, right: 32, top: 0, bottom: 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const <Widget>[
+                                Text(
+                                  'カードを登録',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    // fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        TimelineTile(
+                          alignment: TimelineAlign.manual,
+                          lineXY: 0.1,
+                          beforeLineStyle: LineStyle(
+                            color: isCompleted
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .onBackground
+                                    .withOpacity(0.7),
+                            thickness: 2,
+                          ),
+                          hasIndicator: false,
+                          endChild: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 28, right: 32, top: 24, bottom: 48),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                uploadButtonPressed
+                                    ? ElevatedButton(
+                                        onPressed: null,
+                                        onLongPress: null,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(4),
+                                          child: const SizedBox(
+                                            height: 24,
+                                            width: 24,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 3.0,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : ElevatedButton(
+                                        onPressed: _nameController.text != '' &&
+                                                image != null
+                                            ? uploadPic
+                                            : null,
+                                        onLongPress: null,
+                                        child: const Text('登録'),
+                                      ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        // 4th
+                        TimelineTile(
+                          isLast: true,
+                          alignment: TimelineAlign.manual,
+                          lineXY: 0.1,
+                          beforeLineStyle: LineStyle(
+                            color: _nameController.text != ''
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .onBackground
+                                    .withOpacity(0.7),
+                            thickness: 2,
+                          ),
+                          indicatorStyle: IndicatorStyle(
+                            indicatorXY: 0.44,
+                            drawGap: true,
+                            width: 30,
+                            height: 30,
+                            indicator: Icon(
+                              Icons.task_alt_rounded,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                          startChild: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 16, right: 12, top: 0, bottom: 0),
+                            child: Column(
+                              // alignment: const Alignment(0.0, 0),
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: const <Widget>[
+                                Text(
+                                  '',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    // fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          endChild: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 12, right: 32, top: 0, bottom: 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const <Widget>[
+                                Text(
+                                  '',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    // fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 48),
+                      ],
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(height: 48),
-            ],
+            ),
           ),
         ),
       ),
