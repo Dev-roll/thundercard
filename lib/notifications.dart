@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -217,18 +215,20 @@ class _NotificationsState extends State<Notifications> {
                                                     interactions[index]
                                                             ['created_at']
                                                         .toDate();
-                                                return NotificationItem(
-                                                  title: interactions[index]
-                                                      ['title'],
-                                                  content: interactions[index]
-                                                      ['content'],
-                                                  createdAt: time.toString(),
-                                                  read: interactions[index]
-                                                      ['read'],
-                                                  index: 0,
-                                                  myCardId: myCardId,
-                                                  documentId:
-                                                      interactions[index].id,
+                                                return Center(
+                                                  child: NotificationItem(
+                                                    title: interactions[index]
+                                                        ['title'],
+                                                    content: interactions[index]
+                                                        ['content'],
+                                                    createdAt: time.toString(),
+                                                    read: interactions[index]
+                                                        ['read'],
+                                                    index: 0,
+                                                    myCardId: myCardId,
+                                                    documentId:
+                                                        interactions[index].id,
+                                                  ),
                                                 );
                                               }),
                                         ],
@@ -313,15 +313,17 @@ class _NotificationsState extends State<Notifications> {
                                                 DateTime time = news[index]
                                                         ['created_at']
                                                     .toDate();
-                                                return NotificationItem(
-                                                  title: news[index]['title'],
-                                                  content: news[index]
-                                                      ['content'],
-                                                  createdAt: time.toString(),
-                                                  read: news[index]['read'],
-                                                  index: 1,
-                                                  myCardId: myCardId,
-                                                  documentId: news[index].id,
+                                                return Center(
+                                                  child: NotificationItem(
+                                                    title: news[index]['title'],
+                                                    content: news[index]
+                                                        ['content'],
+                                                    createdAt: time.toString(),
+                                                    read: news[index]['read'],
+                                                    index: 1,
+                                                    myCardId: myCardId,
+                                                    documentId: news[index].id,
+                                                  ),
                                                 );
                                               }),
                                         ],
