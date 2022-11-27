@@ -52,7 +52,7 @@ class FullscreenQrCode extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
                     child: Hero(
-                      tag: 'close_button',
+                      tag: 'back_button',
                       child: IconButton(
                         onPressed: () {
                           Navigator.of(context).pop();
