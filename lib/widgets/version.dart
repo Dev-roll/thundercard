@@ -8,6 +8,7 @@ class Version extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Markdown(
         shrinkWrap: true, physics: NeverScrollableScrollPhysics(), data: '''
+- 16(1.0.8) 2022/11/27 レスポンシブ対応
 - 15(1.0.7) 2022/11/23 SnackBarの不具合を修正
 - 14(1.0.6) 2022/11/22 アカウント登録の不具合を修正
 - 13(1.0.5) 2022/11/20 App Store再リリース／アイコンを修正
