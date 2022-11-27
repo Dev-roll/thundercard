@@ -16,7 +16,7 @@ class CustomTheme extends ChangeNotifier {
   late int currentAppThemeIdx = appThemeIdx;
   late ThemeMode currentAppTheme = themeList[appThemeIdx];
 
-  int displayCardThemeIdx = 0 % 4;
+  int displayCardThemeIdx = 1 % 4;
   late int currentDisplayCardThemeIdx = displayCardThemeIdx;
 
   void _init() {

@@ -21,7 +21,7 @@ class CardThemeStorage {
       final contents = await file.readAsString();
       return int.parse(contents);
     } catch (e) {
-      return 0;
+      return 1;
     }
   }
 
