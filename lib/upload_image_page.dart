@@ -217,13 +217,13 @@ class _UploadImagePageState extends State<UploadImagePage> {
                   height: 30,
                   indicator: image == null && _nameController.text != ''
                       ? Icon(
-                          Icons.error_outline,
+                          Icons.error_outline_rounded,
                           color: Theme.of(context).colorScheme.error,
                         )
                       : _nameController.text == ''
                           ? const Icon(Icons.circle_outlined)
                           : Icon(
-                              Icons.check_circle,
+                              Icons.check_circle_rounded,
                               color: Theme.of(context).colorScheme.primary,
                             ),
                 ),
@@ -326,7 +326,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
                   indicator: _nameController.text == ''
                       ? const Icon(Icons.circle_outlined)
                       : Icon(
-                          Icons.check_circle,
+                          Icons.check_circle_rounded,
                           color: Theme.of(context).colorScheme.primary,
                         ),
                 ),
@@ -434,7 +434,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
                   height: 30,
                   indicator: isCompleted
                       ? Icon(
-                          Icons.check_circle,
+                          Icons.check_circle_rounded,
                           color: Theme.of(context).colorScheme.primary,
                         )
                       : const Icon(Icons.circle_outlined),
@@ -540,7 +540,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
                   width: 30,
                   height: 30,
                   indicator: Icon(
-                    Icons.check_circle,
+                    Icons.task_alt_rounded,
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
