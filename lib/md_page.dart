@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
+import 'widgets/md/custom/custom_md.dart';
+
 class MdPage extends StatelessWidget {
   const MdPage({
     super.key,
     required this.title,
-    required this.content,
+    required this.data,
   });
   final Widget title;
-  final Widget content;
+  final String data;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +28,8 @@ class MdPage extends StatelessWidget {
                   maxWidth: 800,
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                  child: content,
+                  padding: const EdgeInsets.fromLTRB(12, 16, 12, 24),
+                  child: CustomMd(data: data),
                 ),
               ),
             ),

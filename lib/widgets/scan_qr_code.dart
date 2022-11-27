@@ -22,7 +22,7 @@ import '../constants.dart';
 
 class ScanQrCode extends StatefulWidget {
   const ScanQrCode({Key? key, required this.myCardId}) : super(key: key);
-  final myCardId;
+  final String myCardId;
 
   @override
   State<StatefulWidget> createState() => _ScanQrCodeState();

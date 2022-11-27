@@ -49,7 +49,12 @@ class AuthGate extends StatelessWidget {
             }
             return Scaffold(
               body: Center(
-                child: Lottie.asset('images/json/launch.json'),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxWidth: 240,
+                  ),
+                  child: Lottie.asset('images/json/launch.json'),
+                ),
               ),
             );
           },

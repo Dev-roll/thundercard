@@ -1,13 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-
-class AboutApp extends StatelessWidget {
-  const AboutApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Markdown(
-        shrinkWrap: true, physics: NeverScrollableScrollPhysics(), data: '''
+const String aboutAppData = '''
 ## 未来の名刺，全く新しいSNS。
 
 Thundercardは名刺をヒントに開発された全く新しいSNSです。
@@ -57,6 +48,4 @@ ThundercardはGoogleが提唱するデザインシステム Material Design 3 �
 Material Design 3 のカラーシステムを採用したため、色弱の方も含めて、ボタンや文字をはっきりと認識することができます。
 ダークモードにも対応しています。
 
-''');
-  }
-}
+''';
