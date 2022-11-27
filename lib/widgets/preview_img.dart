@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
-
 class PreviewImg extends StatelessWidget {
   const PreviewImg({
     super.key,
@@ -37,7 +35,6 @@ class PreviewImg extends StatelessWidget {
               icon: const Icon(
                 Icons.close_rounded,
                 size: 32,
-                color: white,
               ),
               padding: const EdgeInsets.all(12),
             ),
