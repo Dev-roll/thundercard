@@ -12,6 +12,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:thundercard/auth_gate.dart';
+import 'package:thundercard/md_page.dart';
 import 'package:thundercard/widgets/privacy_policy.dart';
 import 'package:thundercard/widgets/terms_of_use.dart';
 
@@ -495,24 +496,11 @@ class _SignInState extends State<SignIn> {
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Text.rich(
-                      TextSpan(
-                        style: const TextStyle(height: 1.6),
-                        children: [
-                          TextSpan(
-                            text: 'このサービスのご利用を開始することで，',
-                            style: TextStyle(
-                                color:
-                                    Theme.of(context).colorScheme.onBackground),
+                          const SizedBox(
+                            height: 40,
                           ),
-                          RichText(
-                            text: TextSpan(
+                          Text.rich(
+                            TextSpan(
                               style: const TextStyle(height: 1.6),
                               children: [
                                 TextSpan(
@@ -533,7 +521,10 @@ class _SignInState extends State<SignIn> {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) {
-                                            return const PrivacyPolicy();
+                                            return const MdPage(
+                                              title: Text('プライバシーポリシー'),
+                                              content: PrivacyPolicy(),
+                                            );
                                           },
                                         ),
                                       );
@@ -557,7 +548,10 @@ class _SignInState extends State<SignIn> {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) {
-                                            return const TermsOfUse();
+                                            return const MdPage(
+                                              title: Text('利用規約'),
+                                              content: TermsOfUse(),
+                                            );
                                           },
                                         ),
                                       );
