@@ -5,7 +5,9 @@
 
 Thundercard is a completely new SNS inspired by business cards. It is ideal for the young people, engineers and creators who have a lot of profiles to introduce.
 
-![thundercard](https://user-images.githubusercontent.com/79978827/202828236-809fb30e-9d46-46aa-87da-18882e1f35b1.png)
+<a href="https://thundercard.gajeroll.com" target="_blank" rel="noreferrer">
+  <img width="2560" alt="Thundercard" src="https://user-images.githubusercontent.com/79978827/202828236-809fb30e-9d46-46aa-87da-18882e1f35b1.png">
+</a>
 
 ## Features
 
