@@ -83,32 +83,63 @@ class _UploadImagePageState extends State<UploadImagePage> {
         .id;
 
     void updateDocumentData(String imageURL) {
-      final doc = FirebaseFirestore.instance.collection('cards').doc(docId);
-      doc.set({
-        'thumbnail': imageURL,
+      final CollectionReference newCard = FirebaseFirestore.instance
+          .collection('version')
+          .doc('2')
+          .collection('cards')
+          .doc(docId)
+          .collection('visibility');
+
+      final c11r20u00d11 = {
         'is_user': false,
         'card_id': docId,
-        'account': {
-          'profiles': {
-            'name': _nameController.text,
-            'bio': {
-              'value': '',
-              'display': {'extended': true, 'normal': true},
-            },
-            'company': {
-              'value': '',
-              'display': {'extended': true, 'normal': true},
-            },
-            'position': {
-              'value': '',
-              'display': {'extended': true, 'normal': true},
-            },
-            'address': {
-              'value': '',
-              'display': {'extended': true, 'normal': true},
-            },
+      };
+
+      newCard
+          .doc('c11r20u00d11')
+          .set(c11r20u00d11, SetOptions(merge: true))
+          .then((value) {
+        debugPrint('Card successfully added!');
+      }, onError: (e) {
+        debugPrint('Error updating document $e');
+      });
+
+      final c10r20u10d10 = {
+        'public': false,
+        'name': _nameController.text,
+      };
+
+      newCard
+          .doc('c10r20u10d10')
+          .set(c10r20u10d10, SetOptions(merge: true))
+          .then((value) {
+        debugPrint('Card successfully added!');
+      }, onError: (e) {
+        debugPrint('Error updating document $e');
+      });
+
+      newCard.doc('c20r11u11d11').set({
+        'card_url': imageURL,
+      });
+
+      newCard.doc('c10r21u10d10').set({
+        'profiles': {
+          'bio': {
+            'value': '',
+            'display': {'extended': true, 'normal': true},
           },
-          'links': [],
+          'company': {
+            'value': '',
+            'display': {'extended': true, 'normal': true},
+          },
+          'position': {
+            'value': '',
+            'display': {'extended': true, 'normal': true},
+          },
+          'address': {
+            'value': '',
+            'display': {'extended': true, 'normal': true},
+          },
         },
       }).then((value) {
         debugPrint('DocumentSnapshot successfully updated!');
@@ -118,8 +149,13 @@ class _UploadImagePageState extends State<UploadImagePage> {
     }
 
     void updateExchangedCards() {
-      final doc =
-          FirebaseFirestore.instance.collection('cards').doc(widget.cardId);
+      final doc = FirebaseFirestore.instance
+          .collection('version')
+          .doc('2')
+          .collection('cards')
+          .doc(widget.cardId)
+          .collection('visibility')
+          .doc('c10r10u11d10');
       doc.update({
         'exchanged_cards': FieldValue.arrayUnion([docId])
       }).then((value) {
