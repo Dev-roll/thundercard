@@ -199,13 +199,13 @@ maintenance() {
           // c10r21u10d10
           final c10r21u10d10 = {
             'account': {
-              'links': account['links'],
+              'links': account['profiles']['links'],
             },
             'profiles': {
-              'bio': account['bio'],
-              'company': account['company'],
-              'position': account['position'],
-              'address': account['address'],
+              'bio': account['profiles']['bio'],
+              'company': account['profiles']['company'],
+              'position': account['profiles']['position'],
+              'address': account['profiles']['address'],
             }
           };
 
@@ -370,13 +370,13 @@ maintenance() {
           // c10r21u10d10
           final c10r21u10d10 = {
             'account': {
-              'links': account['links'],
+              'links': account['profiles']['links'],
             },
             'profiles': {
-              'bio': account['bio'],
-              'company': account['company'],
-              'position': account['position'],
-              'address': account['address'],
+              'bio': account['profiles']['bio'],
+              'company': account['profiles']['company'],
+              'position': account['profiles']['position'],
+              'address': account['profiles']['address'],
             }
           };
 
