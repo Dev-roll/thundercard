@@ -65,9 +65,9 @@ class ReorderableMultiTextFieldController
 
   @override
   void dispose() {
-    value.forEach((element) {
+    for (var element in value) {
       element.controller.dispose();
-    });
+    }
     super.dispose();
   }
 }
@@ -277,7 +277,10 @@ class _AccountRegistrationState extends State<AccountRegistration> {
   final TextEditingController _companyController = TextEditingController();
   final TextEditingController _positionController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
-  CollectionReference cards = FirebaseFirestore.instance.collection('cards');
+  CollectionReference version2 = FirebaseFirestore.instance
+      .collection('version')
+      .doc('2')
+      .collection('cards');
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   late ReorderableMultiTextFieldController controller;
   var registrationButtonPressed = false;
@@ -360,20 +363,31 @@ class _AccountRegistrationState extends State<AccountRegistration> {
             'key': keys[i],
             'value': values[i],
             'display': {
-              'extended': true,
+              'large': true,
               'normal': true,
             },
           });
         }
         debugPrint('$links');
 
+        // users
+        users.doc(uid).collection('cards').doc('my_cards').set({
+          'my_cards': [_cardIdController.text]
+        }).then((value) {
+          debugPrint('User Added');
+        }).catchError((error) {
+          debugPrint('Failed to add user: $error');
+        });
+
         users
             .doc(uid)
-            .set({
-              'my_cards': [_cardIdController.text]
-            })
-            .then((value) => debugPrint('User Added'))
-            .catchError((error) => debugPrint('Failed to add user: $error'));
+            .collection('card')
+            .doc('current_card')
+            .set({'current_card': _cardIdController.text}).then((value) {
+          debugPrint('User Added');
+        }).catchError((error) {
+          debugPrint('Failed to add user: $error');
+        });
 
         final registerNotificationData = {
           'title': '登録完了のお知らせ',
@@ -386,46 +400,169 @@ class _AccountRegistrationState extends State<AccountRegistration> {
               'account-registration-${_cardIdController.text}-${DateFormat('yyyy-MM-dd-Hm').format(DateTime.now())}',
         };
 
+        // notifications
         FirebaseFirestore.instance
+            .collection('version')
+            .doc('2')
             .collection('cards')
             .doc(_cardIdController.text)
+            .collection('visibility')
+            .doc('c10r10u10d10')
             .collection('notifications')
             .add(registerNotificationData);
 
-        cards.doc(_cardIdController.text).set({
-          'is_user': true,
-          'public': false,
-          'uid': uid,
-          'card_id': _cardIdController.text,
+        // c10r10u10d10
+        version2
+            .doc(_cardIdController.text)
+            .collection('visibility')
+            .doc('c10r10u10d10')
+            .set({
+          'settings': {
+            'linkable': false,
+            'app_theme': 0,
+            'display_card_theme': 0
+          },
+          'applying_cards': [],
+        }).then((value) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => AuthGate()),
+          );
+          debugPrint('c10r10u10d10: Registered');
+        }).catchError((error) {
+          debugPrint('カードの登録に失敗しました: $error');
+        });
+
+        // c10r10u21d10
+        version2
+            .doc(_cardIdController.text)
+            .collection('visibility')
+            .doc('c10r10u21d10')
+            .set({
+          'verified_cards': [],
+        }).then((value) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => AuthGate()),
+          );
+          debugPrint('c10r10u21d10: Registered');
+        }).catchError((error) {
+          debugPrint('カードの登録に失敗しました: $error');
+        });
+
+        // c10r10u11d10
+        version2
+            .doc(_cardIdController.text)
+            .collection('visibility')
+            .doc('c10r10u11d10')
+            .set({
           'exchanged_cards': [],
-          'account': {
-            'profiles': {
-              'name': _nameController.text,
-              'bio': {
-                'value': _bioController.text,
-                'display': {'extended': true, 'normal': true},
-              },
-              'company': {
-                'value': _companyController.text,
-                'display': {'extended': true, 'normal': true},
-              },
-              'position': {
-                'value': _positionController.text,
-                'display': {'extended': true, 'normal': true},
-              },
-              'address': {
-                'value': _addressController.text,
-                'display': {'extended': true, 'normal': true},
-              },
+        }).then((value) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => AuthGate()),
+          );
+          debugPrint('c10r10u11d10: Registered');
+        }).catchError((error) {
+          debugPrint('カードの登録に失敗しました: $error');
+        });
+
+        // c10r20u10d10
+        version2
+            .doc(_cardIdController.text)
+            .collection('visibility')
+            .doc('c10r20u10d10')
+            .set({
+          'name': _nameController.text,
+          'public': false,
+          'icon_url': '',
+          'thundercard': {
+            'color': {
+              'seed': 0,
+              'tertiary': 0,
             },
+            'light_theme': true,
+            'rounded': true,
+            'layout': 0,
+            'font_size': {
+              'title': 3,
+              'id': 1.5,
+              'bio': 1.3,
+              'profiles': 1,
+              'links': 1,
+            }
+          },
+        }).then((value) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => AuthGate()),
+          );
+          debugPrint('c10r20u10d10: Registered');
+        }).catchError((error) {
+          debugPrint('カードの登録に失敗しました: $error');
+        });
+
+        // c10r21u10d10
+        version2
+            .doc(_cardIdController.text)
+            .collection('visibility')
+            .doc('c10r21u10d10')
+            .set({
+          'account': {
             'links': links,
+          },
+          'profiles': {
+            'bio': {
+              'value': _bioController.text,
+              'display': {
+                'normal': true,
+                'large': true,
+              }
+            },
+            'company': {
+              'value': _companyController.text,
+              'display': {
+                'normal': true,
+                'large': true,
+              }
+            },
+            'position': {
+              'value': _positionController.text,
+              'display': {
+                'normal': true,
+                'large': true,
+              }
+            },
+            'address': {
+              'value': _addressController.text,
+              'display': {
+                'normal': true,
+                'large': true,
+              }
+            },
           }
         }).then((value) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => AuthGate()),
           );
-          debugPrint('Card Registered');
-        }).catchError((error) => debugPrint('カードの登録に失敗しました: $error'));
+          debugPrint('c10r21u10d10: Registered');
+        }).catchError((error) {
+          debugPrint('カードの登録に失敗しました: $error');
+        });
+
+        // c11r20u00d11
+        version2
+            .doc(_cardIdController.text)
+            .collection('visibility')
+            .doc('c11r20u00d11')
+            .set({
+          'is_user': true,
+          'uid': uid,
+          'card_id': _cardIdController.text,
+        }).then((value) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => AuthGate()),
+          );
+          debugPrint('c11r20u00d11: Registered');
+        }).catchError((error) {
+          debugPrint('カードの登録に失敗しました: $error');
+        });
       }
     });
   }

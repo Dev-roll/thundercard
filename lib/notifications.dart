@@ -18,7 +18,10 @@ class _NotificationsState extends State<Notifications> {
   // final myCardId = 'example';
   final String? uid = getUid();
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-  CollectionReference cards = FirebaseFirestore.instance.collection('cards');
+  CollectionReference cards = FirebaseFirestore.instance
+      .collection('version')
+      .doc('2')
+      .collection('cards');
   Map<String, dynamic>? data;
 
   @override
@@ -32,7 +35,7 @@ class _NotificationsState extends State<Notifications> {
       ),
     );
     return FutureBuilder<DocumentSnapshot>(
-        future: users.doc(uid).get(),
+        future: users.doc(uid).collection('card').doc('current_card').get(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
@@ -44,9 +47,9 @@ class _NotificationsState extends State<Notifications> {
           }
 
           if (snapshot.connectionState == ConnectionState.done) {
-            Map<String, dynamic> user =
+            Map<String, dynamic> currentCard =
                 snapshot.data!.data() as Map<String, dynamic>;
-            final myCardId = user['my_cards'][0];
+            final myCardId = currentCard['current_card'];
             return DefaultTabController(
               length: 2,
               initialIndex: 0,
@@ -162,8 +165,12 @@ class _NotificationsState extends State<Notifications> {
                   children: [
                     StreamBuilder(
                         stream: FirebaseFirestore.instance
+                            .collection('version')
+                            .doc('2')
                             .collection('cards')
                             .doc(myCardId)
+                            .collection('visibility')
+                            .doc('c10r10u10d10')
                             .collection('notifications')
                             .where('tags', arrayContains: 'interaction')
                             .orderBy('created_at', descending: true)
@@ -262,8 +269,12 @@ class _NotificationsState extends State<Notifications> {
                         }),
                     StreamBuilder(
                         stream: FirebaseFirestore.instance
+                            .collection('version')
+                            .doc('2')
                             .collection('cards')
                             .doc(myCardId)
+                            .collection('visibility')
+                            .doc('c10r10u10d10')
                             .collection('notifications')
                             .where('tags', arrayContains: 'news')
                             .orderBy('created_at', descending: true)

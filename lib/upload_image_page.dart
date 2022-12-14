@@ -75,7 +75,12 @@ class _UploadImagePageState extends State<UploadImagePage> {
 
   @override
   Widget build(BuildContext context) {
-    final docId = FirebaseFirestore.instance.collection('cards').doc().id;
+    final docId = FirebaseFirestore.instance
+        .collection('version')
+        .doc('2')
+        .collection('cards')
+        .doc()
+        .id;
 
     void updateDocumentData(String imageURL) {
       final doc = FirebaseFirestore.instance.collection('cards').doc(docId);
@@ -105,8 +110,11 @@ class _UploadImagePageState extends State<UploadImagePage> {
           },
           'links': [],
         },
-      }).then((value) => debugPrint('DocumentSnapshot successfully updated!'),
-          onError: (e) => debugPrint('Error updating document $e'));
+      }).then((value) {
+        debugPrint('DocumentSnapshot successfully updated!');
+      }, onError: (e) {
+        debugPrint('Error updating document $e');
+      });
     }
 
     void updateExchangedCards() {
@@ -114,8 +122,11 @@ class _UploadImagePageState extends State<UploadImagePage> {
           FirebaseFirestore.instance.collection('cards').doc(widget.cardId);
       doc.update({
         'exchanged_cards': FieldValue.arrayUnion([docId])
-      }).then((value) => debugPrint('DocumentSnapshot successfully updated!'),
-          onError: (e) => debugPrint('Error updating document $e'));
+      }).then((value) {
+        debugPrint('DocumentSnapshot successfully updated!');
+      }, onError: (e) {
+        debugPrint('Error updating document $e');
+      });
     }
 
     void uploadPic() async {
@@ -136,6 +147,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
         debugPrint('ここ大事 -> $imageURL');
         updateDocumentData(imageURL);
         updateExchangedCards();
+        if (!mounted) return;
         Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

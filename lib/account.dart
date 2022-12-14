@@ -20,7 +20,7 @@ import 'api/firebase_auth.dart';
 import 'home_page.dart';
 import 'widgets/card_info.dart';
 import 'auth_gate.dart';
-// import 'widgets/maintenance.dart';
+import 'widgets/maintenance.dart';
 
 class Account extends ConsumerWidget {
   const Account({Key? key}) : super(key: key);
@@ -58,10 +58,14 @@ class Account extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                       child: FutureBuilder<DocumentSnapshot>(
-                        future: users.doc(uid).get(),
+                        future: users
+                            .doc(uid)
+                            .collection('card')
+                            .doc('current_card')
+                            .get(),
                         builder: (BuildContext context,
                             AsyncSnapshot<DocumentSnapshot> snapshot) {
-                          Map<String, dynamic> user = {};
+                          Map<String, dynamic> currentCard = {};
                           if (snapshot.hasError) {
                             return const Text('問題が発生しました');
                           }
@@ -72,10 +76,11 @@ class Account extends ConsumerWidget {
 
                           if (snapshot.connectionState ==
                               ConnectionState.done) {
-                            user =
+                            currentCard =
                                 snapshot.data!.data() as Map<String, dynamic>;
                             return CardInfo(
-                                cardId: user['my_cards'][0], editable: true);
+                                cardId: currentCard['current_card'],
+                                editable: true);
                           }
 
                           return const SkeletonCardInfo();
@@ -886,8 +891,9 @@ class Account extends ConsumerWidget {
                                       MaterialPageRoute(
                                           builder: (context) => AuthGate()),
                                     );
-                                  }).catchError((e) =>
-                                          debugPrint('Failed to add user: $e'));
+                                  }).catchError((e) {
+                                    debugPrint('Failed to add user: $e');
+                                  });
                                 },
                                 onLongPress: null,
                                 child: Text(
@@ -922,12 +928,12 @@ class Account extends ConsumerWidget {
                     //   child: Text('退会する'),
                     // ),
                     // メンテナンス
-                    // const SizedBox(height: 28),
-                    // const OutlinedButton(
-                    //   onPressed: maintenance,
-                    //   onLongPress: null,
-                    //   child: Text('管理者用'),
-                    // ),
+                    const SizedBox(height: 28),
+                    const OutlinedButton(
+                      onPressed: maintenance,
+                      onLongPress: null,
+                      child: Text('管理者用'),
+                    ),
                     const SizedBox(height: 40),
                   ],
                 ),

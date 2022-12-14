@@ -71,9 +71,9 @@ class ReorderableMultiTextFieldController
 
   @override
   void dispose() {
-    value.forEach((element) {
+    for (var element in value) {
       element.controller.dispose();
-    });
+    }
     super.dispose();
   }
 }
@@ -285,9 +285,10 @@ class _AccountEditorState extends State<AccountEditor> {
       text: widget.data?['account']['profiles']['position']['value']);
   late final TextEditingController _addressController = TextEditingController(
       text: widget.data?['account']['profiles']['address']['value']);
-  late DocumentReference card =
-      FirebaseFirestore.instance.collection('cards').doc(widget.cardId);
-  CollectionReference cards = FirebaseFirestore.instance.collection('cards');
+  CollectionReference version2 = FirebaseFirestore.instance
+      .collection('version')
+      .doc('2')
+      .collection('cards');
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   late ReorderableMultiTextFieldController controller;
   var updateButtonPressed = false;
@@ -300,7 +301,9 @@ class _AccountEditorState extends State<AccountEditor> {
       var links = [];
       links = widget.data?['account']['links'];
       // controller.clear();
-      links.forEach((e) => controller.add(e['key'], e['value']));
+      for (var e in links) {
+        controller.add(e['key'], e['value']);
+      }
     }();
   }
 
@@ -336,38 +339,145 @@ class _AccountEditorState extends State<AccountEditor> {
     };
 
     FirebaseFirestore.instance
+        .collection('version')
+        .doc('2')
         .collection('cards')
         .doc(widget.cardId)
+        .collection('visibility')
+        .doc('c10r10u10d10')
         .collection('notifications')
         .add(updateNotificationData);
 
-    card.set({
+    // users
+    //     .doc(uid)
+    //     .collection('card')
+    //     .doc('current_card')
+    //     .update({'current_card': widget.cardId}).then((value) {
+    //   debugPrint('User Added');
+    // }).catchError((error) {
+    //   debugPrint('Failed to add user: $error');
+    // });
+
+    // c10r10u10d10
+    // version2
+    //     .doc(widget.cardId)
+    //     .collection('visibility')
+    //     .doc('c10r10u10d10')
+    //     .set({
+    //   'settings': {'linkable': false, 'app_theme': 0, 'display_card_theme': 0},
+    //   'applying_cards': [],
+    // }, SetOptions(merge: true)).then((value) {
+    //   Navigator.of(context).pop();
+    //   debugPrint('Card Updated');
+    // }).catchError((error) {
+    //   debugPrint('Failed to update card: $error');
+    // });
+
+    // c10r10u21d10
+    // version2
+    //     .doc(widget.cardId)
+    //     .collection('visibility')
+    //     .doc('c10r10u21d10')
+    //     .set({
+    //   'verified_cards': [],
+    // }, SetOptions(merge: true)).then((value) {
+    //   Navigator.of(context).pop();
+    //   debugPrint('Card Updated');
+    // }).catchError((error) {
+    //   debugPrint('Failed to update card: $error');
+    // });
+
+    // c10r10u11d10
+    // version2
+    //     .doc(widget.cardId)
+    //     .collection('visibility')
+    //     .doc('c10r10u11d10')
+    //     .set({
+    //   'exchanged_cards': [],
+    // }, SetOptions(merge: true)).then((value) {
+    //   Navigator.of(context).pop();
+    //   debugPrint('Card Updated');
+    // }).catchError((error) {
+    //   debugPrint('Failed to update card: $error');
+    // });
+
+    // c10r20u10d10
+    version2
+        .doc(widget.cardId)
+        .collection('visibility')
+        .doc('c10r20u10d10')
+        .set({
+      'name': _nameController.text,
+      // 'public': false,
+      // 'icon_url': '',
+      // 'thundercard': {
+      //   'color': {
+      //     'seed': 0,
+      //     'tertiary': 0,
+      //   },
+      //   'light_theme': true,
+      //   'rounded': true,
+      //   'layout': 0,
+      //   'font_size': {
+      //     'title': 3,
+      //     'id': 1.5,
+      //     'bio': 1.3,
+      //     'profiles': 1,
+      //     'links': 1,
+      //   }
+      // },
+    }, SetOptions(merge: true)).then((value) {
+      Navigator.of(context).pop();
+      debugPrint('Card Updated');
+    }).catchError((error) {
+      debugPrint('Failed to update card: $error');
+    });
+
+    // c10r21u10d10
+    version2
+        .doc(widget.cardId)
+        .collection('visibility')
+        .doc('c10r21u10d10')
+        .set({
       'account': {
-        'profiles': {
-          'name': _nameController.text,
-          'bio': {
-            'value': _bioController.text,
-            'display': {'extended': true, 'normal': true},
-          },
-          'company': {
-            'value': _companyController.text,
-            'display': {'extended': true, 'normal': true},
-          },
-          'position': {
-            'value': _positionController.text,
-            'display': {'extended': true, 'normal': true},
-          },
-          'address': {
-            'value': _addressController.text,
-            'display': {'extended': true, 'normal': true},
-          },
-        },
         'links': links,
+      },
+      'profiles': {
+        'bio': {
+          'value': _bioController.text,
+          'display': {
+            'normal': true,
+            'large': true,
+          }
+        },
+        'company': {
+          'value': _companyController.text,
+          'display': {
+            'normal': true,
+            'large': true,
+          }
+        },
+        'position': {
+          'value': _positionController.text,
+          'display': {
+            'normal': true,
+            'large': true,
+          }
+        },
+        'address': {
+          'value': _addressController.text,
+          'display': {
+            'normal': true,
+            'large': true,
+          }
+        },
       }
     }, SetOptions(merge: true)).then((value) {
       Navigator.of(context).pop();
       debugPrint('Card Updated');
-    }).catchError((error) => debugPrint('Failed to update card: $error'));
+    }).catchError((error) {
+      debugPrint('Failed to update card: $error');
+    });
   }
 
   @override

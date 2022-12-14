@@ -28,7 +28,10 @@ class List extends StatefulWidget {
 class _ListState extends State<List> {
   final String? uid = getUid();
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-  CollectionReference cards = FirebaseFirestore.instance.collection('cards');
+  CollectionReference cards = FirebaseFirestore.instance
+      .collection('version')
+      .doc('2')
+      .collection('cards');
   Map<String, dynamic>? data;
   var isDialOpen = ValueNotifier<bool>(false);
   var customDialRoot = false;
@@ -53,7 +56,7 @@ class _ListState extends State<List> {
       ),
     );
     return FutureBuilder<DocumentSnapshot>(
-      future: users.doc(uid).get(),
+      future: users.doc(uid).collection('card').doc('current_card').get(),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -65,14 +68,18 @@ class _ListState extends State<List> {
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> user =
+          Map<String, dynamic> currentCard =
               snapshot.data!.data() as Map<String, dynamic>;
           return Scaffold(
             // appBar: AppBar(),
             body: SafeArea(
               child: Center(
                 child: StreamBuilder<DocumentSnapshot<Object?>>(
-                  stream: cards.doc(user['my_cards'][0]).snapshots(),
+                  stream: cards
+                      .doc(currentCard['current_card'])
+                      .collection('visibility')
+                      .doc('c10r10u11d10')
+                      .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<DocumentSnapshot> snapshot) {
                     if (snapshot.hasError) {
@@ -171,6 +178,8 @@ class _ListState extends State<List> {
                                         DocumentSnapshot<Object?>>(
                                       stream: cards
                                           .doc(exchangedCards[index - 1])
+                                          .collection('visibility')
+                                          .doc('c10r10u11d10')
                                           .snapshots(),
                                       builder: (BuildContext context,
                                           AsyncSnapshot<DocumentSnapshot>
@@ -311,8 +320,8 @@ class _ListState extends State<List> {
               renderOverlay: true,
               // overlayColor: Colors.black,
               overlayOpacity: 0.9,
-              // onOpen: () => debugPrint('OPENING DIAL'),
-              // onClose: () => debugPrint('DIAL CLOSED'),
+              // onOpen: () {debugPrint('OPENING DIAL');},
+              // onClose: () {debugPrint('DIAL CLOSED');},
               useRotationAnimation: true,
               tooltip: '',
               heroTag: 'speed-dial-hero-tag',
@@ -360,7 +369,7 @@ class _ListState extends State<List> {
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => UploadImagePage(
-                        cardId: user['my_cards'][0],
+                        cardId: currentCard['current_card'],
                       ),
                       fullscreenDialog: true,
                     ));

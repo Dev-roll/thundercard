@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 
 import 'firebase_auth.dart';
 
-String? getCardId() {
+getCardId() {
   FirebaseFirestore.instance
       .collection('users')
       .doc(getUid())
+      .collection('card')
+      .doc('current_card')
       .get()
       .then((value) {
-    return value['my_cards'][0];
-  }).catchError((error) => debugPrint('Failed to add user: $error'));
+    return value['current_card'];
+  });
 }
 
 Future<bool> getIsUser(String cardId) async {

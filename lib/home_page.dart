@@ -23,7 +23,7 @@ final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
 class HomePage extends StatefulWidget {
   HomePage({Key? key, this.user, required this.index}) : super(key: key);
   final User? user;
-  int index;
+  late int index;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -31,6 +31,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final String? uid = getUid();
+  var username = '';
   DocumentReference user =
       FirebaseFirestore.instance.collection('users').doc(getUid());
 
@@ -42,6 +43,16 @@ class _HomePageState extends State<HomePage> {
         .value
         .toRadixString(16)
         .substring(2);
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('card')
+        .doc('current_card')
+        .get()
+        .then((value) {
+      final data = value.data();
+      username = '@${data?['current_card'] ?? 'username'}';
+    });
 
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
@@ -167,7 +178,7 @@ class _HomePageState extends State<HomePage> {
                                   width: 32,
                                   child: FittedBox(child: Avatar()),
                                 ),
-                                title: const Text('username'),
+                                title: Text(username),
                                 selected: true,
                                 selectedTileColor: Theme.of(context)
                                     .colorScheme

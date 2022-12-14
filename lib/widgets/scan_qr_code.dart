@@ -73,12 +73,12 @@ class _ScanQrCodeState extends State<ScanQrCode> {
     return Scaffold(
       body: SafeArea(
         child: FutureBuilder(
-          future: users.doc(uid).get(),
+          future: users.doc(uid).collection('card').doc('current_card').get(),
           builder:
               (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-            Map<String, dynamic> user =
+            Map<String, dynamic> currentCard =
                 snapshot.data!.data() as Map<String, dynamic>;
-            myCardId = user['my_cards'][0];
+            myCardId = currentCard['current_card'];
             String thunderCardUrl = '$initStr$myCardId';
             // String thunderCardUrl = 'thundercard://user?card_id=$myCardId';
             return Column(
@@ -289,6 +289,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                         //     await getApplicationDocumentsFile(
                                         //         myCardId, widgetImageBytes!);
                                         // final path = applicationDocumentsFile.path;
+                                        if (!mounted) return;
                                         ScaffoldMessenger.of(context)
                                             .hideCurrentSnackBar();
                                         ScaffoldMessenger.of(context)

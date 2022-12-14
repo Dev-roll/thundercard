@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 
 class CardElement extends StatelessWidget {
-  CardElement({
+  const CardElement({
     Key? key,
     required this.txt,
     this.type = IconType.nl,
@@ -14,14 +14,14 @@ class CardElement extends StatelessWidget {
     this.opacity = 1,
     this.large = false,
   }) : super(key: key);
-  String? txt;
-  IconType type;
-  int line;
-  double size;
-  String weight;
-  double height;
-  double opacity;
-  bool large;
+  final String? txt;
+  final IconType type;
+  final int line;
+  final double size;
+  final String weight;
+  final double height;
+  final double opacity;
+  final bool large;
 
   @override
   Widget build(BuildContext context) {

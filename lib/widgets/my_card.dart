@@ -148,7 +148,11 @@ class MyCard extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FutureBuilder(
-                            future: users?.doc(uid).get(),
+                            future: users
+                                ?.doc(uid)
+                                .collection('card')
+                                .doc('current_card')
+                                .get(),
                             builder: (BuildContext context,
                                 AsyncSnapshot<DocumentSnapshot> snapshot) {
                               if (snapshot.hasError) {
@@ -159,9 +163,10 @@ class MyCard extends ConsumerWidget {
                               }
                               if (snapshot.connectionState ==
                                   ConnectionState.done) {
-                                Map<String, dynamic> user = snapshot.data!
-                                    .data() as Map<String, dynamic>;
-                                String myCardId = user['my_cards'][0];
+                                Map<String, dynamic> currentCard =
+                                    snapshot.data!.data()
+                                        as Map<String, dynamic>;
+                                String myCardId = currentCard['current_card'];
                                 return Center(
                                   child: Row(
                                     children: [

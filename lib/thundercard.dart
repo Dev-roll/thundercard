@@ -107,7 +107,11 @@ class _ThundercardState extends State<Thundercard> {
                       child: Container(
                         padding: const EdgeInsets.fromLTRB(16, 32, 16, 100),
                         child: FutureBuilder(
-                          future: users.doc(uid).get(),
+                          future: users
+                              .doc(uid)
+                              .collection('card')
+                              .doc('current_card')
+                              .get(),
                           builder: (BuildContext context,
                               AsyncSnapshot<DocumentSnapshot> snapshot) {
                             if (snapshot.hasError) {
@@ -118,9 +122,9 @@ class _ThundercardState extends State<Thundercard> {
                             }
                             if (snapshot.connectionState ==
                                 ConnectionState.done) {
-                              Map<String, dynamic> user =
+                              Map<String, dynamic> currentCard =
                                   snapshot.data!.data() as Map<String, dynamic>;
-                              myCardId = user['my_cards'][0];
+                              myCardId = currentCard['current_card'];
                               String thunderCardUrl =
                                   'https://thundercard-test.web.app/?card_id=$myCardId';
                               // 'thundercard://user?card_id=$myCardId';

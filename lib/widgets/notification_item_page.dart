@@ -52,8 +52,12 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
     void deleteThisNotification() {
       debugPrint(widget.documentId);
       FirebaseFirestore.instance
+          .collection('version')
+          .doc('2')
           .collection('cards')
           .doc(widget.myCardId)
+          .collection('visibility')
+          .doc('c10r10u10d10')
           .collection('notifications')
           .doc(widget.documentId)
           .delete()
@@ -67,7 +71,9 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
           );
           debugPrint('Document deleted');
         },
-        onError: (e) => debugPrint('Error updating document $e'),
+        onError: (e) {
+          debugPrint('Error updating document $e');
+        },
       );
     }
 
@@ -146,8 +152,12 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
             onSelected: (String s) {
               if (s == '未読にする') {
                 FirebaseFirestore.instance
+                    .collection('version')
+                    .doc('2')
                     .collection('cards')
                     .doc(widget.myCardId)
+                    .collection('visibility')
+                    .doc('c10r10u10d10')
                     .collection('notifications')
                     .doc(widget.documentId)
                     .update({'read': false}).then(
@@ -159,7 +169,9 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
                       (_) => false,
                     );
                   },
-                  onError: (e) => debugPrint('Error updating document $e'),
+                  onError: (e) {
+                    debugPrint('Error updating document $e');
+                  },
                 );
               } else if (s == '削除') {
                 openAlertDialog1(context);

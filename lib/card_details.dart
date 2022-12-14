@@ -25,18 +25,28 @@ class CardDetails extends StatefulWidget {
 class _CardDetailsState extends State<CardDetails> {
   var deleteButtonPressed = false;
   var messageButtonPressed = false;
+  final String? uid = getUid();
 
   Future<Room> getRoom(String otherCardId) async {
-    final String? uid = getUid();
-    final DocumentReference user =
-        FirebaseFirestore.instance.collection('users').doc(uid);
-    final String myCardId = await user.get().then((DocumentSnapshot res) {
+    final DocumentReference currentCard = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('card')
+        .doc('current_card');
+    final String myCardId =
+        await currentCard.get().then((DocumentSnapshot res) {
       final data = res.data() as Map<String, dynamic>;
-      return data['my_cards'][0];
+      return data['current_card'];
     });
-    final DocumentReference card =
-        FirebaseFirestore.instance.collection('cards').doc(myCardId);
-    final Room room = await card.get().then((DocumentSnapshot res) {
+    final DocumentReference rooms = FirebaseFirestore.instance
+        .collection('version')
+        .doc('2')
+        .collection('cards')
+        .doc(myCardId)
+        .collection('visibility')
+        .doc('c10r21u21d10');
+
+    final Room room = await rooms.get().then((DocumentSnapshot res) {
       final data = res.data() as Map<String, dynamic>;
       return Room.fromJson(data['rooms'][otherCardId]);
     });
@@ -51,13 +61,19 @@ class _CardDetailsState extends State<CardDetails> {
     void deleteThisCard() {
       FirebaseFirestore.instance
           .collection('users')
-          .doc(getUid())
+          .doc(uid)
+          .collection('card')
+          .doc('current_card')
           .get()
           .then((value) {
-        final doc = FirebaseFirestore.instance
+        FirebaseFirestore.instance
+            .collection('version')
+            .doc('2')
             .collection('cards')
-            .doc(value['my_cards'][0]);
-        doc.update({
+            .doc(value['current_card'])
+            .collection('visibility')
+            .doc('c10r10u11d10')
+            .update({
           'exchanged_cards': FieldValue.arrayRemove([widget.cardId])
         }).then((value) {
           Navigator.of(context).pushAndRemoveUntil(
@@ -69,8 +85,12 @@ class _CardDetailsState extends State<CardDetails> {
             (_) => false,
           );
           debugPrint('DocumentSnapshot successfully updated!');
-        }, onError: (e) => debugPrint('Error updating document $e'));
-      }).catchError((error) => debugPrint('Failed to add user: $error'));
+        }, onError: (e) {
+          debugPrint('Error updating document $e');
+        });
+      }).catchError((error) {
+        debugPrint('Failed to add user: $error');
+      });
     }
 
     Future openAlertDialog1(BuildContext context) async {

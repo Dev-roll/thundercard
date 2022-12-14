@@ -54,8 +54,12 @@ class _NotificationItemState extends State<NotificationItem> {
       onTap: () {
         debugPrint(widget.documentId);
         FirebaseFirestore.instance
+            .collection('version')
+            .doc('2')
             .collection('cards')
             .doc(widget.myCardId)
+            .collection('visibility')
+            .doc('c10r10u10d10')
             .collection('notifications')
             .doc(widget.documentId)
             .update({'read': true});
