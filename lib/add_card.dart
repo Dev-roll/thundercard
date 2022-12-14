@@ -219,7 +219,11 @@ class _AddCardState extends State<AddCard> {
                   Column(
                     children: [
                       const SizedBox(height: 32),
-                      const Text('ユーザー自身のカードは交換できません'),
+                      Text(
+                        'ユーザー自身のカードは交換できません',
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.error),
+                      ),
                       const SizedBox(height: 24),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

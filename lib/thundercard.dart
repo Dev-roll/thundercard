@@ -105,6 +105,7 @@ class _ThundercardState extends State<Thundercard> {
                         maxWidth: 800,
                       ),
                       child: Container(
+                        alignment: Alignment.topCenter,
                         padding: const EdgeInsets.fromLTRB(16, 32, 16, 100),
                         child: FutureBuilder(
                           future: users
@@ -118,7 +119,11 @@ class _ThundercardState extends State<Thundercard> {
                               return const Text('問題が発生しました');
                             }
                             if (snapshot.hasData && !snapshot.data!.exists) {
-                              return const Text('ユーザー情報の取得に失敗しました');
+                              return Text(
+                                'ユーザー情報の取得に失敗しました',
+                                style: TextStyle(
+                                    color: Theme.of(context).colorScheme.error),
+                              );
                             }
                             if (snapshot.connectionState ==
                                 ConnectionState.done) {

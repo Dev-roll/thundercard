@@ -71,7 +71,11 @@ class Account extends ConsumerWidget {
                           }
 
                           if (snapshot.hasData && !snapshot.data!.exists) {
-                            return const Text('ユーザー情報の取得に失敗しました');
+                            return Text(
+                              'ユーザー情報の取得に失敗しました',
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.error),
+                            );
                           }
 
                           if (snapshot.connectionState ==
