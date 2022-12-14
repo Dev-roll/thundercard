@@ -90,14 +90,15 @@ class _UploadImagePageState extends State<UploadImagePage> {
           .doc(docId)
           .collection('visibility');
 
-      final c11r20u00d11 = {
+      final c21r20u00d11 = {
         'is_user': false,
         'card_id': docId,
       };
 
+      // TODO: Not working
       newCard
-          .doc('c11r20u00d11')
-          .set(c11r20u00d11, SetOptions(merge: true))
+          .doc('c21r20u00d11')
+          .set(c21r20u00d11, SetOptions(merge: true))
           .then((value) {
         debugPrint('Card successfully added!');
       }, onError: (e) {
@@ -109,6 +110,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
         'name': _nameController.text,
       };
 
+      // TODO: Not working
       newCard
           .doc('c10r20u10d10')
           .set(c10r20u10d10, SetOptions(merge: true))
@@ -118,10 +120,12 @@ class _UploadImagePageState extends State<UploadImagePage> {
         debugPrint('Error updating document $e');
       });
 
+      // Working correctly
       newCard.doc('c20r11u11d11').set({
         'card_url': imageURL,
       });
 
+      // TODO: Not working
       newCard.doc('c10r21u10d10').set({
         'profiles': {
           'bio': {
