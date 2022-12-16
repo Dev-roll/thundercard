@@ -1,4 +1,6 @@
 const String aboutAppData = '''
+![](https://user-images.githubusercontent.com/79978827/202828236-809fb30e-9d46-46aa-87da-18882e1f35b1.png)
+
 ## 未来の名刺，全く新しいSNS。
 
 Thundercardは名刺をヒントに開発された全く新しいSNSです。
