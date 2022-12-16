@@ -202,29 +202,88 @@ class _CardDetailsState extends State<CardDetails> {
                         ),
                   if (!widget.card['is_user'])
                     widget.card?['thumbnail'] != null
-                        ? Stack(
-                            children: [
-                              const CustomProgressIndicator(),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) {
-                                      return PreviewImg(
-                                        image: Image.network(
-                                          widget.card?['thumbnail'],
-                                        ),
-                                      );
-                                    }),
+                        ? GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) {
+                                  return PreviewImg(
+                                    image: Image.network(
+                                      widget.card?['thumbnail'],
+                                      frameBuilder: (context, child, frame,
+                                          wasSynchronouslyLoaded) {
+                                        return child;
+                                      },
+                                      loadingBuilder:
+                                          (context, child, loadingProgress) {
+                                        if (loadingProgress == null) {
+                                          return child;
+                                        }
+                                        int loaded = loadingProgress
+                                            .cumulativeBytesLoaded;
+                                        int expected = loadingProgress
+                                                .expectedTotalBytes ??
+                                            1;
+                                        double? value = loaded / expected;
+                                        return Center(
+                                          child: SizedBox(
+                                            width: 40,
+                                            height: 40,
+                                            child: CircularProgressIndicator(
+                                              value: value,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              backgroundColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .onPrimary
+                                                  .withOpacity(0.5),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                }),
+                              );
+                            },
+                            child: Hero(
+                              tag: 'card_image',
+                              child: Image.network(
+                                widget.card?['thumbnail'],
+                                frameBuilder: (context, child, frame,
+                                    wasSynchronouslyLoaded) {
+                                  return child;
+                                },
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child;
+                                  }
+                                  int loaded =
+                                      loadingProgress.cumulativeBytesLoaded;
+                                  int expected =
+                                      loadingProgress.expectedTotalBytes ?? 1;
+                                  double? value = loaded / expected;
+                                  return Center(
+                                    child: Container(
+                                      width: 40,
+                                      height: 40,
+                                      margin: const EdgeInsets.all(40),
+                                      child: CircularProgressIndicator(
+                                        value: value,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary
+                                            .withOpacity(0.5),
+                                      ),
+                                    ),
                                   );
                                 },
-                                child: Hero(
-                                  tag: 'card_image',
-                                  child: Image.network(
-                                    widget.card?['thumbnail'],
-                                  ),
-                                ),
                               ),
-                            ],
+                            ),
                           )
                         : const Text('画像が見つかりませんでした'),
                   if (widget.card['is_user'])
