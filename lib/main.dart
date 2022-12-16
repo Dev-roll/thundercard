@@ -9,8 +9,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
-import 'package:thundercard/md_page.dart';
-import 'package:thundercard/widgets/md/about_app.dart';
 
 import 'api/settings/custom_theme.dart';
 import 'auth_gate.dart';
@@ -88,8 +86,7 @@ class MyApp extends ConsumerWidget {
           supportedLocales: const [
             Locale('ja', 'JP'),
           ],
-          // home: AuthGate(),
-          home: MdPage(title: Text('test'), data: aboutAppData),
+          home: AuthGate(),
         );
       },
     );
