@@ -145,6 +145,9 @@ class _UploadImagePageState extends State<UploadImagePage> {
             'display': {'extended': true, 'normal': true},
           },
         },
+        'account': {
+          'links': [],
+        },
       }).then((value) {
         debugPrint('DocumentSnapshot successfully updated!');
       }, onError: (e) {
@@ -180,8 +183,9 @@ class _UploadImagePageState extends State<UploadImagePage> {
         // final XFile? image = await picker.pickImage(source: ImageSource.gallery);
         File file = File(image!.path);
 
-        final storageRef =
-            FirebaseStorage.instance.ref().child('cards/$docId/$uploadName');
+        final storageRef = FirebaseStorage.instance
+            .ref()
+            .child('version/2/cards/not_user/$docId/$uploadName');
         final task = await storageRef.putFile(file);
         final String imageURL = await task.ref.getDownloadURL();
         debugPrint('ここ大事 -> $imageURL');
