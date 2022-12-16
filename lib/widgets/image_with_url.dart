@@ -32,8 +32,10 @@ class ImageWithUrl extends StatelessWidget {
                       child: CircularProgressIndicator(
                         value: value,
                         color: Theme.of(context).colorScheme.primary,
-                        backgroundColor:
-                            Theme.of(context).colorScheme.onPrimary,
+                        backgroundColor: Theme.of(context)
+                            .colorScheme
+                            .onPrimary
+                            .withOpacity(0.5),
                       ),
                     ),
                   );
@@ -65,7 +67,8 @@ class ImageWithUrl extends StatelessWidget {
                 child: CircularProgressIndicator(
                   value: value,
                   color: Theme.of(context).colorScheme.primary,
-                  backgroundColor: Theme.of(context).colorScheme.onPrimary,
+                  backgroundColor:
+                      Theme.of(context).colorScheme.onPrimary.withOpacity(0.5),
                 ),
               ),
             );
