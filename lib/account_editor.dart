@@ -302,6 +302,8 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
   }
 
   void updateCard() {
+    Navigator.of(context).pop();
+
     final values = controller.value.map(((e) {
       return e.controller.text;
     })).toList();
@@ -421,8 +423,7 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
       //   }
       // },
     }, SetOptions(merge: true)).then((value) {
-      Navigator.of(context).pop();
-      debugPrint('Card Updated');
+      debugPrint('Card Updated (1/2)');
     }).catchError((error) {
       debugPrint('Failed to update card: $error');
     });
@@ -467,8 +468,7 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
         },
       }
     }, SetOptions(merge: true)).then((value) {
-      Navigator.of(context).pop();
-      debugPrint('Card Updated');
+      debugPrint('Card Updated (2/2)');
     }).catchError((error) {
       debugPrint('Failed to update card: $error');
     });
@@ -476,38 +476,43 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
 
   @override
   Widget build(BuildContext context) {
-    final c10r21u10d10AsyncValue =
-        ref.watch(c10r21u10d10Provider(widget.cardId));
+    final c10r21u10d10AsyncValue = ref.watch(c10r21u10d10Stream(widget.cardId));
     return c10r21u10d10AsyncValue.when(
       error: (err, _) => Text(err.toString()), //エラー時
       loading: () => const CircularProgressIndicator(), //読み込み時
       data: (c10r21u10d10) {
         final c10r20u10d10AsyncValue =
-            ref.watch(c10r20u10d10Provider(widget.cardId));
+            ref.watch(c10r20u10d10Stream(widget.cardId));
         return c10r20u10d10AsyncValue.when(
           error: (err, _) => Text(err.toString()), //エラー時
           loading: () => const CircularProgressIndicator(), //読み込み時
           data: (c10r20u10d10) {
             final c21r20u00d11AsyncValue =
-                ref.watch(c21r20u00d11Provider(widget.cardId));
+                ref.watch(c21r20u00d11Stream(widget.cardId));
             return c21r20u00d11AsyncValue.when(
               error: (err, _) => Text(err.toString()), //エラー時
               loading: () => const CircularProgressIndicator(), //読み込み時
               data: (c21r20u00d11) {
-                _nameController =
+                final initName =
                     TextEditingController(text: c10r20u10d10?['name'] ?? '');
-                _bioController = TextEditingController(
+                final initBio = TextEditingController(
                     text: c10r21u10d10?['profiles']['bio']['value'] ?? '');
-                _companyController = TextEditingController(
+                final initCompany = TextEditingController(
                     text: c10r21u10d10?['profiles']['company']['value'] ?? '');
-                _positionController = TextEditingController(
+                final initPosition = TextEditingController(
                     text: c10r21u10d10?['profiles']['position']['value'] ?? '');
-                _addressController = TextEditingController(
+                final initAddress = TextEditingController(
                     text: c10r21u10d10?['profiles']['address']['value'] ?? '');
+
+                _nameController = initName;
+                _bioController = initBio;
+                _companyController = initCompany;
+                _positionController = initPosition;
+                _addressController = initAddress;
 
                 var links = [];
                 links = c10r21u10d10?['account']['links'];
-                //   controller.clear();
+                controller.clear();
                 for (var e in links) {
                   controller.add(e['key'], e['value']);
                 }
