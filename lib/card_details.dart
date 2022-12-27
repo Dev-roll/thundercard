@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thundercard/api/colors.dart';
 import 'package:thundercard/widgets/preview_img.dart';
 
 import 'api/firebase_auth.dart';
+import 'api/provider/index.dart';
 import 'widgets/card_info.dart';
 import 'widgets/custom_progress_indicator.dart';
 import 'widgets/my_card.dart';
@@ -12,19 +14,12 @@ import 'chat.dart';
 import 'constants.dart';
 import 'home_page.dart';
 
-class CardDetails extends StatefulWidget {
-  const CardDetails({Key? key, required this.cardId, required this.card})
+class CardDetails extends ConsumerWidget {
+  CardDetails({Key? key, required this.cardId, required this.card})
       : super(key: key);
   final String cardId;
   final dynamic card;
 
-  @override
-  State<CardDetails> createState() => _CardDetailsState();
-}
-
-class _CardDetailsState extends State<CardDetails> {
-  var deleteButtonPressed = false;
-  var messageButtonPressed = false;
   final String? uid = getUid();
 
   Future<Room> getRoom(String otherCardId) async {
@@ -54,7 +49,7 @@ class _CardDetailsState extends State<CardDetails> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // final String? uid = getUid();
     // CollectionReference users = FirebaseFirestore.instance.collection('users');
 
@@ -74,13 +69,12 @@ class _CardDetailsState extends State<CardDetails> {
             .collection('visibility')
             .doc('c10r10u11d10')
             .update({
-          'exchanged_cards': FieldValue.arrayRemove([widget.cardId])
+          'exchanged_cards': FieldValue.arrayRemove([cardId])
         }).then((value) {
+          ref.watch(currentIndexProvider.notifier).state = 1;
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (context) => HomePage(
-                index: 1,
-              ),
+              builder: (context) => HomePage(),
             ),
             (_) => false,
           );
@@ -117,32 +111,14 @@ class _CardDetailsState extends State<CardDetails> {
               onLongPress: null,
               child: const Text('キャンセル'),
             ),
-            deleteButtonPressed
-                ? TextButton(
-                    onPressed: null,
-                    onLongPress: null,
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      child: const SizedBox(
-                        height: 24,
-                        width: 24,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 3.0,
-                        ),
-                      ),
-                    ),
-                  )
-                : TextButton(
-                    onPressed: () {
-                      setState(() {
-                        deleteButtonPressed = true;
-                      });
-                      Navigator.pop(context, true);
-                      deleteThisCard();
-                    },
-                    onLongPress: null,
-                    child: const Text('OK'),
-                  ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, true);
+                deleteThisCard();
+              },
+              onLongPress: null,
+              child: const Text('OK'),
+            ),
           ],
         ),
       );
@@ -196,7 +172,7 @@ class _CardDetailsState extends State<CardDetails> {
               padding: const EdgeInsets.only(bottom: 20),
               child: Column(
                 children: [
-                  widget.card['is_user']
+                  card['is_user']
                       ? Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: ConstrainedBox(
@@ -206,7 +182,7 @@ class _CardDetailsState extends State<CardDetails> {
                             ),
                             child: FittedBox(
                               child: MyCard(
-                                cardId: widget.cardId,
+                                cardId: cardId,
                                 cardType: CardType.large,
                               ),
                             ),
@@ -215,13 +191,13 @@ class _CardDetailsState extends State<CardDetails> {
                       : Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: CardInfo(
-                            cardId: widget.cardId,
+                            cardId: cardId,
                             editable: true,
                             isUser: false,
                           ),
                         ),
-                  if (!widget.card['is_user'])
-                    widget.card?['thumbnail'] != null
+                  if (!card['is_user'])
+                    card?['thumbnail'] != null
                         ? Stack(
                             children: [
                               const CustomProgressIndicator(),
@@ -231,7 +207,7 @@ class _CardDetailsState extends State<CardDetails> {
                                     MaterialPageRoute(builder: (context) {
                                       return PreviewImg(
                                         image: Image.network(
-                                          widget.card?['thumbnail'],
+                                          card?['thumbnail'],
                                         ),
                                       );
                                     }),
@@ -240,16 +216,16 @@ class _CardDetailsState extends State<CardDetails> {
                                 child: Hero(
                                   tag: 'card_image',
                                   child: Image.network(
-                                    widget.card?['thumbnail'],
+                                    card?['thumbnail'],
                                   ),
                                 ),
                               ),
                             ],
                           )
                         : const Text('画像が見つかりませんでした'),
-                  if (widget.card['is_user'])
+                  if (card['is_user'])
                     FutureBuilder(
-                      future: getRoom(widget.cardId),
+                      future: getRoom(cardId),
                       builder:
                           (BuildContext context, AsyncSnapshot<Room> snapshot) {
                         if (snapshot.hasError) {
@@ -262,47 +238,31 @@ class _CardDetailsState extends State<CardDetails> {
                         // }
 
                         if (snapshot.connectionState == ConnectionState.done) {
-                          return messageButtonPressed
-                              ? ElevatedButton(
-                                  onPressed: null,
-                                  onLongPress: null,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(4),
-                                    child: const SizedBox(
-                                      height: 24,
-                                      width: 24,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 3.0,
-                                      ),
-                                    ),
+                          return ElevatedButton.icon(
+                            icon: const Icon(Icons.question_answer_rounded),
+                            label: const Text('メッセージ'),
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              foregroundColor: Theme.of(context)
+                                  .colorScheme
+                                  .onSecondaryContainer,
+                              backgroundColor: Theme.of(context)
+                                  .colorScheme
+                                  .secondaryContainer,
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChatPage(
+                                    room: snapshot.data!,
+                                    cardId: cardId,
                                   ),
-                                )
-                              : ElevatedButton.icon(
-                                  icon:
-                                      const Icon(Icons.question_answer_rounded),
-                                  label: const Text('メッセージ'),
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 0,
-                                    foregroundColor: Theme.of(context)
-                                        .colorScheme
-                                        .onSecondaryContainer,
-                                    backgroundColor: Theme.of(context)
-                                        .colorScheme
-                                        .secondaryContainer,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ChatPage(
-                                          room: snapshot.data!,
-                                          cardId: widget.cardId,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  onLongPress: null,
-                                );
+                                ),
+                              );
+                            },
+                            onLongPress: null,
+                          );
                         }
                         return const Center(child: CustomProgressIndicator());
                       },
