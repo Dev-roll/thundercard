@@ -302,8 +302,6 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
   }
 
   void updateCard() {
-    Navigator.of(context).pop();
-
     final values = controller.value.map(((e) {
       return e.controller.text;
     })).toList();
@@ -523,37 +521,43 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
                     appBar: AppBar(
                       title: const Text('プロフィールを編集'),
                       actions: [
-                        _nameController.text == ''
-                            ? const TextButton(
-                                onPressed: null,
-                                onLongPress: null,
-                                child: Text('保存'),
-                              )
-                            : updateButtonPressed
-                                ? TextButton(
-                                    onPressed: null,
-                                    onLongPress: null,
-                                    child: Container(
-                                      padding: const EdgeInsets.all(4),
-                                      child: const SizedBox(
-                                        height: 24,
-                                        width: 24,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 3.0,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                : TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        updateButtonPressed = true;
-                                      });
-                                      updateCard();
-                                    },
-                                    onLongPress: null,
-                                    child: const Text('保存'),
-                                  ),
+                        TextButton(
+                          onPressed: () {
+                            if (_nameController.text == '') {
+                              null;
+                            } else {
+                              Navigator.of(context).pop();
+                              updateCard();
+                            }
+                          },
+                          onLongPress: null,
+                          child: const Text('保存'),
+                        ),
+                        // : updateButtonPressed
+                        //     ? TextButton(
+                        //         onPressed: null,
+                        //         onLongPress: null,
+                        //         child: Container(
+                        //           padding: const EdgeInsets.all(4),
+                        //           child: const SizedBox(
+                        //             height: 24,
+                        //             width: 24,
+                        //             child: CircularProgressIndicator(
+                        //               strokeWidth: 3.0,
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       )
+                        //     : TextButton(
+                        //         onPressed: () {
+                        //           setState(() {
+                        //             updateButtonPressed = true;
+                        //           });
+                        //           updateCard();
+                        //         },
+                        //         onLongPress: null,
+                        //         child: const Text('保存'),
+                        //       ),
                       ],
                       backgroundColor:
                           Theme.of(context).colorScheme.surfaceVariant,
@@ -619,9 +623,6 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
                                               .withOpacity(0.5),
                                         ),
                                       ),
-                                      onChanged: (value) {
-                                        setState(() {});
-                                      },
                                     ),
                                     const Text('会社'),
                                     TextField(
