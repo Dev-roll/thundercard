@@ -233,12 +233,6 @@ class _UploadImagePageState extends State<UploadImagePage> {
             ),
           ),
         );
-        // Navigator.of(context).pushAndRemoveUntil(
-        //   MaterialPageRoute(
-        //     builder: (context) => HomePage(index: 1),
-        //   ),
-        //   (_) => false,
-        // );
       } catch (e) {
         debugPrint('$e');
       }

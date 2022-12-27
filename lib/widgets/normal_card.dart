@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:thundercard/widgets/avatar.dart';
-import '../api/firebase_firestore.dart';
+import '../api/provider/firebase_firestore.dart';
 import '../constants.dart';
 import '../api/return_url.dart';
 import 'card_element.dart';

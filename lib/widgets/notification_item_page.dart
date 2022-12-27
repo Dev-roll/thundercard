@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thundercard/constants.dart';
 
 import '../api/colors.dart';
+import '../api/provider/index.dart';
 import '../home_page.dart';
 
-class NotificationItemPage extends StatefulWidget {
+class NotificationItemPage extends ConsumerWidget {
   const NotificationItemPage({
     Key? key,
     required this.title,
@@ -25,13 +27,8 @@ class NotificationItemPage extends StatefulWidget {
   final String documentId;
 
   @override
-  State<NotificationItemPage> createState() => _NotificationItemPageState();
-}
-
-class _NotificationItemPageState extends State<NotificationItemPage> {
-  @override
-  Widget build(BuildContext context) {
-    final getDateTime = DateTime.parse(widget.createdAt);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final getDateTime = DateTime.parse(createdAt);
     String year = getDateTime.year.toString();
     String date = '${getDateTime.month}/${getDateTime.day}';
     String time =
@@ -50,22 +47,23 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
     //     : '';
 
     void deleteThisNotification() {
-      debugPrint(widget.documentId);
+      debugPrint(documentId);
       FirebaseFirestore.instance
           .collection('version')
           .doc('2')
           .collection('cards')
-          .doc(widget.myCardId)
+          .doc(myCardId)
           .collection('visibility')
           .doc('c10r10u10d10')
           .collection('notifications')
-          .doc(widget.documentId)
+          .doc(documentId)
           .delete()
           .then(
         (doc) {
+          ref.watch(currentIndexProvider.notifier).state = 2;
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (context) => HomePage(index: 2),
+              builder: (context) => HomePage(),
             ),
             (_) => false,
           );
@@ -155,16 +153,18 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
                     .collection('version')
                     .doc('2')
                     .collection('cards')
-                    .doc(widget.myCardId)
+                    .doc(myCardId)
                     .collection('visibility')
                     .doc('c10r10u10d10')
                     .collection('notifications')
-                    .doc(widget.documentId)
+                    .doc(documentId)
                     .update({'read': false}).then(
                   (doc) {
+                    ref.watch(currentIndexProvider.notifier).state = 2;
+
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
-                        builder: (context) => HomePage(index: 2),
+                        builder: (context) => HomePage(),
                       ),
                       (_) => false,
                     );
@@ -208,7 +208,7 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
                       Container(
                         padding: const EdgeInsets.fromLTRB(6, 16, 6, 6),
                         child: Text(
-                          widget.title,
+                          title,
                           style: TextStyle(
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
@@ -246,7 +246,7 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
                       Container(
                         padding: const EdgeInsets.fromLTRB(8, 4, 8, 20),
                         child: Text(
-                          widget.content,
+                          content,
                           style: const TextStyle(
                             height: 1.8,
                           ),

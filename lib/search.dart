@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:thundercard/api/firebase_firestore.dart';
+import 'package:thundercard/api/provider/firebase_firestore.dart';
 import 'package:thundercard/widgets/my_card.dart';
 
 import 'card_details.dart';

@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/api/current_brightness.dart';
 import 'package:thundercard/api/current_brightness_reverse.dart';
-import 'package:thundercard/api/firebase_firestore.dart';
+import 'package:thundercard/api/provider/firebase_firestore.dart';
 import 'package:thundercard/constants.dart';
 import 'package:thundercard/link_auth.dart';
 import 'package:thundercard/main.dart';
@@ -187,14 +187,6 @@ class Account extends ConsumerWidget {
                               GestureDetector(
                                 behavior: HitTestBehavior.opaque,
                                 onTap: () async {
-                                  Navigator.of(context).pushReplacement(
-                                    PageRouteBuilder(
-                                      pageBuilder: (_, __, ___) =>
-                                          HomePage(index: 3),
-                                      transitionDuration:
-                                          const Duration(seconds: 0),
-                                    ),
-                                  );
                                   await showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -363,14 +355,6 @@ class Account extends ConsumerWidget {
                               GestureDetector(
                                 behavior: HitTestBehavior.opaque,
                                 onTap: () async {
-                                  Navigator.of(context).pushReplacement(
-                                    PageRouteBuilder(
-                                      pageBuilder: (_, __, ___) =>
-                                          HomePage(index: 3),
-                                      transitionDuration:
-                                          const Duration(seconds: 0),
-                                    ),
-                                  );
                                   await showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
