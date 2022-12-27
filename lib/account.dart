@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +37,6 @@ class Account extends ConsumerWidget {
         statusBarColor: Colors.transparent,
       ),
     );
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     final String? uid = getUid();
     final customTheme = ref.watch(customThemeProvider);
@@ -197,7 +194,8 @@ class Account extends ConsumerWidget {
                                     PageRouteBuilder(
                                       pageBuilder: (_, __, ___) =>
                                           HomePage(index: 3),
-                                      transitionDuration: Duration(seconds: 0),
+                                      transitionDuration:
+                                          const Duration(seconds: 0),
                                     ),
                                   );
                                   await showDialog(
@@ -372,7 +370,8 @@ class Account extends ConsumerWidget {
                                     PageRouteBuilder(
                                       pageBuilder: (_, __, ___) =>
                                           HomePage(index: 3),
-                                      transitionDuration: Duration(seconds: 0),
+                                      transitionDuration:
+                                          const Duration(seconds: 0),
                                     ),
                                   );
                                   await showDialog(
@@ -408,7 +407,7 @@ class Account extends ConsumerWidget {
                                               ),
                                             ),
                                             ConstrainedBox(
-                                              constraints: BoxConstraints(
+                                              constraints: const BoxConstraints(
                                                 maxWidth: 400,
                                               ),
                                               child: Container(
@@ -860,7 +859,7 @@ class Account extends ConsumerWidget {
                               // (3) AlertDialogを作成する
                               builder: (context) => AlertDialog(
                                 icon: const Icon(Icons.person_off_rounded),
-                                title: Text('アカウントを削除'),
+                                title: const Text('アカウントを削除'),
                                 content: Text(
                                   'このアカウントを削除しますか？',
                                   style: TextStyle(
