@@ -10,11 +10,12 @@ maintenance() {
   // const currentDocId = null;
 
   const cardIds = [
-    'cardseditor',
+    // 'cardseditor',
     // 'example',
     // 'fuga',
     // 'keigomichi',
     // 'user'
+    'hogehoge',
 
     // 'eymupktcco'
     // 'raSZmUODKP1h6LfSIvVq'
@@ -199,13 +200,38 @@ maintenance() {
           // c10r21u10d10
           final c10r21u10d10 = {
             'account': {
-              'links': account['profiles']['links'],
+              'links': account['links'],
+              // 'links': account['profiles']['links'],
             },
             'profiles': {
-              'bio': account['profiles']['bio'],
-              'company': account['profiles']['company'],
-              'position': account['profiles']['position'],
-              'address': account['profiles']['address'],
+              'address': {
+                'value': account['profiles']['address']['value'],
+                'display': {
+                  'normal': true,
+                  'extended': true,
+                }
+              },
+              'bio': {
+                'value': account['profiles']['bio']['value'],
+                'display': {
+                  'normal': true,
+                  'extended': true,
+                }
+              },
+              'company': {
+                'value': account['profiles']['company']['value'],
+                'display': {
+                  'normal': true,
+                  'extended': true,
+                }
+              },
+              'position': {
+                'value': account['profiles']['position']['value'],
+                'display': {
+                  'normal': true,
+                  'extended': true,
+                }
+              },
             }
           };
 
@@ -240,8 +266,8 @@ maintenance() {
           });
 
           // update
-          // c11r20u00d11
-          final c11r20u00d11 = {
+          // c21r20u00d11
+          final c21r20u00d11 = {
             'is_user': isUser,
             'uid': uid,
             'card_id': currentCardId,
@@ -253,10 +279,10 @@ maintenance() {
               .collection('cards')
               .doc(currentCardId)
               .collection('visibility')
-              .doc('c11r20u00d11')
-              .set(c11r20u00d11, SetOptions(merge: true))
+              .doc('c21r20u00d11')
+              .set(c21r20u00d11, SetOptions(merge: true))
               .then((element) {
-            debugPrint('c11r20u00d11: completed');
+            debugPrint('c21r20u00d11: completed');
           });
         } else {
           final cardUrl = data?['thumbnail'];
@@ -393,8 +419,8 @@ maintenance() {
           });
 
           // update
-          // c11r20u00d11
-          final c11r20u00d11 = {
+          // c21r20u00d11
+          final c21r20u00d11 = {
             'is_user': isUser,
             'uid': uid,
             'card_id': currentCardId,
@@ -406,10 +432,10 @@ maintenance() {
               .collection('cards')
               .doc(currentCardId)
               .collection('visibility')
-              .doc('c11r20u00d11')
-              .set(c11r20u00d11, SetOptions(merge: true))
+              .doc('c21r20u00d11')
+              .set(c21r20u00d11, SetOptions(merge: true))
               .then((element) {
-            debugPrint('c11r20u00d11: completed');
+            debugPrint('c21r20u00d11: completed');
           });
 
           // update

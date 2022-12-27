@@ -946,6 +946,25 @@ class Account extends ConsumerWidget {
           ),
         ),
       ),
+      // floatingActionButton: ElevatedButton.icon(
+      //   onPressed: () {
+      //     maintenance();
+      //   },
+      //   icon: const Icon(
+      //     Icons.qr_code_scanner_rounded,
+      //     size: 26,
+      //   ),
+      //   label: const Text(
+      //     'カードを交換',
+      //     style: TextStyle(fontSize: 16),
+      //   ),
+      //   style: ElevatedButton.styleFrom(
+      //     elevation: 0,
+      //     foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+      //     backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+      //   ),
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
