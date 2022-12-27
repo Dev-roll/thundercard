@@ -504,7 +504,9 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
             var links = [];
             links = c10r21u10d10?['account']['links'];
             //   controller.clear();
-            links.forEach((e) => controller.add(e['key'], e['value']));
+            for (var e in links) {
+              controller.add(e['key'], e['value']);
+            }
             return GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
