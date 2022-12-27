@@ -1,12 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thundercard/api/current_brightness.dart';
 import 'package:thundercard/widgets/avatar.dart';
 
-import '../api/firebase_firestore.dart';
+import '../api/provider/firebase_firestore.dart';
 import '../api/return_original_color.dart';
-import '../widgets/custom_progress_indicator.dart';
+// import '../widgets/custom_progress_indicator.dart';
 import '../account_editor.dart';
 import '../constants.dart';
 

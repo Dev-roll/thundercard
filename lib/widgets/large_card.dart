@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:thundercard/api/firebase_firestore.dart';
+import 'package:thundercard/api/provider/firebase_firestore.dart';
 import 'package:thundercard/widgets/avatar.dart';
 import 'package:thundercard/widgets/custom_skeletons/skeleton_card.dart';
 import '../constants.dart';

@@ -7,7 +7,7 @@ import 'api/colors.dart';
 import 'api/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'constants.dart';
-import '../api/firebase_firestore.dart';
+import 'api/provider/firebase_firestore.dart';
 
 class AccountEditor extends ConsumerStatefulWidget {
   const AccountEditor({Key? key, required this.cardId}) : super(key: key);
