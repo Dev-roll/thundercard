@@ -10,12 +10,13 @@ maintenance() {
   // const currentDocId = null;
 
   const cardIds = [
-    // 'cardseditor',
+    'cardseditor',
     // 'example',
     // 'fuga',
     // 'keigomichi',
     // 'user'
     'hogehoge',
+    'hogepiyo',
 
     // 'eymupktcco'
     // 'raSZmUODKP1h6LfSIvVq'

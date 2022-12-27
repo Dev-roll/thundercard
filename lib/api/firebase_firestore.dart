@@ -68,8 +68,8 @@ Future<DocumentSnapshot> getCard(String cardId) async {
 // });
 
 final c10r21u10d10Provider =
-    FutureProvider.family<dynamic, String>((ref, cardId) async {
-  final prefs = await FirebaseFirestore.instance
+    StreamProvider.family<dynamic, String>((ref, cardId) {
+  final prefs = FirebaseFirestore.instance
       .collection('version')
       .doc('2')
       .collection('cards')
@@ -77,13 +77,13 @@ final c10r21u10d10Provider =
       .doc(cardId)
       .collection('visibility')
       .doc('c10r21u10d10')
-      .get();
-  return prefs.data();
+      .snapshots();
+  return prefs;
 });
 
 final c10r20u10d10Provider =
-    FutureProvider.family<dynamic, String>((ref, cardId) async {
-  final prefs = await FirebaseFirestore.instance
+    StreamProvider.family<dynamic, String>((ref, cardId) {
+  final prefs = FirebaseFirestore.instance
       .collection('version')
       .doc('2')
       .collection('cards')
@@ -91,8 +91,8 @@ final c10r20u10d10Provider =
       .doc(cardId)
       .collection('visibility')
       .doc('c10r20u10d10')
-      .get();
-  return prefs.data();
+      .snapshots();
+  return prefs;
 });
 
 // StreamProvider getc10r21u10d10(String cardId) {
