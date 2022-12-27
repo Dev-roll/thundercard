@@ -23,18 +23,18 @@ class NormalCard extends ConsumerWidget {
     var screenSize = MediaQuery.of(context).size;
     var vw = screenSize.width * 0.01;
 
-    final c10r20u10d10AsyncValue = ref.watch(c10r20u10d10Provider(cardId));
+    final c10r20u10d10AsyncValue = ref.watch(c10r20u10d10Stream(cardId));
     return c10r20u10d10AsyncValue.when(
       error: (err, _) => Text(err.toString()), //エラー時
       loading: () => const CircularProgressIndicator(), //読み込み時
       data: (c10r20u10d10) {
-        final c10r21u10d10AsyncValue = ref.watch(c10r21u10d10Provider(cardId));
+        final c10r21u10d10AsyncValue = ref.watch(c10r21u10d10Stream(cardId));
         return c10r21u10d10AsyncValue.when(
           error: (err, _) => Text(err.toString()), //エラー時
           loading: () => const CircularProgressIndicator(), //読み込み時
           data: (c10r21u10d10) {
             final c21r20u00d11AsyncValue =
-                ref.watch(c21r20u00d11Provider(cardId));
+                ref.watch(c21r20u00d11Stream(cardId));
             return c21r20u00d11AsyncValue.when(
               error: (err, _) => Text(err.toString()), //エラー時
               loading: () => const CircularProgressIndicator(), //読み込み時

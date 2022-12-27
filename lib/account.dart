@@ -11,7 +11,6 @@ import 'package:thundercard/api/firebase_firestore.dart';
 import 'package:thundercard/constants.dart';
 import 'package:thundercard/link_auth.dart';
 import 'package:thundercard/main.dart';
-// import 'package:thundercard/widgets/custom_skeletons/skeleton_card_info.dart';
 import 'package:thundercard/widgets/my_card.dart';
 
 import 'api/colors.dart';
@@ -40,7 +39,7 @@ class Account extends ConsumerWidget {
 
     final String? uid = getUid();
     final customTheme = ref.watch(customThemeProvider);
-    final currentCardAsyncValue = ref.watch(currentCardProvider);
+    final currentCardAsyncValue = ref.watch(currentCardStream);
     return currentCardAsyncValue.when(
       error: (err, _) => Text(err.toString()), //エラー時
       loading: () => const CircularProgressIndicator(), //読み込み時
@@ -60,10 +59,8 @@ class Account extends ConsumerWidget {
                       children: [
                         Padding(
                             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                            child:
-                                CardInfo(cardId: currentCardId, editable: true)
-                            // const SkeletonCardInfo()
-                            ),
+                            child: CardInfo(
+                                cardId: currentCardId, editable: true)),
                         Divider(
                           height: 32,
                           thickness: 1,
