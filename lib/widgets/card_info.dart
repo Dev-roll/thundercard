@@ -6,7 +6,7 @@ import 'package:thundercard/widgets/avatar.dart';
 
 import '../api/provider/firebase_firestore.dart';
 import '../api/return_original_color.dart';
-// import '../widgets/custom_progress_indicator.dart';
+import '../widgets/custom_progress_indicator.dart';
 import '../account_editor.dart';
 import '../constants.dart';
 
