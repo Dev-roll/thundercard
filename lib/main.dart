@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -77,7 +75,7 @@ class MyApp extends ConsumerWidget {
                     Theme.of(context).primaryTextTheme),
           ),
           themeMode: customTheme.currentAppTheme,
-          locale: Locale('ja', 'JP'),
+          locale: const Locale('ja', 'JP'),
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
