@@ -44,12 +44,12 @@ class CardInfo extends ConsumerWidget {
 
     return c10r21u10d10AsyncValue.when(
       error: (err, _) => Text(err.toString()), //エラー時
-      loading: () => const CircularProgressIndicator(), //読み込み時
+      loading: () => const CustomProgressIndicator(), //読み込み時
       data: (c10r21u10d10) {
         final c10r20u10d10AsyncValue = ref.watch(c10r20u10d10Stream(cardId));
         return c10r20u10d10AsyncValue.when(
           error: (err, _) => Text(err.toString()), //エラー時
-          loading: () => const CircularProgressIndicator(), //読み込み時
+          loading: () => const CustomProgressIndicator(), //読み込み時
           data: (c10r20u10d10) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
