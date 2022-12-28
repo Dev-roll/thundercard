@@ -8,6 +8,7 @@ import 'api/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'constants.dart';
 import 'api/provider/firebase_firestore.dart';
+import 'widgets/error_message.dart';
 
 class AccountEditor extends ConsumerStatefulWidget {
   const AccountEditor({Key? key, required this.cardId}) : super(key: key);
@@ -103,10 +104,8 @@ class _ReorderableMultiTextFieldState
   @override
   Widget build(BuildContext context) {
     Future openAlertDialog1(BuildContext context, textFieldState) async {
-      // (2) showDialogでダイアログを表示する
       await showDialog(
         context: context,
-        // (3) AlertDialogを作成する
         builder: (context) => AlertDialog(
           icon: const Icon(Icons.delete_rounded),
           title: const Text('リンクの削除'),
@@ -116,19 +115,15 @@ class _ReorderableMultiTextFieldState
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),
-          // (4) ボタンを設定
           actions: [
             TextButton(
-              onPressed: () => {
-                //  (5) ダイアログを閉じる
-                Navigator.pop(context, false)
-              },
+              onPressed: () => {Navigator.of(context).pop()},
               onLongPress: null,
               child: const Text('キャンセル'),
             ),
             TextButton(
               onPressed: () {
-                Navigator.pop(context, true);
+                Navigator.of(context).pop();
                 widget.controllerController.remove(textFieldState.id);
               },
               onLongPress: null,
@@ -477,20 +472,38 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
   Widget build(BuildContext context) {
     final c10r21u10d10AsyncValue = ref.watch(c10r21u10d10Stream(widget.cardId));
     return c10r21u10d10AsyncValue.when(
-      error: (err, _) => Text(err.toString()), //エラー時
-      loading: () => const CustomProgressIndicator(), //読み込み時
+      error: (err, _) => ErrorMessage(err: '$err'),
+      loading: () => const Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: CustomProgressIndicator(),
+          ),
+        ),
+      ),
       data: (c10r21u10d10) {
         final c10r20u10d10AsyncValue =
             ref.watch(c10r20u10d10Stream(widget.cardId));
         return c10r20u10d10AsyncValue.when(
-          error: (err, _) => Text(err.toString()), //エラー時
-          loading: () => const CustomProgressIndicator(), //読み込み時
+          error: (err, _) => ErrorMessage(err: '$err'),
+          loading: () => const Scaffold(
+            body: SafeArea(
+              child: Center(
+                child: CustomProgressIndicator(),
+              ),
+            ),
+          ),
           data: (c10r20u10d10) {
             final c21r20u00d11AsyncValue =
                 ref.watch(c21r20u00d11Stream(widget.cardId));
             return c21r20u00d11AsyncValue.when(
-              error: (err, _) => Text(err.toString()), //エラー時
-              loading: () => const CustomProgressIndicator(), //読み込み時
+              error: (err, _) => ErrorMessage(err: '$err'),
+              loading: () => const Scaffold(
+                body: SafeArea(
+                  child: Center(
+                    child: CustomProgressIndicator(),
+                  ),
+                ),
+              ),
               data: (c21r20u00d11) {
                 final initName =
                     TextEditingController(text: c10r20u10d10?['name'] ?? '');

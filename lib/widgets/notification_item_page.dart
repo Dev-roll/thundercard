@@ -34,17 +34,6 @@ class NotificationItemPage extends ConsumerWidget {
     String time =
         '${getDateTime.hour}:${getDateTime.minute.toString().padLeft(2, '0')}';
     String displayDateTime = '$year $date $time';
-    // displayDateTime +=
-    //     (getDateTime.year != _now.year) ? _year + ' ' + _date : '';
-    // displayDateTime += (getDateTime.year == _now.year &&
-    //         (getDateTime.month != _now.month || getDateTime.day != _now.day))
-    //     ? _date
-    //     : '';
-    // displayDateTime += (getDateTime.year == _now.year &&
-    //         getDateTime.month == _now.month &&
-    //         getDateTime.day == _now.day)
-    //     ? _time
-    //     : '';
 
     void deleteThisNotification() {
       debugPrint(documentId);
@@ -76,10 +65,8 @@ class NotificationItemPage extends ConsumerWidget {
     }
 
     Future openAlertDialog1(BuildContext context) async {
-      // (2) showDialogでダイアログを表示する
       await showDialog(
           context: context,
-          // (3) AlertDialogを作成する
           builder: (context) => AlertDialog(
                 icon: const Icon(Icons.delete_rounded),
                 title: const Text('通知の削除'),
@@ -89,17 +76,13 @@ class NotificationItemPage extends ConsumerWidget {
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                 ),
-                // (4) ボタンを設定
                 actions: [
                   TextButton(
-                      onPressed: () => {
-                            //  (5) ダイアログを閉じる
-                            Navigator.pop(context, false)
-                          },
+                      onPressed: () => {Navigator.of(context).pop()},
                       child: const Text('キャンセル')),
                   TextButton(
                       onPressed: () {
-                        Navigator.pop(context, true);
+                        Navigator.of(context).pop();
                         deleteThisNotification();
                       },
                       child: const Text('OK')),
@@ -109,12 +92,6 @@ class NotificationItemPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        // title: Row(
-        //   children: [
-        //     // Text(['通知', '交流についての通知', 'アプリに関するお知らせ'][widget.index + 1]),
-        //     Text(['通知', '交流についての通知', 'アプリに関するお知らせ'][0]),
-        //   ],
-        // ),
         actions: [
           PopupMenuButton<String>(
             color: alphaBlend(
@@ -176,18 +153,8 @@ class NotificationItemPage extends ConsumerWidget {
               } else if (s == '削除') {
                 openAlertDialog1(context);
               }
-              // if (s == '削除') {
-              //   _openAlertDialog1(context);
-              // }
             },
           )
-          // Container(
-          //   padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-          //   child: IconButton(
-          //     onPressed: () {},
-          //     icon: Icon(Icons.more_vert_rounded),
-          //   ),
-          // ),
         ],
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
       ),

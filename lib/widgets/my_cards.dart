@@ -3,6 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/custom_progress_indicator.dart';
+import 'error_message.dart';
 
 class MyCards extends StatefulWidget {
   const MyCards({Key? key, required this.uid}) : super(key: key);
@@ -35,7 +36,7 @@ class _MyCardsState extends State<MyCards> {
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
-          return const Text('問題が発生しました');
+          return const ErrorMessage(err: '問題が発生しました');
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CustomProgressIndicator();

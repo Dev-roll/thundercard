@@ -42,7 +42,6 @@ class FullscreenQrCode extends StatelessWidget {
                           color: const Color(0xFFCCCCCC),
                           fontWeight: FontWeight.bold,
                         ),
-                        // TextStyle(fontSize: 32, color: Color(0xFFCCCCCC)),
                       ),
                     ],
                   ),

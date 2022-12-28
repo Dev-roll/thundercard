@@ -11,6 +11,7 @@ import 'api/provider/index.dart';
 import 'widgets/card_info.dart';
 import 'widgets/custom_progress_indicator.dart';
 import 'widgets/custom_skeletons/skeleton_card.dart';
+import 'widgets/error_message.dart';
 import 'widgets/my_card.dart';
 import 'chat.dart';
 import 'constants.dart';
@@ -83,10 +84,8 @@ class CardDetails extends ConsumerWidget {
                 }
 
                 Future openAlertDialog1(BuildContext context) async {
-                  // (2) showDialogでダイアログを表示する
                   await showDialog(
                     context: context,
-                    // (3) AlertDialogを作成する
                     builder: (context) => AlertDialog(
                       icon: const Icon(Icons.delete_rounded),
                       title: const Text('カードの削除'),
@@ -96,19 +95,15 @@ class CardDetails extends ConsumerWidget {
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
-                      // (4) ボタンを設定
                       actions: [
                         TextButton(
-                          onPressed: () => {
-                            //  (5) ダイアログを閉じる
-                            Navigator.pop(context, false)
-                          },
+                          onPressed: () => {Navigator.of(context).pop()},
                           onLongPress: null,
                           child: const Text('キャンセル'),
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.pop(context, true);
+                            Navigator.of(context).pop();
                             deleteThisCard();
                           },
                           onLongPress: null,

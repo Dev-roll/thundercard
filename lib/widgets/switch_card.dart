@@ -17,9 +17,6 @@ class SwitchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // var screenSize = MediaQuery.of(context).size;
-    // var vw = screenSize.width * 0.01;
-
     switch (cardType) {
       case CardType.small:
         return SmallCard(cardId: cardId);

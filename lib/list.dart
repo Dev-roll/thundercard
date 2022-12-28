@@ -9,6 +9,7 @@ import 'api/current_brightness.dart';
 import 'api/current_brightness_reverse.dart';
 import 'api/firebase_auth.dart';
 import 'widgets/custom_progress_indicator.dart';
+import 'widgets/error_message.dart';
 import 'widgets/my_card.dart';
 import 'card_details.dart';
 import 'constants.dart';
@@ -59,13 +60,7 @@ class _ListState extends State<List> {
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
-          return const Scaffold(
-            body: SafeArea(
-              child: Center(
-                child: Text('問題が発生しました'),
-              ),
-            ),
-          );
+          return const ErrorMessage(err: '問題が発生しました');
         }
 
         if (snapshot.hasData && !snapshot.data!.exists) {
@@ -85,7 +80,6 @@ class _ListState extends State<List> {
           Map<String, dynamic> currentCard =
               snapshot.data!.data() as Map<String, dynamic>;
           return Scaffold(
-            // appBar: AppBar(),
             body: SafeArea(
               child: Center(
                 child: StreamBuilder<DocumentSnapshot<Object?>>(
@@ -97,7 +91,7 @@ class _ListState extends State<List> {
                   builder: (BuildContext context,
                       AsyncSnapshot<DocumentSnapshot> snapshot) {
                     if (snapshot.hasError) {
-                      return const Text('問題が発生しました');
+                      return const ErrorMessage(err: '問題が発生しました');
                     }
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const CustomProgressIndicator();
@@ -177,9 +171,6 @@ class _ListState extends State<List> {
                         (exchangedCardsLength != 0)
                             ? Expanded(
                                 child: ListView.builder(
-                                  // shrinkWrap: true,
-                                  // physics:
-                                  //     const NeverScrollableScrollPhysics(),
                                   itemCount: exchangedCards.length + 2,
                                   itemBuilder: (context, index) {
                                     if (index == 0) {
@@ -251,11 +242,7 @@ class _ListState extends State<List> {
             ),
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             floatingActionButton: SpeedDial(
-              // animatedIcon: AnimatedIcons.menu_close,
               animatedIconTheme: const IconThemeData(size: 24.0),
-              // / This is ignored if animatedIcon is non null
-              // child: Text('open'),
-              // activeChild: Text('close'),
               icon: Icons.add_rounded,
               activeIcon: Icons.close_rounded,
               foregroundColor:
@@ -417,7 +404,7 @@ class _ListState extends State<List> {
                   elevation: 0,
                 ),
               ],
-            ), // floatingActionButton: FloatingActionButton.extended(
+            ),
           );
         }
         return const Scaffold(

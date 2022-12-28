@@ -230,7 +230,7 @@ class _AddCardState extends State<AddCard> {
                         children: [
                           OutlinedButton(
                             onPressed: () {
-                              Navigator.pop(context);
+                              Navigator.of(context).pop();
                             },
                             child: const Text('OK'),
                           ),

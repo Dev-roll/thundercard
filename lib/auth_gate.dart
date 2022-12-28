@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:thundercard/sign_in.dart';
+import 'package:thundercard/widgets/error_message.dart';
 
 import 'api/current_brightness.dart';
 import 'api/current_brightness_reverse.dart';
@@ -39,7 +40,7 @@ class AuthGate extends ConsumerWidget {
           builder:
               (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             if (snapshot.hasError) {
-              return const Text('問題が発生しました');
+              return const ErrorMessage(err: '問題が発生しました');
             }
             if (snapshot.hasData && !snapshot.data!.exists) {
               return const AccountRegistration();

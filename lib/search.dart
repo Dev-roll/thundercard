@@ -81,7 +81,6 @@ class _SearchState extends State<Search> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       behavior: HitTestBehavior.opaque,
       child: Scaffold(
-        // appBar: AppBar(),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Center(
@@ -103,14 +102,7 @@ class _SearchState extends State<Search> {
                         ),
                         child: GestureDetector(
                           behavior: HitTestBehavior.opaque,
-                          onTap: () {
-                            // Navigator.of(context).push(
-                            //   MaterialPageRoute(
-                            //     builder: (context) =>
-                            //         Search(exchangedCardIds: exchangedCards),
-                            //   ),
-                            // );
-                          },
+                          onTap: () {},
                           child: Row(
                             children: [
                               GestureDetector(

@@ -12,6 +12,7 @@ import '../api/current_brightness.dart';
 import '../api/provider/firebase_firestore.dart';
 import '../main.dart';
 import 'custom_progress_indicator.dart';
+import 'error_message.dart';
 import 'switch_card.dart';
 import '../constants.dart';
 
@@ -68,7 +69,7 @@ class MyCard extends ConsumerWidget {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  return const Text('問題が発生しました');
+                  return const ErrorMessage(err: '問題が発生しました');
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   if (cardType == CardType.large) {

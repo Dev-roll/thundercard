@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-// import 'dart:ui' as ui;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,9 +37,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
   var openUrl = '';
   var _lastChangedDate = DateTime.now();
   final linkTime = 10;
-  // ByteData? _image;
-  // Image? _image;
-  // _doCapture();
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -58,15 +54,11 @@ class _ScanQrCodeState extends State<ScanQrCode> {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         systemNavigationBarColor: Theme.of(context).colorScheme.onSecondary,
-        // systemNavigationBarIconBrightness: ThemeData(),
-        // statusBarColor: Theme.of(context).colorScheme.onSecondary,
         statusBarIconBrightness: Brightness.light,
         statusBarBrightness: Brightness.dark,
       ),
-      // SystemUiOverlayStyle.dark,
     );
 
-    // var _screenSize = MediaQuery.of(context).size;
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     final String? uid = getUid();
 
@@ -80,7 +72,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                 snapshot.data!.data() as Map<String, dynamic>;
             myCardId = currentCard['current_card'];
             String thunderCardUrl = '$initStr$myCardId';
-            // String thunderCardUrl = 'thundercard://user?card_id=$myCardId';
             return Column(
               children: <Widget>[
                 Expanded(
@@ -90,7 +81,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                       Container(
                         width: double.infinity,
                         color: Theme.of(context).colorScheme.onSecondary,
-                        // color: white,
                         child: FittedBox(
                           fit: BoxFit.contain,
                           child: Row(
@@ -215,11 +205,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        // if (result != null)
-                        //   Text(
-                        //       'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}'),
-                        // else
-                        //   const Text('Scan a code'),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -233,17 +218,11 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                         const EdgeInsets.fromLTRB(20, 0, 20, 0),
                                     child: IconButton(
                                       onPressed: () async {
-                                        // await exportToImage(_globalKey);
-                                        // await Share.share(thunderCardUrl,
-                                        //     subject:
-                                        //         '$myCardIdさんのThundercardアカウントの共有');
                                         final bytes =
                                             await exportToImage(_globalKey);
-                                        //byte data→Uint8List
                                         final widgetImageBytes = bytes?.buffer
                                             .asUint8List(bytes.offsetInBytes,
                                                 bytes.lengthInBytes);
-                                        //App directoryファイルに保存
                                         final applicationDocumentsFile =
                                             await getApplicationDocumentsFile(
                                                 myCardId, widgetImageBytes!);
@@ -271,7 +250,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                       onPressed: () async {
                                         final bytes =
                                             await exportToImage(_globalKey);
-                                        //byte data→Uint8List
                                         final widgetImageBytes = bytes?.buffer
                                             .asUint8List(bytes.offsetInBytes,
                                                 bytes.lengthInBytes);
@@ -279,16 +257,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                           widgetImageBytes!,
                                           name: myCardId,
                                         );
-                                        // final result =
-                                        //     await ImageGallerySaver.saveImage(
-                                        //   widgetImageBytes!,
-                                        //   name: myCardId,
-                                        // );
-                                        //App directoryファイルに保存
-                                        // final applicationDocumentsFile =
-                                        //     await getApplicationDocumentsFile(
-                                        //         myCardId, widgetImageBytes!);
-                                        // final path = applicationDocumentsFile.path;
                                         if (!mounted) return;
                                         ScaffoldMessenger.of(context)
                                             .hideCurrentSnackBar();
@@ -338,21 +306,9 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                                 ),
                                               ],
                                             ),
-                                            // duration: const Duration(seconds: 12),
                                             action: SnackBarAction(
-                                              // label: '開く',
                                               label: 'OK',
-                                              onPressed: () {
-                                                // pickImage();
-                                                // _launchURL(
-                                                // '',
-                                                // 'mailto:example@gmail.com?subject=hoge&body=test',
-                                                // thunderCardUrl,
-                                                // 'twitter://user?screen_name=cardseditor',
-                                                // secondUrl:
-                                                //     'https://github.com/cardseditor',
-                                                // );
-                                              },
+                                              onPressed: () {},
                                             ),
                                           ),
                                         );
@@ -431,13 +387,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                       padding: const EdgeInsets.all(20),
                                     ),
                                   ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
-                                  //   child: Center(
-                                  //     child: _image ??
-                                  //         const Icon(Icons.no_photography_rounded),
-                                  //   ),
-                                  // ),
                                 ],
                               ),
                             ),
@@ -650,7 +599,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                       child: await canLaunchUrl(Uri.parse(openUrl.trim()))
                           ? const Icon(Icons.link_rounded)
                           : const Icon(Icons.link_off_rounded),
-                      // : const Icon(Icons.description_rounded),
                     ),
                     Expanded(
                       child: Text(
@@ -748,12 +696,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                           ),
                   ],
                 ),
-                // action: SnackBarAction(
-                //   label: '開く',
-                //   onPressed: () {
-
-                //   },
-                // ),
               ),
             );
           }
