@@ -272,7 +272,7 @@ class Account extends ConsumerWidget {
                                         actions: [
                                           TextButton(
                                             onPressed: () {
-                                              Navigator.pop(context, false);
+                                              Navigator.of(context).pop();
                                             },
                                             child: const Text('キャンセル'),
                                           ),
@@ -283,7 +283,7 @@ class Account extends ConsumerWidget {
                                                   customTheme.appThemeIdx) {
                                                 customTheme.appThemeUpdate();
                                               }
-                                              Navigator.pop(context, false);
+                                              Navigator.of(context).pop();
                                             },
                                             child: const Text('決定'),
                                           ),
@@ -570,7 +570,7 @@ class Account extends ConsumerWidget {
                                         actions: [
                                           TextButton(
                                             onPressed: () {
-                                              Navigator.pop(context, false);
+                                              Navigator.of(context).pop();
                                             },
                                             child: const Text('キャンセル'),
                                           ),
@@ -582,7 +582,7 @@ class Account extends ConsumerWidget {
                                                       .displayCardThemeIdx) {
                                                 customTheme.cardThemeUpdate();
                                               }
-                                              Navigator.pop(context, false);
+                                              Navigator.of(context).pop();
                                             },
                                             child: const Text('決定'),
                                           )
@@ -804,7 +804,7 @@ class Account extends ConsumerWidget {
                                                   child: const Text('キャンセル')),
                                               TextButton(
                                                 onPressed: () async {
-                                                  Navigator.pop(context, true);
+                                                  Navigator.of(context).pop();
                                                   await FirebaseAuth.instance
                                                       .signOut()
                                                       .then(

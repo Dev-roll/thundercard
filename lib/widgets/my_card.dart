@@ -178,7 +178,7 @@ class MyCard extends ConsumerWidget {
                                     children: [
                                       OutlinedButton(
                                         onPressed: () {
-                                          Navigator.pop(context);
+                                          Navigator.of(context).pop();
                                         },
                                         child: const Text('キャンセル'),
                                       ),
