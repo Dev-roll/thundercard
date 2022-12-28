@@ -104,10 +104,8 @@ class _ReorderableMultiTextFieldState
   @override
   Widget build(BuildContext context) {
     Future openAlertDialog1(BuildContext context, textFieldState) async {
-      // (2) showDialogでダイアログを表示する
       await showDialog(
         context: context,
-        // (3) AlertDialogを作成する
         builder: (context) => AlertDialog(
           icon: const Icon(Icons.delete_rounded),
           title: const Text('リンクの削除'),
@@ -117,19 +115,15 @@ class _ReorderableMultiTextFieldState
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),
-          // (4) ボタンを設定
           actions: [
             TextButton(
-              onPressed: () => {
-                //  (5) ダイアログを閉じる
-                Navigator.pop(context, false)
-              },
+              onPressed: () => {Navigator.of(context).pop()},
               onLongPress: null,
               child: const Text('キャンセル'),
             ),
             TextButton(
               onPressed: () {
-                Navigator.pop(context, true);
+                Navigator.of(context).pop();
                 widget.controllerController.remove(textFieldState.id);
               },
               onLongPress: null,

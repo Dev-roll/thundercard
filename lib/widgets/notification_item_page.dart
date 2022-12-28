@@ -78,11 +78,11 @@ class NotificationItemPage extends ConsumerWidget {
                 ),
                 actions: [
                   TextButton(
-                      onPressed: () => {Navigator.pop(context, false)},
+                      onPressed: () => {Navigator.of(context).pop()},
                       child: const Text('キャンセル')),
                   TextButton(
                       onPressed: () {
-                        Navigator.pop(context, true);
+                        Navigator.of(context).pop();
                         deleteThisNotification();
                       },
                       child: const Text('OK')),
