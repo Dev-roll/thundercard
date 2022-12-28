@@ -1,5 +1,3 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,6 +16,8 @@ import 'api/provider/index.dart';
 import 'list.dart';
 import 'notifications.dart';
 import 'thundercard.dart';
+import 'widgets/custom_progress_indicator.dart';
+import 'widgets/error_message.dart';
 import 'widgets/md/authors.dart';
 import 'widgets/md/privacy_policy.dart';
 
@@ -33,14 +33,26 @@ class HomePage extends ConsumerWidget {
     final currentIndex = ref.watch(currentIndexProvider);
     final currentCardAsyncValue = ref.watch(currentCardStream);
     return currentCardAsyncValue.when(
-      error: (err, _) => Text(err.toString()), //エラー時
-      loading: () => const CircularProgressIndicator(), //読み込み時
+      error: (err, _) => ErrorMessage(err: '$err'),
+      loading: () => const Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: CustomProgressIndicator(),
+          ),
+        ),
+      ),
       data: (currentCard) {
         final cardId = currentCard?['current_card'];
         final c10r20u10d10AsyncValue = ref.watch(c10r20u10d10Stream(cardId));
         return c10r20u10d10AsyncValue.when(
-          error: (err, _) => Text(err.toString()), //エラー時
-          loading: () => const CircularProgressIndicator(), //読み込み時
+          error: (err, _) => ErrorMessage(err: '$err'),
+          loading: () => const Scaffold(
+            body: SafeArea(
+              child: Center(
+                child: CustomProgressIndicator(),
+              ),
+            ),
+          ),
           data: (c10r20u10d10) {
             final name = c10r20u10d10?['name'];
             final iconColorNum = Theme.of(context)
@@ -181,10 +193,6 @@ class HomePage extends ConsumerWidget {
                                     const SizedBox(
                                       height: 16,
                                     ),
-                                    // DrawerHeader(
-                                    //   decoration: BoxDecoration(color: Colors.lightBlue),
-                                    //   child: Text('Test App'),
-                                    // ),
                                     Padding(
                                       padding: const EdgeInsets.only(right: 12),
                                       child: ListTile(

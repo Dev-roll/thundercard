@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'api/colors.dart';
 import 'api/firebase_auth.dart';
 import 'widgets/custom_progress_indicator.dart';
+import 'widgets/error_message.dart';
 import 'widgets/notification_item.dart';
 
 class Notifications extends StatefulWidget {
@@ -39,13 +40,7 @@ class _NotificationsState extends State<Notifications> {
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
-            return const Scaffold(
-              body: SafeArea(
-                child: Center(
-                  child: Text('問題が発生しました'),
-                ),
-              ),
-            );
+            return const ErrorMessage(err: '問題が発生しました');
           }
 
           if (snapshot.hasData && !snapshot.data!.exists) {
@@ -74,7 +69,6 @@ class _NotificationsState extends State<Notifications> {
                   preferredSize: const Size.fromHeight(72),
                   child: AppBar(
                     automaticallyImplyLeading: false,
-                    // backgroundColor: Theme.of(context).colorScheme.background,
                     flexibleSpace: Theme(
                       data: ThemeData(
                         splashColor: Colors.transparent,
@@ -102,7 +96,6 @@ class _NotificationsState extends State<Notifications> {
                               indicatorSize: TabBarIndicatorSize.label,
                               tabs: [
                                 Tab(
-                                  // child: Icon(Icons.notifications_on_rounded),
                                   child: SizedBox(
                                     width: 120,
                                     height: double.infinity,
@@ -112,9 +105,6 @@ class _NotificationsState extends State<Notifications> {
                                       children: [
                                         Icon(
                                           Icons.handshake_outlined,
-                                          // Icons.mail_rounded,
-                                          // Icons.swap_horiz_rounded,
-                                          // Icons.swap_horizontal_circle_rounded,
                                           size: 22,
                                           color: Theme.of(context)
                                               .colorScheme
@@ -131,8 +121,6 @@ class _NotificationsState extends State<Notifications> {
                                                 .withOpacity(0.75),
                                           ),
                                         ),
-                                        // Text('つながり'),
-                                        // Text('やりとり'),
                                         const SizedBox(width: 2),
                                       ],
                                     ),

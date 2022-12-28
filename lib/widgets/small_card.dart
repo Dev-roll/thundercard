@@ -1,4 +1,3 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thundercard/widgets/avatar.dart';
@@ -7,6 +6,7 @@ import '../api/provider/firebase_firestore.dart';
 import '../constants.dart';
 import '../api/return_url.dart';
 import 'card_element.dart';
+import 'error_message.dart';
 import 'open_app.dart';
 
 class SmallCard extends ConsumerWidget {
@@ -24,19 +24,19 @@ class SmallCard extends ConsumerWidget {
 
     final c10r20u10d10AsyncValue = ref.watch(c10r20u10d10Stream(cardId));
     return c10r20u10d10AsyncValue.when(
-      error: (err, _) => Text(err.toString()), //エラー時
-      loading: () => const SkeletonCard(), //読み込み時
+      error: (err, _) => ErrorMessage(err: '$err'),
+      loading: () => const SkeletonCard(),
       data: (c10r20u10d10) {
         final c10r21u10d10AsyncValue = ref.watch(c10r21u10d10Stream(cardId));
         return c10r21u10d10AsyncValue.when(
-          error: (err, _) => Text(err.toString()), //エラー時
-          loading: () => const SkeletonCard(), //読み込み時
+          error: (err, _) => ErrorMessage(err: '$err'),
+          loading: () => const SkeletonCard(),
           data: (c10r21u10d10) {
             final c21r20u00d11AsyncValue =
                 ref.watch(c21r20u00d11Stream(cardId));
             return c21r20u00d11AsyncValue.when(
-              error: (err, _) => Text(err.toString()), //エラー時
-              loading: () => const SkeletonCard(), //読み込み時
+              error: (err, _) => ErrorMessage(err: '$err'),
+              loading: () => const SkeletonCard(),
               data: (c21r20u00d11) {
                 final String name = c10r20u10d10?['name'];
                 final Map profiles = c10r21u10d10?['profiles'];
