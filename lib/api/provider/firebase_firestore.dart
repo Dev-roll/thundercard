@@ -62,7 +62,6 @@ Future<DocumentSnapshot> getCard(String cardId) async {
 //       .collection('version')
 //       .doc('2')
 //       .collection('cards')
-//       .doc('cardseditor')
 //       .collection('visibility')
 //       .doc('c10r21u10d10')
 //       .get();
@@ -85,7 +84,6 @@ final c10r10u11d10Stream =
       .collection('version')
       .doc('2')
       .collection('cards')
-//       .doc('cardseditor')
       .doc(cardId)
       .collection('visibility')
       .doc('c10r10u11d10')
@@ -99,7 +97,6 @@ final c10r20u10d10Stream =
       .collection('version')
       .doc('2')
       .collection('cards')
-//       .doc('cardseditor')
       .doc(cardId)
       .collection('visibility')
       .doc('c10r20u10d10')
@@ -113,7 +110,6 @@ final c10r21u10d10Stream =
       .collection('version')
       .doc('2')
       .collection('cards')
-//       .doc('cardseditor')
       .doc(cardId)
       .collection('visibility')
       .doc('c10r21u10d10')
@@ -127,7 +123,6 @@ final c10r21u10d10Future =
       .collection('version')
       .doc('2')
       .collection('cards')
-//       .doc('cardseditor')
       .doc(cardId)
       .collection('visibility')
       .doc('c10r21u10d10')
@@ -141,10 +136,22 @@ final c21r20u00d11Stream =
       .collection('version')
       .doc('2')
       .collection('cards')
-//       .doc('cardseditor')
       .doc(cardId)
       .collection('visibility')
       .doc('c21r20u00d11')
+      .snapshots();
+  return prefs;
+});
+
+final c20r11u11d11Stream =
+    StreamProvider.family<dynamic, String>((ref, cardId) {
+  final prefs = FirebaseFirestore.instance
+      .collection('version')
+      .doc('2')
+      .collection('cards')
+      .doc(cardId)
+      .collection('visibility')
+      .doc('c20r11u11d11')
       .snapshots();
   return prefs;
 });
@@ -155,8 +162,7 @@ final c21r20u00d11Stream =
 //         .collection('version')
 //         .doc('2')
 //         .collection('cards')
-// //       .doc('cardseditor')
-//         .doc(cardId)
+// //         .doc(cardId)
 //         .collection('visibility')
 //         .doc('c10r21u10d10')
 //         .get()

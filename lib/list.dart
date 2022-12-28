@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:thundercard/widgets/scan_qr_code.dart';
-import 'package:thundercard/widgets/custom_skeletons/skeleton_card.dart';
 
 import 'api/colors.dart';
 import 'api/current_brightness.dart';
@@ -180,61 +179,34 @@ class _ListState extends State<List> {
                                     if (index == exchangedCards.length + 1) {
                                       return const SizedBox(height: 80);
                                     }
-                                    return StreamBuilder<
-                                        DocumentSnapshot<Object?>>(
-                                      stream: cards
-                                          .doc(exchangedCards[index - 1])
-                                          .collection('visibility')
-                                          .doc('c10r10u11d10')
-                                          .snapshots(),
-                                      builder: (BuildContext context,
-                                          AsyncSnapshot<DocumentSnapshot>
-                                              snapshot) {
-                                        if (snapshot.hasError) {
-                                          return const ErrorMessage(
-                                              err: '問題が発生しました');
-                                        }
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.waiting) {
-                                          return const SkeletonCard();
-                                        }
-                                        dynamic card = snapshot.data;
-                                        if (!snapshot.hasData) {
-                                          return const Text('カードの情報の取得に失敗しました');
-                                        }
-                                        return Column(
-                                          children: [
-                                            GestureDetector(
-                                              behavior: HitTestBehavior.opaque,
-                                              onTap: () {
-                                                Navigator.of(context)
-                                                    .push(MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      CardDetails(
-                                                    cardId: exchangedCards[
-                                                        index - 1],
-                                                    card: card,
-                                                  ),
-                                                ));
-                                              },
-                                              child: ConstrainedBox(
-                                                constraints:
-                                                    const BoxConstraints(
-                                                  maxHeight: 400,
-                                                ),
-                                                child: FittedBox(
-                                                  child: MyCard(
-                                                    cardId: exchangedCards[
-                                                        index - 1],
-                                                    cardType: CardType.normal,
-                                                  ),
-                                                ),
+                                    return Column(
+                                      children: [
+                                        GestureDetector(
+                                          behavior: HitTestBehavior.opaque,
+                                          onTap: () {
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                              builder: (context) => CardDetails(
+                                                cardId:
+                                                    exchangedCards[index - 1],
+                                              ),
+                                            ));
+                                          },
+                                          child: ConstrainedBox(
+                                            constraints: const BoxConstraints(
+                                              maxHeight: 400,
+                                            ),
+                                            child: FittedBox(
+                                              child: MyCard(
+                                                cardId:
+                                                    exchangedCards[index - 1],
+                                                cardType: CardType.normal,
                                               ),
                                             ),
-                                            const SizedBox(height: 24),
-                                          ],
-                                        );
-                                      },
+                                          ),
+                                        ),
+                                        const SizedBox(height: 24),
+                                      ],
                                     );
                                   },
                                 ),
