@@ -11,7 +11,7 @@ maintenance() {
 
   const cardIds = [
     'cardseditor',
-    // 'example',
+    'example',
     // 'fuga',
     // 'keigomichi',
     // 'user'
@@ -63,6 +63,17 @@ maintenance() {
               .doc('my_cards')
               .set({'my_cards': myCards}, SetOptions(merge: true)).then((_) {
             debugPrint('my_cards: completed');
+          });
+
+          FirebaseFirestore.instance
+              .collection('version')
+              .doc('2')
+              .collection('cards')
+              .doc(currentCardId)
+              .set({
+            'card_id': currentCardId,
+          }, SetOptions(merge: true)).then((element) {
+            debugPrint('set cardid directory: completed');
           });
 
           // update
