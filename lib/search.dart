@@ -196,7 +196,6 @@ class _SearchState extends State<Search> {
                                           builder: (context) => CardDetails(
                                             cardId: searchedCards[index]
                                                 ['cardId'],
-                                            card: searchedCards[index]['card'],
                                           ),
                                         ),
                                       );
