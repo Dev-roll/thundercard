@@ -69,7 +69,6 @@ class _NotificationsState extends State<Notifications> {
                   preferredSize: const Size.fromHeight(72),
                   child: AppBar(
                     automaticallyImplyLeading: false,
-                    // backgroundColor: Theme.of(context).colorScheme.background,
                     flexibleSpace: Theme(
                       data: ThemeData(
                         splashColor: Colors.transparent,
@@ -97,7 +96,6 @@ class _NotificationsState extends State<Notifications> {
                               indicatorSize: TabBarIndicatorSize.label,
                               tabs: [
                                 Tab(
-                                  // child: Icon(Icons.notifications_on_rounded),
                                   child: SizedBox(
                                     width: 120,
                                     height: double.infinity,
@@ -107,9 +105,6 @@ class _NotificationsState extends State<Notifications> {
                                       children: [
                                         Icon(
                                           Icons.handshake_outlined,
-                                          // Icons.mail_rounded,
-                                          // Icons.swap_horiz_rounded,
-                                          // Icons.swap_horizontal_circle_rounded,
                                           size: 22,
                                           color: Theme.of(context)
                                               .colorScheme
@@ -126,8 +121,6 @@ class _NotificationsState extends State<Notifications> {
                                                 .withOpacity(0.75),
                                           ),
                                         ),
-                                        // Text('つながり'),
-                                        // Text('やりとり'),
                                         const SizedBox(width: 2),
                                       ],
                                     ),

@@ -65,15 +65,6 @@ class _ThundercardState extends State<Thundercard> {
         child: Column(
           children: [
             AppBar(
-              // backgroundColor: alphaBlend(
-              //     Theme.of(context).colorScheme.primary.withOpacity(0.08),
-              //     Theme.of(context).colorScheme.surface),
-              // systemOverlayStyle: SystemUiOverlayStyle(
-              //   systemNavigationBarColor: alphaBlend(
-              //       Theme.of(context).colorScheme.primary.withOpacity(0.08),
-              //       Theme.of(context).colorScheme.surface),
-              //   statusBarColor: Colors.transparent,
-              // ),
               leading: IconButton(
                 onPressed: () {
                   drawerKey.currentState!.openDrawer();
