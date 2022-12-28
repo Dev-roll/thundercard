@@ -16,6 +16,7 @@ import 'api/firebase_auth.dart';
 import 'api/get_application_documents_file.dart';
 import 'home_page.dart';
 import 'widgets/custom_progress_indicator.dart';
+import 'widgets/error_message.dart';
 import 'widgets/my_card.dart';
 import 'widgets/scan_qr_code.dart';
 import 'constants.dart';
@@ -116,7 +117,7 @@ class _ThundercardState extends State<Thundercard> {
                           builder: (BuildContext context,
                               AsyncSnapshot<DocumentSnapshot> snapshot) {
                             if (snapshot.hasError) {
-                              return const Text('問題が発生しました');
+                              return const ErrorMessage(err: '問題が発生しました');
                             }
                             if (snapshot.hasData && !snapshot.data!.exists) {
                               return Text(

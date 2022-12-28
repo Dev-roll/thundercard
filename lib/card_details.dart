@@ -9,6 +9,7 @@ import 'api/firebase_auth.dart';
 import 'api/provider/index.dart';
 import 'widgets/card_info.dart';
 import 'widgets/custom_progress_indicator.dart';
+import 'widgets/error_message.dart';
 import 'widgets/my_card.dart';
 import 'chat.dart';
 import 'constants.dart';
@@ -230,7 +231,7 @@ class CardDetails extends ConsumerWidget {
                           (BuildContext context, AsyncSnapshot<Room> snapshot) {
                         if (snapshot.hasError) {
                           debugPrint('${snapshot.error}');
-                          return const Text('問題が発生しました');
+                          return const ErrorMessage(err: '問題が発生しました');
                         }
 
                         // if (snapshot.hasData && !snapshot.data!.exists) {

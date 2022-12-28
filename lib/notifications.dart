@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'api/colors.dart';
 import 'api/firebase_auth.dart';
 import 'widgets/custom_progress_indicator.dart';
+import 'widgets/error_message.dart';
 import 'widgets/notification_item.dart';
 
 class Notifications extends StatefulWidget {
@@ -39,13 +40,7 @@ class _NotificationsState extends State<Notifications> {
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
-            return const Scaffold(
-              body: SafeArea(
-                child: Center(
-                  child: Text('問題が発生しました'),
-                ),
-              ),
-            );
+            return const ErrorMessage(err: '問題が発生しました');
           }
 
           if (snapshot.hasData && !snapshot.data!.exists) {

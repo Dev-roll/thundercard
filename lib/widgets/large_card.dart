@@ -8,6 +8,7 @@ import 'package:thundercard/widgets/custom_skeletons/skeleton_card.dart';
 import '../constants.dart';
 import '../api/return_url.dart';
 import 'card_element.dart';
+import 'error_message.dart';
 import 'open_app.dart';
 
 class LargeCard extends ConsumerWidget {
@@ -25,46 +26,18 @@ class LargeCard extends ConsumerWidget {
 
     final c10r20u10d10AsyncValue = ref.watch(c10r20u10d10Stream(cardId));
     return c10r20u10d10AsyncValue.when(
-      error: (err, _) => Scaffold(
-        body: SafeArea(
-          child: Center(
-            child: Text(
-              '$err',
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-            ),
-          ),
-        ),
-      ),
+      error: (err, _) => ErrorMessage(err: '$err'),
       loading: () => const SkeletonCard(),
       data: (c10r20u10d10) {
         final c10r21u10d10AsyncValue = ref.watch(c10r21u10d10Stream(cardId));
         return c10r21u10d10AsyncValue.when(
-          error: (err, _) => Scaffold(
-            body: SafeArea(
-              child: Center(
-                child: Text(
-                  '$err',
-                  style: TextStyle(color: Theme.of(context).colorScheme.error),
-                ),
-              ),
-            ),
-          ),
+          error: (err, _) => ErrorMessage(err: '$err'),
           loading: () => const SkeletonCard(),
           data: (c10r21u10d10) {
             final c21r20u00d11AsyncValue =
                 ref.watch(c21r20u00d11Stream(cardId));
             return c21r20u00d11AsyncValue.when(
-              error: (err, _) => Scaffold(
-                body: SafeArea(
-                  child: Center(
-                    child: Text(
-                      '$err',
-                      style:
-                          TextStyle(color: Theme.of(context).colorScheme.error),
-                    ),
-                  ),
-                ),
-              ),
+              error: (err, _) => ErrorMessage(err: '$err'),
               loading: () => const SkeletonCard(),
               data: (c21r20u00d11) {
                 final profiles = c10r21u10d10?['profiles'];

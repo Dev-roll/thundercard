@@ -8,6 +8,7 @@ import 'api/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'constants.dart';
 import 'api/provider/firebase_firestore.dart';
+import 'widgets/error_message.dart';
 
 class AccountEditor extends ConsumerStatefulWidget {
   const AccountEditor({Key? key, required this.cardId}) : super(key: key);
@@ -477,16 +478,7 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
   Widget build(BuildContext context) {
     final c10r21u10d10AsyncValue = ref.watch(c10r21u10d10Stream(widget.cardId));
     return c10r21u10d10AsyncValue.when(
-      error: (err, _) => Scaffold(
-        body: SafeArea(
-          child: Center(
-            child: Text(
-              '$err',
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-            ),
-          ),
-        ),
-      ),
+      error: (err, _) => ErrorMessage(err: '$err'),
       loading: () => const Scaffold(
         body: SafeArea(
           child: Center(
@@ -498,16 +490,7 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
         final c10r20u10d10AsyncValue =
             ref.watch(c10r20u10d10Stream(widget.cardId));
         return c10r20u10d10AsyncValue.when(
-          error: (err, _) => Scaffold(
-            body: SafeArea(
-              child: Center(
-                child: Text(
-                  '$err',
-                  style: TextStyle(color: Theme.of(context).colorScheme.error),
-                ),
-              ),
-            ),
-          ),
+          error: (err, _) => ErrorMessage(err: '$err'),
           loading: () => const Scaffold(
             body: SafeArea(
               child: Center(
@@ -519,17 +502,7 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
             final c21r20u00d11AsyncValue =
                 ref.watch(c21r20u00d11Stream(widget.cardId));
             return c21r20u00d11AsyncValue.when(
-              error: (err, _) => Scaffold(
-                body: SafeArea(
-                  child: Center(
-                    child: Text(
-                      '$err',
-                      style:
-                          TextStyle(color: Theme.of(context).colorScheme.error),
-                    ),
-                  ),
-                ),
-              ),
+              error: (err, _) => ErrorMessage(err: '$err'),
               loading: () => const Scaffold(
                 body: SafeArea(
                   child: Center(

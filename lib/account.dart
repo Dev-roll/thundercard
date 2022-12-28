@@ -19,6 +19,7 @@ import 'api/firebase_auth.dart';
 import 'home_page.dart';
 import 'widgets/card_info.dart';
 import 'auth_gate.dart';
+import 'widgets/error_message.dart';
 import 'widgets/maintenance.dart';
 
 class Account extends ConsumerWidget {
@@ -42,16 +43,7 @@ class Account extends ConsumerWidget {
     final customTheme = ref.watch(customThemeProvider);
     final currentCardAsyncValue = ref.watch(currentCardStream);
     return currentCardAsyncValue.when(
-      error: (err, _) => Scaffold(
-        body: SafeArea(
-          child: Center(
-            child: Text(
-              '$err',
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-            ),
-          ),
-        ),
-      ),
+      error: (err, _) => ErrorMessage(err: '$err'),
       loading: () => const Scaffold(
         body: SafeArea(
           child: Center(
