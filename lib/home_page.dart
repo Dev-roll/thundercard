@@ -201,13 +201,37 @@ class HomePage extends ConsumerWidget {
                                         child: ListTile(
                                           leading: const SizedBox(
                                             width: 32,
-                                            child: FittedBox(child: Avatar()),
+                                            child: Center(
+                                                child:
+                                                    FittedBox(child: Avatar())),
                                           ),
-                                          title: Column(
-                                            children: [
-                                              Text(name),
-                                              Text('@$cardId'),
-                                            ],
+                                          title: Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 10, 10, 10),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  name,
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                const SizedBox(
+                                                  height: 4,
+                                                ),
+                                                Text(
+                                                  '@$cardId',
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary
+                                                          .withOpacity(0.8)),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                           selected: true,
                                           selectedTileColor: Theme.of(context)
