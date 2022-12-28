@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 // import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:thundercard/widgets/positioned_snack_bar.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class UploadImagePage extends StatefulWidget {
@@ -194,43 +195,10 @@ class _UploadImagePageState extends State<UploadImagePage> {
         if (!mounted) return;
         Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            elevation: 20,
-            backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-            behavior: SnackBarBehavior.floating,
-            clipBehavior: Clip.antiAlias,
-            dismissDirection: DismissDirection.horizontal,
-            margin: EdgeInsets.only(
-              left: 8,
-              right: 8,
-              bottom: MediaQuery.of(context).size.height - 180,
-            ),
-            duration: const Duration(seconds: 2),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(28),
-            ),
-            content: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
-                  child: Icon(Icons.file_download_done_rounded),
-                ),
-                Expanded(
-                  child: Text(
-                    'カードを追加しました',
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onBackground,
-                        overflow: TextOverflow.fade),
-                  ),
-                ),
-              ],
-            ),
-            // duration: const Duration(seconds: 12),
-            action: SnackBarAction(
-              label: 'OK',
-              onPressed: () {},
-            ),
+          PositionedSnackBar(
+            context,
+            'カードを追加しました',
+            icon: Icons.file_download_done_rounded,
           ),
         );
       } catch (e) {

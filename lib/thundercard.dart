@@ -9,6 +9,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/api/current_brightness.dart';
 import 'package:thundercard/api/return_original_color.dart';
 import 'package:thundercard/my_card_details.dart';
+import 'package:thundercard/widgets/positioned_snack_bar.dart';
 
 import 'api/colors.dart';
 import 'api/export_to_image.dart';
@@ -291,77 +292,11 @@ class _ThundercardState extends State<Thundercard> {
                                                           ScaffoldMessenger.of(
                                                                   context)
                                                               .showSnackBar(
-                                                        SnackBar(
-                                                          elevation: 20,
-                                                          backgroundColor: Theme
-                                                                  .of(context)
-                                                              .colorScheme
-                                                              .surfaceVariant,
-                                                          behavior:
-                                                              SnackBarBehavior
-                                                                  .floating,
-                                                          clipBehavior:
-                                                              Clip.antiAlias,
-                                                          dismissDirection:
-                                                              DismissDirection
-                                                                  .horizontal,
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                            left: 8,
-                                                            right: 8,
-                                                            bottom: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .height -
-                                                                180,
-                                                          ),
-                                                          duration:
-                                                              const Duration(
-                                                                  seconds: 2),
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        28),
-                                                          ),
-                                                          content: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              const Padding(
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .fromLTRB(
-                                                                            0,
-                                                                            0,
-                                                                            16,
-                                                                            0),
-                                                                child: Icon(Icons
-                                                                    .file_download_done_rounded),
-                                                              ),
-                                                              Expanded(
-                                                                child: Text(
-                                                                  'カードをダウンロードしました',
-                                                                  style: TextStyle(
-                                                                      color: Theme.of(
-                                                                              context)
-                                                                          .colorScheme
-                                                                          .onBackground,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .fade),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          // duration: const Duration(seconds: 12),
-                                                          action:
-                                                              SnackBarAction(
-                                                            label: 'OK',
-                                                            onPressed: () {},
-                                                          ),
+                                                        PositionedSnackBar(
+                                                          context,
+                                                          'カードをダウンロードしました',
+                                                          icon: Icons
+                                                              .file_download_done_rounded,
                                                         ),
                                                       ),
                                                     );
@@ -384,67 +319,11 @@ class _ThundercardState extends State<Thundercard> {
                                                       ScaffoldMessenger.of(
                                                               context)
                                                           .showSnackBar(
-                                                    SnackBar(
-                                                      elevation: 20,
-                                                      backgroundColor:
-                                                          Theme.of(context)
-                                                              .colorScheme
-                                                              .surfaceVariant,
-                                                      behavior: SnackBarBehavior
-                                                          .floating,
-                                                      clipBehavior:
-                                                          Clip.antiAlias,
-                                                      dismissDirection:
-                                                          DismissDirection
-                                                              .horizontal,
-                                                      margin: EdgeInsets.only(
-                                                        left: 8,
-                                                        right: 8,
-                                                        bottom: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height -
-                                                            180,
-                                                      ),
-                                                      duration: const Duration(
-                                                          seconds: 2),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(28),
-                                                      ),
-                                                      content: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          const Padding(
-                                                            padding: EdgeInsets
-                                                                .fromLTRB(0, 0,
-                                                                    16, 0),
-                                                            child: Icon(Icons
-                                                                .library_add_check_rounded),
-                                                          ),
-                                                          Expanded(
-                                                            child: Text(
-                                                              'クリップボードにコピーしました',
-                                                              style: TextStyle(
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .colorScheme
-                                                                      .onBackground,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .fade),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      action: SnackBarAction(
-                                                        label: 'OK',
-                                                        onPressed: () {},
-                                                      ),
+                                                    PositionedSnackBar(
+                                                      context,
+                                                      'クリップボードにコピーしました',
+                                                      icon: Icons
+                                                          .library_add_check_rounded,
                                                     ),
                                                   ),
                                                 );

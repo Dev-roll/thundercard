@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thundercard/api/return_original_color.dart';
 import 'package:thundercard/widgets/custom_skeletons/skeleton_card_large.dart';
 import 'package:thundercard/widgets/not_found_card.dart';
+import 'package:thundercard/widgets/positioned_snack_bar.dart';
 import 'package:thundercard/widgets/preview_card.dart';
 import 'package:thundercard/widgets/custom_skeletons/skeleton_card.dart';
 
@@ -202,60 +203,11 @@ class MyCard extends ConsumerWidget {
                                               (route) => route.isFirst);
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
-                                            SnackBar(
-                                              elevation: 20,
-                                              backgroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .surfaceVariant,
-                                              behavior:
-                                                  SnackBarBehavior.floating,
-                                              clipBehavior: Clip.antiAlias,
-                                              dismissDirection:
-                                                  DismissDirection.horizontal,
-                                              margin: EdgeInsets.only(
-                                                left: 8,
-                                                right: 8,
-                                                bottom: MediaQuery.of(context)
-                                                        .size
-                                                        .height -
-                                                    180,
-                                              ),
-                                              duration:
-                                                  const Duration(seconds: 2),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(28),
-                                              ),
-                                              content: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  const Padding(
-                                                    padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            0, 0, 16, 0),
-                                                    child: Icon(Icons
-                                                        .file_download_done_rounded),
-                                                  ),
-                                                  Expanded(
-                                                    child: Text(
-                                                      'カードを交換しました',
-                                                      style: TextStyle(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .colorScheme
-                                                                  .onBackground,
-                                                          overflow: TextOverflow
-                                                              .fade),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              // duration: const Duration(seconds: 12),
-                                              action: SnackBarAction(
-                                                label: 'OK',
-                                                onPressed: () {},
-                                              ),
+                                            PositionedSnackBar(
+                                              context,
+                                              'カードを交換しました',
+                                              icon: Icons
+                                                  .file_download_done_rounded,
                                             ),
                                           );
                                         },
