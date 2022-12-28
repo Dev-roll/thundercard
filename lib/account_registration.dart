@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:thundercard/api/colors.dart';
+import 'package:thundercard/widgets/positioned_snack_bar.dart';
 import 'package:uuid/uuid.dart';
 import 'api/firebase_auth.dart';
 import 'package:intl/intl.dart';
@@ -301,46 +302,18 @@ class _AccountRegistrationState extends State<AccountRegistration> {
         });
         forbiddenId = _cardIdController.text;
         return ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            elevation: 20,
-            backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-            behavior: SnackBarBehavior.floating,
-            clipBehavior: Clip.antiAlias,
-            dismissDirection: DismissDirection.horizontal,
-            margin: const EdgeInsets.only(
-              left: 8,
-              right: 8,
-              bottom: 24,
-            ),
-            duration: const Duration(seconds: 5),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(28),
-            ),
-            content: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-                  child: Icon(
-                    Icons.error_rounded,
-                    color: Theme.of(context).colorScheme.error,
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    'ユーザーIDはすでに存在しています。別のIDを入力してください。',
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onBackground,
-                        overflow: TextOverflow.fade),
-                  ),
-                ),
-              ],
-            ),
-            // duration: const Duration(seconds: 12),
-            action: SnackBarAction(
+          PositionedSnackBar(
+            context,
+            'ユーザーIDはすでに存在しています。別のIDを入力してください。',
+            icon: Icons.error_rounded,
+            snackbarAction: SnackBarAction(
               label: 'OK',
+              textColor: Theme.of(context).colorScheme.onPrimary,
               onPressed: () {},
             ),
+            foreground: Theme.of(context).colorScheme.onError,
+            bottom: 24,
+            seconds: 5,
           ),
         );
       } else {
