@@ -42,8 +42,23 @@ class Account extends ConsumerWidget {
     final customTheme = ref.watch(customThemeProvider);
     final currentCardAsyncValue = ref.watch(currentCardStream);
     return currentCardAsyncValue.when(
-      error: (err, _) => Text(err.toString()), //エラー時
-      loading: () => const CustomProgressIndicator(), //読み込み時
+      error: (err, _) => Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: Text(
+              '$err',
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
+          ),
+        ),
+      ),
+      loading: () => const Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: CustomProgressIndicator(),
+          ),
+        ),
+      ),
       data: (currentCard) {
         final currentCardId = currentCard?['current_card'];
         return Scaffold(

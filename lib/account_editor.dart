@@ -477,20 +477,66 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
   Widget build(BuildContext context) {
     final c10r21u10d10AsyncValue = ref.watch(c10r21u10d10Stream(widget.cardId));
     return c10r21u10d10AsyncValue.when(
-      error: (err, _) => Text(err.toString()), //エラー時
-      loading: () => const CustomProgressIndicator(), //読み込み時
+      error: (err, _) => Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: Text(
+              '$err',
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
+          ),
+        ),
+      ),
+      loading: () => const Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: CustomProgressIndicator(),
+          ),
+        ),
+      ),
       data: (c10r21u10d10) {
         final c10r20u10d10AsyncValue =
             ref.watch(c10r20u10d10Stream(widget.cardId));
         return c10r20u10d10AsyncValue.when(
-          error: (err, _) => Text(err.toString()), //エラー時
-          loading: () => const CustomProgressIndicator(), //読み込み時
+          error: (err, _) => Scaffold(
+            body: SafeArea(
+              child: Center(
+                child: Text(
+                  '$err',
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+              ),
+            ),
+          ),
+          loading: () => const Scaffold(
+            body: SafeArea(
+              child: Center(
+                child: CustomProgressIndicator(),
+              ),
+            ),
+          ),
           data: (c10r20u10d10) {
             final c21r20u00d11AsyncValue =
                 ref.watch(c21r20u00d11Stream(widget.cardId));
             return c21r20u00d11AsyncValue.when(
-              error: (err, _) => Text(err.toString()), //エラー時
-              loading: () => const CustomProgressIndicator(), //読み込み時
+              error: (err, _) => Scaffold(
+                body: SafeArea(
+                  child: Center(
+                    child: Text(
+                      '$err',
+                      style:
+                          TextStyle(color: Theme.of(context).colorScheme.error),
+                    ),
+                  ),
+                ),
+              ),
+              loading: () => const Scaffold(
+                body: SafeArea(
+                  child: Center(
+                    child: CustomProgressIndicator(),
+                  ),
+                ),
+              ),
               data: (c21r20u00d11) {
                 final initName =
                     TextEditingController(text: c10r20u10d10?['name'] ?? '');

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thundercard/api/current_brightness.dart';
 import 'package:thundercard/widgets/avatar.dart';
+import 'package:thundercard/widgets/custom_skeletons/skeleton_card_info.dart';
 
 import '../api/provider/firebase_firestore.dart';
 import '../api/return_original_color.dart';
-import '../widgets/custom_progress_indicator.dart';
 import '../account_editor.dart';
 import '../constants.dart';
 
@@ -43,13 +43,43 @@ class CardInfo extends ConsumerWidget {
     final c10r21u10d10AsyncValue = ref.watch(c10r21u10d10Stream(cardId));
 
     return c10r21u10d10AsyncValue.when(
-      error: (err, _) => Text(err.toString()), //エラー時
-      loading: () => const CustomProgressIndicator(), //読み込み時
+      error: (err, _) => Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: Text(
+              '$err',
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
+          ),
+        ),
+      ),
+      loading: () => const Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: SkeletonCardInfo(),
+          ),
+        ),
+      ),
       data: (c10r21u10d10) {
         final c10r20u10d10AsyncValue = ref.watch(c10r20u10d10Stream(cardId));
         return c10r20u10d10AsyncValue.when(
-          error: (err, _) => Text(err.toString()), //エラー時
-          loading: () => const CustomProgressIndicator(), //読み込み時
+          error: (err, _) => Scaffold(
+            body: SafeArea(
+              child: Center(
+                child: Text(
+                  '$err',
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+              ),
+            ),
+          ),
+          loading: () => const Scaffold(
+            body: SafeArea(
+              child: Center(
+                child: SkeletonCardInfo(),
+              ),
+            ),
+          ),
           data: (c10r20u10d10) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,

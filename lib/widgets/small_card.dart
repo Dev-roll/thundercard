@@ -24,19 +24,47 @@ class SmallCard extends ConsumerWidget {
 
     final c10r20u10d10AsyncValue = ref.watch(c10r20u10d10Stream(cardId));
     return c10r20u10d10AsyncValue.when(
-      error: (err, _) => Text(err.toString()), //エラー時
-      loading: () => const SkeletonCard(), //読み込み時
+      error: (err, _) => Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: Text(
+              '$err',
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
+          ),
+        ),
+      ),
+      loading: () => const SkeletonCard(),
       data: (c10r20u10d10) {
         final c10r21u10d10AsyncValue = ref.watch(c10r21u10d10Stream(cardId));
         return c10r21u10d10AsyncValue.when(
-          error: (err, _) => Text(err.toString()), //エラー時
-          loading: () => const SkeletonCard(), //読み込み時
+          error: (err, _) => Scaffold(
+            body: SafeArea(
+              child: Center(
+                child: Text(
+                  '$err',
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+              ),
+            ),
+          ),
+          loading: () => const SkeletonCard(),
           data: (c10r21u10d10) {
             final c21r20u00d11AsyncValue =
                 ref.watch(c21r20u00d11Stream(cardId));
             return c21r20u00d11AsyncValue.when(
-              error: (err, _) => Text(err.toString()), //エラー時
-              loading: () => const SkeletonCard(), //読み込み時
+              error: (err, _) => Scaffold(
+                body: SafeArea(
+                  child: Center(
+                    child: Text(
+                      '$err',
+                      style:
+                          TextStyle(color: Theme.of(context).colorScheme.error),
+                    ),
+                  ),
+                ),
+              ),
+              loading: () => const SkeletonCard(),
               data: (c21r20u00d11) {
                 final String name = c10r20u10d10?['name'];
                 final Map profiles = c10r21u10d10?['profiles'];

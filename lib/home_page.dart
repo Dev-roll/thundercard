@@ -18,6 +18,7 @@ import 'api/provider/index.dart';
 import 'list.dart';
 import 'notifications.dart';
 import 'thundercard.dart';
+import 'widgets/custom_progress_indicator.dart';
 import 'widgets/md/authors.dart';
 import 'widgets/md/privacy_policy.dart';
 
@@ -33,14 +34,44 @@ class HomePage extends ConsumerWidget {
     final currentIndex = ref.watch(currentIndexProvider);
     final currentCardAsyncValue = ref.watch(currentCardStream);
     return currentCardAsyncValue.when(
-      error: (err, _) => Text(err.toString()), //エラー時
-      loading: () => const CircularProgressIndicator(), //読み込み時
+      error: (err, _) => Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: Text(
+              '$err',
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
+          ),
+        ),
+      ),
+      loading: () => const Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: CustomProgressIndicator(),
+          ),
+        ),
+      ),
       data: (currentCard) {
         final cardId = currentCard?['current_card'];
         final c10r20u10d10AsyncValue = ref.watch(c10r20u10d10Stream(cardId));
         return c10r20u10d10AsyncValue.when(
-          error: (err, _) => Text(err.toString()), //エラー時
-          loading: () => const CircularProgressIndicator(), //読み込み時
+          error: (err, _) => Scaffold(
+            body: SafeArea(
+              child: Center(
+                child: Text(
+                  '$err',
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+              ),
+            ),
+          ),
+          loading: () => const Scaffold(
+            body: SafeArea(
+              child: Center(
+                child: CustomProgressIndicator(),
+              ),
+            ),
+          ),
           data: (c10r20u10d10) {
             final name = c10r20u10d10?['name'];
             final iconColorNum = Theme.of(context)
