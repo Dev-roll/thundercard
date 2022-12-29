@@ -62,6 +62,8 @@ class MyCard extends ConsumerWidget {
       ),
       loading: () => const CustomProgressIndicator(),
       data: (currentCard) {
+        final currentCardId = currentCard?['current_card'];
+
         return Column(
           children: [
             StreamBuilder(
@@ -179,7 +181,7 @@ class MyCard extends ConsumerWidget {
                                             .secondaryContainer,
                                       ),
                                       onPressed: () {
-                                        handleExchange(currentCard, cardId);
+                                        handleExchange(currentCardId, cardId);
                                         Navigator.of(context)
                                             .popUntil((route) => route.isFirst);
                                         ScaffoldMessenger.of(context)
