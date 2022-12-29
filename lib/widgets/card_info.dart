@@ -8,7 +8,6 @@ import '../api/provider/firebase_firestore.dart';
 import '../api/return_original_color.dart';
 import '../account_editor.dart';
 import '../constants.dart';
-import 'error_message.dart';
 
 class CardInfo extends ConsumerWidget {
   const CardInfo({
