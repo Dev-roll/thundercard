@@ -4,6 +4,7 @@ class PositionedSnackBar extends SnackBar {
   PositionedSnackBar(
     BuildContext context,
     String text, {
+    super.key,
     IconData? icon,
     SnackBarAction? snackbarAction,
     Color? background,

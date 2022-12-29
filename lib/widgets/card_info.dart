@@ -8,7 +8,6 @@ import '../api/provider/firebase_firestore.dart';
 import '../api/return_original_color.dart';
 import '../account_editor.dart';
 import '../constants.dart';
-import 'error_message.dart';
 
 class CardInfo extends ConsumerWidget {
   const CardInfo({
@@ -43,12 +42,18 @@ class CardInfo extends ConsumerWidget {
     final c10r21u10d10AsyncValue = ref.watch(c10r21u10d10Stream(cardId));
 
     return c10r21u10d10AsyncValue.when(
-      error: (err, _) => ErrorMessage(err: '$err'),
+      error: (err, _) => Text(
+        '$err',
+        style: TextStyle(color: Theme.of(context).colorScheme.error),
+      ),
       loading: () => const SkeletonCardInfo(),
       data: (c10r21u10d10) {
         final c10r20u10d10AsyncValue = ref.watch(c10r20u10d10Stream(cardId));
         return c10r20u10d10AsyncValue.when(
-          error: (err, _) => ErrorMessage(err: '$err'),
+          error: (err, _) => Text(
+            '$err',
+            style: TextStyle(color: Theme.of(context).colorScheme.error),
+          ),
           loading: () => const SkeletonCardInfo(),
           data: (c10r20u10d10) {
             return Column(
