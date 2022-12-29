@@ -278,11 +278,6 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
   late TextEditingController _companyController;
   late TextEditingController _positionController;
   late TextEditingController _addressController;
-  // late final TextEditingController _nameController;
-  // late final TextEditingController _bioController;
-  // late final TextEditingController _companyController;
-  // late final TextEditingController _positionController;
-  // late final TextEditingController _addressController;
 
   CollectionReference version2 = FirebaseFirestore.instance
       .collection('version')
@@ -548,7 +543,16 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
                             }
                           },
                           onLongPress: null,
-                          child: const Text('保存'),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              SizedBox(width: 8),
+                              Icon(Icons.done_rounded),
+                              SizedBox(width: 4),
+                              Text('保存'),
+                              SizedBox(width: 8),
+                            ],
+                          ),
                         ),
                         // : updateButtonPressed
                         //     ? TextButton(
