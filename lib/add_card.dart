@@ -19,13 +19,13 @@ class AddCard extends StatefulWidget {
 }
 
 void handleExchange(String myCardId, anotherCardId) async {
-  final DocumentReference anotherc11r20u00d11 = FirebaseFirestore.instance
+  final DocumentReference anotherc21r20u00d11 = FirebaseFirestore.instance
       .collection('version')
       .doc('2')
       .collection('cards')
       .doc(anotherCardId)
       .collection('visibility')
-      .doc('c11r20u00d11');
+      .doc('c21r20u00d11');
 
   final DocumentReference myc10r10u10d10 = FirebaseFirestore.instance
       .collection('version')
@@ -86,7 +86,7 @@ void handleExchange(String myCardId, anotherCardId) async {
       .doc('c10r21u21d10');
 
   final String anotherUid =
-      await anotherc11r20u00d11.get().then((DocumentSnapshot res) {
+      await anotherc21r20u00d11.get().then((DocumentSnapshot res) {
     final data = res.data() as Map<String, dynamic>;
     return data['uid'];
   });

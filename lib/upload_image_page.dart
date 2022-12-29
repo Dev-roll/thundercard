@@ -138,19 +138,19 @@ class _UploadImagePageState extends State<UploadImagePage> {
         'profiles': {
           'bio': {
             'value': '',
-            'display': {'extended': true, 'normal': true},
+            'display': {'large': true, 'normal': true},
           },
           'company': {
             'value': '',
-            'display': {'extended': true, 'normal': true},
+            'display': {'large': true, 'normal': true},
           },
           'position': {
             'value': '',
-            'display': {'extended': true, 'normal': true},
+            'display': {'large': true, 'normal': true},
           },
           'address': {
             'value': '',
-            'display': {'extended': true, 'normal': true},
+            'display': {'large': true, 'normal': true},
           },
         },
         'account': {

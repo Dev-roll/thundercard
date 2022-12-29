@@ -242,7 +242,9 @@ maintenance() {
                 'seed': '',
                 'tertiary': '',
               },
-              'light_theme': true,
+              'light_theme': false,
+              'rounded': true,
+              'radius': 3,
               'layout': 0,
               'font_size': {
                 'title': 3,
@@ -278,28 +280,28 @@ maintenance() {
                 'value': account['profiles']['address']['value'],
                 'display': {
                   'normal': true,
-                  'extended': true,
+                  'large': true,
                 }
               },
               'bio': {
                 'value': account['profiles']['bio']['value'],
                 'display': {
                   'normal': true,
-                  'extended': true,
+                  'large': true,
                 }
               },
               'company': {
                 'value': account['profiles']['company']['value'],
                 'display': {
                   'normal': true,
-                  'extended': true,
+                  'large': true,
                 }
               },
               'position': {
                 'value': account['profiles']['position']['value'],
                 'display': {
                   'normal': true,
-                  'extended': true,
+                  'large': true,
                 }
               },
             }
