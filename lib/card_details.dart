@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thundercard/api/colors.dart';
 import 'package:thundercard/widgets/preview_img.dart';
 
-import 'api/firebase_auth.dart';
 import 'api/provider/firebase_firestore.dart';
 import 'api/provider/index.dart';
 import 'widgets/card_info.dart';
@@ -18,10 +17,8 @@ import 'constants.dart';
 import 'home_page.dart';
 
 class CardDetails extends ConsumerWidget {
-  CardDetails({Key? key, required this.cardId}) : super(key: key);
+  const CardDetails({Key? key, required this.cardId}) : super(key: key);
   final String cardId;
-
-  final String? uid = getUid();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -59,7 +56,6 @@ class CardDetails extends ConsumerWidget {
               ),
               data: (currentCard) {
                 final bool isUser = c21r20u00d11?['is_user'];
-                final String thumbnail = c20r11u11d11?['thumbnail'];
                 Future<Room> getRoom(String otherCardId) async {
                   final DocumentReference rooms = FirebaseFirestore.instance
                       .collection('version')
@@ -222,7 +218,7 @@ class CardDetails extends ConsumerWidget {
                                           MaterialPageRoute(builder: (context) {
                                             return PreviewImg(
                                               image: Image.network(
-                                                thumbnail,
+                                                c20r11u11d11?['card_url'],
                                               ),
                                             );
                                           }),
@@ -231,7 +227,7 @@ class CardDetails extends ConsumerWidget {
                                       child: Hero(
                                         tag: 'card_image',
                                         child: Image.network(
-                                          thumbnail,
+                                          c20r11u11d11?['card_url'],
                                         ),
                                       ),
                                     ),
