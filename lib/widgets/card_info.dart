@@ -44,24 +44,12 @@ class CardInfo extends ConsumerWidget {
 
     return c10r21u10d10AsyncValue.when(
       error: (err, _) => ErrorMessage(err: '$err'),
-      loading: () => const Scaffold(
-        body: SafeArea(
-          child: Center(
-            child: SkeletonCardInfo(),
-          ),
-        ),
-      ),
+      loading: () => const SkeletonCardInfo(),
       data: (c10r21u10d10) {
         final c10r20u10d10AsyncValue = ref.watch(c10r20u10d10Stream(cardId));
         return c10r20u10d10AsyncValue.when(
           error: (err, _) => ErrorMessage(err: '$err'),
-          loading: () => const Scaffold(
-            body: SafeArea(
-              child: Center(
-                child: SkeletonCardInfo(),
-              ),
-            ),
-          ),
+          loading: () => const SkeletonCardInfo(),
           data: (c10r20u10d10) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
