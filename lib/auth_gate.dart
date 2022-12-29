@@ -10,7 +10,6 @@ import 'package:thundercard/widgets/error_message.dart';
 import 'api/current_brightness.dart';
 import 'api/current_brightness_reverse.dart';
 import 'account_registration.dart';
-import 'api/provider/index.dart';
 import 'home_page.dart';
 
 class AuthGate extends ConsumerWidget {
@@ -46,7 +45,6 @@ class AuthGate extends ConsumerWidget {
               return const AccountRegistration();
             }
             if (snapshot.connectionState == ConnectionState.done) {
-              ref.watch(currentIndexProvider.notifier).state = 0;
               return HomePage();
             }
             return Scaffold(

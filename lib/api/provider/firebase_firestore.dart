@@ -56,19 +56,7 @@ Future<DocumentSnapshot> getCard(String cardId) async {
   return res;
 }
 
-// final StreamProvider c10r21u10d10Provider =
-//     StreamProvider<dynamic>((ref) async {
-//   final prefs = await FirebaseFirestore.instance
-//       .collection('version')
-//       .doc('2')
-//       .collection('cards')
-//       .collection('visibility')
-//       .doc('c10r21u10d10')
-//       .get();
-//   return prefs.data();
-// });
-
-final currentCardStream = StreamProvider<dynamic>((ref) {
+final currentCardStream = StreamProvider.autoDispose<dynamic>((ref) {
   final prefs = FirebaseFirestore.instance
       .collection('users')
       .doc(uid)
@@ -79,7 +67,7 @@ final currentCardStream = StreamProvider<dynamic>((ref) {
 });
 
 final c10r10u11d10Stream =
-    StreamProvider.family<dynamic, String>((ref, cardId) {
+    StreamProvider.autoDispose.family<dynamic, String>((ref, cardId) {
   final prefs = FirebaseFirestore.instance
       .collection('version')
       .doc('2')
@@ -92,7 +80,7 @@ final c10r10u11d10Stream =
 });
 
 final c10r20u10d10Stream =
-    StreamProvider.family<dynamic, String>((ref, cardId) {
+    StreamProvider.autoDispose.family<dynamic, String>((ref, cardId) {
   final prefs = FirebaseFirestore.instance
       .collection('version')
       .doc('2')
@@ -105,7 +93,7 @@ final c10r20u10d10Stream =
 });
 
 final c10r21u10d10Stream =
-    StreamProvider.family<dynamic, String>((ref, cardId) {
+    StreamProvider.autoDispose.family<dynamic, String>((ref, cardId) {
   final prefs = FirebaseFirestore.instance
       .collection('version')
       .doc('2')
@@ -118,7 +106,7 @@ final c10r21u10d10Stream =
 });
 
 final c10r21u10d10Future =
-    FutureProvider.family<dynamic, String>((ref, cardId) async {
+    FutureProvider.autoDispose.family<dynamic, String>((ref, cardId) async {
   final prefs = await FirebaseFirestore.instance
       .collection('version')
       .doc('2')
@@ -131,7 +119,7 @@ final c10r21u10d10Future =
 });
 
 final c21r20u00d11Stream =
-    StreamProvider.family<dynamic, String>((ref, cardId) {
+    StreamProvider.autoDispose.family<dynamic, String>((ref, cardId) {
   final prefs = FirebaseFirestore.instance
       .collection('version')
       .doc('2')
@@ -144,7 +132,7 @@ final c21r20u00d11Stream =
 });
 
 final c20r11u11d11Stream =
-    StreamProvider.family<dynamic, String>((ref, cardId) {
+    StreamProvider.autoDispose.family<dynamic, String>((ref, cardId) {
   final prefs = FirebaseFirestore.instance
       .collection('version')
       .doc('2')
@@ -155,21 +143,3 @@ final c20r11u11d11Stream =
       .snapshots();
   return prefs;
 });
-
-// StreamProvider getc10r21u10d10(String cardId) {
-//   final StreamProvider c10r21u10d10Provider = StreamProvider<dynamic>((ref) {
-//     final prefs = FirebaseFirestore.instance
-//         .collection('version')
-//         .doc('2')
-//         .collection('cards')
-// //         .doc(cardId)
-//         .collection('visibility')
-//         .doc('c10r21u10d10')
-//         .get()
-//         .then((value) {
-//       return value.data();
-//     });
-//     // return prefs?.data();
-//   });
-//   return c10r21u10d10Provider;
-// }
