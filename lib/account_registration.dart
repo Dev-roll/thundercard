@@ -552,10 +552,19 @@ class _AccountRegistrationState extends State<AccountRegistration> {
           title: const Text('プロフィールを登録'),
           actions: [
             _cardIdController.text == '' || _nameController.text == ''
-                ? const TextButton(
+                ? TextButton(
                     onPressed: null,
                     onLongPress: null,
-                    child: Text('登録'),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const [
+                        SizedBox(width: 8),
+                        Icon(Icons.done_rounded),
+                        SizedBox(width: 4),
+                        Text('登録'),
+                        SizedBox(width: 8),
+                      ],
+                    ),
                   )
                 : registrationButtonPressed
                     ? TextButton(
@@ -580,7 +589,16 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                           registerCard();
                         },
                         onLongPress: null,
-                        child: const Text('登録'),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            SizedBox(width: 8),
+                            Icon(Icons.done_rounded),
+                            SizedBox(width: 4),
+                            Text('登録'),
+                            SizedBox(width: 8),
+                          ],
+                        ),
                       ),
           ],
           backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
