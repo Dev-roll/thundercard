@@ -44,13 +44,14 @@ class CardDetails extends ConsumerWidget {
             ),
           ),
           data: (currentCard) {
+            final currentCardId = currentCard?['current_card'];
             final bool isUser = c21r20u00d11?['is_user'];
             Future<Room> getRoom(String otherCardId) async {
               final DocumentReference rooms = FirebaseFirestore.instance
                   .collection('version')
                   .doc('2')
                   .collection('cards')
-                  .doc(currentCard)
+                  .doc(currentCardId)
                   .collection('visibility')
                   .doc('c10r21u21d10');
 
@@ -66,7 +67,7 @@ class CardDetails extends ConsumerWidget {
                   .collection('version')
                   .doc('2')
                   .collection('cards')
-                  .doc(currentCard)
+                  .doc(currentCardId)
                   .collection('visibility')
                   .doc('c10r10u11d10')
                   .update({

@@ -5,7 +5,6 @@ import 'package:thundercard/widgets/preview_img.dart';
 import '../api/provider/firebase_firestore.dart';
 import 'custom_progress_indicator.dart';
 import 'custom_skeletons/skeleton_card.dart';
-import 'error_message.dart';
 
 class CardImg extends ConsumerWidget {
   const CardImg({Key? key, required this.cardId}) : super(key: key);
