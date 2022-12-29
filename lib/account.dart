@@ -16,6 +16,7 @@ import 'package:thundercard/widgets/my_card.dart';
 
 import 'api/colors.dart';
 import 'api/firebase_auth.dart';
+import 'api/provider/index.dart';
 import 'widgets/card_info.dart';
 import 'auth_gate.dart';
 import 'widgets/error_message.dart';
@@ -808,17 +809,22 @@ class Account extends ConsumerWidget {
                                                   await FirebaseAuth.instance
                                                       .signOut()
                                                       .then(
-                                                        (value) => Navigator.of(
-                                                                context)
-                                                            .pushAndRemoveUntil(
-                                                          MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    AuthGate(),
-                                                          ),
-                                                          (_) => false,
+                                                    (value) {
+                                                      ref
+                                                          .watch(
+                                                              currentIndexProvider
+                                                                  .notifier)
+                                                          .state = 0;
+                                                      Navigator.of(context)
+                                                          .pushAndRemoveUntil(
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              AuthGate(),
                                                         ),
+                                                        (_) => false,
                                                       );
+                                                    },
+                                                  );
                                                 },
                                                 onLongPress: null,
                                                 child: const Text('サインアウト'),
