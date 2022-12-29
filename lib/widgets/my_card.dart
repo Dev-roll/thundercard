@@ -56,8 +56,11 @@ class MyCard extends ConsumerWidget {
     }
     final currentCardAsyncValue = ref.watch(currentCardStream);
     return currentCardAsyncValue.when(
-      error: (err, _) => Text(err.toString()), //エラー時
-      loading: () => const CustomProgressIndicator(), //読み込み時
+      error: (err, _) => Text(
+        '$err',
+        style: TextStyle(color: Theme.of(context).colorScheme.error),
+      ),
+      loading: () => const CustomProgressIndicator(),
       data: (currentCard) {
         return Column(
           children: [

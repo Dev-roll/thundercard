@@ -27,18 +27,36 @@ class CardDetails extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final c20r11u11d11AsyncValue = ref.watch(c20r11u11d11Stream(cardId));
     return c20r11u11d11AsyncValue.when(
-      error: (err, _) => Text(err.toString()), //エラー時
-      loading: () => const SkeletonCard(), //読み込み時
+      error: (err, _) => ErrorMessage(err: '$err'),
+      loading: () => const Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: SkeletonCard(),
+          ),
+        ),
+      ),
       data: (c20r11u11d11) {
         final c21r20u00d11AsyncValue = ref.watch(c21r20u00d11Stream(cardId));
         return c21r20u00d11AsyncValue.when(
-          error: (err, _) => Text(err.toString()), //エラー時
-          loading: () => const SkeletonCard(), //読み込み時
+          error: (err, _) => ErrorMessage(err: '$err'),
+          loading: () => const Scaffold(
+            body: SafeArea(
+              child: Center(
+                child: SkeletonCard(),
+              ),
+            ),
+          ),
           data: (c21r20u00d11) {
             final currentCardAsyncValue = ref.watch(currentCardStream);
             return currentCardAsyncValue.when(
-              error: (err, _) => Text(err.toString()), //エラー時
-              loading: () => const SkeletonCard(), //読み込み時
+              error: (err, _) => ErrorMessage(err: '$err'),
+              loading: () => const Scaffold(
+                body: SafeArea(
+                  child: Center(
+                    child: SkeletonCard(),
+                  ),
+                ),
+              ),
               data: (currentCard) {
                 final bool isUser = c21r20u00d11?['is_user'];
                 final String thumbnail = c20r11u11d11?['thumbnail'];
