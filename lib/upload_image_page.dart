@@ -84,6 +84,17 @@ class _UploadImagePageState extends State<UploadImagePage> {
         .id;
 
     void updateDocumentData(String imageURL) {
+      FirebaseFirestore.instance
+          .collection('version')
+          .doc('2')
+          .collection('cards')
+          .doc(docId)
+          .set({
+        'card_id': docId,
+      }, SetOptions(merge: true)).then((element) {
+        debugPrint('set cardid directory: completed');
+      });
+
       final CollectionReference newCard = FirebaseFirestore.instance
           .collection('version')
           .doc('2')
@@ -96,7 +107,6 @@ class _UploadImagePageState extends State<UploadImagePage> {
         'card_id': docId,
       };
 
-      // TODO: Not working
       newCard
           .doc('c21r20u00d11')
           .set(c21r20u00d11, SetOptions(merge: true))
@@ -111,7 +121,6 @@ class _UploadImagePageState extends State<UploadImagePage> {
         'name': _nameController.text,
       };
 
-      // TODO: Not working
       newCard
           .doc('c10r20u10d10')
           .set(c10r20u10d10, SetOptions(merge: true))
@@ -121,12 +130,10 @@ class _UploadImagePageState extends State<UploadImagePage> {
         debugPrint('Error updating document $e');
       });
 
-      // Working correctly
       newCard.doc('c20r11u11d11').set({
         'card_url': imageURL,
       });
 
-      // TODO: Not working
       newCard.doc('c10r21u10d10').set({
         'profiles': {
           'bio': {
