@@ -10,16 +10,74 @@ maintenance() {
   // const currentDocId = null;
 
   const cardIds = [
+    '5hIP8unZDgEFMaFWOQQ9',
+    '64gGRK9zwGhl78vZZLfU',
+    'DLNEvDmYfPcAiK3t9fBT',
+    'Devroll',
+    'GaxYPs7Kzbdcfhe4V1zk',
+    'Lrl5ibIBKMLea21BjqgS',
+    'OQ4gZBiyUnk0MzEcIUeS',
+    'S3tkjGWbGKLzGzC1h0wV',
+    'WO71enW6oQ01u3UrSl9p',
+    'a',
+    'aaa',
+    'aaaaaa',
+    'aaabbbcccdddeeefffgg',
+    'aagood_man',
+    'ahhhh',
+    'aolmez',
+    'banarep',
+    'cardid',
     'cardseditor',
+    'chnotchy',
+    'chnotchypiyo',
+    'e5o7fySlF7kjKVhLdA2g',
     'example',
-    // 'fuga',
-    // 'keigomichi',
-    // 'user'
+    'eymupktcco',
+    'fuga',
+    'fugahoge',
+    'gajeroll',
     'hogehoge',
     'hogepiyo',
-
-    // 'eymupktcco'
-    // 'raSZmUODKP1h6LfSIvVq'
+    'ikedanoritaka',
+    'inoue2002',
+    'jptm',
+    'k1xLcBVJRo2Y2tG0OAXv',
+    'keigomichi',
+    'kenty',
+    'kjc778869',
+    'kohei',
+    'krrn',
+    'mudnight480',
+    'notchcoder',
+    'notchy00',
+    'notchy01',
+    'notchy03',
+    'notchy21',
+    'on2U7KRTEunp5spl3Ecf',
+    'pVwfdePXlfNGqkHaX0vJ',
+    'pentagon',
+    'piyo',
+    'piyopiyo',
+    'plQUSfBQl9gJAR7V6DvX',
+    'ponchan',
+    'qXKe2y0B1ElLw8tlAxdO',
+    'r0Gka6EJCS2K5AF6LdQy',
+    'raSZmUODKP1h6LfSIvVq',
+    'shiyo',
+    'simo',
+    'tODbH03aswI8C23WF3sj',
+    'test221127-1',
+    'text',
+    'text5',
+    'uchida',
+    'uerk',
+    'ugmL2imA2aZ1n0n9OOfy',
+    'v5uwAup3ekod6mTYmG3a',
+    'wildriver',
+    'y6E4fbTNTxdZWAidu7I0',
+    'yamato_1115',
+    'yksnzk',
   ];
 
   for (var currentCardId in cardIds) {
@@ -310,6 +368,17 @@ maintenance() {
             debugPrint('current_card: completed');
           });
 
+          FirebaseFirestore.instance
+              .collection('version')
+              .doc('2')
+              .collection('cards')
+              .doc(currentCardId)
+              .set({
+            'card_id': currentCardId,
+          }, SetOptions(merge: true)).then((element) {
+            debugPrint('set cardid directory: completed');
+          });
+
           // // update
           // // c10r10u10d10
           // final c10r10u10d10 = {
@@ -354,7 +423,7 @@ maintenance() {
           // update
           // c10r10u11d10
           final c10r10u11d10 = {
-            'exchanged_cards': exchangedCards,
+            'exchanged_cards': exchangedCards ?? [],
           };
 
           FirebaseFirestore.instance
@@ -372,7 +441,7 @@ maintenance() {
           // update
           // c10r20u10d10
           final c10r20u10d10 = {
-            'public': public,
+            'public': public ?? false,
             'icon_url': '',
             'name': account['profiles']['name'],
             'thundercard': {
@@ -408,7 +477,7 @@ maintenance() {
           // c10r21u10d10
           final c10r21u10d10 = {
             'account': {
-              'links': account['profiles']['links'],
+              'links': account['links'] ?? [],
             },
             'profiles': {
               'bio': account['profiles']['bio'],
@@ -434,7 +503,6 @@ maintenance() {
           // c21r20u00d11
           final c21r20u00d11 = {
             'is_user': isUser,
-            'uid': uid,
             'card_id': currentCardId,
           };
 
