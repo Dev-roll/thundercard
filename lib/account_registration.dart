@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:thundercard/api/colors.dart';
+import 'package:thundercard/api/current_brightness.dart';
 import 'package:thundercard/widgets/positioned_snack_bar.dart';
 import 'package:uuid/uuid.dart';
 import 'api/firebase_auth.dart';
@@ -289,6 +290,8 @@ class _AccountRegistrationState extends State<AccountRegistration> {
 
   registerCard() {
     FirebaseFirestore.instance
+        .collection('version')
+        .doc('2')
         .collection('cards')
         .where('card_id', isEqualTo: _cardIdController.text)
         .get()
@@ -337,6 +340,12 @@ class _AccountRegistrationState extends State<AccountRegistration> {
         }
         debugPrint('$links');
 
+        version2.doc(_cardIdController.text).set({
+          'card_id': _cardIdController.text,
+        }, SetOptions(merge: true)).then((element) {
+          debugPrint('set cardid directory: completed');
+        });
+
         // users
         users.doc(uid).collection('cards').doc('my_cards').set({
           'my_cards': [_cardIdController.text]
@@ -368,10 +377,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
         };
 
         // notifications
-        FirebaseFirestore.instance
-            .collection('version')
-            .doc('2')
-            .collection('cards')
+        version2
             .doc(_cardIdController.text)
             .collection('visibility')
             .doc('c10r10u10d10')
@@ -445,8 +451,10 @@ class _AccountRegistrationState extends State<AccountRegistration> {
               'seed': 0,
               'tertiary': 0,
             },
-            'light_theme': true,
+            'light_theme': currentBrightness(Theme.of(context).colorScheme) ==
+                Brightness.light,
             'rounded': true,
+            'radius': 3,
             'layout': 0,
             'font_size': {
               'title': 3,
@@ -513,11 +521,11 @@ class _AccountRegistrationState extends State<AccountRegistration> {
           debugPrint('カードの登録に失敗しました: $error');
         });
 
-        // c11r20u00d11
+        // c21r20u00d11
         version2
             .doc(_cardIdController.text)
             .collection('visibility')
-            .doc('c11r20u00d11')
+            .doc('c21r20u00d11')
             .set({
           'is_user': true,
           'uid': uid,
@@ -526,7 +534,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => AuthGate()),
           );
-          debugPrint('c11r20u00d11: Registered');
+          debugPrint('c21r20u00d11: Registered');
         }).catchError((error) {
           debugPrint('カードの登録に失敗しました: $error');
         });
@@ -642,7 +650,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                             setState(() {});
                           },
                         ),
-                        const Text('会社'),
+                        const Text('組織'),
                         TextField(
                           controller: _companyController,
                           maxLength: 20,

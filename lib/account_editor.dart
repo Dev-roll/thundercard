@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thundercard/widgets/custom_progress_indicator.dart';
 import 'package:uuid/uuid.dart';
 import 'api/colors.dart';
+import 'api/current_brightness.dart';
 import 'api/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'constants.dart';
@@ -311,7 +312,7 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
         'key': keys[i],
         'value': values[i],
         'display': {
-          'extended': true,
+          'large': true,
           'normal': true,
         },
       });
@@ -400,22 +401,24 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
       'name': _nameController.text,
       // 'public': false,
       // 'icon_url': '',
-      // 'thundercard': {
-      //   'color': {
-      //     'seed': 0,
-      //     'tertiary': 0,
-      //   },
-      //   'light_theme': true,
-      //   'rounded': true,
-      //   'layout': 0,
-      //   'font_size': {
-      //     'title': 3,
-      //     'id': 1.5,
-      //     'bio': 1.3,
-      //     'profiles': 1,
-      //     'links': 1,
-      //   }
-      // },
+      'thundercard': {
+        // 'color': {
+        //   'seed': 0,
+        //   'tertiary': 0,
+        // },
+        'light_theme': currentBrightness(Theme.of(context).colorScheme) ==
+            Brightness.light,
+        // 'rounded': true,
+        // 'radius': 3,
+        // 'layout': 0,
+        // 'font_size': {
+        //   'title': 3,
+        //   'id': 1.5,
+        //   'bio': 1.3,
+        //   'profiles': 1,
+        //   'links': 1,
+        // }
+      },
     }, SetOptions(merge: true)).then((value) {
       debugPrint('Card Updated (1/2)');
     }).catchError((error) {
@@ -638,7 +641,7 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
                                         ),
                                       ),
                                     ),
-                                    const Text('会社'),
+                                    const Text('組織'),
                                     TextField(
                                       controller: _companyController,
                                       maxLength: 20,
