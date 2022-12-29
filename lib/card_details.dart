@@ -281,8 +281,8 @@ class CardDetails extends ConsumerWidget {
                                       );
                                     }
                                     return const Center(
-                                        child: CustomProgressIndicator());
-                                    // TODO: 変更
+                                      child: CustomProgressIndicator(),
+                                    );
                                   },
                                 ),
                             ],
