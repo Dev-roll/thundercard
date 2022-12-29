@@ -347,6 +347,12 @@ class _AccountRegistrationState extends State<AccountRegistration> {
         });
 
         // users
+        users.doc(uid).set({null}).then((value) {
+          debugPrint('User Added');
+        }).catchError((error) {
+          debugPrint('Failed to add user: $error');
+        });
+
         users.doc(uid).collection('cards').doc('my_cards').set({
           'my_cards': [_cardIdController.text]
         }).then((value) {

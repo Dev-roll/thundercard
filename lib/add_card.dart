@@ -111,11 +111,13 @@ void handleExchange(String myCardId, anotherCardId) async {
     'exchanged_cards': FieldValue.arrayUnion([anotherCardId]),
   }, SetOptions(merge: true)).then((value) {
     debugPrint('DocumentSnapshot successfully updated');
-  }, onError: (e) {
-    debugPrint('Error updating document $e');
-  });
-  myc10r21u21d10.update({'rooms.$myCardId': room.toJson()}).then((value) {
-    debugPrint('DocumentSnapshot successfully updated');
+    myc10r21u21d10.set({
+      'rooms': {anotherCardId: room.toJson()}
+    }, SetOptions(merge: true)).then((value) {
+      debugPrint('DocumentSnapshot successfully updated');
+    }, onError: (e) {
+      debugPrint('Error updating document $e');
+    });
   }, onError: (e) {
     debugPrint('Error updating document $e');
   });
@@ -138,12 +140,13 @@ void handleExchange(String myCardId, anotherCardId) async {
     'exchanged_cards': FieldValue.arrayUnion([myCardId]),
   }, SetOptions(merge: true)).then((value) {
     debugPrint('DocumentSnapshot successfully updated');
-  }, onError: (e) {
-    debugPrint('Error updating document $e');
-  });
-  anotherc10r21u21d10.update({'rooms.$anotherCardId': room.toJson()}).then(
-      (value) {
-    debugPrint('DocumentSnapshot successfully updated');
+    anotherc10r21u21d10.set({
+      'rooms': {myCardId: room.toJson()}
+    }, SetOptions(merge: true)).then((value) {
+      debugPrint('DocumentSnapshot successfully updated');
+    }, onError: (e) {
+      debugPrint('Error updating document $e');
+    });
   }, onError: (e) {
     debugPrint('Error updating document $e');
   });
