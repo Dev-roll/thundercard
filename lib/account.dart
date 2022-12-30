@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/api/current_brightness.dart';
@@ -723,11 +724,12 @@ class Account extends ConsumerWidget {
                                         final path =
                                             await getApplicationDocumentsDirectory()
                                                 .then((value) => value.path);
-                                        Share.shareFiles(
+                                        Share.shareXFiles(
                                           [
                                             // '$path/list.txt',
-                                            '$path/appThemeIdx.txt',
-                                            '$path/displayCardThemeIdx.txt',
+                                            XFile('$path/appThemeIdx.txt'),
+                                            XFile(
+                                                '$path/displayCardThemeIdx.txt'),
                                           ],
                                           text: 'Thundercardアプリのデータ',
                                           subject: 'Thundercardアプリのデータ共有',
