@@ -249,9 +249,9 @@ class _ThundercardState extends State<Thundercard> {
                                                 final path =
                                                     applicationDocumentsFile
                                                         .path;
-                                                await Share.shareFiles(
+                                                await Share.shareXFiles(
                                                   [
-                                                    path,
+                                                    XFile(path),
                                                   ],
                                                   text: thunderCardUrl,
                                                   subject:

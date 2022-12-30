@@ -723,11 +723,12 @@ class Account extends ConsumerWidget {
                                         final path =
                                             await getApplicationDocumentsDirectory()
                                                 .then((value) => value.path);
-                                        Share.shareFiles(
+                                        Share.shareXFiles(
                                           [
                                             // '$path/list.txt',
-                                            '$path/appThemeIdx.txt',
-                                            '$path/displayCardThemeIdx.txt',
+                                            XFile('$path/appThemeIdx.txt'),
+                                            XFile(
+                                                '$path/displayCardThemeIdx.txt'),
                                           ],
                                           text: 'Thundercardアプリのデータ',
                                           subject: 'Thundercardアプリのデータ共有',
