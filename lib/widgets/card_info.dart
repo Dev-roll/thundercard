@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thundercard/api/current_brightness.dart';
 import 'package:thundercard/widgets/avatar.dart';
 import 'package:thundercard/widgets/custom_skeletons/skeleton_card_info.dart';
 
+import '../api/colors.dart';
 import '../api/provider/firebase_firestore.dart';
 import '../api/return_original_color.dart';
 import '../account_editor.dart';
@@ -126,10 +128,23 @@ class CardInfo extends ConsumerWidget {
                         margin: const EdgeInsets.only(left: 8),
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(
                               builder: (context) =>
                                   AccountEditor(cardId: cardId),
-                            ));
+                            ))
+                                .then((value) {
+                              SystemChrome.setSystemUIOverlayStyle(
+                                SystemUiOverlayStyle(
+                                  systemNavigationBarColor: alphaBlend(
+                                      Theme.of(context)
+                                          .colorScheme
+                                          .primary
+                                          .withOpacity(0.08),
+                                      Theme.of(context).colorScheme.surface),
+                                ),
+                              );
+                            });
                           },
                           style: ElevatedButton.styleFrom(
                             elevation: 0,

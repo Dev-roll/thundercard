@@ -66,9 +66,10 @@ class Account extends ConsumerWidget {
                     child: Column(
                       children: [
                         Padding(
-                            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                            child: CardInfo(
-                                cardId: currentCardId, editable: true)),
+                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                          child:
+                              CardInfo(cardId: currentCardId, editable: true),
+                        ),
                         Divider(
                           height: 32,
                           thickness: 1,
