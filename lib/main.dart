@@ -75,7 +75,7 @@ class MyApp extends ConsumerWidget {
                     Theme.of(context).primaryTextTheme),
           ),
           themeMode: customTheme.currentAppTheme,
-          locale: Locale('ja', 'JP'),
+          locale: const Locale('ja', 'JP'),
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
