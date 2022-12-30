@@ -43,6 +43,7 @@ class _SignUpState extends State<SignUp> {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     try {
       await firebaseAuth.signInAnonymously();
+      if (!mounted) return;
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => AuthGate()),
       );
@@ -75,6 +76,7 @@ class _SignUpState extends State<SignUp> {
       );
       await FirebaseAuth.instance.signInWithCredential(credential);
 
+      if (!mounted) return;
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => AuthGate()),
       );
@@ -110,10 +112,12 @@ class _SignUpState extends State<SignUp> {
 
       if (user != null && user.isAnonymous) {
         await user.linkWithCredential(credential);
+        if (!mounted) return;
         Navigator.of(context).pop();
       } else {
         await FirebaseAuth.instance.signInWithCredential(credential);
 
+        if (!mounted) return;
         if (Navigator.of(context).canPop()) {
           Navigator.of(context).pop();
         } else {
@@ -127,7 +131,7 @@ class _SignUpState extends State<SignUp> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: Text('エラー'),
+              title: const Text('エラー'),
               content: Text(e.toString()),
             );
           });

@@ -3,6 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/custom_progress_indicator.dart';
+import 'error_message.dart';
 
 class MyCards extends StatefulWidget {
   const MyCards({Key? key, required this.uid}) : super(key: key);
@@ -24,6 +25,8 @@ class _MyCardsState extends State<MyCards> {
       FirebaseFirestore.instance
           .collection('users')
           .doc(widget.uid)
+          .collection('cards')
+          .doc('my_cards')
           .snapshots();
 
   @override
@@ -33,21 +36,21 @@ class _MyCardsState extends State<MyCards> {
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
-          return const Text('問題が発生しました');
+          return const ErrorMessage(err: '問題が発生しました');
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CustomProgressIndicator();
         }
-        dynamic data = snapshot.data;
+        dynamic myCards = snapshot.data;
         // Map<String, dynamic> data = snapshot.data as Map<String, dynamic>;
-        return data['my_cards'] == null
+        return myCards['my_cards'] == null
             ? const Text('カードの情報の取得に失敗しました')
             : ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: data['my_cards'].length,
+                itemCount: myCards['my_cards'].length,
                 itemBuilder: (context, index) {
-                  final cardId = data['my_cards'][index];
+                  final cardId = myCards['my_cards'][index];
                   return ListTile(
                     leading: FutureBuilder<String>(
                       future: getThumbnail(cardId),

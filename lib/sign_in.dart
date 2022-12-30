@@ -40,6 +40,7 @@ class _SignInState extends State<SignIn> {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     try {
       await firebaseAuth.signInAnonymously();
+      if (!mounted) return;
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => AuthGate()),
       );
@@ -72,6 +73,7 @@ class _SignInState extends State<SignIn> {
       );
       await FirebaseAuth.instance.signInWithCredential(credential);
 
+      if (!mounted) return;
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => AuthGate()),
       );
@@ -107,10 +109,12 @@ class _SignInState extends State<SignIn> {
 
       if (user != null && user.isAnonymous) {
         await user.linkWithCredential(credential);
+        if (!mounted) return;
         Navigator.of(context).pop();
       } else {
         await FirebaseAuth.instance.signInWithCredential(credential);
 
+        if (!mounted) return;
         if (Navigator.of(context).canPop()) {
           Navigator.of(context).pop();
         } else {

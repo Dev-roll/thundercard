@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thundercard/api/return_display_id.dart';
 import 'package:thundercard/api/return_icon_type.dart';
+import 'package:thundercard/widgets/positioned_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../constants.dart';
@@ -62,46 +63,14 @@ class _OpenAppState extends State<OpenApp> {
         mode: LaunchMode.externalApplication,
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        elevation: 20,
-        backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-        behavior: SnackBarBehavior.floating,
-        clipBehavior: Clip.antiAlias,
-        dismissDirection: DismissDirection.horizontal,
-        margin: EdgeInsets.only(
-          left: 8,
-          right: 8,
-          bottom: MediaQuery.of(context).size.height - 180,
+      ScaffoldMessenger.of(context).showSnackBar(
+        PositionedSnackBar(
+          context,
+          'アプリを開けません',
+          icon: Icons.error_outline_rounded,
+          foreground: Theme.of(context).colorScheme.onError,
         ),
-        duration: const Duration(seconds: 2),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(28),
-        ),
-        content: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-              child: Icon(
-                Icons.error_outline_rounded,
-                color: Theme.of(context).colorScheme.error,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                'アプリを開けません',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-              ),
-            ),
-          ],
-        ),
-        action: SnackBarAction(
-          label: 'OK',
-          onPressed: () {},
-        ),
-      ));
+      );
     }
   }
 }

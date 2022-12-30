@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-// import 'dart:ui' as ui;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,6 +12,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/add_card.dart';
 import 'package:thundercard/widgets/fullscreen_qr_code.dart';
 import 'package:thundercard/widgets/my_qr_code.dart';
+import 'package:thundercard/widgets/positioned_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../api/export_to_image.dart';
@@ -38,9 +38,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
   var openUrl = '';
   var _lastChangedDate = DateTime.now();
   final linkTime = 10;
-  // ByteData? _image;
-  // Image? _image;
-  // _doCapture();
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -58,29 +55,24 @@ class _ScanQrCodeState extends State<ScanQrCode> {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         systemNavigationBarColor: Theme.of(context).colorScheme.onSecondary,
-        // systemNavigationBarIconBrightness: ThemeData(),
-        // statusBarColor: Theme.of(context).colorScheme.onSecondary,
         statusBarIconBrightness: Brightness.light,
         statusBarBrightness: Brightness.dark,
       ),
-      // SystemUiOverlayStyle.dark,
     );
 
-    // var _screenSize = MediaQuery.of(context).size;
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     final String? uid = getUid();
 
     return Scaffold(
       body: SafeArea(
         child: FutureBuilder(
-          future: users.doc(uid).get(),
+          future: users.doc(uid).collection('card').doc('current_card').get(),
           builder:
               (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-            Map<String, dynamic> user =
+            Map<String, dynamic> currentCard =
                 snapshot.data!.data() as Map<String, dynamic>;
-            myCardId = user['my_cards'][0];
+            myCardId = currentCard['current_card'];
             String thunderCardUrl = '$initStr$myCardId';
-            // String thunderCardUrl = 'thundercard://user?card_id=$myCardId';
             return Column(
               children: <Widget>[
                 Expanded(
@@ -90,7 +82,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                       Container(
                         width: double.infinity,
                         color: Theme.of(context).colorScheme.onSecondary,
-                        // color: white,
                         child: FittedBox(
                           fit: BoxFit.contain,
                           child: Row(
@@ -215,11 +206,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        // if (result != null)
-                        //   Text(
-                        //       'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}'),
-                        // else
-                        //   const Text('Scan a code'),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -233,17 +219,11 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                         const EdgeInsets.fromLTRB(20, 0, 20, 0),
                                     child: IconButton(
                                       onPressed: () async {
-                                        // await exportToImage(_globalKey);
-                                        // await Share.share(thunderCardUrl,
-                                        //     subject:
-                                        //         '$myCardIdさんのThundercardアカウントの共有');
                                         final bytes =
                                             await exportToImage(_globalKey);
-                                        //byte data→Uint8List
                                         final widgetImageBytes = bytes?.buffer
                                             .asUint8List(bytes.offsetInBytes,
                                                 bytes.lengthInBytes);
-                                        //App directoryファイルに保存
                                         final applicationDocumentsFile =
                                             await getApplicationDocumentsFile(
                                                 myCardId, widgetImageBytes!);
@@ -271,7 +251,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                       onPressed: () async {
                                         final bytes =
                                             await exportToImage(_globalKey);
-                                        //byte data→Uint8List
                                         final widgetImageBytes = bytes?.buffer
                                             .asUint8List(bytes.offsetInBytes,
                                                 bytes.lengthInBytes);
@@ -279,80 +258,20 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                           widgetImageBytes!,
                                           name: myCardId,
                                         );
-                                        // final result =
-                                        //     await ImageGallerySaver.saveImage(
-                                        //   widgetImageBytes!,
-                                        //   name: myCardId,
-                                        // );
-                                        //App directoryファイルに保存
-                                        // final applicationDocumentsFile =
-                                        //     await getApplicationDocumentsFile(
-                                        //         myCardId, widgetImageBytes!);
-                                        // final path = applicationDocumentsFile.path;
+                                        if (!mounted) return;
                                         ScaffoldMessenger.of(context)
                                             .hideCurrentSnackBar();
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
-                                          SnackBar(
-                                            elevation: 20,
-                                            backgroundColor: Theme.of(context)
-                                                .colorScheme
-                                                .surfaceVariant,
-                                            behavior: SnackBarBehavior.floating,
-                                            clipBehavior: Clip.antiAlias,
-                                            dismissDirection:
-                                                DismissDirection.horizontal,
-                                            margin: EdgeInsets.only(
-                                              left: 8,
-                                              right: 8,
-                                              bottom: MediaQuery.of(context)
-                                                      .size
-                                                      .height -
-                                                  160,
-                                            ),
-                                            duration:
-                                                const Duration(seconds: 2),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(28),
-                                            ),
-                                            content: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: const [
-                                                Padding(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      0, 0, 16, 0),
-                                                  child: Icon(Icons
-                                                      .file_download_done_rounded),
-                                                ),
-                                                Expanded(
-                                                  child: Text(
-                                                    'QRコードをダウンロードしました',
-                                                    style: TextStyle(
-                                                        color: white,
-                                                        overflow:
-                                                            TextOverflow.fade),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            // duration: const Duration(seconds: 12),
-                                            action: SnackBarAction(
-                                              // label: '開く',
-                                              label: 'OK',
-                                              onPressed: () {
-                                                // pickImage();
-                                                // _launchURL(
-                                                // '',
-                                                // 'mailto:example@gmail.com?subject=hoge&body=test',
-                                                // thunderCardUrl,
-                                                // 'twitter://user?screen_name=cardseditor',
-                                                // secondUrl:
-                                                //     'https://github.com/cardseditor',
-                                                // );
-                                              },
-                                            ),
+                                          PositionedSnackBar(
+                                            context,
+                                            'QRコードをダウンロードしました',
+                                            icon: Icons
+                                                .file_download_done_rounded,
+                                            bottom: MediaQuery.of(context)
+                                                    .size
+                                                    .height -
+                                                140,
                                           ),
                                         );
                                       },
@@ -372,56 +291,15 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                               .hideCurrentSnackBar();
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
-                                            SnackBar(
-                                              elevation: 20,
-                                              backgroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .surfaceVariant,
-                                              behavior:
-                                                  SnackBarBehavior.floating,
-                                              clipBehavior: Clip.antiAlias,
-                                              dismissDirection:
-                                                  DismissDirection.horizontal,
-                                              margin: EdgeInsets.only(
-                                                left: 8,
-                                                right: 8,
-                                                bottom: MediaQuery.of(context)
-                                                        .size
-                                                        .height -
-                                                    160,
-                                              ),
-                                              duration:
-                                                  const Duration(seconds: 2),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(28),
-                                              ),
-                                              content: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: const [
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            0, 0, 16, 0),
-                                                    child: Icon(Icons
-                                                        .library_add_check_rounded),
-                                                  ),
-                                                  Expanded(
-                                                    child: Text(
-                                                      'クリップボードにコピーしました',
-                                                      style: TextStyle(
-                                                          color: white,
-                                                          overflow: TextOverflow
-                                                              .fade),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              action: SnackBarAction(
-                                                label: 'OK',
-                                                onPressed: () {},
-                                              ),
+                                            PositionedSnackBar(
+                                              context,
+                                              'クリップボードにコピーしました',
+                                              icon: Icons
+                                                  .library_add_check_rounded,
+                                              bottom: MediaQuery.of(context)
+                                                      .size
+                                                      .height -
+                                                  140,
                                             ),
                                           );
                                         });
@@ -430,13 +308,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                       padding: const EdgeInsets.all(20),
                                     ),
                                   ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
-                                  //   child: Center(
-                                  //     child: _image ??
-                                  //         const Icon(Icons.no_photography_rounded),
-                                  //   ),
-                                  // ),
                                 ],
                               ),
                             ),
@@ -595,22 +466,11 @@ class _ScanQrCodeState extends State<ScanQrCode> {
         if (scanData.code == null) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              elevation: 20,
-              backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-              behavior: SnackBarBehavior.floating,
-              clipBehavior: Clip.antiAlias,
-              dismissDirection: DismissDirection.horizontal,
-              margin: EdgeInsets.only(
-                left: 8,
-                right: 8,
-                bottom: MediaQuery.of(context).size.height - 160,
-              ),
-              duration: const Duration(seconds: 2),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(28),
-              ),
-              content: const Text('QRコードを読み取れませんでした'),
+            PositionedSnackBar(
+              context,
+              'QRコードを読み取れませんでした',
+              bottom: 48,
+              foreground: Theme.of(context).colorScheme.onError,
             ),
           );
         } else if (describeEnum(scanData.format) == 'qrcode') {
@@ -649,7 +509,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                       child: await canLaunchUrl(Uri.parse(openUrl.trim()))
                           ? const Icon(Icons.link_rounded)
                           : const Icon(Icons.link_off_rounded),
-                      // : const Icon(Icons.description_rounded),
                     ),
                     Expanded(
                       child: Text(
@@ -677,45 +536,11 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                         ).then((value) {
                           ScaffoldMessenger.of(context).hideCurrentSnackBar();
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              elevation: 20,
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.surfaceVariant,
-                              behavior: SnackBarBehavior.floating,
-                              clipBehavior: Clip.antiAlias,
-                              dismissDirection: DismissDirection.horizontal,
-                              margin: EdgeInsets.only(
-                                left: 8,
-                                right: 8,
-                                bottom:
-                                    MediaQuery.of(context).size.height - 160,
-                              ),
-                              duration: const Duration(seconds: 2),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(28),
-                              ),
-                              content: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
-                                    child:
-                                        Icon(Icons.library_add_check_rounded),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      'クリップボードにコピーしました',
-                                      style: TextStyle(
-                                          color: white,
-                                          overflow: TextOverflow.fade),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              action: SnackBarAction(
-                                label: 'OK',
-                                onPressed: () {},
-                              ),
+                            PositionedSnackBar(
+                              context,
+                              'クリップボードにコピーしました',
+                              icon: Icons.library_add_check_rounded,
+                              bottom: 48,
                             ),
                           );
                         });
@@ -747,12 +572,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                           ),
                   ],
                 ),
-                // action: SnackBarAction(
-                //   label: '開く',
-                //   onPressed: () {
-
-                //   },
-                // ),
               ),
             );
           }
@@ -792,46 +611,15 @@ class _ScanQrCodeState extends State<ScanQrCode> {
       );
     } else {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        elevation: 20,
-        backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-        behavior: SnackBarBehavior.floating,
-        clipBehavior: Clip.antiAlias,
-        dismissDirection: DismissDirection.horizontal,
-        margin: const EdgeInsets.only(
-          left: 8,
-          right: 8,
-          bottom: 40,
+      ScaffoldMessenger.of(context).showSnackBar(
+        PositionedSnackBar(
+          context,
+          'アプリを開けません',
+          icon: Icons.error_outline_rounded,
+          foreground: Theme.of(context).colorScheme.onError,
+          bottom: 48,
         ),
-        duration: const Duration(seconds: 2),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(28),
-        ),
-        content: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-              child: Icon(
-                Icons.error_outline_rounded,
-                color: Theme.of(context).colorScheme.error,
-              ),
-            ),
-            Expanded(
-              child: Text(
-                'アプリを開けません',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-              ),
-            ),
-          ],
-        ),
-        action: SnackBarAction(
-          label: 'OK',
-          onPressed: () {},
-        ),
-      ));
+      );
     }
   }
 
@@ -855,22 +643,12 @@ class _ScanQrCodeState extends State<ScanQrCode> {
     if (!p) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          elevation: 20,
-          backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-          behavior: SnackBarBehavior.floating,
-          clipBehavior: Clip.antiAlias,
-          dismissDirection: DismissDirection.horizontal,
-          margin: EdgeInsets.only(
-            left: 8,
-            right: 8,
-            bottom: MediaQuery.of(context).size.height - 160,
-          ),
-          duration: const Duration(seconds: 2),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(28),
-          ),
-          content: const Text('権限がありません'),
+        PositionedSnackBar(
+          context,
+          '権限がありません',
+          icon: Icons.error_outline_rounded,
+          foreground: Theme.of(context).colorScheme.onError,
+          bottom: MediaQuery.of(context).size.height - 140,
         ),
       );
     }

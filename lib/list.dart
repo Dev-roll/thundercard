@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:thundercard/widgets/scan_qr_code.dart';
-import 'package:thundercard/widgets/custom_skeletons/skeleton_card.dart';
 
 import 'api/colors.dart';
 import 'api/current_brightness.dart';
 import 'api/current_brightness_reverse.dart';
 import 'api/firebase_auth.dart';
 import 'widgets/custom_progress_indicator.dart';
+import 'widgets/error_message.dart';
 import 'widgets/my_card.dart';
 import 'card_details.dart';
 import 'constants.dart';
@@ -28,7 +28,10 @@ class List extends StatefulWidget {
 class _ListState extends State<List> {
   final String? uid = getUid();
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-  CollectionReference cards = FirebaseFirestore.instance.collection('cards');
+  CollectionReference cards = FirebaseFirestore.instance
+      .collection('version')
+      .doc('2')
+      .collection('cards');
   Map<String, dynamic>? data;
   var isDialOpen = ValueNotifier<bool>(false);
   var customDialRoot = false;
@@ -53,30 +56,42 @@ class _ListState extends State<List> {
       ),
     );
     return FutureBuilder<DocumentSnapshot>(
-      future: users.doc(uid).get(),
+      future: users.doc(uid).collection('card').doc('current_card').get(),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
-          return const Text('問題が発生しました');
+          return const ErrorMessage(err: '問題が発生しました');
         }
 
         if (snapshot.hasData && !snapshot.data!.exists) {
-          return const Text('ユーザー情報の取得に失敗しました');
+          return Scaffold(
+            body: SafeArea(
+              child: Center(
+                child: Text(
+                  'ユーザー情報の取得に失敗しました',
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+              ),
+            ),
+          );
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> user =
+          Map<String, dynamic> currentCard =
               snapshot.data!.data() as Map<String, dynamic>;
           return Scaffold(
-            // appBar: AppBar(),
             body: SafeArea(
               child: Center(
                 child: StreamBuilder<DocumentSnapshot<Object?>>(
-                  stream: cards.doc(user['my_cards'][0]).snapshots(),
+                  stream: cards
+                      .doc(currentCard['current_card'])
+                      .collection('visibility')
+                      .doc('c10r10u11d10')
+                      .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<DocumentSnapshot> snapshot) {
                     if (snapshot.hasError) {
-                      return const Text('問題が発生しました');
+                      return const ErrorMessage(err: '問題が発生しました');
                     }
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const CustomProgressIndicator();
@@ -156,9 +171,6 @@ class _ListState extends State<List> {
                         (exchangedCardsLength != 0)
                             ? Expanded(
                                 child: ListView.builder(
-                                  // shrinkWrap: true,
-                                  // physics:
-                                  //     const NeverScrollableScrollPhysics(),
                                   itemCount: exchangedCards.length + 2,
                                   itemBuilder: (context, index) {
                                     if (index == 0) {
@@ -167,58 +179,34 @@ class _ListState extends State<List> {
                                     if (index == exchangedCards.length + 1) {
                                       return const SizedBox(height: 80);
                                     }
-                                    return StreamBuilder<
-                                        DocumentSnapshot<Object?>>(
-                                      stream: cards
-                                          .doc(exchangedCards[index - 1])
-                                          .snapshots(),
-                                      builder: (BuildContext context,
-                                          AsyncSnapshot<DocumentSnapshot>
-                                              snapshot) {
-                                        if (snapshot.hasError) {
-                                          return const Text('問題が発生しました');
-                                        }
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.waiting) {
-                                          return const SkeletonCard();
-                                        }
-                                        dynamic card = snapshot.data;
-                                        if (!snapshot.hasData) {
-                                          return const Text('カードの情報の取得に失敗しました');
-                                        }
-                                        return Column(
-                                          children: [
-                                            GestureDetector(
-                                              behavior: HitTestBehavior.opaque,
-                                              onTap: () {
-                                                Navigator.of(context)
-                                                    .push(MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      CardDetails(
-                                                    cardId: exchangedCards[
-                                                        index - 1],
-                                                    card: card,
-                                                  ),
-                                                ));
-                                              },
-                                              child: ConstrainedBox(
-                                                constraints:
-                                                    const BoxConstraints(
-                                                  maxHeight: 400,
-                                                ),
-                                                child: FittedBox(
-                                                  child: MyCard(
-                                                    cardId: exchangedCards[
-                                                        index - 1],
-                                                    cardType: CardType.normal,
-                                                  ),
-                                                ),
+                                    return Column(
+                                      children: [
+                                        GestureDetector(
+                                          behavior: HitTestBehavior.opaque,
+                                          onTap: () {
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                              builder: (context) => CardDetails(
+                                                cardId:
+                                                    exchangedCards[index - 1],
+                                              ),
+                                            ));
+                                          },
+                                          child: ConstrainedBox(
+                                            constraints: const BoxConstraints(
+                                              maxHeight: 400,
+                                            ),
+                                            child: FittedBox(
+                                              child: MyCard(
+                                                cardId:
+                                                    exchangedCards[index - 1],
+                                                cardType: CardType.normal,
                                               ),
                                             ),
-                                            const SizedBox(height: 24),
-                                          ],
-                                        );
-                                      },
+                                          ),
+                                        ),
+                                        const SizedBox(height: 24),
+                                      ],
                                     );
                                   },
                                 ),
@@ -254,11 +242,7 @@ class _ListState extends State<List> {
             ),
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             floatingActionButton: SpeedDial(
-              // animatedIcon: AnimatedIcons.menu_close,
               animatedIconTheme: const IconThemeData(size: 24.0),
-              // / This is ignored if animatedIcon is non null
-              // child: Text('open'),
-              // activeChild: Text('close'),
               icon: Icons.add_rounded,
               activeIcon: Icons.close_rounded,
               foregroundColor:
@@ -311,8 +295,8 @@ class _ListState extends State<List> {
               renderOverlay: true,
               // overlayColor: Colors.black,
               overlayOpacity: 0.9,
-              // onOpen: () => debugPrint('OPENING DIAL'),
-              // onClose: () => debugPrint('DIAL CLOSED'),
+              // onOpen: () {debugPrint('OPENING DIAL');},
+              // onClose: () {debugPrint('DIAL CLOSED');},
               useRotationAnimation: true,
               tooltip: '',
               heroTag: 'speed-dial-hero-tag',
@@ -360,7 +344,7 @@ class _ListState extends State<List> {
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => UploadImagePage(
-                        cardId: user['my_cards'][0],
+                        cardId: currentCard['current_card'],
                       ),
                       fullscreenDialog: true,
                     ));
@@ -420,7 +404,7 @@ class _ListState extends State<List> {
                   elevation: 0,
                 ),
               ],
-            ), // floatingActionButton: FloatingActionButton.extended(
+            ),
           );
         }
         return const Scaffold(

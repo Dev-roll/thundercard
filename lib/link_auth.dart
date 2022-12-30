@@ -41,8 +41,8 @@ class _LinkAuthState extends State<LinkAuth> {
       idToken: googleAuth.idToken,
     );
     try {
-      final userCredential = await FirebaseAuth.instance.currentUser
-          ?.linkWithCredential(credential);
+      await FirebaseAuth.instance.currentUser?.linkWithCredential(credential);
+      if (!mounted) return;
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => AuthGate()),
       );
@@ -182,11 +182,9 @@ class _LinkAuthState extends State<LinkAuth> {
                                                 password:
                                                     _passwordController.text,
                                               );
-                                              final userCredential =
-                                                  FirebaseAuth
-                                                      .instance.currentUser
-                                                      ?.linkWithCredential(
-                                                          credential);
+                                              FirebaseAuth.instance.currentUser
+                                                  ?.linkWithCredential(
+                                                      credential);
                                               Navigator.of(context)
                                                   .pushReplacement(
                                                 MaterialPageRoute(
@@ -264,11 +262,9 @@ class _LinkAuthState extends State<LinkAuth> {
                                                 password:
                                                     _passwordController.text,
                                               );
-                                              final userCredential =
-                                                  FirebaseAuth
-                                                      .instance.currentUser
-                                                      ?.linkWithCredential(
-                                                          credential);
+                                              FirebaseAuth.instance.currentUser
+                                                  ?.linkWithCredential(
+                                                      credential);
                                               Navigator.of(context)
                                                   .pushReplacement(
                                                 MaterialPageRoute(
@@ -358,11 +354,9 @@ class _LinkAuthState extends State<LinkAuth> {
                                                 password:
                                                     _passwordController.text,
                                               );
-                                              final userCredential =
-                                                  FirebaseAuth
-                                                      .instance.currentUser
-                                                      ?.linkWithCredential(
-                                                          credential);
+                                              FirebaseAuth.instance.currentUser
+                                                  ?.linkWithCredential(
+                                                      credential);
                                               Navigator.of(context)
                                                   .pushReplacement(
                                                 MaterialPageRoute(
@@ -462,11 +456,10 @@ class _LinkAuthState extends State<LinkAuth> {
                                                           _passwordController
                                                               .text,
                                                     );
-                                                    final userCredential =
-                                                        FirebaseAuth.instance
-                                                            .currentUser
-                                                            ?.linkWithCredential(
-                                                                credential);
+                                                    FirebaseAuth
+                                                        .instance.currentUser
+                                                        ?.linkWithCredential(
+                                                            credential);
                                                     Navigator.of(context).pop();
                                                     Navigator.of(context)
                                                         .pushReplacement(

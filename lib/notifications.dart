@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'api/colors.dart';
 import 'api/firebase_auth.dart';
 import 'widgets/custom_progress_indicator.dart';
+import 'widgets/error_message.dart';
 import 'widgets/notification_item.dart';
 
 class Notifications extends StatefulWidget {
@@ -18,7 +19,10 @@ class _NotificationsState extends State<Notifications> {
   // final myCardId = 'example';
   final String? uid = getUid();
   CollectionReference users = FirebaseFirestore.instance.collection('users');
-  CollectionReference cards = FirebaseFirestore.instance.collection('cards');
+  CollectionReference cards = FirebaseFirestore.instance
+      .collection('version')
+      .doc('2')
+      .collection('cards');
   Map<String, dynamic>? data;
 
   @override
@@ -32,21 +36,31 @@ class _NotificationsState extends State<Notifications> {
       ),
     );
     return FutureBuilder<DocumentSnapshot>(
-        future: users.doc(uid).get(),
+        future: users.doc(uid).collection('card').doc('current_card').get(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
-            return const Text('問題が発生しました');
+            return const ErrorMessage(err: '問題が発生しました');
           }
 
           if (snapshot.hasData && !snapshot.data!.exists) {
-            return const Text('ユーザー情報の取得に失敗しました');
+            return Scaffold(
+              body: SafeArea(
+                child: Center(
+                  child: Text(
+                    'ユーザー情報の取得に失敗しました',
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.error),
+                  ),
+                ),
+              ),
+            );
           }
 
           if (snapshot.connectionState == ConnectionState.done) {
-            Map<String, dynamic> user =
+            Map<String, dynamic> currentCard =
                 snapshot.data!.data() as Map<String, dynamic>;
-            final myCardId = user['my_cards'][0];
+            final myCardId = currentCard['current_card'];
             return DefaultTabController(
               length: 2,
               initialIndex: 0,
@@ -55,7 +69,6 @@ class _NotificationsState extends State<Notifications> {
                   preferredSize: const Size.fromHeight(72),
                   child: AppBar(
                     automaticallyImplyLeading: false,
-                    // backgroundColor: Theme.of(context).colorScheme.background,
                     flexibleSpace: Theme(
                       data: ThemeData(
                         splashColor: Colors.transparent,
@@ -83,7 +96,6 @@ class _NotificationsState extends State<Notifications> {
                               indicatorSize: TabBarIndicatorSize.label,
                               tabs: [
                                 Tab(
-                                  // child: Icon(Icons.notifications_on_rounded),
                                   child: SizedBox(
                                     width: 120,
                                     height: double.infinity,
@@ -93,9 +105,6 @@ class _NotificationsState extends State<Notifications> {
                                       children: [
                                         Icon(
                                           Icons.handshake_outlined,
-                                          // Icons.mail_rounded,
-                                          // Icons.swap_horiz_rounded,
-                                          // Icons.swap_horizontal_circle_rounded,
                                           size: 22,
                                           color: Theme.of(context)
                                               .colorScheme
@@ -112,8 +121,6 @@ class _NotificationsState extends State<Notifications> {
                                                 .withOpacity(0.75),
                                           ),
                                         ),
-                                        // Text('つながり'),
-                                        // Text('やりとり'),
                                         const SizedBox(width: 2),
                                       ],
                                     ),
@@ -162,8 +169,12 @@ class _NotificationsState extends State<Notifications> {
                   children: [
                     StreamBuilder(
                         stream: FirebaseFirestore.instance
+                            .collection('version')
+                            .doc('2')
                             .collection('cards')
                             .doc(myCardId)
+                            .collection('visibility')
+                            .doc('c10r10u10d10')
                             .collection('notifications')
                             .where('tags', arrayContains: 'interaction')
                             .orderBy('created_at', descending: true)
@@ -262,8 +273,12 @@ class _NotificationsState extends State<Notifications> {
                         }),
                     StreamBuilder(
                         stream: FirebaseFirestore.instance
+                            .collection('version')
+                            .doc('2')
                             .collection('cards')
                             .doc(myCardId)
+                            .collection('visibility')
+                            .doc('c10r10u10d10')
                             .collection('notifications')
                             .where('tags', arrayContains: 'news')
                             .orderBy('created_at', descending: true)

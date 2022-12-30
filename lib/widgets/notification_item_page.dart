@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thundercard/constants.dart';
 
 import '../api/colors.dart';
+import '../api/provider/index.dart';
 import '../home_page.dart';
 
-class NotificationItemPage extends StatefulWidget {
+class NotificationItemPage extends ConsumerWidget {
   const NotificationItemPage({
     Key? key,
     required this.title,
@@ -25,57 +27,46 @@ class NotificationItemPage extends StatefulWidget {
   final String documentId;
 
   @override
-  State<NotificationItemPage> createState() => _NotificationItemPageState();
-}
-
-class _NotificationItemPageState extends State<NotificationItemPage> {
-  @override
-  Widget build(BuildContext context) {
-    final getDateTime = DateTime.parse(widget.createdAt);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final getDateTime = DateTime.parse(createdAt);
     String year = getDateTime.year.toString();
     String date = '${getDateTime.month}/${getDateTime.day}';
     String time =
         '${getDateTime.hour}:${getDateTime.minute.toString().padLeft(2, '0')}';
     String displayDateTime = '$year $date $time';
-    // displayDateTime +=
-    //     (getDateTime.year != _now.year) ? _year + ' ' + _date : '';
-    // displayDateTime += (getDateTime.year == _now.year &&
-    //         (getDateTime.month != _now.month || getDateTime.day != _now.day))
-    //     ? _date
-    //     : '';
-    // displayDateTime += (getDateTime.year == _now.year &&
-    //         getDateTime.month == _now.month &&
-    //         getDateTime.day == _now.day)
-    //     ? _time
-    //     : '';
 
     void deleteThisNotification() {
-      debugPrint(widget.documentId);
+      debugPrint(documentId);
       FirebaseFirestore.instance
+          .collection('version')
+          .doc('2')
           .collection('cards')
-          .doc(widget.myCardId)
+          .doc(myCardId)
+          .collection('visibility')
+          .doc('c10r10u10d10')
           .collection('notifications')
-          .doc(widget.documentId)
+          .doc(documentId)
           .delete()
           .then(
         (doc) {
+          ref.watch(currentIndexProvider.notifier).state = 2;
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (context) => HomePage(index: 2),
+              builder: (context) => HomePage(),
             ),
             (_) => false,
           );
           debugPrint('Document deleted');
         },
-        onError: (e) => debugPrint('Error updating document $e'),
+        onError: (e) {
+          debugPrint('Error updating document $e');
+        },
       );
     }
 
     Future openAlertDialog1(BuildContext context) async {
-      // (2) showDialogでダイアログを表示する
       await showDialog(
           context: context,
-          // (3) AlertDialogを作成する
           builder: (context) => AlertDialog(
                 icon: const Icon(Icons.delete_rounded),
                 title: const Text('通知の削除'),
@@ -85,17 +76,13 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                 ),
-                // (4) ボタンを設定
                 actions: [
                   TextButton(
-                      onPressed: () => {
-                            //  (5) ダイアログを閉じる
-                            Navigator.pop(context, false)
-                          },
+                      onPressed: () => {Navigator.of(context).pop()},
                       child: const Text('キャンセル')),
                   TextButton(
                       onPressed: () {
-                        Navigator.pop(context, true);
+                        Navigator.of(context).pop();
                         deleteThisNotification();
                       },
                       child: const Text('OK')),
@@ -105,12 +92,6 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
 
     return Scaffold(
       appBar: AppBar(
-        // title: Row(
-        //   children: [
-        //     // Text(['通知', '交流についての通知', 'アプリに関するお知らせ'][widget.index + 1]),
-        //     Text(['通知', '交流についての通知', 'アプリに関するお知らせ'][0]),
-        //   ],
-        // ),
         actions: [
           PopupMenuButton<String>(
             color: alphaBlend(
@@ -146,36 +127,34 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
             onSelected: (String s) {
               if (s == '未読にする') {
                 FirebaseFirestore.instance
+                    .collection('version')
+                    .doc('2')
                     .collection('cards')
-                    .doc(widget.myCardId)
+                    .doc(myCardId)
+                    .collection('visibility')
+                    .doc('c10r10u10d10')
                     .collection('notifications')
-                    .doc(widget.documentId)
+                    .doc(documentId)
                     .update({'read': false}).then(
                   (doc) {
+                    ref.watch(currentIndexProvider.notifier).state = 2;
+
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
-                        builder: (context) => HomePage(index: 2),
+                        builder: (context) => HomePage(),
                       ),
                       (_) => false,
                     );
                   },
-                  onError: (e) => debugPrint('Error updating document $e'),
+                  onError: (e) {
+                    debugPrint('Error updating document $e');
+                  },
                 );
               } else if (s == '削除') {
                 openAlertDialog1(context);
               }
-              // if (s == '削除') {
-              //   _openAlertDialog1(context);
-              // }
             },
           )
-          // Container(
-          //   padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-          //   child: IconButton(
-          //     onPressed: () {},
-          //     icon: Icon(Icons.more_vert_rounded),
-          //   ),
-          // ),
         ],
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
       ),
@@ -196,7 +175,7 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
                       Container(
                         padding: const EdgeInsets.fromLTRB(6, 16, 6, 6),
                         child: Text(
-                          widget.title,
+                          title,
                           style: TextStyle(
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
@@ -234,7 +213,7 @@ class _NotificationItemPageState extends State<NotificationItemPage> {
                       Container(
                         padding: const EdgeInsets.fromLTRB(8, 4, 8, 20),
                         child: Text(
-                          widget.content,
+                          content,
                           style: const TextStyle(
                             height: 1.8,
                           ),

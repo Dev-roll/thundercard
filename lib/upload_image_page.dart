@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 // import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:thundercard/widgets/positioned_snack_bar.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class UploadImagePage extends StatefulWidget {
@@ -75,47 +76,108 @@ class _UploadImagePageState extends State<UploadImagePage> {
 
   @override
   Widget build(BuildContext context) {
-    final docId = FirebaseFirestore.instance.collection('cards').doc().id;
+    final docId = FirebaseFirestore.instance
+        .collection('version')
+        .doc('2')
+        .collection('cards')
+        .doc()
+        .id;
 
     void updateDocumentData(String imageURL) {
-      final doc = FirebaseFirestore.instance.collection('cards').doc(docId);
-      doc.set({
-        'thumbnail': imageURL,
+      FirebaseFirestore.instance
+          .collection('version')
+          .doc('2')
+          .collection('cards')
+          .doc(docId)
+          .set({
+        'card_id': docId,
+      }, SetOptions(merge: true)).then((element) {
+        debugPrint('set cardid directory: completed');
+      });
+
+      final CollectionReference newCard = FirebaseFirestore.instance
+          .collection('version')
+          .doc('2')
+          .collection('cards')
+          .doc(docId)
+          .collection('visibility');
+
+      final c21r20u00d11 = {
         'is_user': false,
         'card_id': docId,
-        'account': {
-          'profiles': {
-            'name': _nameController.text,
-            'bio': {
-              'value': '',
-              'display': {'extended': true, 'normal': true},
-            },
-            'company': {
-              'value': '',
-              'display': {'extended': true, 'normal': true},
-            },
-            'position': {
-              'value': '',
-              'display': {'extended': true, 'normal': true},
-            },
-            'address': {
-              'value': '',
-              'display': {'extended': true, 'normal': true},
-            },
+      };
+
+      newCard
+          .doc('c21r20u00d11')
+          .set(c21r20u00d11, SetOptions(merge: true))
+          .then((value) {
+        debugPrint('Card successfully added!');
+      }, onError: (e) {
+        debugPrint('Error updating document $e');
+      });
+
+      final c10r20u10d10 = {
+        'public': false,
+        'name': _nameController.text,
+      };
+
+      newCard
+          .doc('c10r20u10d10')
+          .set(c10r20u10d10, SetOptions(merge: true))
+          .then((value) {
+        debugPrint('Card successfully added!');
+      }, onError: (e) {
+        debugPrint('Error updating document $e');
+      });
+
+      newCard.doc('c20r11u11d11').set({
+        'card_url': imageURL,
+      });
+
+      newCard.doc('c10r21u10d10').set({
+        'profiles': {
+          'bio': {
+            'value': '',
+            'display': {'large': true, 'normal': true},
           },
+          'company': {
+            'value': '',
+            'display': {'large': true, 'normal': true},
+          },
+          'position': {
+            'value': '',
+            'display': {'large': true, 'normal': true},
+          },
+          'address': {
+            'value': '',
+            'display': {'large': true, 'normal': true},
+          },
+        },
+        'account': {
           'links': [],
         },
-      }).then((value) => debugPrint('DocumentSnapshot successfully updated!'),
-          onError: (e) => debugPrint('Error updating document $e'));
+      }).then((value) {
+        debugPrint('DocumentSnapshot successfully updated!');
+      }, onError: (e) {
+        debugPrint('Error updating document $e');
+      });
     }
 
     void updateExchangedCards() {
-      final doc =
-          FirebaseFirestore.instance.collection('cards').doc(widget.cardId);
+      final doc = FirebaseFirestore.instance
+          .collection('version')
+          .doc('2')
+          .collection('cards')
+          .doc(widget.cardId)
+          .collection('visibility')
+          .doc('c10r10u11d10');
       doc.update({
         'exchanged_cards': FieldValue.arrayUnion([docId])
-      }).then((value) => debugPrint('DocumentSnapshot successfully updated!'),
-          onError: (e) => debugPrint('Error updating document $e'));
+      }).then((value) {
+        debugPrint('DocumentSnapshot successfully updated!');
+      }, onError: (e) {
+        debugPrint('Error updating document $e');
+      });
     }
 
     void uploadPic() async {
@@ -129,60 +191,23 @@ class _UploadImagePageState extends State<UploadImagePage> {
         // final XFile? image = await picker.pickImage(source: ImageSource.gallery);
         File file = File(image!.path);
 
-        final storageRef =
-            FirebaseStorage.instance.ref().child('cards/$docId/$uploadName');
+        final storageRef = FirebaseStorage.instance
+            .ref()
+            .child('version/2/cards/not_user/$docId/$uploadName');
         final task = await storageRef.putFile(file);
         final String imageURL = await task.ref.getDownloadURL();
         debugPrint('ここ大事 -> $imageURL');
         updateDocumentData(imageURL);
         updateExchangedCards();
+        if (!mounted) return;
         Navigator.of(context).pop();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            elevation: 20,
-            backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-            behavior: SnackBarBehavior.floating,
-            clipBehavior: Clip.antiAlias,
-            dismissDirection: DismissDirection.horizontal,
-            margin: EdgeInsets.only(
-              left: 8,
-              right: 8,
-              bottom: MediaQuery.of(context).size.height - 180,
-            ),
-            duration: const Duration(seconds: 2),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(28),
-            ),
-            content: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
-                  child: Icon(Icons.file_download_done_rounded),
-                ),
-                Expanded(
-                  child: Text(
-                    'カードを追加しました',
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onBackground,
-                        overflow: TextOverflow.fade),
-                  ),
-                ),
-              ],
-            ),
-            // duration: const Duration(seconds: 12),
-            action: SnackBarAction(
-              label: 'OK',
-              onPressed: () {},
-            ),
+          PositionedSnackBar(
+            context,
+            'カードを追加しました',
+            icon: Icons.file_download_done_rounded,
           ),
         );
-        // Navigator.of(context).pushAndRemoveUntil(
-        //   MaterialPageRoute(
-        //     builder: (context) => HomePage(index: 1),
-        //   ),
-        //   (_) => false,
-        // );
       } catch (e) {
         debugPrint('$e');
       }

@@ -1,5 +1,5 @@
 name: thundercard
-description: A new Flutter project.
+description: A social networking application like a business card.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -15,7 +15,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.8+16
+version: 2.0.0+17
 
 environment:
   sdk: ">=2.17.6 <3.0.0"
@@ -33,8 +33,6 @@ dependencies:
     sdk: flutter
 
   font_awesome_flutter: ^9.0.0-nullsafety
-
-  # material_symbol_icons: ^0.0.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -82,6 +80,8 @@ dependencies:
   sign_in_with_apple: ^3.3.0
   flutter_signin_button: ^2.0.0
   lottie: ^2.0.0
+  http: ^0.13.5
+  mime: ^1.0.3
 
 dev_dependencies:
   flutter_test:
