@@ -20,7 +20,7 @@ import 'api/provider/index.dart';
 import 'widgets/card_info.dart';
 import 'auth_gate.dart';
 import 'widgets/error_message.dart';
-import 'widgets/maintenance.dart';
+// import 'widgets/maintenance.dart';
 
 class Account extends ConsumerWidget {
   const Account({Key? key}) : super(key: key);
@@ -935,12 +935,12 @@ class Account extends ConsumerWidget {
                           ),
                         ),
                         // メンテナンス
-                        const SizedBox(height: 28),
-                        const OutlinedButton(
-                          onPressed: maintenance,
-                          onLongPress: null,
-                          child: Text('管理者用'),
-                        ),
+                        // const SizedBox(height: 28),
+                        // const OutlinedButton(
+                        //   onPressed: maintenance,
+                        //   onLongPress: null,
+                        //   child: Text('管理者用'),
+                        // ),
                         const SizedBox(height: 40),
                       ],
                     ),
