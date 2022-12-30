@@ -15,7 +15,7 @@ import firebase_database
 import firebase_messaging
 import firebase_storage
 import path_provider_macos
-import share_plus_macos
+import share_plus
 import sign_in_with_apple
 import url_launcher_macos
 
