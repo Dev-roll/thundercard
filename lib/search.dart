@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:thundercard/api/provider/firebase_firestore.dart';
 import 'package:thundercard/widgets/my_card.dart';
@@ -16,10 +15,10 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> {
   List<dynamic> searchedCards = [];
-  late List<Map<String, dynamic>> cardsToSearch;
+  late List<Map<String?, dynamic>> cardsToSearch;
   DateTime _lastChangedDate = DateTime.now();
 
-  void search(String keyword, List<Map<String, dynamic>> cardsToSearch) {
+  void search(String keyword, List<Map<String?, dynamic>> cardsToSearch) {
     setState(() {
       String kw = keyword.trim();
       if (kw.length > 100) {
@@ -39,7 +38,7 @@ class _SearchState extends State<Search> {
     });
   }
 
-  void delayedSearch(String text, List<Map<String, dynamic>> cardsToSearch,
+  void delayedSearch(String text, List<Map<String?, dynamic>> cardsToSearch,
       {int time = 100}) {
     Future.delayed(Duration(milliseconds: time), () {
       final nowDate = DateTime.now();
@@ -55,17 +54,17 @@ class _SearchState extends State<Search> {
   void initState() {
     super.initState();
     cardsToSearch = [];
-    widget.exchangedCardIds.forEach((exchangedCardId) async {
-      final String displayName = await getDisplayName(exchangedCardId);
-      final bool isUser = await getIsUser(exchangedCardId);
-      final DocumentSnapshot card = await getCard(exchangedCardId);
-      cardsToSearch.add({
-        'cardId': exchangedCardId,
-        'name': displayName,
-        'isUser': isUser,
-        'card': card,
-      });
-    });
+    () async {
+      for (var exchangedCardId in widget.exchangedCardIds) {
+        final String displayName = await getDisplayName(exchangedCardId);
+        final bool isUser = await getIsUser(exchangedCardId);
+        cardsToSearch.add({
+          'cardId': exchangedCardId,
+          'name': displayName,
+          'isUser': isUser,
+        });
+      }
+    }();
     delayedSearch('', cardsToSearch, time: 500);
   }
 

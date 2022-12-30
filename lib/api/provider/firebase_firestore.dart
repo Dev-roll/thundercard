@@ -23,7 +23,9 @@ Future<bool> getIsUser(String cardId) async {
       .collection('version')
       .doc('2')
       .collection('cards')
-      .doc(cardId);
+      .doc(cardId)
+      .collection('visibility')
+      .doc('c21r20u00d11');
   final bool isUser = await card.get().then((DocumentSnapshot res) {
     final data = res.data() as Map<String, dynamic>;
     return data['is_user'];
@@ -35,25 +37,21 @@ Future<bool> getIsUser(String cardId) async {
 }
 
 Future<String> getDisplayName(String cardId) async {
-  DocumentReference card =
-      FirebaseFirestore.instance.collection('cards').doc(cardId);
+  DocumentReference card = FirebaseFirestore.instance
+      .collection('version')
+      .doc('2')
+      .collection('cards')
+      .doc(cardId)
+      .collection('visibility')
+      .doc('c10r20u10d10');
   final String displayName = await card.get().then((DocumentSnapshot res) {
     final data = res.data() as Map<String, dynamic>;
-    return data['account']['profiles']['name'];
+    return data['name'];
   }).catchError((error) {
     debugPrint('Failed to add user: $error');
     return 'Cannot get name';
   });
   return displayName;
-}
-
-Future<DocumentSnapshot> getCard(String cardId) async {
-  DocumentReference card =
-      FirebaseFirestore.instance.collection('cards').doc(cardId);
-  final DocumentSnapshot res = await card.get().catchError((error) {
-    debugPrint('Failed to add user: $error');
-  });
-  return res;
 }
 
 final currentCardStream = StreamProvider.autoDispose<dynamic>((ref) {
