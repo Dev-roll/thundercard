@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/api/current_brightness.dart';
 import 'package:thundercard/api/return_original_color.dart';
@@ -249,9 +250,9 @@ class _ThundercardState extends State<Thundercard> {
                                                 final path =
                                                     applicationDocumentsFile
                                                         .path;
-                                                await Share.shareFiles(
+                                                await Share.shareXFiles(
                                                   [
-                                                    path,
+                                                    XFile(path),
                                                   ],
                                                   text: thunderCardUrl,
                                                   subject:
