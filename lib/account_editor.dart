@@ -16,7 +16,7 @@ class AccountEditor extends ConsumerStatefulWidget {
   final dynamic cardId;
 
   @override
-  _AccountEditorState createState() => _AccountEditorState();
+  ConsumerState<AccountEditor> createState() => _AccountEditorState();
 }
 
 class TextFieldState {
@@ -89,7 +89,7 @@ class ReorderableMultiTextField extends ConsumerStatefulWidget {
   }) : super(key: key);
 
   @override
-  _ReorderableMultiTextFieldState createState() =>
+  ConsumerState<ReorderableMultiTextField> createState() =>
       _ReorderableMultiTextFieldState();
 }
 
