@@ -882,9 +882,10 @@ class Account extends ConsumerWidget {
                                                       .collection(
                                                           'deleted_users')
                                                       .add(data)
-                                                      .then((value) async {
-                                                    await FirebaseAuth.instance
+                                                      .then((value) {
+                                                    FirebaseAuth.instance
                                                         .signOut();
+                                                  }).then((value) {
                                                     Navigator.of(context)
                                                         .pushReplacement(
                                                       MaterialPageRoute(
