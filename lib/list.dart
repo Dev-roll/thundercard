@@ -119,7 +119,8 @@ class _ListState extends State<List> {
                             child: GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
-                                Navigator.of(context).push(
+                                Navigator.of(context)
+                                    .push(
                                   PageRouteBuilder(
                                     pageBuilder: (context, animation,
                                             secondaryAnimation) =>
@@ -128,7 +129,21 @@ class _ListState extends State<List> {
                                     transitionDuration:
                                         const Duration(seconds: 0),
                                   ),
-                                );
+                                )
+                                    .then((value) {
+                                  SystemChrome.setSystemUIOverlayStyle(
+                                    SystemUiOverlayStyle(
+                                      systemNavigationBarColor: alphaBlend(
+                                          Theme.of(context)
+                                              .colorScheme
+                                              .primary
+                                              .withOpacity(0.08),
+                                          Theme.of(context)
+                                              .colorScheme
+                                              .surface),
+                                    ),
+                                  );
+                                });
                               },
                               child: Row(
                                 children: [
@@ -384,7 +399,8 @@ class _ListState extends State<List> {
                       Theme.of(context).colorScheme.onSecondaryContainer,
                   label: 'カードを交換',
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(
                       builder: (context) => Theme(
                         data: ThemeData(
                           colorSchemeSeed:
@@ -394,7 +410,19 @@ class _ListState extends State<List> {
                         ),
                         child: ScanQrCode(myCardId: myCardId),
                       ),
-                    ));
+                    ))
+                        .then((value) {
+                      SystemChrome.setSystemUIOverlayStyle(
+                        SystemUiOverlayStyle(
+                          systemNavigationBarColor: alphaBlend(
+                              Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.08),
+                              Theme.of(context).colorScheme.surface),
+                        ),
+                      );
+                    });
                   },
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
