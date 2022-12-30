@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:thundercard/widgets/image_with_url.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'custom_h1.dart';
-import 'custom_h2.dart';
-import 'custom_h3.dart';
-import 'custom_h4.dart';
-import 'custom_h5.dart';
-import 'custom_h6.dart';
 import 'custom_pre.dart';
 
 class CustomMd extends StatelessWidget {
@@ -20,23 +15,14 @@ class CustomMd extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       builders: {
-        'h1': CustomH1Builder(),
-        'h2': CustomH2Builder(),
-        'h3': CustomH3Builder(),
-        'h4': CustomH4Builder(),
-        'h5': CustomH5Builder(),
-        'h6': CustomH6Builder(),
         'pre': CustomPreBuilder(),
       },
       imageBuilder: (uri, title, alt) {
         return Center(
-          child: Image.network(
-            uri.toString(),
-          ),
+          child: ImageWithUrl(url: uri.toString()),
         );
       },
       onTapLink: (text, href, title) {
-        // 追加
         if (href != null) {
           launchUrl(
             Uri.parse(href),
@@ -45,6 +31,18 @@ class CustomMd extends StatelessWidget {
         }
       },
       data: data,
+      styleSheet: MarkdownStyleSheet(
+        h1: Theme.of(context).textTheme.headlineLarge,
+        h2: Theme.of(context)
+            .textTheme
+            .headlineMedium
+            ?.copyWith(fontWeight: FontWeight.w700),
+        h3: Theme.of(context).textTheme.headlineSmall,
+        h4: Theme.of(context).textTheme.titleLarge,
+        h5: Theme.of(context).textTheme.titleMedium,
+        h6: Theme.of(context).textTheme.titleSmall,
+        a: TextStyle(color: Theme.of(context).colorScheme.primary),
+      ),
     );
   }
 }
