@@ -41,11 +41,13 @@ class _LinkAuthState extends State<LinkAuth> {
       idToken: googleAuth.idToken,
     );
     try {
-      await FirebaseAuth.instance.currentUser?.linkWithCredential(credential);
-      if (!mounted) return;
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => AuthGate()),
-      );
+      FirebaseAuth.instance.currentUser
+          ?.linkWithCredential(credential)
+          .then((value) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => AuthGate()),
+        );
+      });
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'provider-already-linked':
