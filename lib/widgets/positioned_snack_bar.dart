@@ -19,13 +19,13 @@ class PositionedSnackBar extends SnackBar {
           clipBehavior: Clip.antiAlias,
           dismissDirection: DismissDirection.down,
           margin: EdgeInsets.only(
-            left: 8,
-            right: 8,
+            left: 32,
+            right: 32,
             bottom: bottom ?? MediaQuery.of(context).size.height - 220,
           ),
           duration: Duration(seconds: seconds ?? 2),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(28),
+            borderRadius: BorderRadius.circular(26),
           ),
           content: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -40,6 +40,7 @@ class PositionedSnackBar extends SnackBar {
                   padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
                   child: Icon(
                     icon,
+                    size: 22,
                     color: foreground?.withOpacity(0.8) ??
                         Theme.of(context)
                             .colorScheme
@@ -51,9 +52,11 @@ class PositionedSnackBar extends SnackBar {
                 child: Text(
                   text,
                   style: TextStyle(
-                      color: foreground ??
-                          Theme.of(context).colorScheme.onSecondary,
-                      overflow: TextOverflow.fade),
+                    fontSize: 13,
+                    color:
+                        foreground ?? Theme.of(context).colorScheme.onSecondary,
+                    overflow: TextOverflow.fade,
+                  ),
                 ),
               ),
               const SizedBox(
