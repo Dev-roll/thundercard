@@ -468,6 +468,7 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
 
   @override
   Widget build(BuildContext context) {
+    final ScrollController scrollController = ScrollController();
     final c10r21u10d10AsyncValue = ref.watch(c10r21u10d10Stream(widget.cardId));
     return c10r21u10d10AsyncValue.when(
       error: (err, _) => ErrorMessage(err: '$err'),
@@ -587,6 +588,7 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
                       child: SizedBox(
                         width: double.infinity,
                         child: SingleChildScrollView(
+                          controller: scrollController,
                           child: Center(
                             child: ConstrainedBox(
                               constraints: const BoxConstraints(
@@ -731,6 +733,17 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
                                         ElevatedButton.icon(
                                           onPressed: () {
                                             controller.add('url', '');
+                                            Future.delayed(
+                                              const Duration(milliseconds: 20),
+                                            ).then((value) {
+                                              scrollController.animateTo(
+                                                scrollController
+                                                    .position.maxScrollExtent,
+                                                duration: const Duration(
+                                                    milliseconds: 300),
+                                                curve: Curves.easeIn,
+                                              );
+                                            });
                                           },
                                           style: ElevatedButton.styleFrom(
                                             elevation: 0,

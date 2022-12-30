@@ -550,6 +550,8 @@ class _AccountRegistrationState extends State<AccountRegistration> {
 
   @override
   Widget build(BuildContext context) {
+    final ScrollController scrollController = ScrollController();
+
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -613,6 +615,7 @@ class _AccountRegistrationState extends State<AccountRegistration> {
           child: SizedBox(
             width: double.infinity,
             child: SingleChildScrollView(
+              controller: scrollController,
               child: Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(
@@ -759,6 +762,24 @@ class _AccountRegistrationState extends State<AccountRegistration> {
                             ElevatedButton.icon(
                               onPressed: () {
                                 controller.add('url', '');
+                                Future.delayed(
+                                  const Duration(milliseconds: 20),
+                                ).then((value) {
+                                  scrollController.animateTo(
+                                    scrollController.position.maxScrollExtent,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeIn,
+                                  );
+                                });
+                                Future.delayed(
+                                  const Duration(milliseconds: 20),
+                                ).then((value) {
+                                  scrollController.animateTo(
+                                    scrollController.position.maxScrollExtent,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeIn,
+                                  );
+                                });
                               },
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
