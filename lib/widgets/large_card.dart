@@ -95,22 +95,27 @@ class LargeCard extends ConsumerWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
                                                 children: [
-                                                  Text(
-                                                    name,
-                                                    style: TextStyle(
-                                                      fontSize: 2 * vw * 3,
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .onSecondaryContainer
-                                                          .withOpacity(0.7),
-                                                      height: 1.2,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      letterSpacing: 1.5,
+                                                  SingleChildScrollView(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    child: Text(
+                                                      name,
+                                                      style: TextStyle(
+                                                        fontSize: 2 * vw * 3,
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .onSecondaryContainer
+                                                            .withOpacity(0.7),
+                                                        height: 1.2,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        letterSpacing: 1.5,
+                                                      ),
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.fade,
+                                                      softWrap: false,
                                                     ),
-                                                    maxLines: 1,
-                                                    overflow: TextOverflow.fade,
-                                                    softWrap: false,
                                                   ),
                                                   if (c21r20u00d11?['is_user'])
                                                     Text(

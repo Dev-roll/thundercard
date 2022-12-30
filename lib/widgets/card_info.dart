@@ -82,11 +82,13 @@ class CardInfo extends ConsumerWidget {
                     ),
                     Expanded(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                Text(
                                   '${c10r20u10d10?['name']}',
                                   style: const TextStyle(
                                     fontSize: 24,
@@ -95,8 +97,8 @@ class CardInfo extends ConsumerWidget {
                                   softWrap: false,
                                   overflow: TextOverflow.fade,
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           if (isUser)
                             Row(
