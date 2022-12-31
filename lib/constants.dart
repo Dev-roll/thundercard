@@ -3,6 +3,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // サービスに関する変数
 const String initStr = 'https://thundercard-test.web.app/?card_id=';
+const String playStoreUrl =
+    'https://play.google.com/store/apps/details?id=app.web.thundercard';
+const String appStoreUrl =
+    'https://apps.apple.com/us/app/thundercard/id6444392874';
+const String thundercardUrl = 'https://thundercard-test.web.app/';
 
 // カードに表示する所属、肩書き等
 const List<String> dataTypes = [

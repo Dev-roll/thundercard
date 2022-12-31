@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:thundercard/md_page.dart';
+import 'package:thundercard/share_app.dart';
 import 'package:thundercard/widgets/md/about_app.dart';
 import 'package:thundercard/widgets/avatar.dart';
 import 'package:thundercard/widgets/md/terms_of_use.dart';
@@ -282,6 +283,29 @@ class HomePage extends ConsumerWidget {
                                                 title: Text('Thundercardについて'),
                                                 data: aboutAppData,
                                               );
+                                            }),
+                                          );
+                                        },
+                                      ),
+                                      ListTile(
+                                        leading: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 12),
+                                          child: Icon(
+                                            Icons.share_rounded,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground
+                                                .withOpacity(0.5),
+                                          ),
+                                        ),
+                                        title: const Text('アプリの共有'),
+                                        dense: true,
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                              return const ShareApp();
                                             }),
                                           );
                                         },
