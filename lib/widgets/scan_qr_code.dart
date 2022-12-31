@@ -15,6 +15,7 @@ import 'package:thundercard/widgets/my_qr_code.dart';
 import 'package:thundercard/widgets/positioned_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../api/dynamic_links.dart';
 import '../api/export_to_image.dart';
 import '../api/get_application_documents_file.dart';
 import '../api/firebase_auth.dart';
@@ -72,7 +73,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
             Map<String, dynamic> currentCard =
                 snapshot.data!.data() as Map<String, dynamic>;
             myCardId = currentCard['current_card'];
-            String thunderCardUrl = '$initStr$myCardId';
+            // String thunderCardUrl = '$initStr$myCardId';
             return Column(
               children: <Widget>[
                 Expanded(
@@ -230,11 +231,14 @@ class _ScanQrCodeState extends State<ScanQrCode> {
 
                                         final path =
                                             applicationDocumentsFile.path;
+                                        final thunderCardUrl =
+                                            await dynamicLinks(myCardId);
                                         await Share.shareXFiles(
                                           [
                                             XFile(path),
                                           ],
-                                          text: thunderCardUrl,
+                                          text: thunderCardUrl.shortUrl
+                                              .toString(),
                                           subject:
                                               '$myCardIdさんのThundercardアカウントの共有',
                                         );
@@ -284,8 +288,12 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                         const EdgeInsets.fromLTRB(20, 0, 20, 0),
                                     child: IconButton(
                                       onPressed: () async {
+                                        final thunderCardUrl =
+                                            await dynamicLinks(myCardId);
                                         await Clipboard.setData(
-                                          ClipboardData(text: thunderCardUrl),
+                                          ClipboardData(
+                                              text: thunderCardUrl.shortUrl
+                                                  .toString()),
                                         ).then((value) {
                                           ScaffoldMessenger.of(context)
                                               .hideCurrentSnackBar();
