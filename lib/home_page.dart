@@ -14,6 +14,7 @@ import 'api/colors.dart';
 import 'account.dart';
 import 'api/provider/firebase_firestore.dart';
 import 'api/provider/index.dart';
+import 'cards/providers/current_card_id_provider.dart';
 import 'list.dart';
 import 'notifications.dart';
 import 'thundercard.dart';
@@ -88,7 +89,11 @@ class HomePage extends ConsumerWidget {
                 ),
               );
 
-              return Scaffold(
+              return ProviderScope(
+                overrides: [
+                  currentCardIdProvider.overrideWithValue(cardId),
+                ],
+                child: Scaffold(
                 key: drawerKey,
                 onDrawerChanged: (isOpened) {
                   isOpened
@@ -431,6 +436,7 @@ class HomePage extends ConsumerWidget {
                   const Notifications(),
                   const Account(),
                 ][currentIndex],
+                ),
               );
             },
           );
