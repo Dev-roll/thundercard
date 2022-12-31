@@ -4,6 +4,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:intl/intl.dart';
 
+import 'home_page.dart';
 import 'widgets/my_card.dart';
 import 'constants.dart';
 
@@ -233,7 +234,17 @@ class _AddCardState extends State<AddCard> {
                         children: [
                           OutlinedButton(
                             onPressed: () {
-                              Navigator.of(context).pop();
+                              if (Navigator.of(context).canPop()) {
+                                Navigator.of(context).pop();
+                              } else {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return HomePage();
+                                    },
+                                  ),
+                                );
+                              }
                             },
                             child: const Text('OK'),
                           ),
