@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -17,6 +18,7 @@ import 'api/export_to_image.dart';
 import 'api/firebase_auth.dart';
 import 'api/get_application_documents_file.dart';
 import 'home_page.dart';
+import 'md_page.dart';
 import 'widgets/custom_progress_indicator.dart';
 import 'widgets/error_message.dart';
 import 'widgets/my_card.dart';
@@ -61,6 +63,18 @@ class _ThundercardState extends State<Thundercard> {
         statusBarColor: Colors.transparent,
       ),
     );
+    FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+            builder: (context) => const MdPage(
+                  title: Text('Thundercardについて'),
+                  data: 'おめでとうございます！！',
+                )),
+      );
+      // Navigator.pushNamed(context, dynamicLinkData.link.path);
+    }).onError((error) {
+      // Handle errors
+    });
 
     return Scaffold(
       body: SafeArea(

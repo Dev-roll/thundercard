@@ -1,4 +1,5 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+// import 'package:flutter/material.dart';
 
 Future dynamicLinks(String cardId) async {
   final dynamicLinkParams = DynamicLinkParameters(
@@ -6,13 +7,13 @@ Future dynamicLinks(String cardId) async {
     uriPrefix: 'https://thundercard.page.link',
     androidParameters: const AndroidParameters(
       packageName: 'app.web.thundercard',
-      minimumVersion: 1,
+      // minimumVersion: 1,
     ),
     iosParameters: const IOSParameters(
       bundleId: 'app.web.thundercard',
       ipadBundleId: 'app.web.thundercard',
       appStoreId: '6444392874',
-      minimumVersion: '1',
+      // minimumVersion: '1',
     ),
     navigationInfoParameters:
         const NavigationInfoParameters(forcedRedirectEnabled: true),
@@ -28,8 +29,6 @@ Future dynamicLinks(String cardId) async {
           'https://user-images.githubusercontent.com/79978827/202828236-809fb30e-9d46-46aa-87da-18882e1f35b1.png'),
     ),
   );
-  // final dynamicLink =
-  //     await FirebaseDynamicLinks.instance.buildShortLink(dynamicLinkParams);
   final unguessableDynamicLink =
       await FirebaseDynamicLinks.instance.buildShortLink(
     dynamicLinkParams,
@@ -37,3 +36,18 @@ Future dynamicLinks(String cardId) async {
   );
   return unguessableDynamicLink;
 }
+
+// String setOnLink() {
+//   String? cardId;
+
+//   FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
+//     final deepLink = dynamicLinkData.link;
+//     if (true) {
+//       // if (deepLink != null) {
+//       cardId = deepLink.queryParameters['card_id'];
+//     }
+//   }, onError: (e) {
+//     debugPrint(e.message);
+//   });
+//   return cardId ?? '';
+// }
