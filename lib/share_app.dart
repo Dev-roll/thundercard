@@ -103,7 +103,7 @@ class ShareApp extends StatelessWidget {
                             width: 20,
                           ),
                           Text(
-                            'Play Store',
+                            'Google Play',
                             style: Theme.of(context)
                                 .textTheme
                                 .titleLarge
@@ -186,7 +186,7 @@ class ShareApp extends StatelessWidget {
                       Row(
                         children: [
                           Icon(
-                            FontAwesomeIcons.appStoreIos,
+                            FontAwesomeIcons.apple,
                             size: 32,
                             color: Theme.of(context)
                                 .colorScheme
