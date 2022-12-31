@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/api/current_brightness.dart';
+import 'package:thundercard/api/dynamic_links.dart';
 import 'package:thundercard/api/return_original_color.dart';
 import 'package:thundercard/my_card_details.dart';
 import 'package:thundercard/widgets/positioned_snack_bar.dart';
@@ -123,8 +124,8 @@ class _ThundercardState extends State<Thundercard> {
                               Map<String, dynamic> currentCard =
                                   snapshot.data!.data() as Map<String, dynamic>;
                               myCardId = currentCard['current_card'];
-                              String thunderCardUrl =
-                                  'https://thundercard-test.web.app/?card_id=$myCardId';
+                              // String thunderCardUrl =
+                              //     'https://thundercard-test.web.app/?card_id=$myCardId';
                               // 'thundercard://user?card_id=$myCardId';
                               Color myPrimary = ColorScheme.fromSeed(
                                 seedColor: Color(returnOriginalColor(myCardId)),
@@ -249,11 +250,15 @@ class _ThundercardState extends State<Thundercard> {
                                                 final path =
                                                     applicationDocumentsFile
                                                         .path;
+                                                final thunderCardUrl =
+                                                    await dynamicLinks(
+                                                        myCardId);
                                                 await Share.shareXFiles(
                                                   [
                                                     XFile(path),
                                                   ],
-                                                  text: thunderCardUrl,
+                                                  text: thunderCardUrl.shortUrl
+                                                      .toString(),
                                                   subject:
                                                       '$myCardIdさんのThundercardの共有',
                                                 );
@@ -311,9 +316,14 @@ class _ThundercardState extends State<Thundercard> {
                                                 20, 0, 20, 0),
                                             child: IconButton(
                                               onPressed: () async {
+                                                final thunderCardUrl =
+                                                    await dynamicLinks(
+                                                        myCardId);
                                                 await Clipboard.setData(
                                                   ClipboardData(
-                                                      text: thunderCardUrl),
+                                                      text: thunderCardUrl
+                                                          .shortUrl
+                                                          .toString()),
                                                 ).then(
                                                   (value) =>
                                                       ScaffoldMessenger.of(
