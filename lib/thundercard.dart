@@ -64,11 +64,13 @@ class _ThundercardState extends State<Thundercard> {
       ),
     );
     FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
+      final deepLink = dynamicLinkData.link;
+      final String? cardId = deepLink.queryParameters['card_id'];
       Navigator.of(context).push(
         MaterialPageRoute(
-            builder: (context) => const MdPage(
-                  title: Text('Thundercardについて'),
-                  data: 'おめでとうございます！！',
+            builder: (context) => MdPage(
+                  title: const Text('Thundercardについて'),
+                  data: 'おめでとうございます！！ @$cardId',
                 )),
       );
       // Navigator.pushNamed(context, dynamicLinkData.link.path);
