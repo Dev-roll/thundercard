@@ -1,4 +1,6 @@
 const String authorsData = '''
+## 開発者
+
 このアプリケーションは以下のメンバーによって開発されました。
 
 - [@notchcoder](https://github.com/notchcoder)

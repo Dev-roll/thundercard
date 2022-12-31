@@ -279,9 +279,11 @@ class HomePage extends ConsumerWidget {
                                           Navigator.of(context).push(
                                             MaterialPageRoute(
                                                 builder: (context) {
-                                              return const MdPage(
-                                                title: Text('Thundercardについて'),
-                                                data: aboutAppData,
+                                              return MdPage(
+                                                title: const Text(
+                                                    'Thundercardについて'),
+                                                data:
+                                                    '$aboutAppData$authorsData## バージョン情報\n${versionData.split('\n')[0]}',
                                               );
                                             }),
                                           );
@@ -306,32 +308,6 @@ class HomePage extends ConsumerWidget {
                                             MaterialPageRoute(
                                                 builder: (context) {
                                               return const ShareApp();
-                                            }),
-                                          );
-                                        },
-                                      ),
-                                      ListTile(
-                                        leading: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 12),
-                                          child: Icon(
-                                            Icons.people_alt_outlined,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onBackground
-                                                .withOpacity(0.5),
-                                          ),
-                                        ),
-                                        title: const Text('開発者'),
-                                        dense: true,
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                              return const MdPage(
-                                                title: Text('開発者'),
-                                                data: authorsData,
-                                              );
                                             }),
                                           );
                                         },
@@ -383,32 +359,6 @@ class HomePage extends ConsumerWidget {
                                               return const MdPage(
                                                 title: Text('利用規約'),
                                                 data: termsOfUseData,
-                                              );
-                                            }),
-                                          );
-                                        },
-                                      ),
-                                      ListTile(
-                                        leading: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 12),
-                                          child: Icon(
-                                            Icons.history_outlined,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onBackground
-                                                .withOpacity(0.5),
-                                          ),
-                                        ),
-                                        title: const Text('バージョン情報'),
-                                        dense: true,
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                              return const MdPage(
-                                                title: Text('バージョン情報'),
-                                                data: versionData,
                                               );
                                             }),
                                           );
