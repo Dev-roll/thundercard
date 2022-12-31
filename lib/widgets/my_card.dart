@@ -11,6 +11,7 @@ import 'package:thundercard/widgets/custom_skeletons/skeleton_card.dart';
 import '../add_card.dart';
 import '../api/current_brightness.dart';
 import '../api/provider/firebase_firestore.dart';
+import '../home_page.dart';
 import '../main.dart';
 import 'custom_progress_indicator.dart';
 import 'error_message.dart';
@@ -98,7 +99,7 @@ class MyCard extends ConsumerWidget {
                             const SizedBox(height: 32),
                             Container(
                               padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-                              width: double.infinity,
+                              width: MediaQuery.of(context).size.width,
                               child: Text(
                                 'ユーザー (@$cardId) が見つからなかったため、交換できません',
                                 style: const TextStyle(height: 1.6),
@@ -107,7 +108,17 @@ class MyCard extends ConsumerWidget {
                             const SizedBox(height: 24),
                             OutlinedButton(
                               onPressed: () {
-                                Navigator.of(context).pop();
+                                if (Navigator.of(context).canPop()) {
+                                  Navigator.of(context).pop();
+                                } else {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return HomePage();
+                                      },
+                                    ),
+                                  );
+                                }
                               },
                               child: const Text('戻る'),
                             ),
@@ -162,7 +173,17 @@ class MyCard extends ConsumerWidget {
                                   children: [
                                     OutlinedButton(
                                       onPressed: () {
-                                        Navigator.pop(context);
+                                        if (Navigator.of(context).canPop()) {
+                                          Navigator.of(context).pop();
+                                        } else {
+                                          Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return HomePage();
+                                              },
+                                            ),
+                                          );
+                                        }
                                       },
                                       child: const Text('キャンセル'),
                                     ),

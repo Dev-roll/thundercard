@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:share_plus/share_plus.dart';
@@ -18,21 +18,20 @@ import 'api/export_to_image.dart';
 import 'api/firebase_auth.dart';
 import 'api/get_application_documents_file.dart';
 import 'home_page.dart';
-import 'md_page.dart';
 import 'widgets/custom_progress_indicator.dart';
 import 'widgets/error_message.dart';
 import 'widgets/my_card.dart';
 import 'widgets/scan_qr_code.dart';
 import 'constants.dart';
 
-class Thundercard extends StatefulWidget {
+class Thundercard extends ConsumerStatefulWidget {
   const Thundercard({Key? key}) : super(key: key);
 
   @override
-  State<Thundercard> createState() => _ThundercardState();
+  ConsumerState<Thundercard> createState() => _ThundercardState();
 }
 
-class _ThundercardState extends State<Thundercard> {
+class _ThundercardState extends ConsumerState<Thundercard> {
   final String? uid = getUid();
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   final GlobalKey _myCardKey = GlobalKey();
@@ -63,20 +62,6 @@ class _ThundercardState extends State<Thundercard> {
         statusBarColor: Colors.transparent,
       ),
     );
-    FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
-      final deepLink = dynamicLinkData.link;
-      final String? cardId = deepLink.queryParameters['card_id'];
-      Navigator.of(context).push(
-        MaterialPageRoute(
-            builder: (context) => MdPage(
-                  title: const Text('Thundercardについて'),
-                  data: 'おめでとうございます！！ @$cardId',
-                )),
-      );
-      // Navigator.pushNamed(context, dynamicLinkData.link.path);
-    }).onError((error) {
-      // Handle errors
-    });
 
     return Scaffold(
       body: SafeArea(
