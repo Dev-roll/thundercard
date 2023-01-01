@@ -10,6 +10,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/api/current_brightness.dart';
 import 'package:thundercard/api/dynamic_links.dart';
 import 'package:thundercard/api/return_original_color.dart';
+import 'package:thundercard/exchange_card.dart';
 import 'package:thundercard/my_card_details.dart';
 import 'package:thundercard/widgets/positioned_snack_bar.dart';
 
@@ -21,7 +22,6 @@ import 'home_page.dart';
 import 'widgets/custom_progress_indicator.dart';
 import 'widgets/error_message.dart';
 import 'widgets/my_card.dart';
-import 'widgets/scan_qr_code.dart';
 import 'constants.dart';
 
 class Thundercard extends ConsumerStatefulWidget {
@@ -366,28 +366,45 @@ class _ThundercardState extends ConsumerState<Thundercard> {
       floatingActionButton: ElevatedButton.icon(
         onPressed: () {
           Navigator.of(context)
-              .push(MaterialPageRoute(
-            builder: (context) => Theme(
-              data: ThemeData(
-                colorSchemeSeed: Theme.of(context).colorScheme.primary,
-                brightness: Brightness.dark,
-                useMaterial3: true,
+              .push(
+            MaterialPageRoute(
+              builder: (context) => Theme(
+                data: ThemeData(
+                  colorSchemeSeed: Theme.of(context).colorScheme.primary,
+                  brightness: Brightness.dark,
+                  useMaterial3: true,
+                ),
+                child: const ExchangeCard(),
               ),
-              child: ScanQrCode(myCardId: myCardId),
             ),
-          ))
+          )
               .then((value) {
             SystemChrome.setSystemUIOverlayStyle(
               SystemUiOverlayStyle(
                 systemNavigationBarColor: alphaBlend(
                     Theme.of(context).colorScheme.primary.withOpacity(0.08),
                     Theme.of(context).colorScheme.surface),
+                statusBarIconBrightness: Theme.of(context)
+                            .colorScheme
+                            .background
+                            .computeLuminance() <
+                        0.5
+                    ? Brightness.light
+                    : Brightness.dark,
+                statusBarBrightness: Theme.of(context)
+                            .colorScheme
+                            .background
+                            .computeLuminance() <
+                        0.5
+                    ? Brightness.dark
+                    : Brightness.light,
+                statusBarColor: Colors.transparent,
               ),
             );
           });
         },
         icon: const Icon(
-          Icons.qr_code_scanner_rounded,
+          Icons.swap_horiz_rounded,
           size: 26,
         ),
         label: const Text(

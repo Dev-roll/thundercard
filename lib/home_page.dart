@@ -91,7 +91,7 @@ class HomePage extends ConsumerWidget {
               SystemChrome.setSystemUIOverlayStyle(
                 SystemUiOverlayStyle(
                   systemNavigationBarColor: alphaBlend(
-                      Theme.of(context).colorScheme.primary.withOpacity(0.01),
+                      Theme.of(context).colorScheme.primary.withOpacity(0.08),
                       Theme.of(context).colorScheme.surface),
                   statusBarIconBrightness: Theme.of(context)
                               .colorScheme
