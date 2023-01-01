@@ -88,102 +88,6 @@ class Account extends ConsumerWidget {
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  // Icon(
-                                  //   Icons.settings_rounded,
-                                  //   color: Theme.of(context)
-                                  //       .colorScheme
-                                  //       .onBackground
-                                  //       .withOpacity(0.7),
-                                  // ),
-                                  // SizedBox(
-                                  //   width: 8,
-                                  // ),
-                                  Text(
-                                    '認証方法',
-                                    style:
-                                        Theme.of(context).textTheme.titleLarge,
-                                  ),
-                                ],
-                              ),
-                              // Container(
-                              //   padding: EdgeInsets.fromLTRB(8, 20, 8, 8),
-                              //   child: Row(children: [
-                              //     Icon(
-                              //       Icons.lock_rounded,
-                              //       color:
-                              //           Theme.of(context).colorScheme.onSurfaceVariant,
-                              //     ),
-                              //     SizedBox(
-                              //       width: 8,
-                              //     ),
-                              //     Text(
-                              //       '（認証方法）',
-                              //       style: TextStyle(
-                              //         color: Theme.of(context)
-                              //             .colorScheme
-                              //             .onSurfaceVariant,
-                              //       ),
-                              //     ),
-                              //   ]),
-                              // ),
-                              Container(
-                                padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
-                                alignment: Alignment.center,
-                                child: ElevatedButton.icon(
-                                  icon: const Icon(
-                                    Icons.add_circle_outline_rounded,
-                                  ),
-                                  label: const Text('認証方法を追加'),
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 0,
-                                    foregroundColor: Theme.of(context)
-                                        .colorScheme
-                                        .onSecondaryContainer,
-                                    backgroundColor: Theme.of(context)
-                                        .colorScheme
-                                        .secondaryContainer,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const LinkAuth()),
-                                    );
-                                  },
-                                  onLongPress: null,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Divider(
-                          height: 32,
-                          thickness: 1,
-                          indent: 16,
-                          endIndent: 16,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .outline
-                              .withOpacity(0.5),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  // Icon(
-                                  //   Icons.settings_rounded,
-                                  //   color: Theme.of(context)
-                                  //       .colorScheme
-                                  //       .onBackground
-                                  //       .withOpacity(0.7),
-                                  // ),
-                                  // SizedBox(
-                                  //   width: 8,
-                                  // ),
                                   Text(
                                     'アプリの設定',
                                     style:
@@ -649,6 +553,83 @@ class Account extends ConsumerWidget {
                                       ),
                                     )
                                   ]),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        Divider(
+                          height: 32,
+                          thickness: 1,
+                          indent: 16,
+                          endIndent: 16,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .outline
+                              .withOpacity(0.5),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '認証方法',
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge,
+                                  ),
+                                ],
+                              ),
+                              // Container(
+                              //   padding: EdgeInsets.fromLTRB(8, 20, 8, 8),
+                              //   child: Row(children: [
+                              //     Icon(
+                              //       Icons.lock_rounded,
+                              //       color:
+                              //           Theme.of(context).colorScheme.onSurfaceVariant,
+                              //     ),
+                              //     SizedBox(
+                              //       width: 8,
+                              //     ),
+                              //     Text(
+                              //       '（認証方法）',
+                              //       style: TextStyle(
+                              //         color: Theme.of(context)
+                              //             .colorScheme
+                              //             .onSurfaceVariant,
+                              //       ),
+                              //     ),
+                              //   ]),
+                              // ),
+                              Container(
+                                padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
+                                alignment: Alignment.center,
+                                child: ElevatedButton.icon(
+                                  icon: const Icon(
+                                    Icons.add_circle_outline_rounded,
+                                  ),
+                                  label: const Text('認証方法を追加'),
+                                  style: ElevatedButton.styleFrom(
+                                    elevation: 0,
+                                    foregroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondaryContainer,
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .secondaryContainer,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => const LinkAuth(),
+                                      ),
+                                    );
+                                  },
+                                  onLongPress: null,
                                 ),
                               ),
                             ],
