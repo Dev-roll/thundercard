@@ -211,9 +211,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                       context,
                                       'QRコードをダウンロードしました',
                                       icon: Icons.file_download_done_rounded,
-                                      bottom:
-                                          MediaQuery.of(context).size.height -
-                                              140,
                                     ),
                                   );
                                 },
@@ -590,7 +587,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
           '権限がありません',
           icon: Icons.error_outline_rounded,
           foreground: Theme.of(context).colorScheme.onError,
-          bottom: MediaQuery.of(context).size.height - 140,
         ),
       );
     }

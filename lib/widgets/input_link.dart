@@ -212,10 +212,6 @@ class InputLink extends ConsumerWidget {
                                               'クリップボードにコピーしました',
                                               icon: Icons
                                                   .library_add_check_rounded,
-                                              bottom: MediaQuery.of(context)
-                                                      .size
-                                                      .height -
-                                                  140,
                                             ),
                                           );
                                         });
