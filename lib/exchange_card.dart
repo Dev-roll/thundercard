@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:thundercard/api/setSystemChrome.dart';
 import 'package:thundercard/widgets/input_link.dart';
 import 'package:thundercard/widgets/scan_qr_code.dart';
 
@@ -64,15 +64,7 @@ class _ExchangeCardState extends State<ExchangeCard>
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        systemNavigationBarColor: alphaBlend(
-            Theme.of(context).colorScheme.primary.withOpacity(0.08),
-            Theme.of(context).colorScheme.surface),
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
-      ),
-    );
+    setSystemChrome(context);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

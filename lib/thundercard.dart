@@ -10,11 +10,11 @@ import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/api/current_brightness.dart';
 import 'package:thundercard/api/dynamic_links.dart';
 import 'package:thundercard/api/return_original_color.dart';
+import 'package:thundercard/api/setSystemChrome.dart';
 import 'package:thundercard/exchange_card.dart';
 import 'package:thundercard/my_card_details.dart';
 import 'package:thundercard/widgets/positioned_snack_bar.dart';
 
-import 'api/colors.dart';
 import 'api/export_to_image.dart';
 import 'api/firebase_auth.dart';
 import 'api/get_application_documents_file.dart';
@@ -46,22 +46,7 @@ class _ThundercardState extends ConsumerState<Thundercard> {
         .toRadixString(16)
         .substring(2);
 
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        systemNavigationBarColor: alphaBlend(
-            Theme.of(context).colorScheme.primary.withOpacity(0.08),
-            Theme.of(context).colorScheme.surface),
-        statusBarIconBrightness:
-            Theme.of(context).colorScheme.background.computeLuminance() < 0.5
-                ? Brightness.light
-                : Brightness.dark,
-        statusBarBrightness:
-            Theme.of(context).colorScheme.background.computeLuminance() < 0.5
-                ? Brightness.dark
-                : Brightness.light,
-        statusBarColor: Colors.transparent,
-      ),
-    );
+    setSystemChrome(context);
 
     return Scaffold(
       body: SafeArea(
@@ -379,28 +364,7 @@ class _ThundercardState extends ConsumerState<Thundercard> {
             ),
           )
               .then((value) {
-            SystemChrome.setSystemUIOverlayStyle(
-              SystemUiOverlayStyle(
-                systemNavigationBarColor: alphaBlend(
-                    Theme.of(context).colorScheme.primary.withOpacity(0.08),
-                    Theme.of(context).colorScheme.surface),
-                statusBarIconBrightness: Theme.of(context)
-                            .colorScheme
-                            .background
-                            .computeLuminance() <
-                        0.5
-                    ? Brightness.light
-                    : Brightness.dark,
-                statusBarBrightness: Theme.of(context)
-                            .colorScheme
-                            .background
-                            .computeLuminance() <
-                        0.5
-                    ? Brightness.dark
-                    : Brightness.light,
-                statusBarColor: Colors.transparent,
-              ),
-            );
+            setSystemChrome(context);
           });
         },
         icon: const Icon(

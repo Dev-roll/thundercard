@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:thundercard/api/setSystemChrome.dart';
 import 'package:thundercard/api/unfocus.dart';
 import 'package:thundercard/constants.dart';
 import 'package:thundercard/widgets/avatar.dart';
 import 'package:thundercard/widgets/info_bottom_sheet.dart';
 
 import '../add_card.dart';
-import '../api/colors.dart';
 import '../api/provider/firebase_firestore.dart';
 import 'custom_progress_indicator.dart';
 import 'error_message.dart';
@@ -26,15 +26,7 @@ class InputLink extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        systemNavigationBarColor: alphaBlend(
-            Theme.of(context).colorScheme.primary.withOpacity(0.08),
-            Theme.of(context).colorScheme.surface),
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
-      ),
-    );
+    setSystemChrome(context);
 
     final currentCardAsyncValue = ref.watch(currentCardStream);
 
@@ -261,22 +253,8 @@ class InputLink extends ConsumerWidget {
                                         );
                                       },
                                       backgroundColor: Colors.transparent,
-                                    ).then((value) {
-                                      SystemChrome.setSystemUIOverlayStyle(
-                                        SystemUiOverlayStyle(
-                                          systemNavigationBarColor: alphaBlend(
-                                              Theme.of(context)
-                                                  .colorScheme
-                                                  .primary
-                                                  .withOpacity(0.08),
-                                              Theme.of(context)
-                                                  .colorScheme
-                                                  .surface),
-                                          statusBarIconBrightness:
-                                              Brightness.light,
-                                          statusBarBrightness: Brightness.dark,
-                                        ),
-                                      );
+                                    ).then((_) {
+                                      setSystemChrome(context);
                                     });
                                   },
                                   icon: const Icon(Icons.info_outline_rounded),

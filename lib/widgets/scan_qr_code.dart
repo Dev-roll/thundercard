@@ -10,12 +10,12 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/foundation.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/add_card.dart';
+import 'package:thundercard/api/setSystemChrome.dart';
 import 'package:thundercard/widgets/fullscreen_qr_code.dart';
 import 'package:thundercard/widgets/my_qr_code.dart';
 import 'package:thundercard/widgets/positioned_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../api/colors.dart';
 import '../api/dynamic_links.dart';
 import '../api/export_to_image.dart';
 import '../api/get_application_documents_file.dart';
@@ -53,15 +53,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        systemNavigationBarColor: alphaBlend(
-            Theme.of(context).colorScheme.primary.withOpacity(0.08),
-            Theme.of(context).colorScheme.surface),
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
-      ),
-    );
+    setSystemChrome(context);
 
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     final String? uid = getUid();
@@ -119,21 +111,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                     ),
                                   )
                                       .then((value) {
-                                    SystemChrome.setSystemUIOverlayStyle(
-                                      SystemUiOverlayStyle(
-                                        systemNavigationBarColor: alphaBlend(
-                                            Theme.of(context)
-                                                .colorScheme
-                                                .primary
-                                                .withOpacity(0.08),
-                                            Theme.of(context)
-                                                .colorScheme
-                                                .surface),
-                                        statusBarIconBrightness:
-                                            Brightness.light,
-                                        statusBarBrightness: Brightness.dark,
-                                      ),
-                                    );
+                                    setSystemChrome(context);
                                   });
                                   controller?.resumeCamera();
                                 }),
@@ -241,21 +219,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                     ),
                                   )
                                       .then((value) {
-                                    SystemChrome.setSystemUIOverlayStyle(
-                                      SystemUiOverlayStyle(
-                                        systemNavigationBarColor: alphaBlend(
-                                            Theme.of(context)
-                                                .colorScheme
-                                                .primary
-                                                .withOpacity(0.08),
-                                            Theme.of(context)
-                                                .colorScheme
-                                                .surface),
-                                        statusBarIconBrightness:
-                                            Brightness.light,
-                                        statusBarBrightness: Brightness.dark,
-                                      ),
-                                    );
+                                    setSystemChrome(context);
                                   });
                                   controller?.resumeCamera();
                                 },

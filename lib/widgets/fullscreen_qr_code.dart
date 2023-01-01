@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:thundercard/api/setSystemChrome.dart';
 
 import 'my_qr_code.dart';
 
@@ -10,12 +10,9 @@ class FullscreenQrCode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        systemNavigationBarColor: Theme.of(context).colorScheme.onSecondary,
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
-      ),
+    setSystemChrome(
+      context,
+      navColor: Theme.of(context).colorScheme.onSecondary,
     );
 
     return SizedBox(

@@ -1,20 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:thundercard/api/current_brightness.dart';
-import 'package:thundercard/api/current_brightness_reverse.dart';
 import 'package:thundercard/api/provider/firebase_firestore.dart';
+import 'package:thundercard/api/setSystemChrome.dart';
 import 'package:thundercard/constants.dart';
 import 'package:thundercard/link_auth.dart';
 import 'package:thundercard/main.dart';
 import 'package:thundercard/widgets/custom_progress_indicator.dart';
 import 'package:thundercard/widgets/my_card.dart';
 
-import 'api/colors.dart';
 import 'api/firebase_auth.dart';
 import 'api/provider/index.dart';
 import 'widgets/card_info.dart';
@@ -27,17 +24,7 @@ class Account extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        systemNavigationBarColor: alphaBlend(
-            Theme.of(context).colorScheme.primary.withOpacity(0.08),
-            Theme.of(context).colorScheme.surface),
-        statusBarIconBrightness:
-            currentBrightnessReverse(Theme.of(context).colorScheme),
-        statusBarBrightness: currentBrightness(Theme.of(context).colorScheme),
-        statusBarColor: Colors.transparent,
-      ),
-    );
+    setSystemChrome(context);
 
     final String? uid = getUid();
     final customTheme = ref.watch(customThemeProvider);
