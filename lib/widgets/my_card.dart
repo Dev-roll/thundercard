@@ -203,8 +203,18 @@ class MyCard extends ConsumerWidget {
                                       ),
                                       onPressed: () {
                                         handleExchange(currentCardId, cardId);
-                                        Navigator.of(context)
-                                            .popUntil((route) => route.isFirst);
+                                        if (Navigator.of(context).canPop()) {
+                                          Navigator.of(context).popUntil(
+                                              (route) => route.isFirst);
+                                        } else {
+                                          Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return HomePage();
+                                              },
+                                            ),
+                                          );
+                                        }
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           PositionedSnackBar(
