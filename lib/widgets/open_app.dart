@@ -69,6 +69,7 @@ class _OpenAppState extends State<OpenApp> {
           'アプリを開けません',
           icon: Icons.error_outline_rounded,
           foreground: Theme.of(context).colorScheme.onError,
+          bottom: 20,
         ),
       );
     }

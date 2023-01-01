@@ -118,8 +118,9 @@ class _ReorderableMultiTextFieldState
           ),
           actions: [
             TextButton(
-              onPressed: () => {Navigator.of(context).pop()},
-              onLongPress: null,
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
               child: const Text('キャンセル'),
             ),
             TextButton(
@@ -127,7 +128,6 @@ class _ReorderableMultiTextFieldState
                 Navigator.of(context).pop();
                 widget.controllerController.remove(textFieldState.id);
               },
-              onLongPress: null,
               child: const Text('OK'),
             ),
           ],

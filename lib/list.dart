@@ -2,11 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:thundercard/api/setSystemChrome.dart';
 import 'package:thundercard/exchange_card.dart';
 
 import 'api/colors.dart';
-import 'api/current_brightness.dart';
-import 'api/current_brightness_reverse.dart';
 import 'api/firebase_auth.dart';
 import 'widgets/custom_progress_indicator.dart';
 import 'widgets/error_message.dart';
@@ -44,17 +43,7 @@ class _ListState extends State<List> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        systemNavigationBarColor: alphaBlend(
-            Theme.of(context).colorScheme.primary.withOpacity(0.08),
-            Theme.of(context).colorScheme.surface),
-        statusBarIconBrightness:
-            currentBrightnessReverse(Theme.of(context).colorScheme),
-        statusBarBrightness: currentBrightness(Theme.of(context).colorScheme),
-        statusBarColor: Colors.transparent,
-      ),
-    );
+    setSystemChrome(context);
     return FutureBuilder<DocumentSnapshot>(
       future: users.doc(uid).collection('card').doc('current_card').get(),
       builder:
@@ -131,18 +120,7 @@ class _ListState extends State<List> {
                                   ),
                                 )
                                     .then((value) {
-                                  SystemChrome.setSystemUIOverlayStyle(
-                                    SystemUiOverlayStyle(
-                                      systemNavigationBarColor: alphaBlend(
-                                          Theme.of(context)
-                                              .colorScheme
-                                              .primary
-                                              .withOpacity(0.08),
-                                          Theme.of(context)
-                                              .colorScheme
-                                              .surface),
-                                    ),
-                                  );
+                                  setSystemChrome(context);
                                 });
                               },
                               child: Row(

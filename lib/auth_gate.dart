@@ -1,14 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
+import 'package:thundercard/api/setSystemChrome.dart';
 import 'package:thundercard/sign_in.dart';
 import 'package:thundercard/widgets/error_message.dart';
 
-import 'api/current_brightness.dart';
-import 'api/current_brightness_reverse.dart';
 import 'account_registration.dart';
 import 'home_page.dart';
 
@@ -19,14 +17,9 @@ class AuthGate extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        systemNavigationBarColor: Theme.of(context).colorScheme.background,
-        statusBarIconBrightness:
-            currentBrightnessReverse(Theme.of(context).colorScheme),
-        statusBarBrightness: currentBrightness(Theme.of(context).colorScheme),
-        statusBarColor: Colors.transparent,
-      ),
+    setSystemChrome(
+      context,
+      navColor: Theme.of(context).colorScheme.background,
     );
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),

@@ -1,8 +1,8 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:thundercard/api/setSystemChrome.dart';
 import 'package:thundercard/md_page.dart';
 import 'package:thundercard/share_app.dart';
 import 'package:thundercard/widgets/md/about_app.dart';
@@ -88,28 +88,7 @@ class HomePage extends ConsumerWidget {
                 },
               );
 
-              SystemChrome.setSystemUIOverlayStyle(
-                SystemUiOverlayStyle(
-                  systemNavigationBarColor: alphaBlend(
-                      Theme.of(context).colorScheme.primary.withOpacity(0.08),
-                      Theme.of(context).colorScheme.surface),
-                  statusBarIconBrightness: Theme.of(context)
-                              .colorScheme
-                              .background
-                              .computeLuminance() <
-                          0.5
-                      ? Brightness.light
-                      : Brightness.dark,
-                  statusBarBrightness: Theme.of(context)
-                              .colorScheme
-                              .background
-                              .computeLuminance() <
-                          0.5
-                      ? Brightness.dark
-                      : Brightness.light,
-                  statusBarColor: Colors.transparent,
-                ),
-              );
+              setSystemChrome(context);
 
               return ProviderScope(
                 overrides: [
@@ -119,29 +98,20 @@ class HomePage extends ConsumerWidget {
                   key: drawerKey,
                   onDrawerChanged: (isOpened) {
                     isOpened
-                        ? SystemChrome.setSystemUIOverlayStyle(
-                            SystemUiOverlayStyle(
-                              systemNavigationBarColor: alphaBlend(
-                                const Color(0x80000000),
-                                alphaBlend(
-                                    Theme.of(context)
-                                        .colorScheme
-                                        .primary
-                                        .withOpacity(0.08),
-                                    Theme.of(context).colorScheme.surface),
+                        ? setSystemChrome(
+                            context,
+                            navColor: alphaBlend(
+                              const Color(0x80000000),
+                              alphaBlend(
+                                Theme.of(context)
+                                    .colorScheme
+                                    .primary
+                                    .withOpacity(0.08),
+                                Theme.of(context).colorScheme.surface,
                               ),
                             ),
                           )
-                        : SystemChrome.setSystemUIOverlayStyle(
-                            SystemUiOverlayStyle(
-                              systemNavigationBarColor: alphaBlend(
-                                  Theme.of(context)
-                                      .colorScheme
-                                      .primary
-                                      .withOpacity(0.08),
-                                  Theme.of(context).colorScheme.surface),
-                            ),
-                          );
+                        : setSystemChrome(context);
                   },
                   drawerScrimColor: const Color(0x80000000),
                   drawerEdgeDragWidth: currentIndex == 0
