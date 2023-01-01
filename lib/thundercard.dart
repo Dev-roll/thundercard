@@ -3,10 +3,12 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/api/current_brightness.dart';
+import 'package:thundercard/api/dynamic_links.dart';
 import 'package:thundercard/api/return_original_color.dart';
 import 'package:thundercard/exchange_card.dart';
 import 'package:thundercard/my_card_details.dart';
@@ -22,14 +24,14 @@ import 'widgets/error_message.dart';
 import 'widgets/my_card.dart';
 import 'constants.dart';
 
-class Thundercard extends StatefulWidget {
+class Thundercard extends ConsumerStatefulWidget {
   const Thundercard({Key? key}) : super(key: key);
 
   @override
-  State<Thundercard> createState() => _ThundercardState();
+  ConsumerState<Thundercard> createState() => _ThundercardState();
 }
 
-class _ThundercardState extends State<Thundercard> {
+class _ThundercardState extends ConsumerState<Thundercard> {
   final String? uid = getUid();
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   final GlobalKey _myCardKey = GlobalKey();
@@ -123,8 +125,8 @@ class _ThundercardState extends State<Thundercard> {
                               Map<String, dynamic> currentCard =
                                   snapshot.data!.data() as Map<String, dynamic>;
                               myCardId = currentCard['current_card'];
-                              String thunderCardUrl =
-                                  'https://thundercard-test.web.app/?card_id=$myCardId';
+                              // String thunderCardUrl =
+                              //     'https://thundercard-test.web.app/?card_id=$myCardId';
                               // 'thundercard://user?card_id=$myCardId';
                               Color myPrimary = ColorScheme.fromSeed(
                                 seedColor: Color(returnOriginalColor(myCardId)),
@@ -249,11 +251,15 @@ class _ThundercardState extends State<Thundercard> {
                                                 final path =
                                                     applicationDocumentsFile
                                                         .path;
+                                                final thunderCardUrl =
+                                                    await dynamicLinks(
+                                                        myCardId);
                                                 await Share.shareXFiles(
                                                   [
                                                     XFile(path),
                                                   ],
-                                                  text: thunderCardUrl,
+                                                  text: thunderCardUrl.shortUrl
+                                                      .toString(),
                                                   subject:
                                                       '$myCardIdさんのThundercardの共有',
                                                 );
@@ -311,9 +317,14 @@ class _ThundercardState extends State<Thundercard> {
                                                 20, 0, 20, 0),
                                             child: IconButton(
                                               onPressed: () async {
+                                                final thunderCardUrl =
+                                                    await dynamicLinks(
+                                                        myCardId);
                                                 await Clipboard.setData(
                                                   ClipboardData(
-                                                      text: thunderCardUrl),
+                                                      text: thunderCardUrl
+                                                          .shortUrl
+                                                          .toString()),
                                                 ).then(
                                                   (value) =>
                                                       ScaffoldMessenger.of(
