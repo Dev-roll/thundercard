@@ -292,48 +292,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
           ),
         ),
         Align(
-          alignment: Alignment.bottomLeft,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.all(8),
-                child: FutureBuilder(
-                  future: controller?.getFlashStatus(),
-                  builder: (context, snapshot) {
-                    if (snapshot.data != null && snapshot.data == true) {
-                      return IconButton(
-                        onPressed: () async {
-                          await controller?.toggleFlash();
-                          setState(() {});
-                        },
-                        icon: const Icon(Icons.flashlight_on_rounded),
-                        padding: const EdgeInsets.all(20),
-                        style: IconButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                        ),
-                      );
-                    } else {
-                      return IconButton(
-                        onPressed: () async {
-                          await controller?.toggleFlash();
-                          setState(() {});
-                        },
-                        icon: const Icon(Icons.flashlight_off_rounded),
-                        padding: const EdgeInsets.all(20),
-                        style: IconButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-        Align(
           alignment: Alignment.bottomCenter,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -525,21 +483,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
       );
     }
   }
-
-  // 変更前
-  // void _onQRViewCreated(QRViewController controller) {
-  //   this.controller = controller;
-  //   controller.resumeCamera();
-  //   controller.scannedDataStream.listen((scanData) {
-  //     log(scanData.code.toString());
-  //     HapticFeedback.vibrate();
-  //     setState(() {
-  //       result = scanData;
-  //     });
-  //   });
-  //   this.controller!.pauseCamera();
-  //   this.controller!.resumeCamera();
-  // }
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
     log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
