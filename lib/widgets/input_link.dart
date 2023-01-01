@@ -299,6 +299,8 @@ class InputLink extends ConsumerWidget {
                               child: Form(
                                 child: TextFormField(
                                   controller: _controller,
+                                  cursorColor:
+                                      Theme.of(context).colorScheme.primary,
                                   decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'リンクまたはID',
