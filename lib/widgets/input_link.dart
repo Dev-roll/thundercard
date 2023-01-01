@@ -295,12 +295,14 @@ class InputLink extends ConsumerWidget {
                                           cardId: _controller.text
                                                   .startsWith('https://')
                                               ? Uri.parse(_controller.text)
-                                                          .queryParameters[
-                                                      'card_id'] ??
+                                                      .queryParameters[
+                                                          'card_id']
+                                                      ?.trim() ??
                                                   ''
                                               : _controller.text
                                                   .split('@')
-                                                  .last,
+                                                  .last
+                                                  .trim(),
                                         ),
                                       ),
                                     );
@@ -325,13 +327,15 @@ class InputLink extends ConsumerWidget {
                                                 cardId: _controller.text
                                                         .startsWith('https://')
                                                     ? Uri.parse(_controller
-                                                                    .text)
-                                                                .queryParameters[
-                                                            'card_id'] ??
+                                                                .text)
+                                                            .queryParameters[
+                                                                'card_id']
+                                                            ?.trim() ??
                                                         ''
                                                     : _controller.text
                                                         .split('@')
-                                                        .last,
+                                                        .last
+                                                        .trim(),
                                               ),
                                             ),
                                           );
