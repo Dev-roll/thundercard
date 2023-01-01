@@ -100,8 +100,9 @@ class CardDetails extends ConsumerWidget {
                   ),
                   actions: [
                     TextButton(
-                      onPressed: () => {Navigator.of(context).pop()},
-                      onLongPress: null,
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
                       child: const Text('キャンセル'),
                     ),
                     TextButton(
@@ -109,7 +110,6 @@ class CardDetails extends ConsumerWidget {
                         Navigator.of(context).pop();
                         deleteThisCard();
                       },
-                      onLongPress: null,
                       child: const Text('OK'),
                     ),
                   ],

@@ -766,19 +766,19 @@ class Account extends ConsumerWidget {
                                             ),
                                             actions: [
                                               TextButton(
-                                                  onPressed: () => {
-                                                        Navigator.pop(
-                                                            context, false)
-                                                      },
-                                                  onLongPress: null,
-                                                  child: const Text('キャンセル')),
+                                                onPressed: () {
+                                                  Navigator.pop(context, false);
+                                                },
+                                                onLongPress: null,
+                                                child: const Text('キャンセル'),
+                                              ),
                                               TextButton(
                                                 onPressed: () async {
                                                   Navigator.of(context).pop();
                                                   await FirebaseAuth.instance
                                                       .signOut()
                                                       .then(
-                                                    (value) {
+                                                    (_) {
                                                       ref
                                                           .watch(
                                                               currentIndexProvider
@@ -835,12 +835,12 @@ class Account extends ConsumerWidget {
                                             ),
                                             actions: [
                                               TextButton(
-                                                  onPressed: () => {
-                                                        Navigator.pop(
-                                                            context, false)
-                                                      },
-                                                  onLongPress: null,
-                                                  child: const Text('キャンセル')),
+                                                onPressed: () {
+                                                  Navigator.pop(context, false);
+                                                },
+                                                onLongPress: null,
+                                                child: const Text('キャンセル'),
+                                              ),
                                               TextButton(
                                                 onPressed: () async {
                                                   final data = {
@@ -856,12 +856,13 @@ class Account extends ConsumerWidget {
                                                       .then((value) {
                                                     FirebaseAuth.instance
                                                         .signOut();
-                                                  }).then((value) {
+                                                  }).then((_) {
                                                     Navigator.of(context)
                                                         .pushReplacement(
                                                       MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              AuthGate()),
+                                                        builder: (context) =>
+                                                            AuthGate(),
+                                                      ),
                                                     );
                                                   }).catchError((e) {
                                                     debugPrint(

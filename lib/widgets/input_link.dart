@@ -266,7 +266,7 @@ class InputLink extends ConsumerWidget {
                               ],
                             ),
                             const SizedBox(
-                              height: 8,
+                              height: 16,
                             ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width - 90,
@@ -309,7 +309,7 @@ class InputLink extends ConsumerWidget {
                               ),
                             ),
                             const SizedBox(
-                              height: 40,
+                              height: 32,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -336,8 +336,8 @@ class InputLink extends ConsumerWidget {
                                             ),
                                           );
                                         },
-                                  icon: const Icon(Icons.swap_horiz_rounded),
-                                  label: const Text('交換'),
+                                  icon: const Icon(Icons.search_rounded),
+                                  label: const Text('検索'),
                                   style: ElevatedButton.styleFrom(
                                     elevation: 0,
                                     foregroundColor: Theme.of(context)
