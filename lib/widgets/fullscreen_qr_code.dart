@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'my_qr_code.dart';
-import '../constants.dart';
 
 class FullscreenQrCode extends StatelessWidget {
   const FullscreenQrCode({Key? key, required this.name}) : super(key: key);
@@ -10,6 +10,14 @@ class FullscreenQrCode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        systemNavigationBarColor: Theme.of(context).colorScheme.onSecondary,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
+      ),
+    );
+
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -56,12 +64,11 @@ class FullscreenQrCode extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.arrow_back_rounded,
-                          size: 32,
-                          color: white,
+                          color: Theme.of(context).colorScheme.onBackground,
                         ),
-                        padding: const EdgeInsets.all(12),
+                        padding: const EdgeInsets.all(16),
                       ),
                     ),
                   ),

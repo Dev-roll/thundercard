@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:thundercard/widgets/scan_qr_code.dart';
+import 'package:thundercard/exchange_card.dart';
 
 import 'api/colors.dart';
 import 'api/current_brightness.dart';
@@ -389,7 +389,7 @@ class _ListState extends State<List> {
                             ],
                           ),
                           child: Icon(
-                            Icons.qr_code_scanner_rounded,
+                            Icons.swap_horiz_rounded,
                             color: Theme.of(context).colorScheme.onPrimary,
                           ),
                         )
@@ -400,17 +400,20 @@ class _ListState extends State<List> {
                   label: 'カードを交換',
                   onTap: () {
                     Navigator.of(context)
-                        .push(MaterialPageRoute(
-                      builder: (context) => Theme(
-                        data: ThemeData(
-                          colorSchemeSeed:
-                              Theme.of(context).colorScheme.secondaryContainer,
-                          brightness: Brightness.dark,
-                          useMaterial3: true,
+                        .push(
+                      MaterialPageRoute(
+                        builder: (context) => Theme(
+                          data: ThemeData(
+                            colorSchemeSeed: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
+                            brightness: Brightness.dark,
+                            useMaterial3: true,
+                          ),
+                          child: const ExchangeCard(),
                         ),
-                        child: ScanQrCode(myCardId: myCardId),
                       ),
-                    ))
+                    )
                         .then((value) {
                       SystemChrome.setSystemUIOverlayStyle(
                         SystemUiOverlayStyle(
@@ -420,6 +423,21 @@ class _ListState extends State<List> {
                                   .primary
                                   .withOpacity(0.08),
                               Theme.of(context).colorScheme.surface),
+                          statusBarIconBrightness: Theme.of(context)
+                                      .colorScheme
+                                      .background
+                                      .computeLuminance() <
+                                  0.5
+                              ? Brightness.light
+                              : Brightness.dark,
+                          statusBarBrightness: Theme.of(context)
+                                      .colorScheme
+                                      .background
+                                      .computeLuminance() <
+                                  0.5
+                              ? Brightness.dark
+                              : Brightness.light,
+                          statusBarColor: Colors.transparent,
                         ),
                       );
                     });
