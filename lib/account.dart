@@ -760,8 +760,7 @@ class Account extends ConsumerWidget {
                                             .secondary,
                                         backgroundColor: Theme.of(context)
                                             .colorScheme
-                                            .onSecondary
-                                            .withOpacity(1),
+                                            .background,
                                       ),
                                       onPressed: () async {
                                         await showDialog(
@@ -819,7 +818,7 @@ class Account extends ConsumerWidget {
                                       onLongPress: null,
                                     ),
                                     const SizedBox(height: 28),
-                                    OutlinedButton.icon(
+                                    ElevatedButton.icon(
                                       icon: const Icon(
                                         Icons.person_off_rounded,
                                       ),
@@ -828,6 +827,9 @@ class Account extends ConsumerWidget {
                                         elevation: 0,
                                         foregroundColor:
                                             Theme.of(context).colorScheme.error,
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .background,
                                       ),
                                       onPressed: () async {
                                         await showDialog(
