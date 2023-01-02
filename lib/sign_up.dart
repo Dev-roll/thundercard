@@ -597,7 +597,7 @@ class _SignUpState extends State<SignUp> {
                               style: const TextStyle(height: 1.6),
                               children: [
                                 TextSpan(
-                                  text: 'このサービスのご利用を開始することで，',
+                                  text: 'このサービスのご利用を開始することで、',
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme

@@ -249,7 +249,7 @@ class InputLink extends ConsumerWidget {
                                       builder: (BuildContext context) {
                                         return const InfoBottomSheet(
                                           data:
-                                              '$thundercardUrlで始まるThundercardのリンク，またはユーザーIDを入力してカードを交換することができます。\nユーザーIDを入力する際，先頭の@は省略できます。',
+                                              '$thundercardUrlで始まるThundercardのリンク、またはユーザーIDを入力してカードを交換することができます。\nユーザーIDを入力する際、先頭の@は省略できます。',
                                         );
                                       },
                                       backgroundColor: Colors.transparent,
