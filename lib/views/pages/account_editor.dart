@@ -301,7 +301,6 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
       .collection('cards');
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   late ReorderableMultiTextFieldController controller;
-  var registrationButtonPressed = false;
   var forbiddenId = '';
 
   @override
@@ -322,9 +321,6 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
       debugPrint('$data');
       if (widget.isRegistration && data.isNotEmpty) {
         debugPrint(data[0]['card_id']);
-        setState(() {
-          registrationButtonPressed = false;
-        });
         forbiddenId = _cardIdController.text;
         return ScaffoldMessenger.of(context).showSnackBar(
           PositionedSnackBar(
@@ -342,6 +338,9 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
           ),
         );
       } else {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => AuthGate()),
+        );
         final values = controller.value.map(((e) {
           return e.controller.text;
         })).toList();
@@ -680,9 +679,6 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
                         }
                         return;
                       }
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => AuthGate()),
-                      );
                       registerCard();
                     },
                     onLongPress: null,
