@@ -6,7 +6,7 @@ import 'package:lottie/lottie.dart';
 
 import '../../utils/setSystemChrome.dart';
 import '../widgets/error_message.dart';
-import 'account_registration.dart';
+import 'account_editor.dart';
 import 'home_page.dart';
 import 'sign_in.dart';
 
@@ -35,7 +35,10 @@ class AuthGate extends ConsumerWidget {
               return const ErrorMessage(err: '問題が発生しました');
             }
             if (snapshot.hasData && !snapshot.data!.exists) {
-              return const AccountRegistration();
+              return const AccountEditor(
+                isRegistration: true,
+                isUser: true,
+              );
             }
             if (snapshot.connectionState == ConnectionState.done) {
               return HomePage();

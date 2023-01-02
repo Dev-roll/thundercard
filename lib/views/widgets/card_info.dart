@@ -127,12 +127,15 @@ class CardInfo extends ConsumerWidget {
                         margin: const EdgeInsets.only(left: 8),
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(
-                              builder: (context) =>
-                                  AccountEditor(cardId: cardId),
-                            ))
-                                .then((_) {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) {
+                                return AccountEditor(
+                                  isRegistration: false,
+                                  isUser: isUser,
+                                  cardId: cardId,
+                                );
+                              },
+                            )).then((_) {
                               setSystemChrome(context);
                             });
                           },

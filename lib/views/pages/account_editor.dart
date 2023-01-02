@@ -11,10 +11,19 @@ import '../../utils/current_brightness.dart';
 import '../../utils/firebase_auth.dart';
 import '../widgets/custom_progress_indicator.dart';
 import '../widgets/error_message.dart';
+import '../widgets/positioned_snack_bar.dart';
+import 'auth_gate.dart';
 
 class AccountEditor extends ConsumerStatefulWidget {
-  const AccountEditor({Key? key, required this.cardId}) : super(key: key);
-  final dynamic cardId;
+  const AccountEditor(
+      {Key? key,
+      required this.isRegistration,
+      required this.isUser,
+      this.cardId = ''})
+      : super(key: key);
+  final bool isRegistration;
+  final bool isUser;
+  final String cardId;
 
   @override
   ConsumerState<AccountEditor> createState() => _AccountEditorState();
@@ -85,9 +94,9 @@ class ReorderableMultiTextFieldController
 class ReorderableMultiTextField extends ConsumerStatefulWidget {
   final ReorderableMultiTextFieldController controllerController;
   const ReorderableMultiTextField({
-    Key? key,
+    super.key,
     required this.controllerController,
-  }) : super(key: key);
+  });
 
   @override
   ConsumerState<ReorderableMultiTextField> createState() =>
@@ -129,7 +138,7 @@ class _ReorderableMultiTextFieldState
                 Navigator.of(context).pop();
                 widget.controllerController.remove(textFieldState.id);
               },
-              child: const Text('OK'),
+              child: const Text('削除'),
             ),
           ],
         ),
@@ -145,10 +154,12 @@ class _ReorderableMultiTextFieldState
             .map((entry) => DropdownMenuItem(
                   value: entry,
                   alignment: AlignmentDirectional.center,
-                  child: Icon(
-                    linkTypeToIconData[entry],
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
-                  ),
+                  child: Row(children: [
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Icon(linkTypeToIconData[entry])
+                  ]),
                 ))
             .toList();
 
@@ -274,11 +285,12 @@ class _ReorderableMultiTextFieldState
 
 class _AccountEditorState extends ConsumerState<AccountEditor> {
   final String? uid = getUid();
-  late TextEditingController _nameController;
-  late TextEditingController _bioController;
-  late TextEditingController _companyController;
-  late TextEditingController _positionController;
-  late TextEditingController _addressController;
+  final TextEditingController _cardIdController = TextEditingController();
+  late TextEditingController _nameController = TextEditingController();
+  late TextEditingController _bioController = TextEditingController();
+  late TextEditingController _companyController = TextEditingController();
+  late TextEditingController _positionController = TextEditingController();
+  late TextEditingController _addressController = TextEditingController();
 
   CollectionReference version2 = FirebaseFirestore.instance
       .collection('version')
@@ -286,7 +298,8 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
       .collection('cards');
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   late ReorderableMultiTextFieldController controller;
-  var updateButtonPressed = false;
+  var registrationButtonPressed = false;
+  var forbiddenId = '';
 
   @override
   void initState() {
@@ -294,494 +307,731 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
     super.initState();
   }
 
-  void updateCard() {
-    final values = controller.value.map(((e) {
-      return e.controller.text;
-    })).toList();
-    final keys = controller.value.map(((e) {
-      return e.selector;
-    })).toList();
-
-    var links = [];
-    for (var i = 0; i < keys.length; i++) {
-      links.add({
-        'key': keys[i],
-        'value': values[i],
-        'display': {
-          'large': true,
-          'normal': true,
-        },
-      });
-    }
-    debugPrint('$links');
-
-    final updateNotificationData = {
-      'title': 'アカウント情報更新のお知らせ',
-      'content': '@${widget.cardId}さんのアカウント情報の更新が完了しました',
-      'created_at': DateTime.now(),
-      'read': false,
-      'tags': ['news'],
-      'notification_id':
-          'account-update-${widget.cardId}-${DateFormat('yyyy-MM-dd-Hm').format(DateTime.now())}',
-    };
-
+  void registerCard() {
     FirebaseFirestore.instance
         .collection('version')
         .doc('2')
         .collection('cards')
-        .doc(widget.cardId)
-        .collection('visibility')
-        .doc('c10r10u10d10')
-        .collection('notifications')
-        .add(updateNotificationData);
+        .where('card_id', isEqualTo: _cardIdController.text)
+        .get()
+        .then((snapshot) {
+      final data = snapshot.docs;
+      debugPrint('$data');
+      if (widget.isRegistration && data.isNotEmpty) {
+        debugPrint(data[0]['card_id']);
+        setState(() {
+          registrationButtonPressed = false;
+        });
+        forbiddenId = _cardIdController.text;
+        return ScaffoldMessenger.of(context).showSnackBar(
+          PositionedSnackBar(
+            context,
+            'ユーザーIDはすでに存在しています。別のIDを入力してください。',
+            icon: Icons.error_rounded,
+            snackbarAction: SnackBarAction(
+              label: 'OK',
+              textColor: Theme.of(context).colorScheme.onPrimary,
+              onPressed: () {},
+            ),
+            foreground: Theme.of(context).colorScheme.onError,
+            bottom: 24,
+            seconds: 5,
+          ),
+        );
+      } else {
+        final values = controller.value.map(((e) {
+          return e.controller.text;
+        })).toList();
+        final keys = controller.value.map(((e) {
+          return e.selector;
+        })).toList();
 
-    // users
-    //     .doc(uid)
-    //     .collection('card')
-    //     .doc('current_card')
-    //     .update({'current_card': widget.cardId}).then((value) {
-    //   debugPrint('User Added');
-    // }).catchError((error) {
-    //   debugPrint('Failed to add user: $error');
-    // });
+        var links = [];
+        for (var i = 0; i < keys.length; i++) {
+          links.add({
+            'key': keys[i],
+            'value': values[i],
+            'display': {
+              'large': true,
+              'normal': true,
+            },
+          });
+        }
+        debugPrint('$links');
 
-    // c10r10u10d10
-    // version2
-    //     .doc(widget.cardId)
-    //     .collection('visibility')
-    //     .doc('c10r10u10d10')
-    //     .set({
-    //   'settings': {'linkable': false, 'app_theme': 0, 'display_card_theme': 0},
-    //   'applying_cards': [],
-    // }, SetOptions(merge: true)).then((value) {
-    //   Navigator.of(context).pop();
-    //   debugPrint('Card Updated');
-    // }).catchError((error) {
-    //   debugPrint('Failed to update card: $error');
-    // });
+        if (widget.isRegistration) {
+          // c10r21u10d10
+          version2
+              .doc(_cardIdController.text)
+              .collection('visibility')
+              .doc('c10r21u10d10')
+              .set({
+            'account': {
+              'links': links,
+            },
+            'profiles': {
+              'bio': {
+                'value': _bioController.text,
+                'display': {
+                  'normal': true,
+                  'large': true,
+                }
+              },
+              'company': {
+                'value': _companyController.text,
+                'display': {
+                  'normal': true,
+                  'large': true,
+                }
+              },
+              'position': {
+                'value': _positionController.text,
+                'display': {
+                  'normal': true,
+                  'large': true,
+                }
+              },
+              'address': {
+                'value': _addressController.text,
+                'display': {
+                  'normal': true,
+                  'large': true,
+                }
+              },
+            }
+          }).then((value) {
+            debugPrint('c10r21u10d10: Registered');
+          }).catchError((error) {
+            debugPrint('カードの登録に失敗しました: $error');
+          });
 
-    // c10r10u21d10
-    // version2
-    //     .doc(widget.cardId)
-    //     .collection('visibility')
-    //     .doc('c10r10u21d10')
-    //     .set({
-    //   'verified_cards': [],
-    // }, SetOptions(merge: true)).then((value) {
-    //   Navigator.of(context).pop();
-    //   debugPrint('Card Updated');
-    // }).catchError((error) {
-    //   debugPrint('Failed to update card: $error');
-    // });
+          version2.doc(_cardIdController.text).set({
+            'card_id': _cardIdController.text,
+          }).then((element) {
+            debugPrint('set cardid directory: completed');
+          });
 
-    // c10r10u11d10
-    // version2
-    //     .doc(widget.cardId)
-    //     .collection('visibility')
-    //     .doc('c10r10u11d10')
-    //     .set({
-    //   'exchanged_cards': [],
-    // }, SetOptions(merge: true)).then((value) {
-    //   Navigator.of(context).pop();
-    //   debugPrint('Card Updated');
-    // }).catchError((error) {
-    //   debugPrint('Failed to update card: $error');
-    // });
+          // users
+          users.doc(uid).set({'Thundercard': 'cool'}).then((value) {
+            debugPrint('User Added');
+          }).catchError((error) {
+            debugPrint('Failed to add user: $error');
+          });
 
-    // c10r20u10d10
-    version2
-        .doc(widget.cardId)
-        .collection('visibility')
-        .doc('c10r20u10d10')
-        .set({
-      'name': _nameController.text,
-      // 'public': false,
-      // 'icon_url': '',
-      'thundercard': {
-        // 'color': {
-        //   'seed': 0,
-        //   'tertiary': 0,
-        // },
-        'light_theme': currentBrightness(Theme.of(context).colorScheme) ==
-            Brightness.light,
-        // 'rounded': true,
-        // 'radius': 3,
-        // 'layout': 0,
-        // 'font_size': {
-        //   'title': 3,
-        //   'id': 1.5,
-        //   'bio': 1.3,
-        //   'profiles': 1,
-        //   'links': 1,
-        // }
-      },
-    }, SetOptions(merge: true)).then((value) {
-      debugPrint('Card Updated (1/2)');
-    }).catchError((error) {
-      debugPrint('Failed to update card: $error');
-    });
+          users.doc(uid).collection('cards').doc('my_cards').set({
+            'my_cards': [_cardIdController.text]
+          }).then((value) {
+            debugPrint('User Added');
+          }).catchError((error) {
+            debugPrint('Failed to add user: $error');
+          });
 
-    // c10r21u10d10
-    version2
-        .doc(widget.cardId)
-        .collection('visibility')
-        .doc('c10r21u10d10')
-        .set({
-      'account': {
-        'links': links,
-      },
-      'profiles': {
-        'bio': {
-          'value': _bioController.text,
-          'display': {
-            'normal': true,
-            'large': true,
-          }
-        },
-        'company': {
-          'value': _companyController.text,
-          'display': {
-            'normal': true,
-            'large': true,
-          }
-        },
-        'position': {
-          'value': _positionController.text,
-          'display': {
-            'normal': true,
-            'large': true,
-          }
-        },
-        'address': {
-          'value': _addressController.text,
-          'display': {
-            'normal': true,
-            'large': true,
-          }
-        },
+          users
+              .doc(uid)
+              .collection('card')
+              .doc('current_card')
+              .set({'current_card': _cardIdController.text}).then((value) {
+            debugPrint('User Added');
+          }).catchError((error) {
+            debugPrint('Failed to add user: $error');
+          });
+
+          final registerNotificationData = {
+            'title': '登録完了のお知らせ',
+            'content':
+                '${_nameController.text}(@${_cardIdController.text})さんのアカウント登録が完了しました',
+            'created_at': DateTime.now(),
+            'read': false,
+            'tags': ['news'],
+            'notification_id':
+                'account-registration-${_cardIdController.text}-${DateFormat('yyyy-MM-dd-Hm').format(DateTime.now())}',
+          };
+
+          // notifications
+          version2
+              .doc(_cardIdController.text)
+              .collection('visibility')
+              .doc('c10r10u10d10')
+              .collection('notifications')
+              .add(registerNotificationData);
+
+          // c10r10u10d10
+          version2
+              .doc(_cardIdController.text)
+              .collection('visibility')
+              .doc('c10r10u10d10')
+              .set({
+            'settings': {
+              'linkable': false,
+              'app_theme': 0,
+              'display_card_theme': 0
+            },
+            'applying_cards': [],
+          }).then((value) {
+            debugPrint('c10r10u10d10: Registered');
+          }).catchError((error) {
+            debugPrint('カードの登録に失敗しました: $error');
+          });
+
+          // c10r10u21d10
+          version2
+              .doc(_cardIdController.text)
+              .collection('visibility')
+              .doc('c10r10u21d10')
+              .set({
+            'verified_cards': [],
+          }).then((value) {
+            debugPrint('c10r10u21d10: Registered');
+          }).catchError((error) {
+            debugPrint('カードの登録に失敗しました: $error');
+          });
+
+          // c10r10u11d10
+          version2
+              .doc(_cardIdController.text)
+              .collection('visibility')
+              .doc('c10r10u11d10')
+              .set({
+            'exchanged_cards': [],
+          }).then((value) {
+            debugPrint('c10r10u11d10: Registered');
+          }).catchError((error) {
+            debugPrint('カードの登録に失敗しました: $error');
+          });
+
+          // c10r20u10d10
+          version2
+              .doc(_cardIdController.text)
+              .collection('visibility')
+              .doc('c10r20u10d10')
+              .set({
+            'name': _nameController.text,
+            'public': false,
+            'icon_url': '',
+            'thundercard': {
+              'color': {
+                'seed': 0,
+                'tertiary': 0,
+              },
+              'light_theme': currentBrightness(Theme.of(context).colorScheme) ==
+                  Brightness.light,
+              'rounded': true,
+              'radius': 3,
+              'layout': 0,
+              'font_size': {
+                'title': 3,
+                'id': 1.5,
+                'bio': 1.3,
+                'profiles': 1,
+                'links': 1,
+              }
+            },
+          }).then((value) {
+            debugPrint('c10r20u10d10: Registered');
+          }).catchError((error) {
+            debugPrint('カードの登録に失敗しました: $error');
+          });
+
+          // c21r20u00d11
+          version2
+              .doc(_cardIdController.text)
+              .collection('visibility')
+              .doc('c21r20u00d11')
+              .set({
+            'is_user': true,
+            'uid': uid,
+            'card_id': _cardIdController.text,
+          }).then((value) {
+            debugPrint('c21r20u00d11: Registered');
+          }).catchError((error) {
+            debugPrint('カードの登録に失敗しました: $error');
+          });
+        } else {
+          // c10r21u10d10
+          version2
+              .doc(widget.cardId)
+              .collection('visibility')
+              .doc('c10r21u10d10')
+              .set({
+            'account': {
+              'links': links,
+            },
+            'profiles': {
+              'bio': {
+                'value': _bioController.text,
+                'display': {
+                  'normal': true,
+                  'large': true,
+                }
+              },
+              'company': {
+                'value': _companyController.text,
+                'display': {
+                  'normal': true,
+                  'large': true,
+                }
+              },
+              'position': {
+                'value': _positionController.text,
+                'display': {
+                  'normal': true,
+                  'large': true,
+                }
+              },
+              'address': {
+                'value': _addressController.text,
+                'display': {
+                  'normal': true,
+                  'large': true,
+                }
+              },
+            }
+          }, SetOptions(merge: true)).then((value) {
+            debugPrint('c10r21u10d10: Registered');
+          }).catchError((error) {
+            debugPrint('カードの登録に失敗しました: $error');
+          });
+
+          final updateNotificationData = {
+            'title': 'アカウント情報更新のお知らせ',
+            'content': '@${widget.cardId}さんのアカウント情報の更新が完了しました',
+            'created_at': DateTime.now(),
+            'read': false,
+            'tags': ['news'],
+            'notification_id':
+                'account-update-${widget.cardId}-${DateFormat('yyyy-MM-dd-Hm').format(DateTime.now())}',
+          };
+
+          FirebaseFirestore.instance
+              .collection('version')
+              .doc('2')
+              .collection('cards')
+              .doc(widget.cardId)
+              .collection('visibility')
+              .doc('c10r10u10d10')
+              .collection('notifications')
+              .add(updateNotificationData);
+
+          // c10r20u10d10
+          version2
+              .doc(widget.cardId)
+              .collection('visibility')
+              .doc('c10r20u10d10')
+              .set({
+            'name': _nameController.text,
+            // 'public': false,
+            // 'icon_url': '',
+            'thundercard': {
+              // 'color': {
+              //   'seed': 0,
+              //   'tertiary': 0,
+              // },
+              'light_theme': currentBrightness(Theme.of(context).colorScheme) ==
+                  Brightness.light,
+              // 'rounded': true,
+              // 'radius': 3,
+              // 'layout': 0,
+              // 'font_size': {
+              //   'title': 3,
+              //   'id': 1.5,
+              //   'bio': 1.3,
+              //   'profiles': 1,
+              //   'links': 1,
+              // }
+            },
+          }, SetOptions(merge: true)).then((value) {
+            debugPrint('Card Updated (1/2)');
+          }).catchError((error) {
+            debugPrint('Failed to update card: $error');
+          });
+        }
       }
-    }, SetOptions(merge: true)).then((value) {
-      debugPrint('Card Updated (2/2)');
-    }).catchError((error) {
-      debugPrint('Failed to update card: $error');
     });
+  }
+
+  final ScrollController scrollController = ScrollController();
+
+  accountRE(isRegistration, isUser) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: isRegistration
+              ? const Text('プロフィールを登録')
+              : const Text('プロフィールを編集'),
+          actions: [
+            isRegistration
+                ? TextButton(
+                    onPressed: () {
+                      if ((isUser && _cardIdController.text == '') ||
+                          _nameController.text == '') {
+                        if ((isUser && _cardIdController.text == '') &&
+                            _nameController.text == '') {
+                          showErrorMessage(context,
+                              message: 'カードIDと表示名を入力してください。');
+                        } else if (isUser && _cardIdController.text == '') {
+                          showErrorMessage(context, message: 'カードIDを入力してください。');
+                        } else {
+                          showErrorMessage(context);
+                        }
+                        return;
+                      }
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => AuthGate()),
+                      );
+                      registerCard();
+                    },
+                    onLongPress: null,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const [
+                        SizedBox(width: 8),
+                        Icon(Icons.done_rounded),
+                        SizedBox(width: 4),
+                        Text('登録'),
+                        SizedBox(width: 8),
+                      ],
+                    ),
+                  )
+                : TextButton(
+                    onPressed: () {
+                      if (_nameController.text == '') {
+                        showErrorMessage(context);
+                        return;
+                      }
+                      Navigator.of(context).pop();
+                      registerCard();
+                    },
+                    onLongPress: null,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const [
+                        SizedBox(width: 8),
+                        Icon(Icons.done_rounded),
+                        SizedBox(width: 4),
+                        Text('保存'),
+                        SizedBox(width: 8),
+                      ],
+                    ),
+                  ),
+          ],
+          backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+        ),
+        body: SafeArea(
+          child: SizedBox(
+            width: double.infinity,
+            child: SingleChildScrollView(
+              controller: scrollController,
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxWidth: 800,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        if (isRegistration)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('ユーザーID（必須）'),
+                              TextFormField(
+                                controller: _cardIdController,
+                                keyboardType: TextInputType.emailAddress,
+                                maxLength: 20,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (value) {
+                                  return value!.isEmpty
+                                      ? '必須'
+                                      : value == forbiddenId
+                                          ? '@$forbiddenId はすでに存在しています'
+                                          : null;
+                                },
+                                textInputAction: TextInputAction.next,
+                                decoration: InputDecoration(
+                                  icon:
+                                      const Icon(Icons.alternate_email_rounded),
+                                  hintText: 'userid',
+                                  hintStyle: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground
+                                        .withOpacity(0.5),
+                                  ),
+                                ),
+                                onChanged: (value) {
+                                  setState(() {});
+                                },
+                              ),
+                            ],
+                          )
+                        else if (isUser)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('ユーザーID'),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                '@${widget.cardId}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground
+                                          .withOpacity(0.7),
+                                      fontSize: 20,
+                                    ),
+                              ),
+                              const SizedBox(
+                                height: 24,
+                              ),
+                            ],
+                          ),
+                        const Text('表示名（必須）'),
+                        TextFormField(
+                          controller: _nameController,
+                          maxLength: 20,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) {
+                            return value!.isEmpty ? '必須' : null;
+                          },
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            icon: const Icon(Icons.account_circle_rounded),
+                            hintText: '表示名',
+                            hintStyle: TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.5),
+                            ),
+                          ),
+                          onChanged: isRegistration
+                              ? (value) {
+                                  setState(() {});
+                                }
+                              : null,
+                        ),
+                        const Text('組織'),
+                        TextField(
+                          controller: _companyController,
+                          maxLength: 20,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            icon: Icon(iconTypeToIconData[IconType.company]),
+                            hintText: '会社・大学等',
+                            hintStyle: TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.5),
+                            ),
+                          ),
+                        ),
+                        const Text('部門'),
+                        TextField(
+                          controller: _positionController,
+                          maxLength: 20,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            icon: Icon(iconTypeToIconData[IconType.position]),
+                            hintText: '○○部',
+                            hintStyle: TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.5),
+                            ),
+                          ),
+                        ),
+                        const Text('住所'),
+                        TextField(
+                          controller: _addressController,
+                          maxLength: 40,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            icon: Icon(iconTypeToIconData[IconType.address]),
+                            hintText: '住所',
+                            hintStyle: TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.5),
+                            ),
+                          ),
+                        ),
+                        const Text('自己紹介'),
+                        TextField(
+                          controller: _bioController,
+                          maxLength: 300,
+                          textInputAction: TextInputAction.done,
+                          decoration: InputDecoration(
+                            icon: Icon(iconTypeToIconData[IconType.bio]),
+                            hintText: '自己紹介',
+                            hintStyle: TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.5),
+                            ),
+                          ),
+                          maxLines: 30,
+                          minLines: 1,
+                        ),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        const Text('SNS・連絡先'),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        ReorderableMultiTextField(
+                          controllerController: controller,
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                controller.add('url', '');
+                                Future.delayed(
+                                  const Duration(milliseconds: 20),
+                                ).then((value) {
+                                  scrollController.animateTo(
+                                    scrollController.position.maxScrollExtent,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeIn,
+                                  );
+                                });
+                                Future.delayed(
+                                  const Duration(milliseconds: 20),
+                                ).then((value) {
+                                  scrollController.animateTo(
+                                    scrollController.position.maxScrollExtent,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeIn,
+                                  );
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                foregroundColor: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer,
+                                backgroundColor: Theme.of(context)
+                                    .colorScheme
+                                    .secondaryContainer,
+                              ),
+                              icon: const Icon(
+                                Icons.add_link_rounded,
+                              ),
+                              label: const Text(
+                                'SNS・連絡先を追加',
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  showErrorMessage(BuildContext context, {String? message}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      PositionedSnackBar(
+        context,
+        message ?? '表示名を入力してください。',
+        icon: Icons.error_rounded,
+        snackbarAction: SnackBarAction(
+          label: 'OK',
+          textColor: Theme.of(context).colorScheme.onPrimary,
+          onPressed: () {},
+        ),
+        foreground: Theme.of(context).colorScheme.onError,
+        bottom: 24,
+        seconds: 5,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final ScrollController scrollController = ScrollController();
-    final c10r21u10d10AsyncValue = ref.watch(c10r21u10d10Stream(widget.cardId));
-    return c10r21u10d10AsyncValue.when(
-      error: (err, _) => ErrorMessage(err: '$err'),
-      loading: () => const Scaffold(
-        body: SafeArea(
-          child: Center(
-            child: CustomProgressIndicator(),
-          ),
-        ),
-      ),
-      data: (c10r21u10d10) {
-        final c10r20u10d10AsyncValue =
-            ref.watch(c10r20u10d10Stream(widget.cardId));
-        return c10r20u10d10AsyncValue.when(
-          error: (err, _) => ErrorMessage(err: '$err'),
-          loading: () => const Scaffold(
-            body: SafeArea(
-              child: Center(
-                child: CustomProgressIndicator(),
-              ),
+    if (widget.isRegistration) {
+      return accountRE(true, widget.isUser);
+    } else {
+      final c10r21u10d10AsyncValue =
+          ref.watch(c10r21u10d10Stream(widget.cardId));
+      return c10r21u10d10AsyncValue.when(
+        error: (err, _) => ErrorMessage(err: '$err'),
+        loading: () => const Scaffold(
+          body: SafeArea(
+            child: Center(
+              child: CustomProgressIndicator(),
             ),
           ),
-          data: (c10r20u10d10) {
-            final c21r20u00d11AsyncValue =
-                ref.watch(c21r20u00d11Stream(widget.cardId));
-            return c21r20u00d11AsyncValue.when(
-              error: (err, _) => ErrorMessage(err: '$err'),
-              loading: () => const Scaffold(
-                body: SafeArea(
-                  child: Center(
-                    child: CustomProgressIndicator(),
-                  ),
+        ),
+        data: (c10r21u10d10) {
+          final c10r20u10d10AsyncValue =
+              ref.watch(c10r20u10d10Stream(widget.cardId));
+          return c10r20u10d10AsyncValue.when(
+            error: (err, _) => ErrorMessage(err: '$err'),
+            loading: () => const Scaffold(
+              body: SafeArea(
+                child: Center(
+                  child: CustomProgressIndicator(),
                 ),
               ),
-              data: (c21r20u00d11) {
-                final initName =
-                    TextEditingController(text: c10r20u10d10?['name'] ?? '');
-                final initBio = TextEditingController(
-                    text: c10r21u10d10?['profiles']['bio']['value'] ?? '');
-                final initCompany = TextEditingController(
-                    text: c10r21u10d10?['profiles']['company']['value'] ?? '');
-                final initPosition = TextEditingController(
-                    text: c10r21u10d10?['profiles']['position']['value'] ?? '');
-                final initAddress = TextEditingController(
-                    text: c10r21u10d10?['profiles']['address']['value'] ?? '');
+            ),
+            data: (c10r20u10d10) {
+              final initName =
+                  TextEditingController(text: c10r20u10d10?['name'] ?? '');
+              final initBio = TextEditingController(
+                  text: c10r21u10d10?['profiles']['bio']['value'] ?? '');
+              final initCompany = TextEditingController(
+                  text: c10r21u10d10?['profiles']['company']['value'] ?? '');
+              final initPosition = TextEditingController(
+                  text: c10r21u10d10?['profiles']['position']['value'] ?? '');
+              final initAddress = TextEditingController(
+                  text: c10r21u10d10?['profiles']['address']['value'] ?? '');
 
-                _nameController = initName;
-                _bioController = initBio;
-                _companyController = initCompany;
-                _positionController = initPosition;
-                _addressController = initAddress;
+              _nameController = initName;
+              _bioController = initBio;
+              _companyController = initCompany;
+              _positionController = initPosition;
+              _addressController = initAddress;
 
-                var links = [];
-                links = c10r21u10d10?['account']['links'];
-                controller.clear();
-                for (var e in links) {
-                  controller.add(e['key'], e['value']);
-                }
-                return GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-                  child: Scaffold(
-                    appBar: AppBar(
-                      title: const Text('プロフィールを編集'),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            if (_nameController.text == '') {
-                              null;
-                            } else {
-                              Navigator.of(context).pop();
-                              updateCard();
-                            }
-                          },
-                          onLongPress: null,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: const [
-                              SizedBox(width: 8),
-                              Icon(Icons.done_rounded),
-                              SizedBox(width: 4),
-                              Text('保存'),
-                              SizedBox(width: 8),
-                            ],
-                          ),
-                        ),
-                        // : updateButtonPressed
-                        //     ? TextButton(
-                        //         onPressed: null,
-                        //         onLongPress: null,
-                        //         child: Container(
-                        //           padding: const EdgeInsets.all(4),
-                        //           child: const SizedBox(
-                        //             height: 24,
-                        //             width: 24,
-                        //             child: CircularProgressIndicator(
-                        //               strokeWidth: 3.0,
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       )
-                        //     : TextButton(
-                        //         onPressed: () {
-                        //           setState(() {
-                        //             updateButtonPressed = true;
-                        //           });
-                        //           updateCard();
-                        //         },
-                        //         onLongPress: null,
-                        //         child: const Text('保存'),
-                        //       ),
-                      ],
-                      backgroundColor:
-                          Theme.of(context).colorScheme.surfaceVariant,
-                    ),
-                    body: SafeArea(
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: SingleChildScrollView(
-                          controller: scrollController,
-                          child: Center(
-                            child: ConstrainedBox(
-                              constraints: const BoxConstraints(
-                                maxWidth: 800,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    if (c21r20u00d11?['is_user'])
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Text('ユーザーID'),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                          Text(
-                                            '@${widget.cardId}',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge
-                                                ?.copyWith(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onBackground
-                                                      .withOpacity(0.7),
-                                                  fontSize: 20,
-                                                ),
-                                          ),
-                                        ],
-                                      ),
-                                    const SizedBox(
-                                      height: 24,
-                                    ),
-                                    const Text('表示名（必須）'),
-                                    TextFormField(
-                                      controller: _nameController,
-                                      maxLength: 20,
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
-                                      validator: (value) {
-                                        return value!.isEmpty ? '必須' : null;
-                                      },
-                                      decoration: InputDecoration(
-                                        icon: const Icon(
-                                            Icons.account_circle_rounded),
-                                        hintText: '表示名',
-                                        hintStyle: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground
-                                              .withOpacity(0.5),
-                                        ),
-                                      ),
-                                    ),
-                                    const Text('組織'),
-                                    TextField(
-                                      controller: _companyController,
-                                      maxLength: 20,
-                                      decoration: InputDecoration(
-                                        icon: Icon(iconTypeToIconData[
-                                            IconType.company]),
-                                        hintText: '会社・大学等',
-                                        hintStyle: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground
-                                              .withOpacity(0.5),
-                                        ),
-                                      ),
-                                    ),
-                                    const Text('部門'),
-                                    TextField(
-                                      controller: _positionController,
-                                      maxLength: 20,
-                                      decoration: InputDecoration(
-                                        icon: Icon(iconTypeToIconData[
-                                            IconType.position]),
-                                        hintText: '○○部',
-                                        hintStyle: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground
-                                              .withOpacity(0.5),
-                                        ),
-                                      ),
-                                    ),
-                                    const Text('住所'),
-                                    TextField(
-                                      controller: _addressController,
-                                      maxLength: 40,
-                                      decoration: InputDecoration(
-                                        icon: Icon(iconTypeToIconData[
-                                            IconType.address]),
-                                        hintText: '住所',
-                                        hintStyle: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground
-                                              .withOpacity(0.5),
-                                        ),
-                                      ),
-                                    ),
-                                    const Text('自己紹介'),
-                                    TextField(
-                                      controller: _bioController,
-                                      maxLength: 300,
-                                      decoration: InputDecoration(
-                                        icon: Icon(
-                                            iconTypeToIconData[IconType.bio]),
-                                        hintText: '自己紹介',
-                                        hintStyle: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onBackground
-                                              .withOpacity(0.5),
-                                        ),
-                                      ),
-                                      maxLines: 30,
-                                      minLines: 1,
-                                    ),
-                                    const SizedBox(
-                                      height: 24,
-                                    ),
-                                    const Text('SNS・連絡先'),
-                                    const SizedBox(
-                                      height: 16,
-                                    ),
-                                    ReorderableMultiTextField(
-                                      controllerController: controller,
-                                    ),
-                                    const SizedBox(
-                                      height: 16,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        ElevatedButton.icon(
-                                          onPressed: () {
-                                            controller.add('url', '');
-                                            Future.delayed(
-                                              const Duration(milliseconds: 20),
-                                            ).then((value) {
-                                              scrollController.animateTo(
-                                                scrollController
-                                                    .position.maxScrollExtent,
-                                                duration: const Duration(
-                                                    milliseconds: 300),
-                                                curve: Curves.easeIn,
-                                              );
-                                            });
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            elevation: 0,
-                                            foregroundColor: Theme.of(context)
-                                                .colorScheme
-                                                .onPrimaryContainer,
-                                            backgroundColor: Theme.of(context)
-                                                .colorScheme
-                                                .secondaryContainer,
-                                          ),
-                                          icon: const Icon(
-                                            Icons.add_link_rounded,
-                                          ),
-                                          label: const Text(
-                                            'SNS・連絡先を追加',
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            );
-          },
-        );
-      },
-    );
+              var links = [];
+              links = c10r21u10d10?['account']['links'];
+              controller.clear();
+              for (var e in links) {
+                controller.add(e['key'], e['value']);
+              }
+              return accountRE(false, widget.isUser);
+            },
+          );
+        },
+      );
+    }
   }
 }
