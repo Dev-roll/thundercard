@@ -202,7 +202,7 @@ class MyCard extends ConsumerWidget {
                                             .secondaryContainer,
                                       ),
                                       onPressed: () {
-                                        handleExchange(currentCardId, cardId);
+                                        applyCard(currentCardId, cardId);
                                         if (Navigator.of(context).canPop()) {
                                           Navigator.of(context).popUntil(
                                               (route) => route.isFirst);
@@ -219,7 +219,7 @@ class MyCard extends ConsumerWidget {
                                             .showSnackBar(
                                           PositionedSnackBar(
                                             context,
-                                            'カードを交換しました',
+                                            'カードを交換しています',
                                             icon: Icons
                                                 .file_download_done_rounded,
                                           ),
