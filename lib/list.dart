@@ -8,12 +8,12 @@ import 'api/colors.dart';
 import 'api/current_brightness.dart';
 import 'api/current_brightness_reverse.dart';
 import 'api/firebase_auth.dart';
+import 'cards/views/widgets/search.dart';
 import 'widgets/custom_progress_indicator.dart';
 import 'widgets/error_message.dart';
 import 'widgets/my_card.dart';
 import 'card_details.dart';
 import 'constants.dart';
-import 'search.dart';
 import 'upload_image_page.dart';
 
 class List extends StatefulWidget {
