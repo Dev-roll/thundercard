@@ -508,7 +508,7 @@ class _SignInState extends State<SignIn> {
                               style: const TextStyle(height: 1.6),
                               children: [
                                 TextSpan(
-                                  text: 'このサービスのご利用を開始することで，',
+                                  text: 'このサービスのご利用を開始することで、',
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme

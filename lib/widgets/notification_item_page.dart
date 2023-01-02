@@ -263,6 +263,22 @@ class NotificationItemPage extends ConsumerWidget {
                             },
                           ),
                         ),
+                      if (tags.contains('applied'))
+                        Center(
+                          child: ElevatedButton.icon(
+                            icon: const Icon(
+                                Icons.published_with_changes_rounded),
+                            label: const Text('交換済み'),
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              foregroundColor:
+                                  Theme.of(context).colorScheme.onPrimary,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                            ),
+                            onPressed: null,
+                          ),
+                        ),
                     ],
                   ),
                 ),

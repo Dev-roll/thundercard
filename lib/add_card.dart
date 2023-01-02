@@ -83,8 +83,11 @@ void applyCard(String myCardId, String anotherCardId) async {
 
   // my notification
   final addApplyingNotificationData = {
-    'title': 'カード交換中のお知らせ（申請中）',
-    'content': '@$anotherCardIdさんとカードを交換しています！\n@$anotherCardIdさんからの承認をお待ち下さい。',
+    'title': 'カード交換リクエスト完了のお知らせ',
+    'content':
+        '@$anotherCardIdさんにカード交換をリクエストしました！\n@$anotherCardIdさんに承認されるまでお待ちください。',
+    // 'title': 'カード送信完了のお知らせ',
+    // 'content': '@$anotherCardIdさんにカードが送信されました！',
     'created_at': DateTime.now(),
     'read': false,
     'tags': ['interaction'],
@@ -102,11 +105,11 @@ void applyCard(String myCardId, String anotherCardId) async {
 
   // another notification
   final addVerifiedNotificationData = {
-    'title': 'カード交換中のお知らせ（承認待ち）',
-    'content': '@$myCardIdさんとカードを交換しています！交換を完了するには承認が必要です。',
+    'title': 'カード交換リクエストのお知らせ',
+    'content': '@$myCardIdさんからカード交換のリクエストが届きました！\n「承認」ボタンを押すとカード交換がを完了します。',
     'created_at': DateTime.now(),
     'read': false,
-    'tags': ['interaction', 'apply'],
+    'tags': ['interaction', 'apply', 'important'],
     'notification_id': myCardId,
   };
   FirebaseFirestore.instance
@@ -222,7 +225,7 @@ void verifyCard(String anotherCardId, String myCardId) async {
     'content': '@$myCardIdさんとのカード交換が完了しました！',
     'created_at': DateTime.now(),
     'read': false,
-    'tags': ['interaction'],
+    'tags': ['interaction', 'done'],
     'notification_id': '',
   };
   FirebaseFirestore.instance
@@ -241,7 +244,7 @@ void verifyCard(String anotherCardId, String myCardId) async {
     'content': '@$anotherCardIdさんとのカード交換が完了しました！',
     'created_at': DateTime.now(),
     'read': false,
-    'tags': ['interaction'],
+    'tags': ['interaction', 'done'],
     'notification_id': '',
   };
   FirebaseFirestore.instance

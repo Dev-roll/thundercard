@@ -216,8 +216,8 @@ class MyCard extends ConsumerWidget {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       PositionedSnackBar(
                                         context,
-                                        'カードを交換しました',
-                                        icon: Icons.file_download_done_rounded,
+                                        'カード交換を申請しました！',
+                                        icon: Icons.hourglass_top_rounded,
                                       ),
                                     );
                                   },
