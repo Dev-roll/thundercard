@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:thundercard/api/setSystemChrome.dart';
 import 'package:thundercard/api/unfocus.dart';
 import 'package:thundercard/constants.dart';
 import 'package:thundercard/widgets/avatar.dart';
 import 'package:thundercard/widgets/info_bottom_sheet.dart';
 
 import '../add_card.dart';
-import '../api/colors.dart';
 import '../api/provider/firebase_firestore.dart';
 import 'custom_progress_indicator.dart';
 import 'error_message.dart';
@@ -26,15 +26,7 @@ class InputLink extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        systemNavigationBarColor: alphaBlend(
-            Theme.of(context).colorScheme.primary.withOpacity(0.08),
-            Theme.of(context).colorScheme.surface),
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
-      ),
-    );
+    setSystemChrome(context);
 
     final currentCardAsyncValue = ref.watch(currentCardStream);
 
@@ -212,10 +204,6 @@ class InputLink extends ConsumerWidget {
                                               'クリップボードにコピーしました',
                                               icon: Icons
                                                   .library_add_check_rounded,
-                                              bottom: MediaQuery.of(context)
-                                                      .size
-                                                      .height -
-                                                  140,
                                             ),
                                           );
                                         });
@@ -265,22 +253,8 @@ class InputLink extends ConsumerWidget {
                                         );
                                       },
                                       backgroundColor: Colors.transparent,
-                                    ).then((value) {
-                                      SystemChrome.setSystemUIOverlayStyle(
-                                        SystemUiOverlayStyle(
-                                          systemNavigationBarColor: alphaBlend(
-                                              Theme.of(context)
-                                                  .colorScheme
-                                                  .primary
-                                                  .withOpacity(0.08),
-                                              Theme.of(context)
-                                                  .colorScheme
-                                                  .surface),
-                                          statusBarIconBrightness:
-                                              Brightness.light,
-                                          statusBarBrightness: Brightness.dark,
-                                        ),
-                                      );
+                                    ).then((_) {
+                                      setSystemChrome(context);
                                     });
                                   },
                                   icon: const Icon(Icons.info_outline_rounded),
@@ -292,13 +266,15 @@ class InputLink extends ConsumerWidget {
                               ],
                             ),
                             const SizedBox(
-                              height: 8,
+                              height: 16,
                             ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width - 90,
                               child: Form(
                                 child: TextFormField(
                                   controller: _controller,
+                                  cursorColor:
+                                      Theme.of(context).colorScheme.primary,
                                   decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'リンクまたはID',
@@ -319,12 +295,14 @@ class InputLink extends ConsumerWidget {
                                           cardId: _controller.text
                                                   .startsWith('https://')
                                               ? Uri.parse(_controller.text)
-                                                          .queryParameters[
-                                                      'card_id'] ??
+                                                      .queryParameters[
+                                                          'card_id']
+                                                      ?.trim() ??
                                                   ''
                                               : _controller.text
                                                   .split('@')
-                                                  .last,
+                                                  .last
+                                                  .trim(),
                                         ),
                                       ),
                                     );
@@ -333,7 +311,7 @@ class InputLink extends ConsumerWidget {
                               ),
                             ),
                             const SizedBox(
-                              height: 40,
+                              height: 32,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -349,19 +327,21 @@ class InputLink extends ConsumerWidget {
                                                 cardId: _controller.text
                                                         .startsWith('https://')
                                                     ? Uri.parse(_controller
-                                                                    .text)
-                                                                .queryParameters[
-                                                            'card_id'] ??
+                                                                .text)
+                                                            .queryParameters[
+                                                                'card_id']
+                                                            ?.trim() ??
                                                         ''
                                                     : _controller.text
                                                         .split('@')
-                                                        .last,
+                                                        .last
+                                                        .trim(),
                                               ),
                                             ),
                                           );
                                         },
-                                  icon: const Icon(Icons.swap_horiz_rounded),
-                                  label: const Text('交換'),
+                                  icon: const Icon(Icons.search_rounded),
+                                  label: const Text('検索'),
                                   style: ElevatedButton.styleFrom(
                                     elevation: 0,
                                     foregroundColor: Theme.of(context)

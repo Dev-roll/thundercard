@@ -13,7 +13,7 @@ class DialogUtil {
       context: context,
       builder: (context) {
         return WillPopScope(
-          /// 戻るボタンを無効にする
+          // 戻るボタンを無効にする
           onWillPop: () async => false,
           child: builder(context),
         );

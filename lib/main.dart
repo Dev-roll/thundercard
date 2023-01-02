@@ -19,15 +19,6 @@ final customThemeProvider = ChangeNotifierProvider((ref) {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-  // SystemChrome.setSystemUIOverlayStyle(
-  //   const SystemUiOverlayStyle(
-  //       // systemNavigationBarColor: Color(0xff1e2b2f),
-  //       // systemNavigationBarIconBrightness: ThemeData(),
-  //       // statusBarColor: Color(0x00000000),
-  //       ),
-  //   // SystemUiOverlayStyle.dark,
-  // );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

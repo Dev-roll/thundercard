@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:thundercard/api/setSystemChrome.dart';
 
-import 'api/colors.dart';
 import 'api/firebase_auth.dart';
 import 'widgets/custom_progress_indicator.dart';
 import 'widgets/error_message.dart';
@@ -27,14 +26,7 @@ class _NotificationsState extends State<Notifications> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        systemNavigationBarColor: alphaBlend(
-            Theme.of(context).colorScheme.primary.withOpacity(0.08),
-            Theme.of(context).colorScheme.surface),
-        statusBarColor: Colors.transparent,
-      ),
-    );
+    setSystemChrome(context);
     return FutureBuilder<DocumentSnapshot>(
         future: users.doc(uid).collection('card').doc('current_card').get(),
         builder:

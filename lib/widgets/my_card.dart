@@ -65,179 +65,173 @@ class MyCard extends ConsumerWidget {
       data: (currentCard) {
         final currentCardId = currentCard?['current_card'];
 
-        return Column(
-          children: [
-            StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection('version')
-                  .doc('2')
-                  .collection('cards')
-                  .where('card_id', isEqualTo: cardId)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return const ErrorMessage(err: '問題が発生しました');
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  if (cardType == CardType.large) {
-                    return SkeletonCardLarge(
-                      pd: pd,
-                    );
-                  }
-                  return const SkeletonCard();
-                }
+        return StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('version')
+              .doc('2')
+              .collection('cards')
+              .where('card_id', isEqualTo: cardId)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return const ErrorMessage(err: '問題が発生しました');
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              if (cardType == CardType.large) {
+                return SkeletonCardLarge(
+                  pd: pd,
+                );
+              }
+              return const SkeletonCard();
+            }
 
-                dynamic data = snapshot.data;
-                final cardIds = data?.docs;
-                if (cardIds.length == 0) {
-                  return Column(
-                    children: [
-                      NotFoundCard(cardId: cardId),
-                      if (exchange)
-                        Column(
-                          children: [
-                            const SizedBox(height: 32),
-                            Container(
-                              padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-                              width: MediaQuery.of(context).size.width,
-                              child: Text(
-                                'ユーザー (@$cardId) が見つからなかったため、交換できません',
-                                style: const TextStyle(height: 1.6),
-                              ),
+            dynamic data = snapshot.data;
+            final cardIds = data?.docs;
+            if (cardIds.length == 0) {
+              return Column(
+                children: [
+                  NotFoundCard(cardId: cardId),
+                  if (exchange)
+                    Column(
+                      children: [
+                        const SizedBox(height: 32),
+                        Container(
+                          padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+                          width: MediaQuery.of(context).size.width,
+                          child: Text(
+                            'ユーザー (@$cardId) が見つからなかったため、交換できません',
+                            style: TextStyle(
+                              height: 1.6,
+                              color: Theme.of(context).colorScheme.error,
                             ),
-                            const SizedBox(height: 24),
-                            OutlinedButton(
-                              onPressed: () {
-                                if (Navigator.of(context).canPop()) {
-                                  Navigator.of(context).pop();
-                                } else {
-                                  Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return HomePage();
-                                      },
-                                    ),
-                                  );
-                                }
-                              },
-                              child: const Text('戻る'),
-                            ),
-                          ],
+                          ),
                         ),
-                    ],
-                  );
-                }
-                // final account = cardIds[0]?['account'];
-                late bool lightTheme;
-                try {
-                  lightTheme = true;
-                  // lightTheme = cardIds[0]?['visibility']['c10r20u10d10']
-                  //     ['thundercard']['light_theme'];
-                  // TODO: firestoreと同期
-                } catch (e) {
-                  debugPrint('$e');
-                }
-
-                return Column(
-                  children: [
-                    Theme(
-                      data: ThemeData(
-                        colorSchemeSeed: Color(returnOriginalColor(cardId)),
-                        brightness: [
-                          lightTheme ? Brightness.light : Brightness.dark,
-                          currentBrightness(Theme.of(context).colorScheme) ==
-                                  Brightness.light
-                              ? Brightness.light
-                              : Brightness.dark,
-                          Brightness.dark,
-                          Brightness.light,
-                        ][customTheme.currentDisplayCardThemeIdx],
-                        useMaterial3: true,
-                      ),
-                      child: SwitchCard(
-                        cardId: cardId,
-                        cardType: cardType,
-                      ),
-                    ),
-                    if (exchange)
-                      Column(
-                        children: [
-                          const SizedBox(height: 32),
-                          const Text('カードを交換しますか？'),
-                          const SizedBox(height: 24),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Center(
-                                child: Row(
-                                  children: [
-                                    OutlinedButton(
-                                      onPressed: () {
-                                        if (Navigator.of(context).canPop()) {
-                                          Navigator.of(context).pop();
-                                        } else {
-                                          Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                              builder: (context) {
-                                                return HomePage();
-                                              },
-                                            ),
-                                          );
-                                        }
-                                      },
-                                      child: const Text('キャンセル'),
-                                    ),
-                                    const SizedBox(width: 16),
-                                    ElevatedButton.icon(
-                                      icon:
-                                          const Icon(Icons.swap_horiz_rounded),
-                                      label: const Text('交換'),
-                                      style: ElevatedButton.styleFrom(
-                                        elevation: 0,
-                                        foregroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimaryContainer,
-                                        backgroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .secondaryContainer,
-                                      ),
-                                      onPressed: () {
-                                        applyCard(currentCardId, cardId);
-                                        if (Navigator.of(context).canPop()) {
-                                          Navigator.of(context).popUntil(
-                                              (route) => route.isFirst);
-                                        } else {
-                                          Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                              builder: (context) {
-                                                return HomePage();
-                                              },
-                                            ),
-                                          );
-                                        }
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          PositionedSnackBar(
-                                            context,
-                                            'カードを交換しています',
-                                            icon: Icons
-                                                .file_download_done_rounded,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ],
+                        const SizedBox(height: 24),
+                        OutlinedButton(
+                          onPressed: () {
+                            if (Navigator.of(context).canPop()) {
+                              Navigator.of(context).pop();
+                            } else {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return HomePage();
+                                  },
                                 ),
-                              ),
-                            ],
+                              );
+                            }
+                          },
+                          child: const Text('戻る'),
+                        ),
+                      ],
+                    ),
+                ],
+              );
+            }
+            // final account = cardIds[0]?['account'];
+            late bool lightTheme;
+            try {
+              lightTheme = true;
+              // lightTheme = cardIds[0]?['visibility']['c10r20u10d10']
+              //     ['thundercard']['light_theme'];
+              // TODO: firestoreと同期
+            } catch (e) {
+              debugPrint('$e');
+            }
+
+            return Column(
+              children: [
+                Theme(
+                  data: ThemeData(
+                    colorSchemeSeed: Color(returnOriginalColor(cardId)),
+                    brightness: [
+                      lightTheme ? Brightness.light : Brightness.dark,
+                      currentBrightness(Theme.of(context).colorScheme) ==
+                              Brightness.light
+                          ? Brightness.light
+                          : Brightness.dark,
+                      Brightness.dark,
+                      Brightness.light,
+                    ][customTheme.currentDisplayCardThemeIdx],
+                    useMaterial3: true,
+                  ),
+                  child: SwitchCard(
+                    cardId: cardId,
+                    cardType: cardType,
+                  ),
+                ),
+                if (exchange)
+                  Column(
+                    children: [
+                      const SizedBox(height: 32),
+                      const Text('カードを交換しますか？'),
+                      const SizedBox(height: 24),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: Row(
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    if (Navigator.of(context).canPop()) {
+                                      Navigator.of(context).pop();
+                                    } else {
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return HomePage();
+                                          },
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  child: const Text('キャンセル'),
+                                ),
+                                const SizedBox(width: 16),
+                                ElevatedButton.icon(
+                                  icon: const Icon(Icons.swap_horiz_rounded),
+                                  label: const Text('交換'),
+                                  style: ElevatedButton.styleFrom(
+                                    elevation: 0,
+                                    foregroundColor:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                  onPressed: () {
+                                    applyCard(currentCardId, cardId);
+                                    if (Navigator.of(context).canPop()) {
+                                      Navigator.of(context)
+                                          .popUntil((route) => route.isFirst);
+                                    } else {
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return HomePage();
+                                          },
+                                        ),
+                                      );
+                                    }
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      PositionedSnackBar(
+                                        context,
+                                        'カードを交換しました',
+                                        icon: Icons.file_download_done_rounded,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
-                  ],
-                );
-              },
-            ),
-          ],
+                    ],
+                  ),
+              ],
+            );
+          },
         );
       },
     );

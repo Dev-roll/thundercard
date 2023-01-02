@@ -70,28 +70,33 @@ class NotificationItemPage extends ConsumerWidget {
 
     Future openAlertDialog1(BuildContext context) async {
       await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                icon: const Icon(Icons.delete_rounded),
-                title: const Text('通知の削除'),
-                content: Text(
-                  'この通知を削除しますか？',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                ),
-                actions: [
-                  TextButton(
-                      onPressed: () => {Navigator.of(context).pop()},
-                      child: const Text('キャンセル')),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        deleteThisNotification();
-                      },
-                      child: const Text('OK')),
-                ],
-              ));
+        context: context,
+        builder: (context) => AlertDialog(
+          icon: const Icon(Icons.delete_rounded),
+          title: const Text('通知の削除'),
+          content: Text(
+            'この通知を削除しますか？',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('キャンセル'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                deleteThisNotification();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
     }
 
     return Scaffold(

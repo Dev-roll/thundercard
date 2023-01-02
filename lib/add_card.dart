@@ -268,7 +268,7 @@ class _AddCardState extends State<AddCard> {
           child: Center(
             child: Column(
               children: [
-                const SizedBox(height: 32),
+                const SizedBox(height: 100),
                 ConstrainedBox(
                   constraints: const BoxConstraints(
                     maxHeight: 400,

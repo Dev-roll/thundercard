@@ -10,12 +10,12 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/foundation.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/add_card.dart';
+import 'package:thundercard/api/setSystemChrome.dart';
 import 'package:thundercard/widgets/fullscreen_qr_code.dart';
 import 'package:thundercard/widgets/my_qr_code.dart';
 import 'package:thundercard/widgets/positioned_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../api/colors.dart';
 import '../api/dynamic_links.dart';
 import '../api/export_to_image.dart';
 import '../api/get_application_documents_file.dart';
@@ -53,15 +53,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        systemNavigationBarColor: alphaBlend(
-            Theme.of(context).colorScheme.primary.withOpacity(0.08),
-            Theme.of(context).colorScheme.surface),
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
-      ),
-    );
+    setSystemChrome(context);
 
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     final String? uid = getUid();
@@ -119,21 +111,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                     ),
                                   )
                                       .then((value) {
-                                    SystemChrome.setSystemUIOverlayStyle(
-                                      SystemUiOverlayStyle(
-                                        systemNavigationBarColor: alphaBlend(
-                                            Theme.of(context)
-                                                .colorScheme
-                                                .primary
-                                                .withOpacity(0.08),
-                                            Theme.of(context)
-                                                .colorScheme
-                                                .surface),
-                                        statusBarIconBrightness:
-                                            Brightness.light,
-                                        statusBarBrightness: Brightness.dark,
-                                      ),
-                                    );
+                                    setSystemChrome(context);
                                   });
                                   controller?.resumeCamera();
                                 }),
@@ -211,9 +189,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                       context,
                                       'QRコードをダウンロードしました',
                                       icon: Icons.file_download_done_rounded,
-                                      bottom:
-                                          MediaQuery.of(context).size.height -
-                                              140,
                                     ),
                                   );
                                 },
@@ -244,21 +219,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                     ),
                                   )
                                       .then((value) {
-                                    SystemChrome.setSystemUIOverlayStyle(
-                                      SystemUiOverlayStyle(
-                                        systemNavigationBarColor: alphaBlend(
-                                            Theme.of(context)
-                                                .colorScheme
-                                                .primary
-                                                .withOpacity(0.08),
-                                            Theme.of(context)
-                                                .colorScheme
-                                                .surface),
-                                        statusBarIconBrightness:
-                                            Brightness.light,
-                                        statusBarBrightness: Brightness.dark,
-                                      ),
-                                    );
+                                    setSystemChrome(context);
                                   });
                                   controller?.resumeCamera();
                                 },
@@ -328,48 +289,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                     MediaQuery.of(context).size.height)
                 ? MediaQuery.of(context).size.width * 0.2
                 : MediaQuery.of(context).size.height * 0.2,
-          ),
-        ),
-        Align(
-          alignment: Alignment.bottomLeft,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.all(8),
-                child: FutureBuilder(
-                  future: controller?.getFlashStatus(),
-                  builder: (context, snapshot) {
-                    if (snapshot.data != null && snapshot.data == true) {
-                      return IconButton(
-                        onPressed: () async {
-                          await controller?.toggleFlash();
-                          setState(() {});
-                        },
-                        icon: const Icon(Icons.flashlight_on_rounded),
-                        padding: const EdgeInsets.all(20),
-                        style: IconButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                        ),
-                      );
-                    } else {
-                      return IconButton(
-                        onPressed: () async {
-                          await controller?.toggleFlash();
-                          setState(() {});
-                        },
-                        icon: const Icon(Icons.flashlight_off_rounded),
-                        padding: const EdgeInsets.all(20),
-                        style: IconButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ),
-            ],
           ),
         ),
         Align(
@@ -565,21 +484,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
     }
   }
 
-  // 変更前
-  // void _onQRViewCreated(QRViewController controller) {
-  //   this.controller = controller;
-  //   controller.resumeCamera();
-  //   controller.scannedDataStream.listen((scanData) {
-  //     log(scanData.code.toString());
-  //     HapticFeedback.vibrate();
-  //     setState(() {
-  //       result = scanData;
-  //     });
-  //   });
-  //   this.controller!.pauseCamera();
-  //   this.controller!.resumeCamera();
-  // }
-
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
     log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
     if (!p) {
@@ -590,7 +494,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
           '権限がありません',
           icon: Icons.error_outline_rounded,
           foreground: Theme.of(context).colorScheme.onError,
-          bottom: MediaQuery.of(context).size.height - 140,
         ),
       );
     }
