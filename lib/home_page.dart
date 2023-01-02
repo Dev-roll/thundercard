@@ -2,29 +2,28 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:thundercard/api/setSystemChrome.dart';
-import 'package:thundercard/md_page.dart';
-import 'package:thundercard/share_app.dart';
-import 'package:thundercard/widgets/md/about_app.dart';
-import 'package:thundercard/widgets/avatar.dart';
-import 'package:thundercard/widgets/md/terms_of_use.dart';
-import 'package:thundercard/widgets/md/version.dart';
 
-import 'add_card.dart';
-import 'api/firebase_auth.dart';
 import 'api/colors.dart';
-import 'account.dart';
+import 'api/setSystemChrome.dart';
+import 'api/firebase_auth.dart';
 import 'api/provider/firebase_firestore.dart';
 import 'api/provider/index.dart';
 import 'cards/providers/current_card_id_provider.dart';
 import 'cards/views/pages/cards_list_page.dart';
-import 'list.dart';
-import 'notifications.dart';
-import 'thundercard.dart';
+import 'widgets/md/about_app.dart';
+import 'widgets/avatar.dart';
+import 'widgets/md/terms_of_use.dart';
+import 'widgets/md/version.dart';
 import 'widgets/custom_progress_indicator.dart';
 import 'widgets/error_message.dart';
 import 'widgets/md/authors.dart';
 import 'widgets/md/privacy_policy.dart';
+import 'md_page.dart';
+import 'share_app.dart';
+import 'add_card.dart';
+import 'account.dart';
+import 'notifications.dart';
+import 'thundercard.dart';
 
 final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
 
@@ -426,9 +425,7 @@ class HomePage extends ConsumerWidget {
                   ),
                   body: <Widget>[
                     const Thundercard(),
-                    // const List(),
                     const CardsListPage(),
-                    // List(uid: uid),
                     const Notifications(),
                     const Account(),
                   ][currentIndex],

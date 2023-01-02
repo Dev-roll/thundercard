@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import '../../../api/colors.dart';
+import '../../../exchange_card.dart';
 import '../../../upload_image_page.dart';
-import '../../../widgets/scan_qr_code.dart';
 import '../../providers/current_card_id_provider.dart';
 
 class CardsListFloatingActionButton extends ConsumerWidget {
@@ -152,7 +152,7 @@ class CardsListFloatingActionButton extends ConsumerWidget {
                     ],
                   ),
                   child: Icon(
-                    Icons.qr_code_scanner_rounded,
+                    Icons.swap_horiz_rounded,
                     color: Theme.of(context).colorScheme.onPrimary,
                   ),
                 )
@@ -162,23 +162,40 @@ class CardsListFloatingActionButton extends ConsumerWidget {
           label: 'カードを交換',
           onTap: () {
             Navigator.of(context)
-                .push(MaterialPageRoute(
-              builder: (context) => Theme(
-                data: ThemeData(
-                  colorSchemeSeed:
-                      Theme.of(context).colorScheme.secondaryContainer,
-                  brightness: Brightness.dark,
-                  useMaterial3: true,
+                .push(
+              MaterialPageRoute(
+                builder: (context) => Theme(
+                  data: ThemeData(
+                    colorSchemeSeed:
+                        Theme.of(context).colorScheme.secondaryContainer,
+                    brightness: Brightness.dark,
+                    useMaterial3: true,
+                  ),
+                  child: const ExchangeCard(),
                 ),
-                child: const ScanQrCode(),
               ),
-            ))
+            )
                 .then((value) {
               SystemChrome.setSystemUIOverlayStyle(
                 SystemUiOverlayStyle(
                   systemNavigationBarColor: alphaBlend(
                       Theme.of(context).colorScheme.primary.withOpacity(0.08),
                       Theme.of(context).colorScheme.surface),
+                  statusBarIconBrightness: Theme.of(context)
+                              .colorScheme
+                              .background
+                              .computeLuminance() <
+                          0.5
+                      ? Brightness.light
+                      : Brightness.dark,
+                  statusBarBrightness: Theme.of(context)
+                              .colorScheme
+                              .background
+                              .computeLuminance() <
+                          0.5
+                      ? Brightness.dark
+                      : Brightness.light,
+                  statusBarColor: Colors.transparent,
                 ),
               );
             });

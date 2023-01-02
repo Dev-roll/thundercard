@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../widgets/error_message.dart';
 import '../../providers/exchanged_cards_provider.dart';
 import '../widgets/cards_list.dart';
 import '../widgets/cards_list_floating_action_button.dart';
@@ -14,12 +15,16 @@ class CardsListPage extends ConsumerWidget {
     AsyncValue<List<String>> exchangedCards =
         ref.watch(exchangedCardsStreamProvider);
     return exchangedCards.when(
-      loading: () => const CircularProgressIndicator(),
-      error: (error, stackTrace) {
-        return const Center(
-          child: Text('カードの読み込み中にエラーが発生しました。'),
-        );
-      },
+      loading: () => const Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 3,
+            ),
+          ),
+        ),
+      ),
+      error: (error, stackTrace) => ErrorMessage(err: error.toString()),
       data: (exchangedCards) {
         return Scaffold(
           body: SafeArea(
