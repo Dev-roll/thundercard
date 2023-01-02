@@ -14,6 +14,8 @@ class NotificationItem extends StatefulWidget {
     required this.read,
     this.index = -1,
     required this.myCardId,
+    required this.tags,
+    required this.notificationId,
     required this.documentId,
   }) : super(key: key);
   final String title;
@@ -22,6 +24,8 @@ class NotificationItem extends StatefulWidget {
   final bool read;
   final int index;
   final String myCardId;
+  final List tags;
+  final String notificationId;
   final String documentId;
 
   @override
@@ -73,6 +77,8 @@ class _NotificationItemState extends State<NotificationItem> {
               read: widget.read,
               index: widget.index,
               myCardId: widget.myCardId,
+              tags: widget.tags,
+              notificationId: widget.notificationId,
               documentId: widget.documentId,
             ),
           ),

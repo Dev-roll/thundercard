@@ -451,7 +451,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
 
     await Navigator.of(context)
         .push(MaterialPageRoute(
-      builder: (context) => AddCard(myCardId: myCardId, cardId: data),
+      builder: (context) => AddCard(applyingId: myCardId, cardId: data),
     ))
         .then((value) {
       controller?.resumeCamera();

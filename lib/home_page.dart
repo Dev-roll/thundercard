@@ -77,7 +77,7 @@ class HomePage extends ConsumerWidget {
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                       builder: (context) =>
-                          AddCard(myCardId: cardId, cardId: myCardId),
+                          AddCard(applyingId: cardId, cardId: myCardId),
                     ),
                     (_) => false,
                   );

@@ -200,20 +200,19 @@ class MyCard extends ConsumerWidget {
                                         Theme.of(context).colorScheme.primary,
                                   ),
                                   onPressed: () {
-                                    handleExchange(currentCardId, cardId);
-                                        handleExchange(currentCardId, cardId);
-                                        if (Navigator.of(context).canPop()) {
-                                          Navigator.of(context).popUntil(
-                                              (route) => route.isFirst);
-                                        } else {
-                                          Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                              builder: (context) {
-                                                return HomePage();
-                                              },
-                                            ),
-                                          );
-                                        }
+                                    applyCard(currentCardId, cardId);
+                                    if (Navigator.of(context).canPop()) {
+                                      Navigator.of(context)
+                                          .popUntil((route) => route.isFirst);
+                                    } else {
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return HomePage();
+                                          },
+                                        ),
+                                      );
+                                    }
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       PositionedSnackBar(
                                         context,

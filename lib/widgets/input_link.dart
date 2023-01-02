@@ -291,7 +291,7 @@ class InputLink extends ConsumerWidget {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => AddCard(
-                                          myCardId: myCardId,
+                                          applyingId: myCardId,
                                           cardId: _controller.text
                                                   .startsWith('https://')
                                               ? Uri.parse(_controller.text)
@@ -323,7 +323,7 @@ class InputLink extends ConsumerWidget {
                                           Navigator.of(context).push(
                                             MaterialPageRoute(
                                               builder: (context) => AddCard(
-                                                myCardId: myCardId,
+                                                applyingId: myCardId,
                                                 cardId: _controller.text
                                                         .startsWith('https://')
                                                     ? Uri.parse(_controller

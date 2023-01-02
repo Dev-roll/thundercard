@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:thundercard/add_card.dart';
 import 'package:thundercard/constants.dart';
 
 import '../api/colors.dart';
@@ -16,6 +17,8 @@ class NotificationItemPage extends ConsumerWidget {
     required this.read,
     this.index = -1,
     required this.myCardId,
+    required this.tags,
+    required this.notificationId,
     required this.documentId,
   }) : super(key: key);
   final String title;
@@ -24,6 +27,8 @@ class NotificationItemPage extends ConsumerWidget {
   final bool read;
   final int index;
   final String myCardId;
+  final List tags;
+  final String notificationId;
   final String documentId;
 
   @override
@@ -34,20 +39,19 @@ class NotificationItemPage extends ConsumerWidget {
     String time =
         '${getDateTime.hour}:${getDateTime.minute.toString().padLeft(2, '0')}';
     String displayDateTime = '$year $date $time';
+    final notificationItemDoc = FirebaseFirestore.instance
+        .collection('version')
+        .doc('2')
+        .collection('cards')
+        .doc(myCardId)
+        .collection('visibility')
+        .doc('c10r10u10d10')
+        .collection('notifications')
+        .doc(documentId);
 
     void deleteThisNotification() {
       debugPrint(documentId);
-      FirebaseFirestore.instance
-          .collection('version')
-          .doc('2')
-          .collection('cards')
-          .doc(myCardId)
-          .collection('visibility')
-          .doc('c10r10u10d10')
-          .collection('notifications')
-          .doc(documentId)
-          .delete()
-          .then(
+      notificationItemDoc.delete().then(
         (doc) {
           ref.watch(currentIndexProvider.notifier).state = 2;
           Navigator.of(context).pushAndRemoveUntil(
@@ -216,7 +220,7 @@ class NotificationItemPage extends ConsumerWidget {
                             .withOpacity(0.5),
                       ),
                       Container(
-                        padding: const EdgeInsets.fromLTRB(8, 4, 8, 20),
+                        padding: const EdgeInsets.fromLTRB(8, 4, 8, 60),
                         child: Text(
                           content,
                           style: const TextStyle(
@@ -224,6 +228,41 @@ class NotificationItemPage extends ConsumerWidget {
                           ),
                         ),
                       ),
+                      if (tags.contains('apply'))
+                        // verified
+                        Center(
+                          child: ElevatedButton.icon(
+                            icon: const Icon(Icons.check_rounded),
+                            label: const Text('承認'),
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              foregroundColor:
+                                  Theme.of(context).colorScheme.onPrimary,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
+                            ),
+                            onPressed: () {
+                              if (Navigator.of(context).canPop()) {
+                                Navigator.of(context).pop();
+                              } else {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return HomePage();
+                                    },
+                                  ),
+                                );
+                              }
+                              notificationItemDoc.set({
+                                'tags': FieldValue.arrayRemove(['apply'])
+                              }, SetOptions(merge: true));
+                              notificationItemDoc.set({
+                                'tags': FieldValue.arrayUnion(['applied'])
+                              }, SetOptions(merge: true));
+                              verifyCard(myCardId, notificationId);
+                            },
+                          ),
+                        ),
                     ],
                   ),
                 ),
