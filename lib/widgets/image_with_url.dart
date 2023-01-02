@@ -59,16 +59,20 @@ class ImageWithUrl extends StatelessWidget {
             int loaded = loadingProgress.cumulativeBytesLoaded;
             int expected = loadingProgress.expectedTotalBytes ?? 1;
             double? value = loaded / expected;
-            return Center(
-              child: Container(
-                width: 40,
-                height: 40,
-                margin: const EdgeInsets.all(40),
-                child: CircularProgressIndicator(
-                  value: value,
-                  color: Theme.of(context).colorScheme.primary,
-                  backgroundColor:
-                      Theme.of(context).colorScheme.onPrimary.withOpacity(0.5),
+            return AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Center(
+                child: SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: CircularProgressIndicator(
+                    value: value,
+                    color: Theme.of(context).colorScheme.primary,
+                    backgroundColor: Theme.of(context)
+                        .colorScheme
+                        .onPrimary
+                        .withOpacity(0.5),
+                  ),
                 ),
               ),
             );

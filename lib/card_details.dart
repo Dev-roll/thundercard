@@ -191,10 +191,7 @@ class CardDetails extends ConsumerWidget {
                                     isUser: false,
                                   ),
                                 ),
-                          if (!isUser)
-                            CardImg(
-                              cardId: cardId,
-                            ),
+                          if (!isUser) CardImg(cardId: cardId),
                           if (isUser)
                             FutureBuilder(
                               future: getRoom(cardId),
