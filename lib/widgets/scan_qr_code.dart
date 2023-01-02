@@ -5,11 +5,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/foundation.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/add_card.dart';
+import 'package:thundercard/api/input_data_processor.dart';
 import 'package:thundercard/api/setSystemChrome.dart';
 import 'package:thundercard/widgets/fullscreen_qr_code.dart';
 import 'package:thundercard/widgets/my_qr_code.dart';
@@ -30,7 +33,6 @@ class ScanQrCode extends StatefulWidget {
 }
 
 class _ScanQrCodeState extends State<ScanQrCode> {
-  Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   bool _isScanned = false;
@@ -39,6 +41,30 @@ class _ScanQrCodeState extends State<ScanQrCode> {
   var openUrl = '';
   var _lastChangedDate = DateTime.now();
   final linkTime = 10;
+
+  Future<String?> scanSelectedImage() async {
+    try {
+      final inputImage =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (inputImage == null) return null;
+      final imageTemp = File(inputImage.path);
+      return await scanCode(imageTemp.path);
+    } on PlatformException catch (e) {
+      debugPrint('Failed to pick image: $e');
+      return null;
+    }
+  }
+
+  Future<String> scanCode(String filePath) async {
+    final InputImage inputImage = InputImage.fromFilePath(filePath);
+    final barcodeScanner = BarcodeScanner();
+    final barcodes = await barcodeScanner.processImage(inputImage);
+    if (inputImage.inputImageData?.size == null ||
+        inputImage.inputImageData?.imageRotation == null) {
+      return barcodes.first.rawValue ?? '';
+    }
+    return '';
+  }
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -300,7 +326,26 @@ class _ScanQrCodeState extends State<ScanQrCode> {
               Container(
                   margin: const EdgeInsets.all(8),
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      final String data = await scanSelectedImage() ?? '';
+                      final String? id = inputToId(data);
+                      if (id != null) {
+                        _transitionToNextPage(id);
+                      } else if (data != '') {
+                        _showScanData(data);
+                      } else {
+                        if (!mounted) return;
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          PositionedSnackBar(
+                            context,
+                            'QRコードを読み取れませんでした',
+                            bottom: 48,
+                            foreground: Theme.of(context).colorScheme.onError,
+                          ),
+                        );
+                      }
+                    },
                     icon: const Icon(Icons.collections_rounded),
                     padding: const EdgeInsets.all(20),
                     style: IconButton.styleFrom(
@@ -321,9 +366,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
       (scanData) async {
         log(scanData.code.toString());
         HapticFeedback.vibrate();
-        setState(() {
-          result = scanData;
-        });
         if (scanData.code == null) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
@@ -337,110 +379,113 @@ class _ScanQrCodeState extends State<ScanQrCode> {
         } else if (describeEnum(scanData.format) == 'qrcode') {
           final str = scanData.code.toString();
           final nowDate = DateTime.now();
-          if (str.startsWith(initStr)) {
-            _transitionToNextPage(
-              Uri.parse(str).queryParameters['card_id'] ?? '',
-            );
+          final String? id = inputToId(str);
+          if (id != null) {
+            _transitionToNextPage(id);
           } else if (openUrl != str ||
               nowDate.difference(_lastChangedDate).inSeconds >= linkTime) {
             openUrl = str;
             _lastChangedDate = nowDate;
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                elevation: 20,
-                backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-                behavior: SnackBarBehavior.floating,
-                clipBehavior: Clip.antiAlias,
-                dismissDirection: DismissDirection.horizontal,
-                margin: const EdgeInsets.only(
-                  left: 8,
-                  right: 8,
-                  bottom: 8,
-                ),
-                duration: Duration(seconds: linkTime),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(28),
-                ),
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-                      child: await canLaunchUrl(Uri.parse(openUrl.trim()))
-                          ? const Icon(Icons.link_rounded)
-                          : const Icon(Icons.link_off_rounded),
-                    ),
-                    Expanded(
-                      child: Text(
-                        openUrl,
-                        style: const TextStyle(
-                            color: white, overflow: TextOverflow.fade),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () async {
-                        await Share.share(
-                          openUrl.trim(),
-                          subject: 'QRコードで読み取った文字列',
-                        );
-                      },
-                      icon: Icon(
-                        Icons.share_rounded,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () async {
-                        await Clipboard.setData(
-                          ClipboardData(text: openUrl.trim()),
-                        ).then((value) {
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            PositionedSnackBar(
-                              context,
-                              'クリップボードにコピーしました',
-                              icon: Icons.library_add_check_rounded,
-                              bottom: 48,
-                            ),
-                          );
-                        });
-                      },
-                      icon: Icon(
-                        Icons.copy_rounded,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                    await canLaunchUrl(Uri.parse(openUrl.trim()))
-                        ? IconButton(
-                            onPressed: () {
-                              _launchURL(openUrl.trim());
-                            },
-                            icon: Icon(
-                              Icons.open_in_new_rounded,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          )
-                        : IconButton(
-                            onPressed: null,
-                            icon: Icon(
-                              Icons.open_in_new_off_rounded,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onBackground
-                                  .withOpacity(0.25),
-                            ),
-                          ),
-                  ],
-                ),
-              ),
-            );
+            _showScanData(openUrl);
           }
         }
       },
     );
     this.controller!.pauseCamera();
     this.controller!.resumeCamera();
+  }
+
+  Future<void> _showScanData(String data) async {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        elevation: 20,
+        backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+        behavior: SnackBarBehavior.floating,
+        clipBehavior: Clip.antiAlias,
+        dismissDirection: DismissDirection.horizontal,
+        margin: const EdgeInsets.only(
+          left: 8,
+          right: 8,
+          bottom: 8,
+        ),
+        duration: Duration(seconds: linkTime),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(28),
+        ),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+              child: await canLaunchUrl(Uri.parse(data.trim()))
+                  ? const Icon(Icons.link_rounded)
+                  : const Icon(Icons.link_off_rounded),
+            ),
+            Expanded(
+              child: Text(
+                data,
+                style:
+                    const TextStyle(color: white, overflow: TextOverflow.fade),
+              ),
+            ),
+            IconButton(
+              onPressed: () async {
+                await Share.share(
+                  data.trim(),
+                  subject: 'QRコードの読み取り結果',
+                );
+              },
+              icon: Icon(
+                Icons.share_rounded,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+            IconButton(
+              onPressed: () async {
+                await Clipboard.setData(
+                  ClipboardData(text: data.trim()),
+                ).then((value) {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    PositionedSnackBar(
+                      context,
+                      'クリップボードにコピーしました',
+                      icon: Icons.library_add_check_rounded,
+                      bottom: 48,
+                    ),
+                  );
+                });
+              },
+              icon: Icon(
+                Icons.copy_rounded,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+            await canLaunchUrl(Uri.parse(data.trim()))
+                ? IconButton(
+                    onPressed: () {
+                      _launchURL(data.trim());
+                    },
+                    icon: Icon(
+                      Icons.open_in_new_rounded,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  )
+                : IconButton(
+                    onPressed: null,
+                    icon: Icon(
+                      Icons.open_in_new_off_rounded,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onBackground
+                          .withOpacity(0.25),
+                    ),
+                  ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _transitionToNextPage(String data) async {
