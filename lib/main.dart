@@ -8,10 +8,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 
-import 'api/provider/custom_theme.dart';
-import 'auth_gate.dart';
-import 'constants.dart';
 import 'firebase_options.dart';
+import 'providers/custom_theme.dart';
+import 'utils/constants.dart';
+import 'views/pages/auth_gate.dart';
 
 final customThemeProvider = ChangeNotifierProvider((ref) {
   return CustomTheme();
