@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:thundercard/api/provider/firebase_firestore.dart';
-import 'package:thundercard/widgets/my_card.dart';
 
-import 'card_details.dart';
-import 'constants.dart';
+import '../../../api/provider/firebase_firestore.dart';
+import '../../../card_details.dart';
+import '../../../constants.dart';
+import '../../../widgets/my_card.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key, required this.exchangedCardIds}) : super(key: key);

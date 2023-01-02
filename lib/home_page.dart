@@ -17,6 +17,7 @@ import 'account.dart';
 import 'api/provider/firebase_firestore.dart';
 import 'api/provider/index.dart';
 import 'cards/providers/current_card_id_provider.dart';
+import 'cards/views/pages/cards_list_page.dart';
 import 'list.dart';
 import 'notifications.dart';
 import 'thundercard.dart';
@@ -425,7 +426,8 @@ class HomePage extends ConsumerWidget {
                   ),
                   body: <Widget>[
                     const Thundercard(),
-                    const List(),
+                    // const List(),
+                    const CardsListPage(),
                     // List(uid: uid),
                     const Notifications(),
                     const Account(),
