@@ -52,20 +52,21 @@ void applyCard(String myCardId, String anotherCardId) async {
   });
 
   // my room
-  final DocumentReference myc21r20u00d11 = FirebaseFirestore.instance
+  final DocumentReference anotherc21r20u00d11 = FirebaseFirestore.instance
       .collection('version')
       .doc('2')
       .collection('cards')
-      .doc(myCardId)
+      .doc(anotherCardId)
       .collection('visibility')
       .doc('c21r20u00d11');
-  final String myUid = await myc21r20u00d11.get().then((DocumentSnapshot res) {
+  final String anotherUid =
+      await anotherc21r20u00d11.get().then((DocumentSnapshot res) {
     final data = res.data() as Map<String, dynamic>;
     return data['uid'];
   });
+  final Room room = await FirebaseChatCore.instance
+      .createRoom(User.fromJson({'id': anotherUid}));
 
-  final Room room =
-      await FirebaseChatCore.instance.createRoom(User.fromJson({'id': myUid}));
   final DocumentReference myc10r21u21d10 = FirebaseFirestore.instance
       .collection('version')
       .doc('2')
@@ -201,9 +202,9 @@ void verifyCard(String anotherCardId, String myCardId) async {
     final data = res.data() as Map<String, dynamic>;
     return data['uid'];
   });
-
   final Room room = await FirebaseChatCore.instance
       .createRoom(User.fromJson({'id': anotherUid}));
+
   final DocumentReference anotherc10r21u21d10 = FirebaseFirestore.instance
       .collection('version')
       .doc('2')
