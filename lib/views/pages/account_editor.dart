@@ -158,7 +158,10 @@ class _ReorderableMultiTextFieldState
                     const SizedBox(
                       width: 4,
                     ),
-                    Icon(linkTypeToIconData[entry])
+                    Icon(
+                      linkTypeToIconData[entry],
+                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    )
                   ]),
                 ))
             .toList();
