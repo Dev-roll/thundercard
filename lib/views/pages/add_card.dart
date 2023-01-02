@@ -106,7 +106,7 @@ void applyCard(String myCardId, String anotherCardId) async {
   // another notification
   final addVerifiedNotificationData = {
     'title': 'カード交換リクエストのお知らせ',
-    'content': '@$myCardIdさんからカード交換のリクエストが届きました！\n「承認」ボタンを押すとカード交換がを完了します。',
+    'content': '@$myCardIdさんからカード交換のリクエストが届きました！\n「承認」ボタンを押すとカード交換が完了します。',
     'created_at': DateTime.now(),
     'read': false,
     'tags': ['interaction', 'apply', 'important'],
@@ -204,15 +204,15 @@ void verifyCard(String anotherCardId, String myCardId) async {
 
   final Room room = await FirebaseChatCore.instance
       .createRoom(User.fromJson({'id': anotherUid}));
-  final DocumentReference myc10r21u21d10 = FirebaseFirestore.instance
+  final DocumentReference anotherc10r21u21d10 = FirebaseFirestore.instance
       .collection('version')
       .doc('2')
       .collection('cards')
-      .doc(myCardId)
+      .doc(anotherCardId)
       .collection('visibility')
       .doc('c10r21u21d10');
-  myc10r21u21d10.set({
-    'rooms': {anotherCardId: room.toJson()}
+  anotherc10r21u21d10.set({
+    'rooms': {myCardId: room.toJson()}
   }, SetOptions(merge: true)).then((value) {
     debugPrint('DocumentSnapshot successfully updated');
   }, onError: (e) {
