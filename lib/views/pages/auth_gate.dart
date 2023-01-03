@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../utils/setSystemChrome.dart';
 import '../widgets/error_message.dart';
@@ -40,19 +39,7 @@ class AuthGate extends ConsumerWidget {
                 isUser: true,
               );
             }
-            if (snapshot.connectionState == ConnectionState.done) {
-              return HomePage();
-            }
-            return Scaffold(
-              body: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxWidth: 240,
-                  ),
-                  child: Lottie.asset('images/json/launch.json'),
-                ),
-              ),
-            );
+            return HomePage();
           },
         );
       },
