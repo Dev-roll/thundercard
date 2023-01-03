@@ -20,9 +20,8 @@ import 'sign_up.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({Key? key, this.email, this.password}) : super(key: key);
+  const SignIn({Key? key, this.email}) : super(key: key);
   final String? email;
-  final String? password;
 
   @override
   State<SignIn> createState() => _SignInState();
@@ -32,7 +31,7 @@ class _SignInState extends State<SignIn> {
   late final TextEditingController _emailController =
       TextEditingController(text: widget.email ?? '');
   late final TextEditingController _passwordController =
-      TextEditingController(text: widget.password ?? '');
+      TextEditingController();
   bool hidePassword = true;
   final formKey = GlobalKey<FormState>();
   final user = FirebaseAuth.instance.currentUser;
@@ -40,11 +39,11 @@ class _SignInState extends State<SignIn> {
   Future _onSignInWithAnonymousUser() async {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     try {
-      await firebaseAuth.signInAnonymously();
       if (!mounted) return;
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => AuthGate()),
       );
+      await firebaseAuth.signInAnonymously();
     } catch (e) {
       // await showsnac(
       //     context: context,
@@ -59,6 +58,11 @@ class _SignInState extends State<SignIn> {
 
   Future<void> _onSignInGoogle() async {
     try {
+      if (!mounted) return;
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => AuthGate()),
+      );
+
       final googleLogin = GoogleSignIn(scopes: [
         'email',
         'https://www.googleapis.com/auth/contacts.readonly',
@@ -73,11 +77,6 @@ class _SignInState extends State<SignIn> {
         accessToken: auth.accessToken,
       );
       await FirebaseAuth.instance.signInWithCredential(credential);
-
-      if (!mounted) return;
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => AuthGate()),
-      );
     } catch (e) {
       // await showDialog(
       //     context: context,
@@ -109,12 +108,10 @@ class _SignInState extends State<SignIn> {
       );
 
       if (user != null && user.isAnonymous) {
-        await user.linkWithCredential(credential);
         if (!mounted) return;
         Navigator.of(context).pop();
+        await user.linkWithCredential(credential);
       } else {
-        await FirebaseAuth.instance.signInWithCredential(credential);
-
         if (!mounted) return;
         if (Navigator.of(context).canPop()) {
           Navigator.of(context).pop();
@@ -123,6 +120,8 @@ class _SignInState extends State<SignIn> {
             MaterialPageRoute(builder: (context) => AuthGate()),
           );
         }
+
+        await FirebaseAuth.instance.signInWithCredential(credential);
       }
     } catch (e) {
       await showDialog(
@@ -199,6 +198,12 @@ class _SignInState extends State<SignIn> {
                                             FocusManager.instance.primaryFocus
                                                 ?.unfocus();
                                             try {
+                                              Navigator.of(context)
+                                                  .pushReplacement(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        AuthGate()),
+                                              );
                                               FirebaseAuth.instance
                                                   .signInWithEmailAndPassword(
                                                       email:
@@ -206,14 +211,7 @@ class _SignInState extends State<SignIn> {
                                                       password:
                                                           _passwordController
                                                               .text)
-                                                  .then((value) {
-                                                Navigator.of(context)
-                                                    .pushReplacement(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          AuthGate()),
-                                                );
-                                              });
+                                                  .then((value) {});
                                             } catch (e) {
                                               debugPrint('$e');
                                             }
@@ -259,6 +257,12 @@ class _SignInState extends State<SignIn> {
                                             FocusManager.instance.primaryFocus
                                                 ?.unfocus();
                                             try {
+                                              Navigator.of(context)
+                                                  .pushReplacement(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        AuthGate()),
+                                              );
                                               FirebaseAuth.instance
                                                   .signInWithEmailAndPassword(
                                                       email:
@@ -266,14 +270,7 @@ class _SignInState extends State<SignIn> {
                                                       password:
                                                           _passwordController
                                                               .text)
-                                                  .then((value) {
-                                                Navigator.of(context)
-                                                    .pushReplacement(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          AuthGate()),
-                                                );
-                                              });
+                                                  .then((value) {});
                                             } catch (e) {
                                               debugPrint('$e');
                                             }
@@ -335,6 +332,12 @@ class _SignInState extends State<SignIn> {
                                                       .instance.primaryFocus
                                                       ?.unfocus();
                                                   try {
+                                                    Navigator.of(context)
+                                                        .pushReplacement(
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              AuthGate()),
+                                                    );
                                                     FirebaseAuth.instance
                                                         .signInWithEmailAndPassword(
                                                             email:
@@ -343,15 +346,7 @@ class _SignInState extends State<SignIn> {
                                                             password:
                                                                 _passwordController
                                                                     .text)
-                                                        .then((value) {
-                                                      Navigator.of(context)
-                                                          .pushReplacement(
-                                                        MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    AuthGate()),
-                                                      );
-                                                    });
+                                                        .then((value) {});
                                                   } catch (e) {
                                                     debugPrint('$e');
                                                   }
@@ -467,7 +462,6 @@ class _SignInState extends State<SignIn> {
                                     MaterialPageRoute(
                                       builder: (context) => SignUp(
                                         email: _emailController.text,
-                                        password: _passwordController.text,
                                       ),
                                     ),
                                   );

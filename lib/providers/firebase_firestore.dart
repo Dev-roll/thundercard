@@ -103,18 +103,18 @@ final c10r21u10d10Stream =
   return prefs;
 });
 
-final c10r21u10d10Future =
-    FutureProvider.autoDispose.family<dynamic, String>((ref, cardId) async {
-  final prefs = await FirebaseFirestore.instance
-      .collection('version')
-      .doc('2')
-      .collection('cards')
-      .doc(cardId)
-      .collection('visibility')
-      .doc('c10r21u10d10')
-      .get();
-  return prefs.data();
-});
+// final c10r21u10d10Future =
+//     FutureProvider.autoDispose.family<dynamic, String>((ref, cardId) async {
+//   final prefs = await FirebaseFirestore.instance
+//       .collection('version')
+//       .doc('2')
+//       .collection('cards')
+//       .doc(cardId)
+//       .collection('visibility')
+//       .doc('c10r21u10d10')
+//       .get();
+//   return prefs.data();
+// });
 
 final c21r20u00d11Stream =
     StreamProvider.autoDispose.family<dynamic, String>((ref, cardId) {

@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../providers/current_card_id_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/current_brightness.dart';
 import '../../utils/dynamic_links.dart';
@@ -16,8 +17,6 @@ import '../../utils/firebase_auth.dart';
 import '../../utils/get_application_documents_file.dart';
 import '../../utils/return_original_color.dart';
 import '../../utils/setSystemChrome.dart';
-import '../widgets/custom_progress_indicator.dart';
-import '../widgets/error_message.dart';
 import '../widgets/my_card.dart';
 import '../widgets/positioned_snack_bar.dart';
 import 'exchange_card.dart';
@@ -47,6 +46,22 @@ class _ThundercardState extends ConsumerState<Thundercard> {
         .substring(2);
 
     setSystemChrome(context);
+
+    myCardId = ref.watch(currentCardIdProvider);
+    // String thunderCardUrl =
+    //     'https://thundercard-test.web.app/?card_id=$myCardId';
+    // 'thundercard://user?card_id=$myCardId';
+    Color myPrimary = ColorScheme.fromSeed(
+      seedColor: Color(returnOriginalColor(myCardId)),
+      brightness: currentBrightness(Theme.of(context).colorScheme),
+    ).primary;
+    Color myPrimaryContainer = ColorScheme.fromSeed(
+      seedColor: Color(returnOriginalColor(myCardId)),
+      brightness: currentBrightness(Theme.of(context).colorScheme),
+    ).primaryContainer;
+    // Color myPrimary = Theme.of(context).colorScheme.primary;
+    // Color myPrimaryContainer =
+    //     Theme.of(context).colorScheme.primaryContainer;
 
     return Scaffold(
       body: SafeArea(
@@ -85,261 +100,205 @@ class _ThundercardState extends ConsumerState<Thundercard> {
                         maxWidth: 800,
                       ),
                       child: Container(
-                        alignment: Alignment.topCenter,
-                        padding: const EdgeInsets.fromLTRB(16, 32, 16, 100),
-                        child: FutureBuilder(
-                          future: users
-                              .doc(uid)
-                              .collection('card')
-                              .doc('current_card')
-                              .get(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<DocumentSnapshot> snapshot) {
-                            if (snapshot.hasError) {
-                              return const ErrorMessage(err: '問題が発生しました');
-                            }
-                            if (snapshot.hasData && !snapshot.data!.exists) {
-                              return Text(
-                                'ユーザー情報の取得に失敗しました',
-                                style: TextStyle(
-                                    color: Theme.of(context).colorScheme.error),
-                              );
-                            }
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              Map<String, dynamic> currentCard =
-                                  snapshot.data!.data() as Map<String, dynamic>;
-                              myCardId = currentCard['current_card'];
-                              // String thunderCardUrl =
-                              //     'https://thundercard-test.web.app/?card_id=$myCardId';
-                              // 'thundercard://user?card_id=$myCardId';
-                              Color myPrimary = ColorScheme.fromSeed(
-                                seedColor: Color(returnOriginalColor(myCardId)),
-                                brightness: currentBrightness(
-                                    Theme.of(context).colorScheme),
-                              ).primary;
-                              Color myPrimaryContainer = ColorScheme.fromSeed(
-                                seedColor: Color(returnOriginalColor(myCardId)),
-                                brightness: currentBrightness(
-                                    Theme.of(context).colorScheme),
-                              ).primaryContainer;
-                              // Color myPrimary = Theme.of(context).colorScheme.primary;
-                              // Color myPrimaryContainer =
-                              //     Theme.of(context).colorScheme.primaryContainer;
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(0.03 *
-                                          MediaQuery.of(context).size.width),
-                                      boxShadow: currentBrightness(
-                                                  Theme.of(context)
-                                                      .colorScheme) ==
-                                              Brightness.light
-                                          ? [
-                                              BoxShadow(
-                                                color:
-                                                    myPrimary.withOpacity(0.1),
-                                                blurRadius: 8,
-                                                spreadRadius: 0,
-                                              ),
-                                              BoxShadow(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onBackground
-                                                    .withOpacity(0.25),
-                                                blurRadius: 20,
-                                                spreadRadius: 0,
-                                              ),
-                                              BoxShadow(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onBackground
-                                                    .withOpacity(0.25),
-                                                blurRadius: 60,
-                                                spreadRadius: 0,
-                                              ),
-                                            ]
-                                          : [
-                                              BoxShadow(
-                                                color:
-                                                    myPrimary.withOpacity(0.08),
-                                                blurRadius: 20,
-                                                spreadRadius: 8,
-                                              ),
-                                              BoxShadow(
-                                                color: myPrimaryContainer
-                                                    .withOpacity(0.15),
-                                                blurRadius: 20,
-                                                spreadRadius: 8,
-                                              ),
-                                            ],
-                                    ),
-                                    child: GestureDetector(
-                                      behavior: HitTestBehavior.opaque,
-                                      onTap: () {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) => MyCardDetails(
-                                              cardId: myCardId,
-                                            ),
+                          alignment: Alignment.topCenter,
+                          padding: const EdgeInsets.fromLTRB(16, 32, 16, 100),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      0.03 * MediaQuery.of(context).size.width),
+                                  boxShadow: currentBrightness(
+                                              Theme.of(context).colorScheme) ==
+                                          Brightness.light
+                                      ? [
+                                          BoxShadow(
+                                            color: myPrimary.withOpacity(0.1),
+                                            blurRadius: 8,
+                                            spreadRadius: 0,
                                           ),
-                                        );
-                                      },
-                                      child: ConstrainedBox(
-                                        constraints: const BoxConstraints(
-                                          maxHeight: 400,
+                                          BoxShadow(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground
+                                                .withOpacity(0.25),
+                                            blurRadius: 20,
+                                            spreadRadius: 0,
+                                          ),
+                                          BoxShadow(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground
+                                                .withOpacity(0.25),
+                                            blurRadius: 60,
+                                            spreadRadius: 0,
+                                          ),
+                                        ]
+                                      : [
+                                          BoxShadow(
+                                            color: myPrimary.withOpacity(0.08),
+                                            blurRadius: 20,
+                                            spreadRadius: 8,
+                                          ),
+                                          BoxShadow(
+                                            color: myPrimaryContainer
+                                                .withOpacity(0.15),
+                                            blurRadius: 20,
+                                            spreadRadius: 8,
+                                          ),
+                                        ],
+                                ),
+                                child: GestureDetector(
+                                  behavior: HitTestBehavior.opaque,
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => MyCardDetails(
+                                          cardId: myCardId,
                                         ),
-                                        child: FittedBox(
-                                          child: RepaintBoundary(
-                                            key: _myCardKey,
-                                            child: MyCard(
-                                              cardId: myCardId,
-                                              cardType: CardType.normal,
-                                            ),
-                                          ),
+                                      ),
+                                    );
+                                  },
+                                  child: ConstrainedBox(
+                                    constraints: const BoxConstraints(
+                                      maxHeight: 400,
+                                    ),
+                                    child: FittedBox(
+                                      child: RepaintBoundary(
+                                        key: _myCardKey,
+                                        child: MyCard(
+                                          cardId: myCardId,
+                                          cardType: CardType.normal,
                                         ),
                                       ),
                                     ),
                                   ),
-                                  ConstrainedBox(
-                                    constraints: const BoxConstraints(
-                                      maxWidth: 660,
-                                    ),
-                                    child: Container(
-                                      margin: const EdgeInsets.fromLTRB(
-                                          8, 16, 8, 16),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                20, 0, 20, 0),
-                                            child: IconButton(
-                                              onPressed: () async {
-                                                final bytes =
-                                                    await exportToImage(
-                                                        _myCardKey);
-                                                //byte data→Uint8List
-                                                final widgetImageBytes =
-                                                    bytes?.buffer.asUint8List(
-                                                        bytes.offsetInBytes,
-                                                        bytes.lengthInBytes);
-                                                //App directoryファイルに保存
-                                                final applicationDocumentsFile =
-                                                    await getApplicationDocumentsFile(
-                                                        myCardId,
-                                                        widgetImageBytes!);
+                                ),
+                              ),
+                              ConstrainedBox(
+                                constraints: const BoxConstraints(
+                                  maxWidth: 660,
+                                ),
+                                child: Container(
+                                  margin:
+                                      const EdgeInsets.fromLTRB(8, 16, 8, 16),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            20, 0, 20, 0),
+                                        child: IconButton(
+                                          onPressed: () async {
+                                            final bytes =
+                                                await exportToImage(_myCardKey);
+                                            //byte data→Uint8List
+                                            final widgetImageBytes =
+                                                bytes?.buffer.asUint8List(
+                                                    bytes.offsetInBytes,
+                                                    bytes.lengthInBytes);
+                                            //App directoryファイルに保存
+                                            final applicationDocumentsFile =
+                                                await getApplicationDocumentsFile(
+                                                    myCardId,
+                                                    widgetImageBytes!);
 
-                                                final path =
-                                                    applicationDocumentsFile
-                                                        .path;
-                                                final thunderCardUrl =
-                                                    await dynamicLinks(
-                                                        myCardId);
-                                                await Share.shareXFiles(
-                                                  [
-                                                    XFile(path),
-                                                  ],
-                                                  text: thunderCardUrl.shortUrl
-                                                      .toString(),
-                                                  subject:
-                                                      '$myCardIdさんのThundercardの共有',
-                                                );
-                                                applicationDocumentsFile
-                                                    .delete();
-                                              },
-                                              icon: const Icon(
-                                                  Icons.share_rounded),
-                                              padding: const EdgeInsets.all(20),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                20, 0, 20, 0),
-                                            child: IconButton(
-                                              onPressed: () {
-                                                //byte data→Uint8List
-                                                exportToImage(_myCardKey)
-                                                    .then(
-                                                      (bytes) => bytes?.buffer
-                                                          .asUint8List(
-                                                        bytes.offsetInBytes,
-                                                        bytes.lengthInBytes,
-                                                      ),
-                                                    )
-                                                    .then(
-                                                      (widgetImageBytes) =>
-                                                          ImageGallerySaver
-                                                              .saveImage(
-                                                        widgetImageBytes!,
-                                                        name: myCardId,
-                                                      ),
-                                                    )
-                                                    .then(
-                                                      (value) =>
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                        PositionedSnackBar(
-                                                          context,
-                                                          'カードをダウンロードしました',
-                                                          icon: Icons
-                                                              .file_download_done_rounded,
-                                                        ),
-                                                      ),
-                                                    );
-                                              },
-                                              icon: const Icon(
-                                                  Icons.save_alt_rounded),
-                                              padding: const EdgeInsets.all(20),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                20, 0, 20, 0),
-                                            child: IconButton(
-                                              onPressed: () async {
-                                                final thunderCardUrl =
-                                                    await dynamicLinks(
-                                                        myCardId);
-                                                await Clipboard.setData(
-                                                  ClipboardData(
-                                                      text: thunderCardUrl
-                                                          .shortUrl
-                                                          .toString()),
-                                                ).then(
+                                            final path =
+                                                applicationDocumentsFile.path;
+                                            final thunderCardUrl =
+                                                await dynamicLinks(myCardId);
+                                            await Share.shareXFiles(
+                                              [
+                                                XFile(path),
+                                              ],
+                                              text: thunderCardUrl.shortUrl
+                                                  .toString(),
+                                              subject:
+                                                  '$myCardIdさんのThundercardの共有',
+                                            );
+                                            applicationDocumentsFile.delete();
+                                          },
+                                          icon: const Icon(Icons.share_rounded),
+                                          padding: const EdgeInsets.all(20),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            20, 0, 20, 0),
+                                        child: IconButton(
+                                          onPressed: () {
+                                            //byte data→Uint8List
+                                            exportToImage(_myCardKey)
+                                                .then(
+                                                  (bytes) =>
+                                                      bytes?.buffer.asUint8List(
+                                                    bytes.offsetInBytes,
+                                                    bytes.lengthInBytes,
+                                                  ),
+                                                )
+                                                .then(
+                                                  (widgetImageBytes) =>
+                                                      ImageGallerySaver
+                                                          .saveImage(
+                                                    widgetImageBytes!,
+                                                    name: myCardId,
+                                                  ),
+                                                )
+                                                .then(
                                                   (value) =>
                                                       ScaffoldMessenger.of(
                                                               context)
                                                           .showSnackBar(
                                                     PositionedSnackBar(
                                                       context,
-                                                      'クリップボードにコピーしました',
+                                                      'カードをダウンロードしました',
                                                       icon: Icons
-                                                          .library_add_check_rounded,
+                                                          .file_download_done_rounded,
                                                     ),
                                                   ),
                                                 );
-                                              },
-                                              icon: const Icon(
-                                                  Icons.copy_rounded),
-                                              padding: const EdgeInsets.all(20),
-                                            ),
-                                          ),
-                                        ],
+                                          },
+                                          icon: const Icon(
+                                              Icons.save_alt_rounded),
+                                          padding: const EdgeInsets.all(20),
+                                        ),
                                       ),
-                                    ),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            20, 0, 20, 0),
+                                        child: IconButton(
+                                          onPressed: () async {
+                                            final thunderCardUrl =
+                                                await dynamicLinks(myCardId);
+                                            await Clipboard.setData(
+                                              ClipboardData(
+                                                  text: thunderCardUrl.shortUrl
+                                                      .toString()),
+                                            ).then(
+                                              (value) =>
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                PositionedSnackBar(
+                                                  context,
+                                                  'クリップボードにコピーしました',
+                                                  icon: Icons
+                                                      .library_add_check_rounded,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          icon: const Icon(Icons.copy_rounded),
+                                          padding: const EdgeInsets.all(20),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              );
-                            }
-                            return const CustomProgressIndicator();
-                          },
-                        ),
-                      ),
+                                ),
+                              ),
+                            ],
+                          )),
                     ),
                   ),
                 ),

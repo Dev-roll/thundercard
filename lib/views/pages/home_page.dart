@@ -10,7 +10,6 @@ import '../../utils/colors.dart';
 import '../../utils/firebase_auth.dart';
 import '../../utils/setSystemChrome.dart';
 import '../widgets/avatar.dart';
-import '../widgets/custom_progress_indicator.dart';
 import '../widgets/error_message.dart';
 import '../widgets/md/about_app.dart';
 import '../widgets/md/authors.dart';
@@ -40,10 +39,15 @@ class HomePage extends ConsumerWidget {
       onWillPop: () async => false,
       child: currentCardAsyncValue.when(
         error: (err, _) => ErrorMessage(err: '$err'),
-        loading: () => const Scaffold(
+        loading: () => Scaffold(
           body: SafeArea(
             child: Center(
-              child: CustomProgressIndicator(),
+              child: SvgPicture.asset(
+                'images/svg/qr/icon_for_qr.svg',
+                width: 160,
+                color:
+                    Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
+              ),
             ),
           ),
         ),
@@ -52,10 +56,17 @@ class HomePage extends ConsumerWidget {
           final c10r20u10d10AsyncValue = ref.watch(c10r20u10d10Stream(cardId));
           return c10r20u10d10AsyncValue.when(
             error: (err, _) => ErrorMessage(err: '$err'),
-            loading: () => const Scaffold(
+            loading: () => Scaffold(
               body: SafeArea(
                 child: Center(
-                  child: CustomProgressIndicator(),
+                  child: SvgPicture.asset(
+                    'images/svg/qr/icon_for_qr.svg',
+                    width: 160,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onBackground
+                        .withOpacity(0.5),
+                  ),
                 ),
               ),
             ),

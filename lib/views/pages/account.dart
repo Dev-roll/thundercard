@@ -170,12 +170,12 @@ class Account extends ConsumerWidget {
                                           ),
                                           TextButton(
                                             onPressed: () {
+                                              Navigator.of(context).pop();
                                               if (customTheme
                                                       .currentAppThemeIdx !=
                                                   customTheme.appThemeIdx) {
                                                 customTheme.appThemeUpdate();
                                               }
-                                              Navigator.of(context).pop();
                                             },
                                             child: const Text('決定'),
                                           ),
@@ -468,13 +468,13 @@ class Account extends ConsumerWidget {
                                           ),
                                           TextButton(
                                             onPressed: () {
+                                              Navigator.of(context).pop();
                                               if (customTheme
                                                       .currentDisplayCardThemeIdx !=
                                                   customTheme
                                                       .displayCardThemeIdx) {
                                                 customTheme.cardThemeUpdate();
                                               }
-                                              Navigator.of(context).pop();
                                             },
                                             child: const Text('決定'),
                                           )
@@ -772,27 +772,23 @@ class Account extends ConsumerWidget {
                                                 child: const Text('キャンセル'),
                                               ),
                                               TextButton(
-                                                onPressed: () async {
+                                                onPressed: () {
                                                   Navigator.of(context).pop();
-                                                  await FirebaseAuth.instance
-                                                      .signOut()
-                                                      .then(
-                                                    (_) {
-                                                      ref
-                                                          .watch(
-                                                              currentIndexProvider
-                                                                  .notifier)
-                                                          .state = 0;
-                                                      Navigator.of(context)
-                                                          .pushAndRemoveUntil(
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              AuthGate(),
-                                                        ),
-                                                        (_) => false,
-                                                      );
-                                                    },
+                                                  FirebaseAuth.instance
+                                                      .signOut();
+                                                  Navigator.of(context)
+                                                      .pushAndRemoveUntil(
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          AuthGate(),
+                                                    ),
+                                                    (_) => false,
                                                   );
+                                                  ref
+                                                      .watch(
+                                                          currentIndexProvider
+                                                              .notifier)
+                                                      .state = 0;
                                                 },
                                                 onLongPress: null,
                                                 child: const Text('サインアウト'),
@@ -841,32 +837,41 @@ class Account extends ConsumerWidget {
                                                 child: const Text('キャンセル'),
                                               ),
                                               TextButton(
-                                                onPressed: () async {
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                  FirebaseAuth.instance
+                                                      .signOut();
+                                                  Navigator.of(context)
+                                                      .pushAndRemoveUntil(
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          AuthGate(),
+                                                    ),
+                                                    (_) => false,
+                                                  );
+                                                  ref
+                                                      .watch(
+                                                          currentIndexProvider
+                                                              .notifier)
+                                                      .state = 0;
                                                   final data = {
                                                     'uid': uid,
                                                     'createdAt':
                                                         Timestamp.now(),
                                                   };
-                                                  await FirebaseFirestore
-                                                      .instance
+                                                  FirebaseFirestore.instance
                                                       .collection(
                                                           'deleted_users')
                                                       .add(data)
                                                       .then((value) {
-                                                    FirebaseAuth.instance
-                                                        .signOut();
-                                                  }).then((_) {
-                                                    Navigator.of(context)
-                                                        .pushReplacement(
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            AuthGate(),
-                                                      ),
-                                                    );
-                                                  }).catchError((e) {
-                                                    debugPrint(
-                                                        'Failed to add user: $e');
-                                                  });
+                                                        FirebaseAuth.instance
+                                                            .signOut();
+                                                      })
+                                                      .then((_) {})
+                                                      .catchError((e) {
+                                                        debugPrint(
+                                                            'Failed to delete user: $e');
+                                                      });
                                                 },
                                                 onLongPress: null,
                                                 child: Text(
@@ -883,24 +888,6 @@ class Account extends ConsumerWidget {
                                       },
                                       onLongPress: null,
                                     ),
-                                    // OutlinedButton(
-                                    //   onPressed: () async {
-                                    //     final data = {
-                                    //       "uid": uid,
-                                    //       "createdAt": Timestamp.now(),
-                                    //     };
-                                    //     await FirebaseFirestore.instance
-                                    //         .collection('deleted_users')
-                                    //         .add(data)
-                                    //         .then((value) async {
-                                    //       await FirebaseAuth.instance.signOut();
-                                    //       Navigator.of(context).pushReplacement(
-                                    //         MaterialPageRoute(builder: (context) => AuthGate()),
-                                    //       );
-                                    //     }).catchError((e) => print("Failed to add user: $e"));
-                                    //   },
-                                    //   child: Text('退会する'),
-                                    // ),
                                   ],
                                 ),
                               ),
@@ -931,7 +918,7 @@ class Account extends ConsumerWidget {
           //     size: 26,
           //   ),
           //   label: const Text(
-          //     'カードを交換',
+          //     '管理者用',
           //     style: TextStyle(fontSize: 16),
           //   ),
           //   style: ElevatedButton.styleFrom(

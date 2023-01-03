@@ -20,10 +20,8 @@ import 'sign_in.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({Key? key, required this.email, required this.password})
-      : super(key: key);
+  const SignUp({Key? key, required this.email}) : super(key: key);
   final String email;
-  final String password;
 
   @override
   State<SignUp> createState() => _SignUpState();
@@ -33,7 +31,7 @@ class _SignUpState extends State<SignUp> {
   late final TextEditingController _emailController =
       TextEditingController(text: widget.email);
   late final TextEditingController _passwordController =
-      TextEditingController(text: widget.password);
+      TextEditingController();
   String passwordCheck = '';
   bool hidePassword = true;
   bool hidePasswordCheck = true;
@@ -556,7 +554,6 @@ class _SignUpState extends State<SignUp> {
                                     MaterialPageRoute(
                                       builder: (context) => SignIn(
                                         email: _emailController.text,
-                                        password: _passwordController.text,
                                       ),
                                     ),
                                   );

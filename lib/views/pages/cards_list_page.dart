@@ -18,6 +18,7 @@ class CardsListPage extends ConsumerWidget {
       loading: () => const Scaffold(
         body: SafeArea(
           child: Center(
+            // TODO: skeleton
             child: CircularProgressIndicator(
               strokeWidth: 3,
             ),

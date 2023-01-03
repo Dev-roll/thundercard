@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,7 +15,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../utils/constants.dart';
 import '../../utils/dynamic_links.dart';
 import '../../utils/export_to_image.dart';
-import '../../utils/firebase_auth.dart';
 import '../../utils/get_application_documents_file.dart';
 import '../../utils/input_data_processor.dart';
 import '../../utils/setSystemChrome.dart';
@@ -81,188 +79,173 @@ class _ScanQrCodeState extends State<ScanQrCode> {
   Widget build(BuildContext context) {
     setSystemChrome(context);
 
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
-    final String? uid = getUid();
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: FutureBuilder(
-          future: users.doc(uid).collection('card').doc('current_card').get(),
-          builder:
-              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-            Map<String, dynamic> currentCard =
-                snapshot.data!.data() as Map<String, dynamic>;
-            myCardId = currentCard['current_card'];
-            // String thunderCardUrl = '$initStr$myCardId';
-            return Column(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    width: double.infinity,
-                    color: Theme.of(context).colorScheme.onSecondary,
-                    child: FittedBox(
-                      fit: BoxFit.contain,
-                      child: Stack(
-                        children: [
-                          const SizedBox(
-                            width: 180,
-                            height: 216,
-                          ),
-                          Container(
-                            width: 180,
-                            height: 216,
-                            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                            child: FittedBox(
-                              child: GestureDetector(
-                                behavior: HitTestBehavior.opaque,
-                                onTap: (() async {
-                                  controller?.pauseCamera();
-                                  await Navigator.of(context)
-                                      .push(
-                                    MaterialPageRoute(
-                                      builder: (context) => Theme(
-                                        data: ThemeData(
-                                          colorSchemeSeed: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          brightness: Brightness.dark,
-                                          useMaterial3: true,
-                                        ),
-                                        child: FullscreenQrCode(
-                                          name: myCardId,
-                                        ),
-                                      ),
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: Container(
+                width: double.infinity,
+                color: Theme.of(context).colorScheme.onSecondary,
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  child: Stack(
+                    children: [
+                      const SizedBox(
+                        width: 180,
+                        height: 216,
+                      ),
+                      Container(
+                        width: 180,
+                        height: 216,
+                        padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                        child: FittedBox(
+                          child: GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: (() async {
+                              controller?.pauseCamera();
+                              await Navigator.of(context)
+                                  .push(
+                                MaterialPageRoute(
+                                  builder: (context) => Theme(
+                                    data: ThemeData(
+                                      colorSchemeSeed:
+                                          Theme.of(context).colorScheme.primary,
+                                      brightness: Brightness.dark,
+                                      useMaterial3: true,
                                     ),
-                                  )
-                                      .then((value) {
-                                    setSystemChrome(context);
-                                  });
-                                  controller?.resumeCamera();
-                                }),
-                                child: RepaintBoundary(
-                                  key: _globalKey,
-                                  child: MyQrCode(
-                                    name: myCardId,
+                                    child: FullscreenQrCode(
+                                      name: myCardId,
+                                    ),
                                   ),
                                 ),
+                              )
+                                  .then((value) {
+                                setSystemChrome(context);
+                              });
+                              controller?.resumeCamera();
+                            }),
+                            child: RepaintBoundary(
+                              key: _globalKey,
+                              child: MyQrCode(
+                                name: myCardId,
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 80,
-                  color: Theme.of(context).colorScheme.onSecondary,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(8, 0, 8, 16),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
-                              child: IconButton(
-                                onPressed: () async {
-                                  final bytes = await exportToImage(_globalKey);
-                                  final widgetImageBytes = bytes?.buffer
-                                      .asUint8List(bytes.offsetInBytes,
-                                          bytes.lengthInBytes);
-                                  final applicationDocumentsFile =
-                                      await getApplicationDocumentsFile(
-                                          myCardId, widgetImageBytes!);
-
-                                  final path = applicationDocumentsFile.path;
-                                  final thunderCardUrl =
-                                      await dynamicLinks(myCardId);
-
-                                  await Share.shareXFiles(
-                                    [
-                                      XFile(path),
-                                    ],
-                                    text: thunderCardUrl.shortUrl.toString(),
-                                    subject: '$myCardIdさんのThundercardアカウントの共有',
-                                  );
-                                  applicationDocumentsFile.delete();
-                                },
-                                icon: const Icon(Icons.share_rounded),
-                                padding: const EdgeInsets.all(20),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
-                              child: IconButton(
-                                onPressed: () async {
-                                  final bytes = await exportToImage(_globalKey);
-                                  final widgetImageBytes = bytes?.buffer
-                                      .asUint8List(bytes.offsetInBytes,
-                                          bytes.lengthInBytes);
-                                  await ImageGallerySaver.saveImage(
-                                    widgetImageBytes!,
-                                    name: myCardId,
-                                  );
-                                  if (!mounted) return;
-                                  ScaffoldMessenger.of(context)
-                                      .hideCurrentSnackBar();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    PositionedSnackBar(
-                                      context,
-                                      'QRコードをダウンロードしました',
-                                      icon: Icons.file_download_done_rounded,
-                                    ),
-                                  );
-                                },
-                                icon: const Icon(Icons.save_alt_rounded),
-                                padding: const EdgeInsets.all(20),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
-                              child: IconButton(
-                                onPressed: () async {
-                                  controller?.pauseCamera();
-                                  await Navigator.of(context)
-                                      .push(
-                                    MaterialPageRoute(
-                                      builder: (context) => Theme(
-                                        data: ThemeData(
-                                          colorSchemeSeed: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          brightness: Brightness.dark,
-                                          useMaterial3: true,
-                                        ),
-                                        child: FullscreenQrCode(
-                                          name: myCardId,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                      .then((value) {
-                                    setSystemChrome(context);
-                                  });
-                                  controller?.resumeCamera();
-                                },
-                                icon: const Icon(Icons.fullscreen_rounded),
-                                padding: const EdgeInsets.all(20),
-                              ),
-                            ),
-                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-                Expanded(flex: 2, child: _buildQrView(context)),
-              ],
-            );
-          },
+              ),
+            ),
+            Container(
+              height: 80,
+              color: Theme.of(context).colorScheme.onSecondary,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(8, 0, 8, 16),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+                          child: IconButton(
+                            onPressed: () async {
+                              final bytes = await exportToImage(_globalKey);
+                              final widgetImageBytes = bytes?.buffer
+                                  .asUint8List(
+                                      bytes.offsetInBytes, bytes.lengthInBytes);
+                              final applicationDocumentsFile =
+                                  await getApplicationDocumentsFile(
+                                      myCardId, widgetImageBytes!);
+
+                              final path = applicationDocumentsFile.path;
+                              final thunderCardUrl =
+                                  await dynamicLinks(myCardId);
+
+                              await Share.shareXFiles(
+                                [
+                                  XFile(path),
+                                ],
+                                text: thunderCardUrl.shortUrl.toString(),
+                                subject: '$myCardIdさんのThundercardアカウントの共有',
+                              );
+                              applicationDocumentsFile.delete();
+                            },
+                            icon: const Icon(Icons.share_rounded),
+                            padding: const EdgeInsets.all(20),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+                          child: IconButton(
+                            onPressed: () async {
+                              final bytes = await exportToImage(_globalKey);
+                              final widgetImageBytes = bytes?.buffer
+                                  .asUint8List(
+                                      bytes.offsetInBytes, bytes.lengthInBytes);
+                              await ImageGallerySaver.saveImage(
+                                widgetImageBytes!,
+                                name: myCardId,
+                              );
+                              if (!mounted) return;
+                              ScaffoldMessenger.of(context)
+                                  .hideCurrentSnackBar();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                PositionedSnackBar(
+                                  context,
+                                  'QRコードをダウンロードしました',
+                                  icon: Icons.file_download_done_rounded,
+                                ),
+                              );
+                            },
+                            icon: const Icon(Icons.save_alt_rounded),
+                            padding: const EdgeInsets.all(20),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+                          child: IconButton(
+                            onPressed: () async {
+                              controller?.pauseCamera();
+                              await Navigator.of(context)
+                                  .push(
+                                MaterialPageRoute(
+                                  builder: (context) => Theme(
+                                    data: ThemeData(
+                                      colorSchemeSeed:
+                                          Theme.of(context).colorScheme.primary,
+                                      brightness: Brightness.dark,
+                                      useMaterial3: true,
+                                    ),
+                                    child: FullscreenQrCode(
+                                      name: myCardId,
+                                    ),
+                                  ),
+                                ),
+                              )
+                                  .then((value) {
+                                setSystemChrome(context);
+                              });
+                              controller?.resumeCamera();
+                            },
+                            icon: const Icon(Icons.fullscreen_rounded),
+                            padding: const EdgeInsets.all(20),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(flex: 2, child: _buildQrView(context)),
+          ],
         ),
       ),
     );
