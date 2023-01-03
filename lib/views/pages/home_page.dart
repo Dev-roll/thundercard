@@ -54,81 +54,80 @@ class HomePage extends ConsumerWidget {
         data: (currentCard) {
           final cardId = currentCard?['current_card'];
           final c10r20u10d10AsyncValue = ref.watch(c10r20u10d10Stream(cardId));
-          return c10r20u10d10AsyncValue.when(
-            error: (err, _) => ErrorMessage(err: '$err'),
-            loading: () => Scaffold(
-              body: SafeArea(
-                child: Center(
-                  child: SvgPicture.asset(
-                    'images/svg/qr/icon_for_qr.svg',
-                    width: 160,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onBackground
-                        .withOpacity(0.5),
+          final iconColorNum = Theme.of(context)
+              .colorScheme
+              .onBackground
+              .value
+              .toRadixString(16)
+              .substring(2);
+
+          FirebaseDynamicLinks.instance.onLink.listen(
+            (dynamicLinkData) {
+              final deepLink = dynamicLinkData.link;
+              final String myCardId = deepLink.queryParameters['card_id'] ?? '';
+              ref.watch(currentIndexProvider.notifier).state = 0;
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) =>
+                      AddCard(applyingId: cardId, cardId: myCardId),
+                ),
+                (_) => false,
+              );
+            },
+          ).onError(
+            (error) {
+              debugPrint('error: $error');
+            },
+          );
+
+          setSystemChrome(context);
+
+          return ProviderScope(
+            overrides: [
+              currentCardIdProvider.overrideWithValue(cardId),
+            ],
+            child: Scaffold(
+              key: drawerKey,
+              onDrawerChanged: (isOpened) {
+                isOpened
+                    ? setSystemChrome(
+                        context,
+                        navColor: alphaBlend(
+                          const Color(0x80000000),
+                          alphaBlend(
+                            Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withOpacity(0.08),
+                            Theme.of(context).colorScheme.surface,
+                          ),
+                        ),
+                      )
+                    : setSystemChrome(context);
+              },
+              drawerScrimColor: const Color(0x80000000),
+              drawerEdgeDragWidth: currentIndex == 0
+                  ? MediaQuery.of(context).size.width * 0.5
+                  : 0,
+              drawer: c10r20u10d10AsyncValue.when(
+                error: (err, _) => ErrorMessage(err: '$err'),
+                loading: () => Scaffold(
+                  body: SafeArea(
+                    child: Center(
+                      child: SvgPicture.asset(
+                        'images/svg/qr/icon_for_qr.svg',
+                        width: 160,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onBackground
+                            .withOpacity(0.5),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            data: (c10r20u10d10) {
-              final name = c10r20u10d10?['name'];
-              final iconColorNum = Theme.of(context)
-                  .colorScheme
-                  .onBackground
-                  .value
-                  .toRadixString(16)
-                  .substring(2);
-
-              FirebaseDynamicLinks.instance.onLink.listen(
-                (dynamicLinkData) {
-                  final deepLink = dynamicLinkData.link;
-                  final String myCardId =
-                      deepLink.queryParameters['card_id'] ?? '';
-                  ref.watch(currentIndexProvider.notifier).state = 0;
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          AddCard(applyingId: cardId, cardId: myCardId),
-                    ),
-                    (_) => false,
-                  );
-                },
-              ).onError(
-                (error) {
-                  debugPrint('error: $error');
-                },
-              );
-
-              setSystemChrome(context);
-
-              return ProviderScope(
-                overrides: [
-                  currentCardIdProvider.overrideWithValue(cardId),
-                ],
-                child: Scaffold(
-                  key: drawerKey,
-                  onDrawerChanged: (isOpened) {
-                    isOpened
-                        ? setSystemChrome(
-                            context,
-                            navColor: alphaBlend(
-                              const Color(0x80000000),
-                              alphaBlend(
-                                Theme.of(context)
-                                    .colorScheme
-                                    .primary
-                                    .withOpacity(0.08),
-                                Theme.of(context).colorScheme.surface,
-                              ),
-                            ),
-                          )
-                        : setSystemChrome(context);
-                  },
-                  drawerScrimColor: const Color(0x80000000),
-                  drawerEdgeDragWidth: currentIndex == 0
-                      ? MediaQuery.of(context).size.width * 0.5
-                      : 0,
-                  drawer: Drawer(
+                data: (c10r20u10d10) {
+                  final name = c10r20u10d10?['name'];
+                  return Drawer(
                     backgroundColor: alphaBlend(
                         Theme.of(context).colorScheme.primary.withOpacity(0.05),
                         Theme.of(context).colorScheme.surface),
@@ -385,64 +384,64 @@ class HomePage extends ConsumerWidget {
                         ),
                       ],
                     ),
+                  );
+                },
+              ),
+              bottomNavigationBar: NavigationBar(
+                onDestinationSelected: (int newIndex) {
+                  currentIndexStateController.state = newIndex;
+                },
+                selectedIndex: currentIndex,
+                destinations: const <Widget>[
+                  NavigationDestination(
+                    selectedIcon: Icon(
+                      Icons.contact_mail,
+                      size: 26,
+                    ),
+                    icon: Icon(
+                      Icons.contact_mail_outlined,
+                    ),
+                    label: 'ホーム',
                   ),
-                  bottomNavigationBar: NavigationBar(
-                    onDestinationSelected: (int newIndex) {
-                      currentIndexStateController.state = newIndex;
-                    },
-                    selectedIndex: currentIndex,
-                    destinations: const <Widget>[
-                      NavigationDestination(
-                        selectedIcon: Icon(
-                          Icons.contact_mail,
-                          size: 26,
-                        ),
-                        icon: Icon(
-                          Icons.contact_mail_outlined,
-                        ),
-                        label: 'ホーム',
-                      ),
-                      NavigationDestination(
-                        selectedIcon: Icon(
-                          Icons.ballot_rounded,
-                          size: 26,
-                        ),
-                        icon: Icon(
-                          Icons.ballot_outlined,
-                        ),
-                        label: 'カード',
-                      ),
-                      NavigationDestination(
-                        selectedIcon: Icon(
-                          Icons.notifications_rounded,
-                          size: 26,
-                        ),
-                        icon: Icon(
-                          Icons.notifications_none_rounded,
-                        ),
-                        label: '通知',
-                      ),
-                      NavigationDestination(
-                        selectedIcon: Icon(
-                          Icons.account_circle_rounded,
-                          size: 26,
-                        ),
-                        icon: Icon(
-                          Icons.account_circle_outlined,
-                        ),
-                        label: 'アカウント',
-                      ),
-                    ],
+                  NavigationDestination(
+                    selectedIcon: Icon(
+                      Icons.ballot_rounded,
+                      size: 26,
+                    ),
+                    icon: Icon(
+                      Icons.ballot_outlined,
+                    ),
+                    label: 'カード',
                   ),
-                  body: <Widget>[
-                    const Thundercard(),
-                    const CardsListPage(),
-                    const Notifications(),
-                    const Account(),
-                  ][currentIndex],
-                ),
-              );
-            },
+                  NavigationDestination(
+                    selectedIcon: Icon(
+                      Icons.notifications_rounded,
+                      size: 26,
+                    ),
+                    icon: Icon(
+                      Icons.notifications_none_rounded,
+                    ),
+                    label: '通知',
+                  ),
+                  NavigationDestination(
+                    selectedIcon: Icon(
+                      Icons.account_circle_rounded,
+                      size: 26,
+                    ),
+                    icon: Icon(
+                      Icons.account_circle_outlined,
+                    ),
+                    label: 'アカウント',
+                  ),
+                ],
+              ),
+              body: <Widget>[
+                const Thundercard(),
+                const CardsListPage(),
+                const Notifications(),
+                const Account(),
+              ][currentIndex],
+            ),
           );
         },
       ),
