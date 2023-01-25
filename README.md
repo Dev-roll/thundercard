@@ -9,6 +9,10 @@ Thundercard is a completely new SNS inspired by business cards. It is ideal for 
   <img width="2560" alt="Thundercard" src="https://user-images.githubusercontent.com/79978827/202828236-809fb30e-9d46-46aa-87da-18882e1f35b1.png">
 </a>
 
+## Status: 🚧 In progress 🚧
+
+Thundercard is still in the stages of development with respect to security protection. However, the application is mostly implemented and all features are available!
+
 ## Features
 
 - The world's fastest and most stress-free profile exchange.
