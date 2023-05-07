@@ -171,7 +171,7 @@ class CardsListFloatingActionButton extends ConsumerWidget {
                     brightness: Brightness.dark,
                     useMaterial3: true,
                   ),
-                  child: const ExchangeCard(),
+                  child: ExchangeCard(currentCardId: currentCardId),
                 ),
               ),
             )

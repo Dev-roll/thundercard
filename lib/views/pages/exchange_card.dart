@@ -6,7 +6,9 @@ import '../widgets/input_link.dart';
 import '../widgets/scan_qr_code.dart';
 
 class ExchangeCard extends StatefulWidget {
-  const ExchangeCard({super.key});
+  const ExchangeCard({super.key, required this.currentCardId});
+
+  final String currentCardId;
 
   @override
   State<ExchangeCard> createState() => _ExchangeCardState();
@@ -73,9 +75,9 @@ class _ExchangeCardState extends State<ExchangeCard>
           children: [
             TabBarView(
               controller: _tabController,
-              children: const [
-                ScanQrCode(),
-                InputLink(),
+              children: [
+                ScanQrCode(currentCardId: widget.currentCardId),
+                const InputLink(),
               ],
             ),
             Align(

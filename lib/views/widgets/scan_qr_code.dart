@@ -24,7 +24,9 @@ import 'my_qr_code.dart';
 import 'positioned_snack_bar.dart';
 
 class ScanQrCode extends StatefulWidget {
-  const ScanQrCode({Key? key}) : super(key: key);
+  const ScanQrCode({Key? key, required this.currentCardId}) : super(key: key);
+
+  final String currentCardId;
 
   @override
   State<StatefulWidget> createState() => _ScanQrCodeState();
@@ -39,6 +41,13 @@ class _ScanQrCodeState extends State<ScanQrCode> {
   var openUrl = '';
   var _lastChangedDate = DateTime.now();
   final linkTime = 10;
+
+  @override
+  void initState() {
+    super.initState();
+
+    myCardId = widget.currentCardId;
+  }
 
   Future<String?> scanSelectedImage() async {
     try {
