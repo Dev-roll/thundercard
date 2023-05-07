@@ -318,7 +318,7 @@ class _ThundercardState extends ConsumerState<Thundercard> {
                   brightness: Brightness.dark,
                   useMaterial3: true,
                 ),
-                child: const ExchangeCard(),
+                child: ExchangeCard(currentCardId: myCardId),
               ),
             ),
           )
