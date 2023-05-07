@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:thundercard/utils/dynamic_links.dart';
 
 import '../../utils/constants.dart';
 
@@ -16,6 +17,9 @@ class MyQrCode extends StatefulWidget {
 class _MyQrCodeState extends State<MyQrCode> {
   @override
   Widget build(BuildContext context) {
+    final Future<String> _dynamicLinks =
+        dynamicLinks(widget.name).then((value) => value.shortUrl.toString());
+
     return Container(
       alignment: Alignment.center,
       width: 216,
@@ -34,18 +38,25 @@ class _MyQrCodeState extends State<MyQrCode> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(13),
                   clipBehavior: Clip.hardEdge,
-                  child: QrImage(
-                    data: '$initStr${widget.name}',
-                    version: QrVersions.auto,
-                    size: 200,
-                    eyeStyle: const QrEyeStyle(
-                        color: Color(0xFFCCCCCC), eyeShape: QrEyeShape.square),
-                    dataModuleStyle: const QrDataModuleStyle(
-                        color: Color(0xFFCCCCCC),
-                        dataModuleShape: QrDataModuleShape.circle),
-                    backgroundColor: Theme.of(context).colorScheme.onSecondary,
-                    errorCorrectionLevel: QrErrorCorrectLevel.M,
-                    padding: const EdgeInsets.all(20),
+                  child: FutureBuilder(
+                    future: _dynamicLinks,
+                    builder: (context, snapshot) {
+                      return QrImage(
+                        data: '${snapshot.data}',
+                        version: QrVersions.auto,
+                        size: 200,
+                        eyeStyle: const QrEyeStyle(
+                            color: Color(0xFFCCCCCC),
+                            eyeShape: QrEyeShape.square),
+                        dataModuleStyle: const QrDataModuleStyle(
+                            color: Color(0xFFCCCCCC),
+                            dataModuleShape: QrDataModuleShape.circle),
+                        backgroundColor:
+                            Theme.of(context).colorScheme.onSecondary,
+                        errorCorrectionLevel: QrErrorCorrectLevel.M,
+                        padding: const EdgeInsets.all(20),
+                      );
+                    },
                   ),
                 ),
               ),
