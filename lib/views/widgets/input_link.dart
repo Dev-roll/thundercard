@@ -147,7 +147,7 @@ class InputLink extends ConsumerWidget {
                                         padding: const EdgeInsets.fromLTRB(
                                             16, 0, 16, 0),
                                         child: Text(
-                                          '$initStr$myCardId',
+                                          '${shortBaseUri.toString()}$myCardId',
                                           style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme
@@ -180,7 +180,8 @@ class InputLink extends ConsumerWidget {
                                         const EdgeInsets.fromLTRB(4, 0, 4, 0),
                                     child: IconButton(
                                       onPressed: () {
-                                        Share.share('$initStr$myCardId');
+                                        Share.share(
+                                            '${shortBaseUri.toString()}$myCardId');
                                       },
                                       icon: const Icon(Icons.share_rounded),
                                       padding: const EdgeInsets.all(20),
@@ -193,7 +194,8 @@ class InputLink extends ConsumerWidget {
                                       onPressed: () async {
                                         await Clipboard.setData(
                                           ClipboardData(
-                                              text: '$initStr$myCardId'),
+                                              text:
+                                                  '${shortBaseUri.toString()}$myCardId'),
                                         ).then((value) {
                                           ScaffoldMessenger.of(context)
                                               .hideCurrentSnackBar();
@@ -247,9 +249,9 @@ class InputLink extends ConsumerWidget {
                                     showModalBottomSheet(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return const InfoBottomSheet(
+                                        return InfoBottomSheet(
                                           data:
-                                              '$thundercardUrlで始まるThundercardのリンク、またはユーザーIDを入力してカードを交換することができます。\nユーザーIDを入力する際、先頭の@は省略できます。',
+                                              '${shortBaseUri.toString()} で始まるThundercardのリンク、またはユーザーIDを入力してカードを交換することができます。\nユーザーIDを入力する際、先頭の@は省略できます。',
                                         );
                                       },
                                       backgroundColor: Colors.transparent,

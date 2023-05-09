@@ -288,7 +288,7 @@ class ShareApp extends StatelessWidget {
         children: [
           ElevatedButton.icon(
             onPressed: () {
-              Share.share(thundercardUrl);
+              Share.share(shareThundercardUrl);
             },
             icon: const Icon(
               Icons.share_rounded,
@@ -311,7 +311,7 @@ class ShareApp extends StatelessWidget {
           IconButton(
             onPressed: () {
               Clipboard.setData(
-                const ClipboardData(text: thundercardUrl),
+                const ClipboardData(text: shareThundercardUrl),
               ).then(
                 (value) => ScaffoldMessenger.of(context).showSnackBar(
                   PositionedSnackBar(

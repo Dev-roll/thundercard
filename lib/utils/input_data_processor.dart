@@ -1,8 +1,17 @@
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:flutter/material.dart';
+
 import 'constants.dart';
 
-String? inputToId(String inputData) {
-  if (inputData.startsWith(initStr)) {
-    return Uri.parse(inputData).queryParameters['card_id']?.trim();
+Future<String?> inputToId(String inputData) async {
+  final Uri shortUri = Uri.parse(inputData);
+  final PendingDynamicLinkData? data =
+      await FirebaseDynamicLinks.instance.getDynamicLink(shortUri);
+  final Uri? longUri = data?.link;
+  debugPrint(data?.link.toString());
+  if (shortUri.host == shortBaseUri.host &&
+      longUri?.host == originalBaseUri.host) {
+    return data?.link.queryParameters['card_id']?.trim();
   }
   return null;
 }
