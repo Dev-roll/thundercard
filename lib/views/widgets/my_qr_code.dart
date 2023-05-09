@@ -3,8 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:thundercard/utils/dynamic_links.dart';
 
-import '../../utils/constants.dart';
-
 class MyQrCode extends StatefulWidget {
   const MyQrCode({Key? key, required this.name}) : super(key: key);
 
@@ -17,7 +15,7 @@ class MyQrCode extends StatefulWidget {
 class _MyQrCodeState extends State<MyQrCode> {
   @override
   Widget build(BuildContext context) {
-    final Future<String> _dynamicLinks =
+    final Future<String> dynamicLink =
         dynamicLinks(widget.name).then((value) => value.shortUrl.toString());
 
     return Container(
@@ -39,7 +37,7 @@ class _MyQrCodeState extends State<MyQrCode> {
                   borderRadius: BorderRadius.circular(13),
                   clipBehavior: Clip.hardEdge,
                   child: FutureBuilder(
-                    future: _dynamicLinks,
+                    future: dynamicLink,
                     builder: (context, snapshot) {
                       return QrImage(
                         data: '${snapshot.data}',

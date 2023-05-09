@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/foundation.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:thundercard/utils/launch_url.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../utils/constants.dart';
@@ -320,7 +321,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                   child: IconButton(
                     onPressed: () async {
                       final String data = await scanSelectedImage() ?? '';
-                      final String? id = inputToId(data);
+                      final String? id = await inputToId(data);
                       if (id != null) {
                         _transitionToNextPage(id);
                       } else if (data != '') {
@@ -371,7 +372,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
         } else if (describeEnum(scanData.format) == 'qrcode') {
           final str = scanData.code.toString();
           final nowDate = DateTime.now();
-          final String? id = inputToId(str);
+          final String? id = await inputToId(str);
           if (id != null) {
             _transitionToNextPage(id);
           } else if (openUrl != str ||
@@ -457,7 +458,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
             await canLaunchUrl(Uri.parse(data.trim()))
                 ? IconButton(
                     onPressed: () {
-                      _launchURL(data.trim());
+                      launchURL(data.trim(), context);
                     },
                     icon: Icon(
                       Icons.open_in_new_rounded,
@@ -494,31 +495,6 @@ class _ScanQrCodeState extends State<ScanQrCode> {
       controller?.resumeCamera();
       _isScanned = false;
     });
-  }
-
-  Future _launchURL(String url, {String? secondUrl}) async {
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(
-        Uri.parse(url),
-        mode: LaunchMode.externalApplication,
-      );
-    } else if (secondUrl != null && await canLaunchUrl(Uri.parse(secondUrl))) {
-      await launchUrl(
-        Uri.parse(secondUrl),
-        mode: LaunchMode.externalApplication,
-      );
-    } else {
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(
-        PositionedSnackBar(
-          context,
-          'アプリを開けません',
-          icon: Icons.error_outline_rounded,
-          foreground: Theme.of(context).colorScheme.onError,
-          bottom: 48,
-        ),
-      );
-    }
   }
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
@@ -573,7 +549,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
   //   return null;
   // }
 
-  // Future _launchURL(String url, {String? secondUrl}) async {
+  // Future launchURL(String url, {String? secondUrl}) async {
   //   if (await canLaunchUrl(Uri.parse(url))) {
   //     await launchUrl(
   //       Uri.parse(url),
