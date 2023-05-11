@@ -49,4 +49,4 @@ app.*.map.json
 *.jks
 keystore.properties
 
-lib/widgets/maintenance.dart
+lib/views/widgets/maintenance.dart
