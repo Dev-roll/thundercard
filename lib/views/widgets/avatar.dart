@@ -2,15 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Avatar extends StatelessWidget {
-  const Avatar({Key? key, this.isCurrentUser}) : super(key: key);
+  const Avatar({Key? key, this.isCurrentUser = false}) : super(key: key);
 
-  final bool? isCurrentUser;
+  final bool isCurrentUser;
 
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     var vw = screenSize.width * 0.01;
-    final bool _isCurrentUser = isCurrentUser ?? false;
 
     return Stack(
       children: [
@@ -55,7 +54,7 @@ class Avatar extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSecondary.withOpacity(0.25),
           ),
         ),
-        if (_isCurrentUser &&
+        if (isCurrentUser &&
             FirebaseAuth.instance.currentUser != null &&
             FirebaseAuth.instance.currentUser!.photoURL != null)
           Align(

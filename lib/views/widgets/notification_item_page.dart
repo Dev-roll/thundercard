@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/index.dart';
-import '../../utils/colors.dart';
 import '../../utils/constants.dart';
 import '../pages/add_card.dart';
 import '../pages/home_page.dart';

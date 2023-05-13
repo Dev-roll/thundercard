@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/firebase_firestore.dart';
 import '../../providers/index.dart';
-import '../../utils/colors.dart';
 import '../../utils/constants.dart';
 import '../widgets/card_img.dart';
 import '../widgets/card_info.dart';

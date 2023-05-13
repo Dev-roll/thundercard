@@ -16,7 +16,6 @@ import 'package:thundercard/utils/launch_url.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../utils/constants.dart';
-import '../../utils/dynamic_links.dart';
 import '../../utils/export_to_image.dart';
 import '../../utils/get_application_documents_file.dart';
 import '../../utils/input_data_processor.dart';

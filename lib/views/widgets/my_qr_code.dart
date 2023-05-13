@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:thundercard/providers/dynamic_links_provider.dart';
-import 'package:thundercard/utils/dynamic_links.dart';
 
 class MyQrCode extends ConsumerWidget {
   const MyQrCode({Key? key, required this.myCardId}) : super(key: key);
