@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:thundercard/providers/current_card_id_provider.dart';
 
 import '../../providers/firebase_firestore.dart';
 import '../../utils/constants.dart';
@@ -24,6 +25,7 @@ class NormalCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var screenSize = MediaQuery.of(context).size;
     var vw = screenSize.width * 0.01;
+    final currentUserCardId = ref.watch(currentCardIdProvider);
 
     final c10r20u10d10AsyncValue = ref.watch(c10r20u10d10Stream(cardId));
     return c10r20u10d10AsyncValue.when(
@@ -94,7 +96,9 @@ class NormalCard extends ConsumerWidget {
                               child: Row(
                                 children: [
                                   // avatar
-                                  const Avatar(),
+                                  currentUserCardId == cardId
+                                      ? const Avatar(isCurrentUser: true)
+                                      : const Avatar(),
                                   // name etc
                                   Flexible(
                                     child:

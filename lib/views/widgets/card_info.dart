@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:thundercard/providers/current_card_id_provider.dart';
 
 import '../../providers/firebase_firestore.dart';
 import '../../utils/constants.dart';
@@ -42,6 +43,8 @@ class CardInfo extends ConsumerWidget {
     // final _ = ref.refresh(c10r21u10d10Provider);
     final c10r21u10d10AsyncValue = ref.watch(c10r21u10d10Stream(cardId));
 
+    final currentUserCardId = ref.watch(currentCardIdProvider);
+
     return c10r21u10d10AsyncValue.when(
       error: (err, _) => Text(
         '$err',
@@ -72,10 +75,15 @@ class CardInfo extends ConsumerWidget {
                                 : Brightness.dark,
                         useMaterial3: true,
                       ),
-                      child: const SizedBox(
+                      child: SizedBox(
                         width: 68,
                         height: 68,
-                        child: FittedBox(child: Avatar()),
+                        child: currentUserCardId == cardId
+                            ? const FittedBox(
+                                child: Avatar(
+                                isCurrentUser: true,
+                              ))
+                            : const FittedBox(child: Avatar()),
                       ),
                     ),
                     const SizedBox(
