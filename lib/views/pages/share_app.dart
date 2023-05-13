@@ -4,18 +4,27 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:thundercard/providers/dynamic_links_provider.dart';
 
 import '../../utils/constants.dart';
 import '../widgets/positioned_snack_bar.dart';
 
-class ShareApp extends StatelessWidget {
+class ShareApp extends ConsumerWidget {
   const ShareApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dynamicLink = ref.watch(dynamicLinkProvider('Devroll'));
+    final String dynamicLinksValue = dynamicLink.when(
+      data: (data) => data.shortUrl.toString(), // データを表示
+      loading: () => '',
+      error: (err, stack) => err.toString(),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Thundercard をシェア'),
@@ -288,7 +297,7 @@ class ShareApp extends StatelessWidget {
         children: [
           ElevatedButton.icon(
             onPressed: () {
-              Share.share(shareThundercardUrl);
+              Share.share(dynamicLinksValue);
             },
             icon: const Icon(
               Icons.share_rounded,
@@ -311,7 +320,7 @@ class ShareApp extends StatelessWidget {
           IconButton(
             onPressed: () {
               Clipboard.setData(
-                const ClipboardData(text: shareThundercardUrl),
+                ClipboardData(text: dynamicLinksValue),
               ).then(
                 (value) => ScaffoldMessenger.of(context).showSnackBar(
                   PositionedSnackBar(
