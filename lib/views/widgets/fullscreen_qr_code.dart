@@ -34,7 +34,7 @@ class FullscreenQrCode extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.8,
                         height: MediaQuery.of(context).size.width * 0.8,
                         child: FittedBox(
-                          child: MyQrCode(name: name),
+                          child: MyQrCode(myCardId: name),
                         ),
                       ),
                       const SizedBox(

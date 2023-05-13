@@ -1,7 +1,9 @@
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:thundercard/providers/dynamic_links_provider.dart';
 import 'package:thundercard/utils/dynamic_links.dart';
 
 import '../../providers/firebase_firestore.dart';
@@ -46,6 +48,12 @@ class InputLink extends ConsumerWidget {
             ),
             data: (currentCard) {
               final myCardId = currentCard?['current_card'];
+              final dynamicLink = ref.watch(dynamicLinkProvider(myCardId));
+              final String dynamicLinksValue = dynamicLink.when(
+                data: (data) => data.shortUrl.toString(), // データを表示
+                loading: () => '',
+                error: (err, stack) => err.toString(),
+              );
               final c10r20u10d10AsyncValue =
                   ref.watch(c10r20u10d10Stream(myCardId));
               return c10r20u10d10AsyncValue.when(
@@ -151,38 +159,14 @@ class InputLink extends ConsumerWidget {
                                       child: Padding(
                                         padding: const EdgeInsets.fromLTRB(
                                             16, 0, 16, 0),
-                                        child: FutureBuilder(
-                                          future: dynamicLinks(myCardId),
-                                          builder: (BuildContext context,
-                                              AsyncSnapshot snapshot) {
-                                            if (snapshot.connectionState ==
-                                                ConnectionState.waiting) {
-                                              return const Text('');
-                                            } else {
-                                              if (snapshot.hasError) {
-                                                return Text(
-                                                  'Error: ${snapshot.error}',
-                                                  style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onBackground
-                                                        .withOpacity(0.8),
-                                                  ),
-                                                );
-                                              } else {
-                                                return Text(
-                                                  snapshot.data.shortUrl
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onBackground
-                                                        .withOpacity(0.8),
-                                                  ),
-                                                );
-                                              }
-                                            }
-                                          },
+                                        child: Text(
+                                          dynamicLinksValue,
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground
+                                                .withOpacity(0.8),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -209,11 +193,7 @@ class InputLink extends ConsumerWidget {
                                         const EdgeInsets.fromLTRB(4, 0, 4, 0),
                                     child: IconButton(
                                       onPressed: () async {
-                                        final thunderCardUrl =
-                                            await dynamicLinks(myCardId);
-
-                                        Share.share(
-                                            thunderCardUrl.shortUrl.toString());
+                                        Share.share(dynamicLinksValue);
                                       },
                                       icon: const Icon(Icons.share_rounded),
                                       padding: const EdgeInsets.all(20),
@@ -224,13 +204,9 @@ class InputLink extends ConsumerWidget {
                                         const EdgeInsets.fromLTRB(4, 0, 4, 0),
                                     child: IconButton(
                                       onPressed: () async {
-                                        final thunderCardUrl =
-                                            await dynamicLinks(myCardId);
-
                                         await Clipboard.setData(
                                           ClipboardData(
-                                              text: thunderCardUrl.shortUrl
-                                                  .toString()),
+                                              text: dynamicLinksValue),
                                         ).then((value) {
                                           ScaffoldMessenger.of(context)
                                               .hideCurrentSnackBar();

@@ -140,7 +140,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                             child: RepaintBoundary(
                               key: _globalKey,
                               child: MyQrCode(
-                                name: myCardId,
+                                myCardId: myCardId,
                               ),
                             ),
                           ),
