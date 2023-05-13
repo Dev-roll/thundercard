@@ -63,6 +63,7 @@ class _OpenAppState extends State<OpenApp> {
         mode: LaunchMode.externalApplication,
       );
     } else {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         PositionedSnackBar(
           context,
