@@ -1,12 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Avatar extends StatelessWidget {
-  const Avatar({Key? key}) : super(key: key);
+  const Avatar({Key? key, this.isCurrentUser}) : super(key: key);
+
+  final bool? isCurrentUser;
 
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     var vw = screenSize.width * 0.01;
+    final bool _isCurrentUser = isCurrentUser ?? false;
+
     return Stack(
       children: [
         Align(
@@ -50,6 +55,26 @@ class Avatar extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSecondary.withOpacity(0.25),
           ),
         ),
+        if (_isCurrentUser &&
+            FirebaseAuth.instance.currentUser != null &&
+            FirebaseAuth.instance.currentUser!.photoURL != null)
+          Align(
+            alignment: const Alignment(0, 0),
+            child: Container(
+              width: 16 * vw,
+              height: 16 * vw,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: NetworkImage(
+                    FirebaseAuth.instance.currentUser!.photoURL!,
+                  ),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              clipBehavior: Clip.hardEdge,
+            ),
+          ),
       ],
     );
   }

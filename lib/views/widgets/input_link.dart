@@ -72,7 +72,11 @@ class InputLink extends ConsumerWidget {
                               const SizedBox(
                                 width: 40,
                                 height: 40,
-                                child: FittedBox(child: Avatar()),
+                                child: FittedBox(
+                                  child: Avatar(
+                                    isCurrentUser: true,
+                                  ),
+                                ),
                               ),
                               const SizedBox(
                                 height: 12,

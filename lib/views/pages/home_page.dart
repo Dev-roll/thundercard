@@ -210,8 +210,12 @@ class HomePage extends ConsumerWidget {
                                             leading: const SizedBox(
                                               width: 32,
                                               child: Center(
-                                                  child: FittedBox(
-                                                      child: Avatar())),
+                                                child: FittedBox(
+                                                  child: Avatar(
+                                                    isCurrentUser: true,
+                                                  ),
+                                                ),
+                                              ),
                                             ),
                                             title: Padding(
                                               padding:
