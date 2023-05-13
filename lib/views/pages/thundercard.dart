@@ -7,11 +7,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:thundercard/providers/dynamic_links_provider.dart';
 
 import '../../providers/current_card_id_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/current_brightness.dart';
-import '../../utils/dynamic_links.dart';
 import '../../utils/export_to_image.dart';
 import '../../utils/firebase_auth.dart';
 import '../../utils/get_application_documents_file.dart';
@@ -46,6 +46,13 @@ class _ThundercardState extends ConsumerState<Thundercard> {
         .substring(2);
 
     setSystemChrome(context);
+
+    final dynamicLink = ref.watch(dynamicLinkProvider(myCardId));
+    final String dynamicLinksValue = dynamicLink.when(
+      data: (data) => data.shortUrl.toString(), // データを表示
+      loading: () => '',
+      error: (err, stack) => err.toString(),
+    );
 
     myCardId = ref.watch(currentCardIdProvider);
     // String thunderCardUrl =
@@ -207,17 +214,15 @@ class _ThundercardState extends ConsumerState<Thundercard> {
 
                                             final path =
                                                 applicationDocumentsFile.path;
-                                            final thunderCardUrl =
-                                                await dynamicLinks(myCardId);
                                             await Share.shareXFiles(
                                               [
                                                 XFile(path),
                                               ],
-                                              text: thunderCardUrl.shortUrl
-                                                  .toString(),
+                                              text: dynamicLinksValue,
                                               subject:
                                                   '$myCardIdさんのThundercardの共有',
                                             );
+                                            debugPrint(dynamicLinksValue);
                                             applicationDocumentsFile.delete();
                                           },
                                           icon: const Icon(Icons.share_rounded),
@@ -270,23 +275,23 @@ class _ThundercardState extends ConsumerState<Thundercard> {
                                             20, 0, 20, 0),
                                         child: IconButton(
                                           onPressed: () async {
-                                            final thunderCardUrl =
-                                                await dynamicLinks(myCardId);
                                             await Clipboard.setData(
                                               ClipboardData(
-                                                  text: thunderCardUrl.shortUrl
-                                                      .toString()),
+                                                  text: dynamicLinksValue),
                                             ).then(
-                                              (value) =>
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                PositionedSnackBar(
-                                                  context,
-                                                  'クリップボードにコピーしました',
-                                                  icon: Icons
-                                                      .library_add_check_rounded,
-                                                ),
-                                              ),
+                                              (value) {
+                                                debugPrint(dynamicLinksValue);
+                                                return ScaffoldMessenger.of(
+                                                        context)
+                                                    .showSnackBar(
+                                                  PositionedSnackBar(
+                                                    context,
+                                                    'クリップボードにコピーしました',
+                                                    icon: Icons
+                                                        .library_add_check_rounded,
+                                                  ),
+                                                );
+                                              },
                                             );
                                           },
                                           icon: const Icon(Icons.copy_rounded),
