@@ -4,12 +4,14 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:flutter/foundation.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:thundercard/providers/dynamic_links_provider.dart';
 import 'package:thundercard/utils/launch_url.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,16 +26,16 @@ import 'fullscreen_qr_code.dart';
 import 'my_qr_code.dart';
 import 'positioned_snack_bar.dart';
 
-class ScanQrCode extends StatefulWidget {
+class ScanQrCode extends ConsumerStatefulWidget {
   const ScanQrCode({Key? key, required this.currentCardId}) : super(key: key);
 
   final String currentCardId;
 
   @override
-  State<StatefulWidget> createState() => _ScanQrCodeState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ScanQrCodeState();
 }
 
-class _ScanQrCodeState extends State<ScanQrCode> {
+class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   bool _isScanned = false;
@@ -89,6 +91,13 @@ class _ScanQrCodeState extends State<ScanQrCode> {
   Widget build(BuildContext context) {
     setSystemChrome(context);
 
+    final dynamicLink = ref.watch(dynamicLinkProvider(myCardId));
+    final String dynamicLinksValue = dynamicLink.when(
+      data: (data) => data.shortUrl.toString(), // データを表示
+      loading: () => '',
+      error: (err, stack) => err.toString(),
+    );
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -140,7 +149,7 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                             child: RepaintBoundary(
                               key: _globalKey,
                               child: MyQrCode(
-                                name: myCardId,
+                                myCardId: myCardId,
                               ),
                             ),
                           ),
@@ -175,14 +184,12 @@ class _ScanQrCodeState extends State<ScanQrCode> {
                                       myCardId, widgetImageBytes!);
 
                               final path = applicationDocumentsFile.path;
-                              final thunderCardUrl =
-                                  await dynamicLinks(myCardId);
 
                               await Share.shareXFiles(
                                 [
                                   XFile(path),
                                 ],
-                                text: thunderCardUrl.shortUrl.toString(),
+                                text: dynamicLinksValue,
                                 subject: '$myCardIdさんのThundercardアカウントの共有',
                               );
                               applicationDocumentsFile.delete();
