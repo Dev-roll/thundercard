@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:thundercard/utils/dynamic_links.dart';
 
 import '../../providers/firebase_firestore.dart';
 import '../../utils/constants.dart';
@@ -150,14 +151,38 @@ class InputLink extends ConsumerWidget {
                                       child: Padding(
                                         padding: const EdgeInsets.fromLTRB(
                                             16, 0, 16, 0),
-                                        child: Text(
-                                          '${shortBaseUri.toString()}$myCardId',
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onBackground
-                                                .withOpacity(0.8),
-                                          ),
+                                        child: FutureBuilder(
+                                          future: dynamicLinks(myCardId),
+                                          builder: (BuildContext context,
+                                              AsyncSnapshot snapshot) {
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.waiting) {
+                                              return const Text('');
+                                            } else {
+                                              if (snapshot.hasError) {
+                                                return Text(
+                                                  'Error: ${snapshot.error}',
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onBackground
+                                                        .withOpacity(0.8),
+                                                  ),
+                                                );
+                                              } else {
+                                                return Text(
+                                                  snapshot.data.shortUrl
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onBackground
+                                                        .withOpacity(0.8),
+                                                  ),
+                                                );
+                                              }
+                                            }
+                                          },
                                         ),
                                       ),
                                     ),
@@ -183,9 +208,12 @@ class InputLink extends ConsumerWidget {
                                     padding:
                                         const EdgeInsets.fromLTRB(4, 0, 4, 0),
                                     child: IconButton(
-                                      onPressed: () {
+                                      onPressed: () async {
+                                        final thunderCardUrl =
+                                            await dynamicLinks(myCardId);
+
                                         Share.share(
-                                            '${shortBaseUri.toString()}$myCardId');
+                                            thunderCardUrl.shortUrl.toString());
                                       },
                                       icon: const Icon(Icons.share_rounded),
                                       padding: const EdgeInsets.all(20),
@@ -196,10 +224,13 @@ class InputLink extends ConsumerWidget {
                                         const EdgeInsets.fromLTRB(4, 0, 4, 0),
                                     child: IconButton(
                                       onPressed: () async {
+                                        final thunderCardUrl =
+                                            await dynamicLinks(myCardId);
+
                                         await Clipboard.setData(
                                           ClipboardData(
-                                              text:
-                                                  '${shortBaseUri.toString()}$myCardId'),
+                                              text: thunderCardUrl.shortUrl
+                                                  .toString()),
                                         ).then((value) {
                                           ScaffoldMessenger.of(context)
                                               .hideCurrentSnackBar();
