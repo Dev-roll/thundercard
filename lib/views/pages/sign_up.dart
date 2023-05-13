@@ -62,7 +62,7 @@ class _SignUpState extends State<SignUp> {
     try {
       final googleLogin = GoogleSignIn(scopes: [
         'email',
-        'https://www.googleapis.com/auth/contacts.readonly',
+        'profile',
       ]);
 
       GoogleSignInAccount? signinAccount = await googleLogin.signIn();
