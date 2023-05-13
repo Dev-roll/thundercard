@@ -103,10 +103,6 @@ class NotificationItemPage extends ConsumerWidget {
       appBar: AppBar(
         actions: [
           PopupMenuButton<String>(
-            color: alphaBlend(
-              Theme.of(context).colorScheme.primary.withOpacity(0.08),
-              Theme.of(context).colorScheme.surface,
-            ),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
             splashRadius: 20,
