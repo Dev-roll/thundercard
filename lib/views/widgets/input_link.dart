@@ -1,10 +1,9 @@
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/providers/dynamic_links_provider.dart';
-import 'package:thundercard/utils/dynamic_links.dart';
+import 'package:thundercard/utils/input_data_processor.dart';
 
 import '../../providers/firebase_firestore.dart';
 import '../../utils/constants.dart';
@@ -301,24 +300,7 @@ class InputLink extends ConsumerWidget {
                                     return null;
                                   },
                                   onFieldSubmitted: (value) {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => AddCard(
-                                          applyingId: myCardId,
-                                          cardId: _controller.text
-                                                  .startsWith('https://')
-                                              ? Uri.parse(_controller.text)
-                                                      .queryParameters[
-                                                          'card_id']
-                                                      ?.trim() ??
-                                                  ''
-                                              : _controller.text
-                                                  .split('@')
-                                                  .last
-                                                  .trim(),
-                                        ),
-                                      ),
-                                    );
+                                    _transitionToNextPage(context, myCardId);
                                   },
                                 ),
                               ),
@@ -333,25 +315,8 @@ class InputLink extends ConsumerWidget {
                                   onPressed: _controller.text == ''
                                       ? null
                                       : () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) => AddCard(
-                                                applyingId: myCardId,
-                                                cardId: _controller.text
-                                                        .startsWith('https://')
-                                                    ? Uri.parse(_controller
-                                                                .text)
-                                                            .queryParameters[
-                                                                'card_id']
-                                                            ?.trim() ??
-                                                        ''
-                                                    : _controller.text
-                                                        .split('@')
-                                                        .last
-                                                        .trim(),
-                                              ),
-                                            ),
-                                          );
+                                          _transitionToNextPage(
+                                              context, myCardId);
                                         },
                                   icon: const Icon(Icons.search_rounded),
                                   label: const Text('検索'),
@@ -379,5 +344,21 @@ class InputLink extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _transitionToNextPage(
+      BuildContext context, String myCardId) async {
+    await inputToId(_controller.text).then((id) {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => AddCard(
+            applyingId: myCardId,
+            cardId: _controller.text.startsWith('https://')
+                ? id ?? ''
+                : _controller.text.split('@').last.trim(),
+          ),
+        ),
+      );
+    });
   }
 }
