@@ -45,7 +45,8 @@ class MyApp extends ConsumerWidget {
           theme: ThemeData(
             useMaterial3: true,
             // fontFamily: '',
-            colorSchemeSeed: lightDynamic?.harmonized().primary ?? seedColor,
+            colorScheme: lightDynamic?.harmonized() ??
+                ColorScheme.fromSeed(seedColor: seedColor).harmonized(),
             brightness: Brightness.light,
             visualDensity: VisualDensity.standard,
             textTheme: kIsWeb
@@ -56,7 +57,8 @@ class MyApp extends ConsumerWidget {
           darkTheme: ThemeData(
             useMaterial3: true,
             // fontFamily: '',
-            colorSchemeSeed: darkDynamic?.harmonized().primary ?? seedColor,
+            colorScheme: darkDynamic?.harmonized() ??
+                ColorScheme.fromSeed(seedColor: seedColor).harmonized(),
             brightness: Brightness.dark,
             visualDensity: VisualDensity.standard,
             textTheme: kIsWeb
