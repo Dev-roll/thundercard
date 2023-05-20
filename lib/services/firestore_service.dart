@@ -30,25 +30,25 @@ class FirestoreService {
     }
   }
 
-  Future<List<String>> getExchangedCards() async {
-    final String currentCardId = await getCurrentCardId();
+  // Future<List<String>> getExchangedCards() async {
+  //   final String currentCardId = await getCurrentCardId();
 
-    try {
-      DocumentSnapshot<Map<String, dynamic>> exchangedCards =
-          await _cardsCollectionReference
-              .doc(currentCardId)
-              .collection('visibility')
-              .doc('c10r10u11d10')
-              .get();
-      return exchangedCards.data()!['exchanged_cards'].cast<String>()
-          as List<String>;
-    } catch (e) {
-      if (e is PlatformException) {
-        throw PlatformException(code: e.message as String);
-      }
-      throw Exception(e.toString());
-    }
-  }
+  //   try {
+  //     DocumentSnapshot<Map<String, dynamic>> exchangedCards =
+  //         await _cardsCollectionReference
+  //             .doc(currentCardId)
+  //             .collection('visibility')
+  //             .doc('c10r10u11d10')
+  //             .get();
+  //     return exchangedCards.data()!['exchanged_cards'].cast<String>()
+  //         as List<String>;
+  //   } catch (e) {
+  //     if (e is PlatformException) {
+  //       throw PlatformException(code: e.message as String);
+  //     }
+  //     throw Exception(e.toString());
+  //   }
+  // }
 
   Stream<List<String>> exchangedCardsStream(String currentCardId) {
     final Stream<DocumentSnapshot<Map<String, dynamic>>> snapshots =
