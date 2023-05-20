@@ -64,6 +64,18 @@ final currentCardStream = StreamProvider.autoDispose<dynamic>((ref) {
   return prefs;
 });
 
+final notificationStreamProvider =
+    StreamProvider.autoDispose.family<dynamic, String>((ref, cardId) {
+  return FirebaseFirestore.instance
+      .collection('version')
+      .doc('2')
+      .collection('cards')
+      .doc(cardId)
+      .collection('visibility')
+      .doc('c10r10u10d10')
+      .snapshots();
+});
+
 final c10r10u11d10Stream =
     StreamProvider.autoDispose.family<dynamic, String>((ref, cardId) {
   final prefs = FirebaseFirestore.instance

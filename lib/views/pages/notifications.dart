@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:thundercard/providers/notifications_count_provider.dart';
 
 import '../../providers/current_card_id_provider.dart';
 import '../../utils/setSystemChrome.dart';
@@ -19,6 +20,9 @@ class _NotificationsState extends ConsumerState<Notifications> {
   Widget build(BuildContext context) {
     setSystemChrome(context);
     final myCardId = ref.watch(currentCardIdProvider);
+    final notificationsCount = ref.watch(notificationsCountProvider);
+    final interactionsCount = notificationsCount['interactions_count'];
+    final newsCount = notificationsCount['news_count'];
 
     return DefaultTabController(
       length: 2,
@@ -59,25 +63,34 @@ class _NotificationsState extends ConsumerState<Notifications> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(
-                                  Icons.handshake_outlined,
-                                  size: 22,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSecondaryContainer
-                                      .withOpacity(0.75),
-                                ),
-                                const SizedBox(width: 6),
-                                Text(
-                                  '交流',
-                                  style: TextStyle(
+                                Badge(
+                                  isLabelVisible: interactionsCount != 0,
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.tertiary,
+                                  child: Icon(
+                                    Icons.handshake_outlined,
+                                    size: 22,
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSecondaryContainer
                                         .withOpacity(0.75),
                                   ),
                                 ),
-                                const SizedBox(width: 2),
+                                const SizedBox(width: 6),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '交流',
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondaryContainer
+                                            .withOpacity(0.75),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 2),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -89,13 +102,18 @@ class _NotificationsState extends ConsumerState<Notifications> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(
-                                  Icons.campaign_rounded,
-                                  size: 22,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSecondaryContainer
-                                      .withOpacity(0.75),
+                                Badge(
+                                  isLabelVisible: newsCount != 0,
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.tertiary,
+                                  child: Icon(
+                                    Icons.campaign_rounded,
+                                    size: 22,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondaryContainer
+                                        .withOpacity(0.75),
+                                  ),
                                 ),
                                 const SizedBox(width: 6),
                                 Text(
