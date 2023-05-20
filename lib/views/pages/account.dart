@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:thundercard/views/widgets/available_auth.dart';
 
 import '../../main.dart';
 import '../../providers/firebase_firestore.dart';
@@ -570,27 +571,11 @@ class Account extends ConsumerWidget {
                                   ),
                                 ],
                               ),
-                              // Container(
-                              //   padding: EdgeInsets.fromLTRB(8, 20, 8, 8),
-                              //   child: Row(children: [
-                              //     Icon(
-                              //       Icons.lock_rounded,
-                              //       color:
-                              //           Theme.of(context).colorScheme.onSurfaceVariant,
-                              //     ),
-                              //     SizedBox(
-                              //       width: 8,
-                              //     ),
-                              //     Text(
-                              //       '（認証方法）',
-                              //       style: TextStyle(
-                              //         color: Theme.of(context)
-                              //             .colorScheme
-                              //             .onSurfaceVariant,
-                              //       ),
-                              //     ),
-                              //   ]),
-                              // ),
+                              Container(
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 20, 8, 8),
+                                child: const AvailableAuth(),
+                              ),
                               Container(
                                 padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
                                 alignment: Alignment.center,
