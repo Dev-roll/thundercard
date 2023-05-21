@@ -32,6 +32,12 @@ ThemeData createTheme(
         ? GoogleFonts.interTextTheme(Theme.of(context).textTheme)
         : !isApple && brightness == Brightness.dark
             ? GoogleFonts.interTextTheme(Theme.of(context).primaryTextTheme)
-            : null,
+            : kIsWeb && brightness == Brightness.light
+                ? GoogleFonts.zenKakuGothicNewTextTheme(
+                    Theme.of(context).textTheme)
+                : kIsWeb && brightness == Brightness.dark
+                    ? GoogleFonts.zenKakuGothicNewTextTheme(
+                        Theme.of(context).primaryTextTheme)
+                    : null,
   );
 }
