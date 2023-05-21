@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:thundercard/providers/index.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 
@@ -338,9 +339,14 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
           ),
         );
       } else {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => AuthGate()),
-        );
+        if (widget.isRegistration) {
+          ref.watch(currentIndexProvider.notifier).state = 0;
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => AuthGate()),
+          );
+        } else {
+          Navigator.of(context).pop();
+        }
         final values = controller.value.map(((e) {
           return e.controller.text;
         })).toList();
@@ -699,7 +705,6 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
                         showErrorMessage(context);
                         return;
                       }
-                      Navigator.of(context).pop();
                       registerCard();
                     },
                     onLongPress: null,

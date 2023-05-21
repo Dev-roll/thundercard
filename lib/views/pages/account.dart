@@ -805,12 +805,29 @@ class Account extends ConsumerWidget {
                                             icon: const Icon(
                                                 Icons.person_off_rounded),
                                             title: const Text('アカウントを削除'),
-                                            content: Text(
-                                              'このアカウントを削除しますか？',
-                                              style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onSurfaceVariant,
+                                            content: SingleChildScrollView(
+                                              child: Column(
+                                                children: [
+                                                  Text(
+                                                    'このアカウントを削除しますか？',
+                                                    style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onSurfaceVariant,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                  Text(
+                                                    'この操作は取り消せません。',
+                                                    style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .error,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                             actions: [
