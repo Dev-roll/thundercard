@@ -52,13 +52,6 @@ class NotificationItemPage extends ConsumerWidget {
       debugPrint(documentId);
       notificationItemDoc.delete().then(
         (doc) {
-          ref.watch(currentIndexProvider.notifier).state = 2;
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (context) => HomePage(),
-            ),
-            (_) => false,
-          );
           debugPrint('Document deleted');
         },
         onError: (e) {
@@ -88,6 +81,7 @@ class NotificationItemPage extends ConsumerWidget {
             ),
             TextButton(
               onPressed: () {
+                Navigator.of(context).pop();
                 Navigator.of(context).pop();
                 deleteThisNotification();
               },
@@ -141,14 +135,7 @@ class NotificationItemPage extends ConsumerWidget {
                     .doc(documentId)
                     .update({'read': false}).then(
                   (doc) {
-                    ref.watch(currentIndexProvider.notifier).state = 2;
-
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) => HomePage(),
-                      ),
-                      (_) => false,
-                    );
+                    Navigator.of(context).pop();
                   },
                   onError: (e) {
                     debugPrint('Error updating document $e');

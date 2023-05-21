@@ -36,7 +36,7 @@ class MyQrCode extends ConsumerWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(13),
                   clipBehavior: Clip.hardEdge,
-                  child: QrImage(
+                  child: QrImageView(
                     data: dynamicLinksValue,
                     version: QrVersions.auto,
                     size: 200,
