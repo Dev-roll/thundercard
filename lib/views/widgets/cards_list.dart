@@ -7,23 +7,19 @@ import '../pages/card_details.dart';
 import 'my_card.dart';
 
 class CardsList extends ConsumerWidget {
-  const CardsList({super.key});
+  const CardsList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     List<String> exchangedCards = ref.watch(exchangedCardsProvider);
 
-    return (exchangedCards.isNotEmpty)
-        ? Expanded(
-            child: ListView.builder(
-              itemCount: exchangedCards.length + 2,
+    return Expanded(
+      child: (exchangedCards.isNotEmpty)
+          ? ListView.builder(
+              padding: const EdgeInsets.only(top: 16, bottom: 80),
+              itemCount: exchangedCards.length,
               itemBuilder: (context, index) {
-                if (index == 0) {
-                  return const SizedBox(height: 16);
-                }
-                if (index == exchangedCards.length + 1) {
-                  return const SizedBox(height: 80);
-                }
+                final cardIndex = exchangedCards.length - 1 - index;
                 return Column(
                   children: [
                     GestureDetector(
@@ -31,7 +27,7 @@ class CardsList extends ConsumerWidget {
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => CardDetails(
-                            cardId: exchangedCards[index - 1],
+                            cardId: exchangedCards[cardIndex],
                           ),
                         ));
                       },
@@ -41,7 +37,7 @@ class CardsList extends ConsumerWidget {
                         ),
                         child: FittedBox(
                           child: MyCard(
-                            cardId: exchangedCards[index - 1],
+                            cardId: exchangedCards[cardIndex],
                             cardType: CardType.normal,
                           ),
                         ),
@@ -51,10 +47,8 @@ class CardsList extends ConsumerWidget {
                   ],
                 );
               },
-            ),
-          )
-        : Expanded(
-            child: Column(
+            )
+          : Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
@@ -73,6 +67,6 @@ class CardsList extends ConsumerWidget {
                 ),
               ],
             ),
-          );
+    );
   }
 }
