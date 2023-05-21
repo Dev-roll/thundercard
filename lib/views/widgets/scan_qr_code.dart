@@ -128,9 +128,17 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
                               MaterialPageRoute(
                                 builder: (context) => Theme(
                                   data: ThemeData(
-                                    colorSchemeSeed:
-                                        Theme.of(context).colorScheme.primary,
-                                    brightness: Brightness.dark,
+                                    colorScheme: Theme.of(context)
+                                                .colorScheme
+                                                .brightness ==
+                                            Brightness.dark
+                                        ? Theme.of(context).colorScheme
+                                        : ColorScheme.fromSeed(
+                                            seedColor: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            brightness: Brightness.dark,
+                                          ),
                                     useMaterial3: true,
                                   ),
                                   child: FullscreenQrCode(
@@ -226,9 +234,17 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
                               MaterialPageRoute(
                                 builder: (context) => Theme(
                                   data: ThemeData(
-                                    colorSchemeSeed:
-                                        Theme.of(context).colorScheme.primary,
-                                    brightness: Brightness.dark,
+                                    colorScheme: Theme.of(context)
+                                                .colorScheme
+                                                .brightness ==
+                                            Brightness.dark
+                                        ? Theme.of(context).colorScheme
+                                        : ColorScheme.fromSeed(
+                                            seedColor: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            brightness: Brightness.dark,
+                                          ),
                                     useMaterial3: true,
                                   ),
                                   child: FullscreenQrCode(
