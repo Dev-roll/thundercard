@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -37,36 +39,44 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final customTheme = ref.watch(customThemeProvider);
+    ThemeData baseTheme(ColorScheme? dynamicColor, Brightness brightness,
+        bool isAndroid, bool isApple, BuildContext context) {
+      var colorScheme = dynamicColor?.harmonized() ??
+          ColorScheme.fromSeed(seedColor: seedColor).harmonized();
+      return ThemeData(
+        useMaterial3: true,
+        colorScheme: isAndroid ? colorScheme : null,
+        colorSchemeSeed: isAndroid ? null : colorScheme.primary,
+        brightness: brightness,
+        visualDensity: VisualDensity.standard,
+        textTheme: !isApple && brightness == Brightness.light
+            ? GoogleFonts.interTextTheme(Theme.of(context).textTheme)
+            : !isApple && brightness == Brightness.dark
+                ? GoogleFonts.interTextTheme(Theme.of(context).primaryTextTheme)
+                : null,
+      );
+    }
+
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+        bool isApple = !kIsWeb && (Platform.isIOS || Platform.isMacOS);
+        bool isAndroid = !kIsWeb && Platform.isAndroid;
+
+        ThemeData theme(ColorScheme? dynamicColor) {
+          return baseTheme(
+              dynamicColor, Brightness.light, isAndroid, isApple, context);
+        }
+
+        ThemeData darkTheme(ColorScheme? dynamicColor) {
+          return baseTheme(
+              dynamicColor, Brightness.dark, isAndroid, isApple, context);
+        }
+
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Thundercard',
-          theme: ThemeData(
-            useMaterial3: true,
-            // fontFamily: '',
-            colorScheme: lightDynamic?.harmonized() ??
-                ColorScheme.fromSeed(seedColor: seedColor).harmonized(),
-            brightness: Brightness.light,
-            visualDensity: VisualDensity.standard,
-            textTheme: kIsWeb
-                ? GoogleFonts.zenKakuGothicNewTextTheme(
-                    Theme.of(context).textTheme)
-                : GoogleFonts.interTextTheme(Theme.of(context).textTheme),
-          ),
-          darkTheme: ThemeData(
-            useMaterial3: true,
-            // fontFamily: '',
-            colorScheme: darkDynamic?.harmonized() ??
-                ColorScheme.fromSeed(seedColor: seedColor).harmonized(),
-            brightness: Brightness.dark,
-            visualDensity: VisualDensity.standard,
-            textTheme: kIsWeb
-                ? GoogleFonts.zenKakuGothicNewTextTheme(
-                    Theme.of(context).primaryTextTheme)
-                : GoogleFonts.interTextTheme(
-                    Theme.of(context).primaryTextTheme),
-          ),
+          theme: theme(lightDynamic),
+          darkTheme: darkTheme(darkDynamic),
           themeMode: customTheme.currentAppTheme,
           locale: const Locale('ja', 'JP'),
           localizationsDelegates: const [
