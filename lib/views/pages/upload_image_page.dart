@@ -265,13 +265,13 @@ class _UploadImagePageState extends State<UploadImagePage> {
                                         Theme.of(context).colorScheme.primary,
                                   ),
                       ),
-                      startChild: Padding(
-                        padding: const EdgeInsets.only(
+                      startChild: const Padding(
+                        padding: EdgeInsets.only(
                             left: 16, right: 12, top: 0, bottom: 0),
                         child: Column(
                           // alignment: const Alignment(0.0, 0),
                           crossAxisAlignment: CrossAxisAlignment.end,
-                          children: const <Widget>[
+                          children: <Widget>[
                             Text(
                               '',
                               style: TextStyle(
@@ -282,12 +282,12 @@ class _UploadImagePageState extends State<UploadImagePage> {
                           ],
                         ),
                       ),
-                      endChild: Padding(
-                        padding: const EdgeInsets.only(
+                      endChild: const Padding(
+                        padding: EdgeInsets.only(
                             left: 12, right: 32, top: 0, bottom: 0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const <Widget>[
+                          children: <Widget>[
                             Text(
                               '名刺等の画像を設定',
                               style: TextStyle(
@@ -398,13 +398,13 @@ class _UploadImagePageState extends State<UploadImagePage> {
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                       ),
-                      startChild: Padding(
-                        padding: const EdgeInsets.only(
+                      startChild: const Padding(
+                        padding: EdgeInsets.only(
                             left: 16, right: 12, top: 0, bottom: 0),
                         child: Column(
                           // alignment: const Alignment(0.0, 0),
                           crossAxisAlignment: CrossAxisAlignment.end,
-                          children: const <Widget>[
+                          children: <Widget>[
                             Text(
                               '',
                               style: TextStyle(
@@ -415,12 +415,12 @@ class _UploadImagePageState extends State<UploadImagePage> {
                           ],
                         ),
                       ),
-                      endChild: Padding(
-                        padding: const EdgeInsets.only(
+                      endChild: const Padding(
+                        padding: EdgeInsets.only(
                             left: 12, right: 32, top: 0, bottom: 0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const <Widget>[
+                          children: <Widget>[
                             Text(
                               '表示名を入力',
                               style: TextStyle(
@@ -495,13 +495,13 @@ class _UploadImagePageState extends State<UploadImagePage> {
                               )
                             : const Icon(Icons.circle_outlined),
                       ),
-                      startChild: Padding(
-                        padding: const EdgeInsets.only(
+                      startChild: const Padding(
+                        padding: EdgeInsets.only(
                             left: 16, right: 12, top: 0, bottom: 0),
                         child: Column(
                           // alignment: const Alignment(0.0, 0),
                           crossAxisAlignment: CrossAxisAlignment.end,
-                          children: const <Widget>[
+                          children: <Widget>[
                             Text(
                               '',
                               style: TextStyle(
@@ -512,12 +512,12 @@ class _UploadImagePageState extends State<UploadImagePage> {
                           ],
                         ),
                       ),
-                      endChild: Padding(
-                        padding: const EdgeInsets.only(
+                      endChild: const Padding(
+                        padding: EdgeInsets.only(
                             left: 12, right: 32, top: 0, bottom: 0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const <Widget>[
+                          children: <Widget>[
                             Text(
                               'カードを登録',
                               style: TextStyle(
@@ -609,13 +609,13 @@ class _UploadImagePageState extends State<UploadImagePage> {
                           color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
-                      startChild: Padding(
-                        padding: const EdgeInsets.only(
+                      startChild: const Padding(
+                        padding: EdgeInsets.only(
                             left: 16, right: 12, top: 0, bottom: 0),
                         child: Column(
                           // alignment: const Alignment(0.0, 0),
                           crossAxisAlignment: CrossAxisAlignment.end,
-                          children: const <Widget>[
+                          children: <Widget>[
                             Text(
                               '',
                               style: TextStyle(
@@ -626,12 +626,12 @@ class _UploadImagePageState extends State<UploadImagePage> {
                           ],
                         ),
                       ),
-                      endChild: Padding(
-                        padding: const EdgeInsets.only(
+                      endChild: const Padding(
+                        padding: EdgeInsets.only(
                             left: 12, right: 32, top: 0, bottom: 0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const <Widget>[
+                          children: <Widget>[
                             Text(
                               '',
                               style: TextStyle(

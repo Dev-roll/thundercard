@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../providers/index.dart';
 import '../../utils/constants.dart';
 import '../pages/add_card.dart';
 import '../pages/home_page.dart';

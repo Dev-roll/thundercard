@@ -688,9 +688,9 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
                       registerCard();
                     },
                     onLongPress: null,
-                    child: Row(
+                    child: const Row(
                       mainAxisSize: MainAxisSize.min,
-                      children: const [
+                      children: [
                         SizedBox(width: 8),
                         Icon(Icons.done_rounded),
                         SizedBox(width: 4),
@@ -708,9 +708,9 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
                       registerCard();
                     },
                     onLongPress: null,
-                    child: Row(
+                    child: const Row(
                       mainAxisSize: MainAxisSize.min,
-                      children: const [
+                      children: [
                         SizedBox(width: 8),
                         Icon(Icons.done_rounded),
                         SizedBox(width: 4),
