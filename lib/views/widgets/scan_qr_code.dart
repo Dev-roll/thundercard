@@ -128,8 +128,7 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
                               MaterialPageRoute(
                                 builder: (context) => Theme(
                                   data: ThemeData(
-                                    colorSchemeSeed:
-                                        Theme.of(context).colorScheme.primary,
+                                    colorScheme: Theme.of(context).colorScheme,
                                     brightness: Brightness.dark,
                                     useMaterial3: true,
                                   ),
@@ -226,8 +225,7 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
                               MaterialPageRoute(
                                 builder: (context) => Theme(
                                   data: ThemeData(
-                                    colorSchemeSeed:
-                                        Theme.of(context).colorScheme.primary,
+                                    colorScheme: Theme.of(context).colorScheme,
                                     brightness: Brightness.dark,
                                     useMaterial3: true,
                                   ),

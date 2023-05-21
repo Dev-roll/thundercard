@@ -424,7 +424,7 @@ class _ThundercardState extends ConsumerState<Thundercard> {
             MaterialPageRoute(
               builder: (context) => Theme(
                 data: ThemeData(
-                  colorSchemeSeed: Theme.of(context).colorScheme.primary,
+                  colorScheme: Theme.of(context).colorScheme,
                   brightness: Brightness.dark,
                   useMaterial3: true,
                 ),

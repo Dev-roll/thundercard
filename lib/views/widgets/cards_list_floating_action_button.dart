@@ -163,8 +163,7 @@ class CardsListFloatingActionButton extends ConsumerWidget {
               MaterialPageRoute(
                 builder: (context) => Theme(
                   data: ThemeData(
-                    colorSchemeSeed:
-                        Theme.of(context).colorScheme.secondaryContainer,
+                    colorScheme: Theme.of(context).colorScheme,
                     brightness: Brightness.dark,
                     useMaterial3: true,
                   ),
