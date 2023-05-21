@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thundercard/providers/notifications_count_provider.dart';
 
 import '../../providers/current_card_id_provider.dart';
-import '../../utils/setSystemChrome.dart';
 import '../widgets/custom_progress_indicator.dart';
 import '../widgets/notification_item.dart';
 
@@ -18,7 +17,6 @@ class Notifications extends ConsumerStatefulWidget {
 class _NotificationsState extends ConsumerState<Notifications> {
   @override
   Widget build(BuildContext context) {
-    setSystemChrome(context);
     final myCardId = ref.watch(currentCardIdProvider);
     final notificationsCount = ref.watch(notificationsCountProvider);
     final interactionsCount = notificationsCount['interactions_count'];

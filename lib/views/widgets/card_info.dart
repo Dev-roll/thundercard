@@ -5,7 +5,6 @@ import '../../providers/firebase_firestore.dart';
 import '../../utils/constants.dart';
 import '../../utils/current_brightness.dart';
 import '../../utils/return_original_color.dart';
-import '../../utils/setSystemChrome.dart';
 import '../pages/account_editor.dart';
 import 'avatar.dart';
 import 'custom_skeletons/skeleton_card_info.dart';
@@ -135,9 +134,7 @@ class CardInfo extends ConsumerWidget {
                                   cardId: cardId,
                                 );
                               },
-                            )).then((_) {
-                              setSystemChrome(context);
-                            });
+                            ));
                           },
                           style: ElevatedButton.styleFrom(
                             elevation: 0,

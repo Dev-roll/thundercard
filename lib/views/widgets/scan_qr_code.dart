@@ -19,7 +19,6 @@ import '../../utils/constants.dart';
 import '../../utils/export_to_image.dart';
 import '../../utils/get_application_documents_file.dart';
 import '../../utils/input_data_processor.dart';
-import '../../utils/setSystemChrome.dart';
 import '../pages/add_card.dart';
 import 'fullscreen_qr_code.dart';
 import 'my_qr_code.dart';
@@ -88,8 +87,6 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
 
   @override
   Widget build(BuildContext context) {
-    setSystemChrome(context);
-
     final dynamicLink = ref.watch(dynamicLinkProvider(myCardId));
     final String dynamicLinksValue = dynamicLink.when(
       data: (data) => data.shortUrl.toString(), // データを表示
@@ -99,170 +96,161 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: Container(
-                width: double.infinity,
-                color: Theme.of(context).colorScheme.onSecondary,
-                child: FittedBox(
-                  fit: BoxFit.contain,
-                  child: Stack(
-                    children: [
-                      const SizedBox(
-                        width: 180,
-                        height: 216,
-                      ),
-                      Container(
-                        width: 180,
-                        height: 216,
-                        padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                        child: FittedBox(
-                          child: GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: (() async {
-                              controller?.pauseCamera();
-                              await Navigator.of(context)
-                                  .push(
-                                MaterialPageRoute(
-                                  builder: (context) => Theme(
-                                    data: ThemeData(
-                                      colorSchemeSeed:
-                                          Theme.of(context).colorScheme.primary,
-                                      brightness: Brightness.dark,
-                                      useMaterial3: true,
-                                    ),
-                                    child: FullscreenQrCode(
-                                      name: myCardId,
-                                    ),
+      body: Column(
+        children: <Widget>[
+          Container(
+            height: MediaQuery.of(context).padding.top,
+            color: Theme.of(context).colorScheme.onSecondary,
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(
+              width: double.infinity,
+              color: Theme.of(context).colorScheme.onSecondary,
+              child: FittedBox(
+                fit: BoxFit.contain,
+                child: Stack(
+                  children: [
+                    const SizedBox(
+                      width: 180,
+                      height: 216,
+                    ),
+                    Container(
+                      width: 180,
+                      height: 216,
+                      padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                      child: FittedBox(
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: (() async {
+                            controller?.pauseCamera();
+                            await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => Theme(
+                                  data: ThemeData(
+                                    colorSchemeSeed:
+                                        Theme.of(context).colorScheme.primary,
+                                    brightness: Brightness.dark,
+                                    useMaterial3: true,
+                                  ),
+                                  child: FullscreenQrCode(
+                                    name: myCardId,
                                   ),
                                 ),
-                              )
-                                  .then((value) {
-                                setSystemChrome(context);
-                              });
-                              controller?.resumeCamera();
-                            }),
-                            child: RepaintBoundary(
-                              key: _globalKey,
-                              child: MyQrCode(
-                                myCardId: myCardId,
                               ),
+                            );
+                            controller?.resumeCamera();
+                          }),
+                          child: RepaintBoundary(
+                            key: _globalKey,
+                            child: MyQrCode(
+                              myCardId: myCardId,
                             ),
                           ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Container(
+            height: 80,
+            color: Theme.of(context).colorScheme.onSecondary,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.fromLTRB(8, 0, 8, 16),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+                        child: IconButton(
+                          onPressed: () async {
+                            final bytes = await exportToImage(_globalKey);
+                            final widgetImageBytes = bytes?.buffer.asUint8List(
+                                bytes.offsetInBytes, bytes.lengthInBytes);
+                            final applicationDocumentsFile =
+                                await getApplicationDocumentsFile(
+                                    myCardId, widgetImageBytes!);
+
+                            final path = applicationDocumentsFile.path;
+
+                            await Share.shareXFiles(
+                              [
+                                XFile(path),
+                              ],
+                              text: dynamicLinksValue,
+                              subject: '$myCardIdさんのThundercardアカウントの共有',
+                            );
+                            applicationDocumentsFile.delete();
+                          },
+                          icon: const Icon(Icons.share_rounded),
+                          padding: const EdgeInsets.all(20),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+                        child: IconButton(
+                          onPressed: () async {
+                            final bytes = await exportToImage(_globalKey);
+                            final widgetImageBytes = bytes?.buffer.asUint8List(
+                                bytes.offsetInBytes, bytes.lengthInBytes);
+                            await ImageGallerySaver.saveImage(
+                              widgetImageBytes!,
+                              name: myCardId,
+                            );
+                            if (!mounted) return;
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              PositionedSnackBar(
+                                context,
+                                'QRコードをダウンロードしました',
+                                icon: Icons.file_download_done_rounded,
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.save_alt_rounded),
+                          padding: const EdgeInsets.all(20),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+                        child: IconButton(
+                          onPressed: () async {
+                            controller?.pauseCamera();
+                            await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => Theme(
+                                  data: ThemeData(
+                                    colorSchemeSeed:
+                                        Theme.of(context).colorScheme.primary,
+                                    brightness: Brightness.dark,
+                                    useMaterial3: true,
+                                  ),
+                                  child: FullscreenQrCode(
+                                    name: myCardId,
+                                  ),
+                                ),
+                              ),
+                            );
+                            controller?.resumeCamera();
+                          },
+                          icon: const Icon(Icons.fullscreen_rounded),
+                          padding: const EdgeInsets.all(20),
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-            Container(
-              height: 80,
-              color: Theme.of(context).colorScheme.onSecondary,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(8, 0, 8, 16),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
-                          child: IconButton(
-                            onPressed: () async {
-                              final bytes = await exportToImage(_globalKey);
-                              final widgetImageBytes = bytes?.buffer
-                                  .asUint8List(
-                                      bytes.offsetInBytes, bytes.lengthInBytes);
-                              final applicationDocumentsFile =
-                                  await getApplicationDocumentsFile(
-                                      myCardId, widgetImageBytes!);
-
-                              final path = applicationDocumentsFile.path;
-
-                              await Share.shareXFiles(
-                                [
-                                  XFile(path),
-                                ],
-                                text: dynamicLinksValue,
-                                subject: '$myCardIdさんのThundercardアカウントの共有',
-                              );
-                              applicationDocumentsFile.delete();
-                            },
-                            icon: const Icon(Icons.share_rounded),
-                            padding: const EdgeInsets.all(20),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
-                          child: IconButton(
-                            onPressed: () async {
-                              final bytes = await exportToImage(_globalKey);
-                              final widgetImageBytes = bytes?.buffer
-                                  .asUint8List(
-                                      bytes.offsetInBytes, bytes.lengthInBytes);
-                              await ImageGallerySaver.saveImage(
-                                widgetImageBytes!,
-                                name: myCardId,
-                              );
-                              if (!mounted) return;
-                              ScaffoldMessenger.of(context)
-                                  .hideCurrentSnackBar();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                PositionedSnackBar(
-                                  context,
-                                  'QRコードをダウンロードしました',
-                                  icon: Icons.file_download_done_rounded,
-                                ),
-                              );
-                            },
-                            icon: const Icon(Icons.save_alt_rounded),
-                            padding: const EdgeInsets.all(20),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
-                          child: IconButton(
-                            onPressed: () async {
-                              controller?.pauseCamera();
-                              await Navigator.of(context)
-                                  .push(
-                                MaterialPageRoute(
-                                  builder: (context) => Theme(
-                                    data: ThemeData(
-                                      colorSchemeSeed:
-                                          Theme.of(context).colorScheme.primary,
-                                      brightness: Brightness.dark,
-                                      useMaterial3: true,
-                                    ),
-                                    child: FullscreenQrCode(
-                                      name: myCardId,
-                                    ),
-                                  ),
-                                ),
-                              )
-                                  .then((value) {
-                                setSystemChrome(context);
-                              });
-                              controller?.resumeCamera();
-                            },
-                            icon: const Icon(Icons.fullscreen_rounded),
-                            padding: const EdgeInsets.all(20),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(flex: 2, child: _buildQrView(context)),
-          ],
-        ),
+          ),
+          Expanded(flex: 2, child: _buildQrView(context)),
+        ],
       ),
     );
   }

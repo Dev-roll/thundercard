@@ -10,7 +10,13 @@ class MyCardDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(
+          0,
+          MediaQuery.of(context).padding.top,
+          0,
+          MediaQuery.of(context).padding.bottom,
+        ),
         child: Center(
           child: Stack(
             children: [
@@ -29,7 +35,10 @@ class MyCardDetails extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxHeight: MediaQuery.of(context).size.height - 100,
+                      maxHeight: MediaQuery.of(context).size.height -
+                          MediaQuery.of(context).padding.top -
+                          MediaQuery.of(context).padding.bottom -
+                          100,
                     ),
                     child: FittedBox(
                       child: MyCard(

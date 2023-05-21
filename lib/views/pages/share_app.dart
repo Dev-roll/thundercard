@@ -29,7 +29,7 @@ class ShareApp extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Thundercard をシェア'),
       ),
-      body: SafeArea(
+      body: SingleChildScrollView(
         child: Stack(
           children: [
             Column(
@@ -286,6 +286,7 @@ class ShareApp extends ConsumerWidget {
                     ],
                   ),
                 ),
+                const SizedBox(height: 140),
               ],
             ),
           ],

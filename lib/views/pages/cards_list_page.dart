@@ -16,30 +16,26 @@ class CardsListPage extends ConsumerWidget {
         ref.watch(exchangedCardsStreamProvider);
     return exchangedCards.when(
       loading: () => const Scaffold(
-        body: SafeArea(
-          child: Center(
-            // TODO: skeleton
-            child: CircularProgressIndicator(
-              strokeWidth: 3,
-            ),
+        body: Center(
+          // TODO: skeleton
+          child: CircularProgressIndicator(
+            strokeWidth: 3,
           ),
         ),
       ),
       error: (error, stackTrace) => ErrorMessage(err: error.toString()),
       data: (exchangedCards) {
         return Scaffold(
-          body: SafeArea(
-            child: Center(
-              child: ProviderScope(
-                overrides: [
-                  exchangedCardsProvider.overrideWithValue(exchangedCards),
+          body: Center(
+            child: ProviderScope(
+              overrides: [
+                exchangedCardsProvider.overrideWithValue(exchangedCards),
+              ],
+              child: const Column(
+                children: [
+                  SearchWindow(),
+                  CardsList(),
                 ],
-                child: Column(
-                  children: const [
-                    SearchWindow(),
-                    CardsList(),
-                  ],
-                ),
               ),
             ),
           ),

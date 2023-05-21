@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../providers/index.dart';
 import '../../utils/constants.dart';
 import '../pages/add_card.dart';
 import '../pages/home_page.dart';
@@ -149,120 +148,121 @@ class NotificationItemPage extends ConsumerWidget {
         ],
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
       ),
-      body: SafeArea(
-        child: SizedBox(
-          width: double.infinity,
-          child: SingleChildScrollView(
-            child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                  maxWidth: 800,
+      body: SizedBox(
+        width: double.infinity,
+        child: SingleChildScrollView(
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: 800,
+              ),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(
+                  14,
+                  14,
+                  14,
+                  14 + MediaQuery.of(context).padding.bottom,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(14.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.fromLTRB(6, 16, 6, 6),
-                        child: Text(
-                          title,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(6, 16, 6, 6),
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          fontSize: 20,
+                          height: 1.4,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          displayDateTime,
                           style: TextStyle(
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontSize: 20,
-                            height: 1.4,
-                            fontWeight: FontWeight.w600,
+                            height: 2,
                           ),
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            displayDateTime,
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                              height: 2,
-                            ),
-                          ),
-                          const SizedBox(width: 12)
-                        ],
-                      ),
-                      Divider(
-                        height: 24,
-                        thickness: 1,
-                        indent: 0,
-                        endIndent: 0,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .outline
-                            .withOpacity(0.5),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.fromLTRB(8, 4, 8, 60),
-                        child: Text(
-                          content,
-                          style: const TextStyle(
-                            height: 1.8,
-                          ),
+                        const SizedBox(width: 12)
+                      ],
+                    ),
+                    Divider(
+                      height: 24,
+                      thickness: 1,
+                      indent: 0,
+                      endIndent: 0,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .outline
+                          .withOpacity(0.5),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(8, 4, 8, 60),
+                      child: Text(
+                        content,
+                        style: const TextStyle(
+                          height: 1.8,
                         ),
                       ),
-                      if (tags.contains('apply'))
-                        // verified
-                        Center(
-                          child: ElevatedButton.icon(
-                            icon: const Icon(Icons.check_rounded),
-                            label: const Text('承認'),
-                            style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                              foregroundColor:
-                                  Theme.of(context).colorScheme.onPrimary,
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.primary,
-                            ),
-                            onPressed: () {
-                              if (Navigator.of(context).canPop()) {
-                                Navigator.of(context).pop();
-                              } else {
-                                Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return HomePage();
-                                    },
-                                  ),
-                                );
-                              }
-                              notificationItemDoc.set({
-                                'tags': FieldValue.arrayRemove(['apply'])
-                              }, SetOptions(merge: true));
-                              notificationItemDoc.set({
-                                'tags': FieldValue.arrayUnion(['applied'])
-                              }, SetOptions(merge: true));
-                              verifyCard(myCardId, notificationId);
-                            },
+                    ),
+                    if (tags.contains('apply'))
+                      // verified
+                      Center(
+                        child: ElevatedButton.icon(
+                          icon: const Icon(Icons.check_rounded),
+                          label: const Text('承認'),
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            foregroundColor:
+                                Theme.of(context).colorScheme.onPrimary,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
                           ),
+                          onPressed: () {
+                            if (Navigator.of(context).canPop()) {
+                              Navigator.of(context).pop();
+                            } else {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return HomePage();
+                                  },
+                                ),
+                              );
+                            }
+                            notificationItemDoc.set({
+                              'tags': FieldValue.arrayRemove(['apply'])
+                            }, SetOptions(merge: true));
+                            notificationItemDoc.set({
+                              'tags': FieldValue.arrayUnion(['applied'])
+                            }, SetOptions(merge: true));
+                            verifyCard(myCardId, notificationId);
+                          },
                         ),
-                      if (tags.contains('applied'))
-                        Center(
-                          child: ElevatedButton.icon(
-                            icon: const Icon(
-                                Icons.published_with_changes_rounded),
-                            label: const Text('交換済み'),
-                            style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                              foregroundColor:
-                                  Theme.of(context).colorScheme.onPrimary,
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.primary,
-                            ),
-                            onPressed: null,
+                      ),
+                    if (tags.contains('applied'))
+                      Center(
+                        child: ElevatedButton.icon(
+                          icon:
+                              const Icon(Icons.published_with_changes_rounded),
+                          label: const Text('交換済み'),
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            foregroundColor:
+                                Theme.of(context).colorScheme.onPrimary,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
                           ),
+                          onPressed: null,
                         ),
-                    ],
-                  ),
+                      ),
+                  ],
                 ),
               ),
             ),

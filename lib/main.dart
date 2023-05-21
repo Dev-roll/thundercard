@@ -77,7 +77,13 @@ class MyApp extends ConsumerWidget {
           supportedLocales: const [
             Locale('ja', 'JP'),
           ],
-          home: AuthGate(),
+          home: AnnotatedRegion<SystemUiOverlayStyle>(
+            value: const SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              systemNavigationBarColor: Colors.transparent,
+            ),
+            child: AuthGate(),
+          ),
         );
       },
     );

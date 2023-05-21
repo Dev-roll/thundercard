@@ -25,10 +25,8 @@ class CardDetails extends ConsumerWidget {
     return c21r20u00d11AsyncValue.when(
       error: (err, _) => ErrorMessage(err: '$err'),
       loading: () => const Scaffold(
-        body: SafeArea(
-          child: Center(
-            child: SkeletonCard(),
-          ),
+        body: Center(
+          child: SkeletonCard(),
         ),
       ),
       data: (c21r20u00d11) {
@@ -36,10 +34,8 @@ class CardDetails extends ConsumerWidget {
         return currentCardAsyncValue.when(
           error: (err, _) => ErrorMessage(err: '$err'),
           loading: () => const Scaffold(
-            body: SafeArea(
-              child: Center(
-                child: SkeletonCard(),
-              ),
+            body: Center(
+              child: SkeletonCard(),
             ),
           ),
           data: (currentCard) {
@@ -154,89 +150,89 @@ class CardDetails extends ConsumerWidget {
                   )
                 ],
               ),
-              body: SafeArea(
-                child: SingleChildScrollView(
-                  child: Center(
-                    child: Container(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Column(
-                        children: [
-                          isUser
-                              ? Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: ConstrainedBox(
-                                    constraints: BoxConstraints(
-                                      maxHeight:
-                                          MediaQuery.of(context).size.height -
-                                              200,
-                                    ),
-                                    child: FittedBox(
-                                      child: MyCard(
-                                        cardId: cardId,
-                                        cardType: CardType.large,
-                                      ),
-                                    ),
+              body: SingleChildScrollView(
+                child: Center(
+                  child: Container(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Column(
+                      children: [
+                        isUser
+                            ? Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    maxHeight:
+                                        MediaQuery.of(context).size.height -
+                                            200,
                                   ),
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: CardInfo(
-                                    cardId: cardId,
-                                    editable: true,
-                                    isUser: false,
+                                  child: FittedBox(
+                                    child: MyCard(
+                                      cardId: cardId,
+                                      cardType: CardType.large,
+                                    ),
                                   ),
                                 ),
-                          if (!isUser) CardImg(cardId: cardId),
-                          if (isUser)
-                            FutureBuilder(
-                              future: getRoom(cardId),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<Room> snapshot) {
-                                if (snapshot.hasError) {
-                                  debugPrint('${snapshot.error}');
-                                  return const Text('問題が発生しました');
-                                }
+                              )
+                            : Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: CardInfo(
+                                  cardId: cardId,
+                                  editable: true,
+                                  isUser: false,
+                                ),
+                              ),
+                        if (!isUser) CardImg(cardId: cardId),
+                        if (isUser)
+                          FutureBuilder(
+                            future: getRoom(cardId),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<Room> snapshot) {
+                              if (snapshot.hasError) {
+                                debugPrint('${snapshot.error}');
+                                return const Text('問題が発生しました');
+                              }
 
-                                // if (snapshot.hasData && !snapshot.data!.exists) {
-                                //   return const Text('Document does not exist');
-                                // }
+                              // if (snapshot.hasData && !snapshot.data!.exists) {
+                              //   return const Text('Document does not exist');
+                              // }
 
-                                if (snapshot.connectionState ==
-                                    ConnectionState.done) {
-                                  return ElevatedButton.icon(
-                                    icon: const Icon(
-                                        Icons.question_answer_rounded),
-                                    label: const Text('メッセージ'),
-                                    style: ElevatedButton.styleFrom(
-                                      elevation: 0,
-                                      foregroundColor: Theme.of(context)
-                                          .colorScheme
-                                          .onSecondaryContainer,
-                                      backgroundColor: Theme.of(context)
-                                          .colorScheme
-                                          .secondaryContainer,
-                                    ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ChatPage(
-                                            room: snapshot.data!,
-                                            cardId: cardId,
-                                          ),
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                return ElevatedButton.icon(
+                                  icon:
+                                      const Icon(Icons.question_answer_rounded),
+                                  label: const Text('メッセージ'),
+                                  style: ElevatedButton.styleFrom(
+                                    elevation: 0,
+                                    foregroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondaryContainer,
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .secondaryContainer,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ChatPage(
+                                          room: snapshot.data!,
+                                          cardId: cardId,
                                         ),
-                                      );
-                                    },
-                                    onLongPress: null,
-                                  );
-                                }
-                                return const Center(
-                                  child: CustomProgressIndicator(),
+                                      ),
+                                    );
+                                  },
+                                  onLongPress: null,
                                 );
-                              },
-                            ),
-                        ],
-                      ),
+                              }
+                              return const Center(
+                                child: CustomProgressIndicator(),
+                              );
+                            },
+                          ),
+                        SizedBox(
+                            height: MediaQuery.of(context).padding.bottom + 32),
+                      ],
                     ),
                   ),
                 ),

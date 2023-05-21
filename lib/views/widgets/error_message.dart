@@ -7,12 +7,10 @@ class ErrorMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Text(
-            err,
-            style: TextStyle(color: Theme.of(context).colorScheme.error),
-          ),
+      body: Center(
+        child: Text(
+          err,
+          style: TextStyle(color: Theme.of(context).colorScheme.error),
         ),
       ),
     );

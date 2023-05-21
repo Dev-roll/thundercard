@@ -9,7 +9,6 @@ import '../../providers/firebase_firestore.dart';
 import '../../providers/index.dart';
 import '../../utils/colors.dart';
 import '../../utils/firebase_auth.dart';
-import '../../utils/setSystemChrome.dart';
 import '../widgets/avatar.dart';
 import '../widgets/error_message.dart';
 import '../widgets/md/about_app.dart';
@@ -42,14 +41,12 @@ class HomePage extends ConsumerWidget {
       child: currentCardAsyncValue.when(
         error: (err, _) => ErrorMessage(err: '$err'),
         loading: () => Scaffold(
-          body: SafeArea(
-            child: Center(
-              child: SvgPicture.asset(
-                'images/svg/qr/icon_for_qr.svg',
-                width: 160,
-                color:
-                    Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
-              ),
+          body: Center(
+            child: SvgPicture.asset(
+              'images/svg/qr/icon_for_qr.svg',
+              width: 160,
+              color:
+                  Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
             ),
           ),
         ),
@@ -127,8 +124,6 @@ class HomePage extends ConsumerWidget {
             },
           );
 
-          setSystemChrome(context);
-
           return ProviderScope(
             overrides: [
               currentCardIdProvider.overrideWithValue(cardId),
@@ -139,23 +134,6 @@ class HomePage extends ConsumerWidget {
               ],
               child: Scaffold(
                 key: drawerKey,
-                onDrawerChanged: (isOpened) {
-                  isOpened
-                      ? setSystemChrome(
-                          context,
-                          navColor: alphaBlend(
-                            const Color(0x80000000),
-                            alphaBlend(
-                              Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withOpacity(0.08),
-                              Theme.of(context).colorScheme.surface,
-                            ),
-                          ),
-                        )
-                      : setSystemChrome(context);
-                },
                 drawerScrimColor: const Color(0x80000000),
                 drawerEdgeDragWidth: currentIndex == 0
                     ? MediaQuery.of(context).size.width * 0.5
@@ -163,16 +141,14 @@ class HomePage extends ConsumerWidget {
                 drawer: c10r20u10d10AsyncValue.when(
                   error: (err, _) => ErrorMessage(err: '$err'),
                   loading: () => Scaffold(
-                    body: SafeArea(
-                      child: Center(
-                        child: SvgPicture.asset(
-                          'images/svg/qr/icon_for_qr.svg',
-                          width: 160,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onBackground
-                              .withOpacity(0.5),
-                        ),
+                    body: Center(
+                      child: SvgPicture.asset(
+                        'images/svg/qr/icon_for_qr.svg',
+                        width: 160,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onBackground
+                            .withOpacity(0.5),
                       ),
                     ),
                   ),
@@ -194,14 +170,8 @@ class HomePage extends ConsumerWidget {
                       child: Column(
                         children: [
                           Container(
-                            decoration: BoxDecoration(
-                              color: alphaBlend(
-                                  Theme.of(context)
-                                      .colorScheme
-                                      .primary
-                                      .withOpacity(0.05),
-                                  Theme.of(context).colorScheme.surface),
-                              borderRadius: const BorderRadius.only(
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
                                 topRight: Radius.circular(16),
                               ),
                             ),
@@ -436,7 +406,12 @@ class HomePage extends ConsumerWidget {
                                               );
                                             },
                                           ),
-                                          const SizedBox(height: 16),
+                                          SizedBox(
+                                            height: 16 +
+                                                MediaQuery.of(context)
+                                                    .padding
+                                                    .bottom,
+                                          ),
                                         ],
                                       ),
                                     ),
