@@ -494,11 +494,11 @@ class _LinkAuthState extends State<LinkAuth> {
                                                   }
                                                 }
                                               },
-                                        child: Row(
+                                        child: const Row(
                                           mainAxisSize: MainAxisSize.min,
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: const [
+                                          children: [
                                             SizedBox(width: 8),
                                             Icon(Icons.person_add_alt),
                                             SizedBox(width: 8),
@@ -523,10 +523,10 @@ class _LinkAuthState extends State<LinkAuth> {
                                 backgroundColor: Colors.transparent,
                               ),
                               onPressed: () => googleSignIn(),
-                              child: Row(
+                              child: const Row(
                                 mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
+                                children: [
                                   Icon(
                                     FontAwesomeIcons.google,
                                     size: 20,

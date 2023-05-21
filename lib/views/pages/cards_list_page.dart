@@ -34,8 +34,8 @@ class CardsListPage extends ConsumerWidget {
                 overrides: [
                   exchangedCardsProvider.overrideWithValue(exchangedCards),
                 ],
-                child: Column(
-                  children: const [
+                child: const Column(
+                  children: [
                     SearchWindow(),
                     CardsList(),
                   ],

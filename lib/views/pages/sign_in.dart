@@ -352,11 +352,11 @@ class _SignInState extends State<SignIn> {
                                                   }
                                                 }
                                               },
-                                        child: Row(
+                                        child: const Row(
                                           mainAxisSize: MainAxisSize.min,
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: const [
+                                          children: [
                                             SizedBox(width: 8),
                                             Icon(Icons.login_rounded),
                                             SizedBox(width: 8),
@@ -380,10 +380,10 @@ class _SignInState extends State<SignIn> {
                               backgroundColor: Colors.transparent,
                             ),
                             onPressed: () => _onSignInWithAnonymousUser(),
-                            child: Row(
+                            child: const Row(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
+                              children: [
                                 Icon(Icons.person_off_rounded),
                                 SizedBox(width: 8),
                                 Text('登録せず利用'),
@@ -400,10 +400,10 @@ class _SignInState extends State<SignIn> {
                                 backgroundColor: Colors.transparent,
                               ),
                               onPressed: () => _onSignInGoogle(),
-                              child: Row(
+                              child: const Row(
                                 mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
+                                children: [
                                   Icon(
                                     FontAwesomeIcons.google,
                                     size: 20,

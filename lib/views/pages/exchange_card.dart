@@ -17,11 +17,11 @@ class ExchangeCard extends StatefulWidget {
 class _ExchangeCardState extends State<ExchangeCard>
     with SingleTickerProviderStateMixin {
   final List<Tab> tabs = <Tab>[
-    Tab(
+    const Tab(
       icon: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
-        children: const [
+        children: [
           SizedBox(
             width: 8,
           ),
@@ -36,11 +36,11 @@ class _ExchangeCardState extends State<ExchangeCard>
         ],
       ),
     ),
-    Tab(
+    const Tab(
       icon: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
-        children: const [
+        children: [
           SizedBox(
             width: 8,
           ),
