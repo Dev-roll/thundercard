@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import '../../providers/current_card_id_provider.dart';
-import '../../utils/colors.dart';
 import '../pages/exchange_card.dart';
 import '../pages/upload_image_page.dart';
 
@@ -161,8 +159,7 @@ class CardsListFloatingActionButton extends ConsumerWidget {
           foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
           label: 'カードを交換',
           onTap: () {
-            Navigator.of(context)
-                .push(
+            Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => Theme(
                   data: ThemeData(
@@ -174,31 +171,7 @@ class CardsListFloatingActionButton extends ConsumerWidget {
                   child: ExchangeCard(currentCardId: currentCardId),
                 ),
               ),
-            )
-                .then((value) {
-              SystemChrome.setSystemUIOverlayStyle(
-                SystemUiOverlayStyle(
-                  systemNavigationBarColor: alphaBlend(
-                      Theme.of(context).colorScheme.primary.withOpacity(0.08),
-                      Theme.of(context).colorScheme.surface),
-                  statusBarIconBrightness: Theme.of(context)
-                              .colorScheme
-                              .background
-                              .computeLuminance() <
-                          0.5
-                      ? Brightness.light
-                      : Brightness.dark,
-                  statusBarBrightness: Theme.of(context)
-                              .colorScheme
-                              .background
-                              .computeLuminance() <
-                          0.5
-                      ? Brightness.dark
-                      : Brightness.light,
-                  statusBarColor: Colors.transparent,
-                ),
-              );
-            });
+            );
           },
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),

@@ -18,19 +18,22 @@ class MdPage extends StatelessWidget {
         title: title,
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
       ),
-      body: SafeArea(
-        child: SizedBox(
-          width: double.infinity,
-          child: SingleChildScrollView(
-            child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(
-                  maxWidth: 800,
+      body: SizedBox(
+        width: double.infinity,
+        child: SingleChildScrollView(
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: 800,
+              ),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(
+                  12,
+                  16,
+                  12,
+                  24 + MediaQuery.of(context).padding.bottom,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 16, 12, 24),
-                  child: CustomMd(data: data),
-                ),
+                child: CustomMd(data: data),
               ),
             ),
           ),

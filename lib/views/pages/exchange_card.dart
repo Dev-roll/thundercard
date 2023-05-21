@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../utils/colors.dart';
-import '../../utils/setSystemChrome.dart';
 import '../widgets/input_link.dart';
 import '../widgets/scan_qr_code.dart';
 
@@ -66,41 +65,38 @@ class _ExchangeCardState extends State<ExchangeCard>
 
   @override
   Widget build(BuildContext context) {
-    setSystemChrome(context);
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            TabBarView(
-              controller: _tabController,
-              children: [
-                ScanQrCode(currentCardId: widget.currentCardId),
-                const InputLink(),
-              ],
-            ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
-                child: Hero(
-                  tag: 'back_button',
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: Icon(
-                      Icons.arrow_back_rounded,
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
-                    padding: const EdgeInsets.all(16),
+      body: Stack(
+        children: [
+          TabBarView(
+            controller: _tabController,
+            children: [
+              ScanQrCode(currentCardId: widget.currentCardId),
+              const InputLink(),
+            ],
+          ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(
+                  8, 8 + MediaQuery.of(context).padding.top, 0, 0),
+              child: Hero(
+                tag: 'back_button',
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(
+                    Icons.arrow_back_rounded,
+                    color: Theme.of(context).colorScheme.onBackground,
                   ),
+                  padding: const EdgeInsets.all(16),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       bottomNavigationBar: Container(
         color: alphaBlend(
@@ -131,8 +127,8 @@ class _ExchangeCardState extends State<ExchangeCard>
                 indicatorPadding: const EdgeInsets.fromLTRB(-8, 0, -8, 0),
               ),
             ),
-            const SizedBox(
-              height: 16,
+            SizedBox(
+              height: 16 + MediaQuery.of(context).padding.bottom,
             ),
           ],
         ),

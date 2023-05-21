@@ -267,59 +267,58 @@ class _AddCardState extends State<AddCard> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('カードを交換')),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: [
-                const SizedBox(height: 100),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxHeight: 400,
-                  ),
-                  child: FittedBox(
-                    child: MyCard(
-                      cardId: addCardId,
-                      cardType: CardType.normal,
-                      exchange: addCardId == applyingId ? false : true,
-                    ),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              const SizedBox(height: 100),
+              ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxHeight: 400,
+                ),
+                child: FittedBox(
+                  child: MyCard(
+                    cardId: addCardId,
+                    cardType: CardType.normal,
+                    exchange: addCardId == applyingId ? false : true,
                   ),
                 ),
-                if (addCardId == applyingId)
-                  Column(
-                    children: [
-                      const SizedBox(height: 32),
-                      Text(
-                        'ユーザー自身のカードは交換できません',
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.error),
-                      ),
-                      const SizedBox(height: 24),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          OutlinedButton(
-                            onPressed: () {
-                              if (Navigator.of(context).canPop()) {
-                                Navigator.of(context).pop();
-                              } else {
-                                Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return HomePage();
-                                    },
-                                  ),
-                                );
-                              }
-                            },
-                            child: const Text('OK'),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-              ],
-            ),
+              ),
+              if (addCardId == applyingId)
+                Column(
+                  children: [
+                    const SizedBox(height: 32),
+                    Text(
+                      'ユーザー自身のカードは交換できません',
+                      style:
+                          TextStyle(color: Theme.of(context).colorScheme.error),
+                    ),
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        OutlinedButton(
+                          onPressed: () {
+                            if (Navigator.of(context).canPop()) {
+                              Navigator.of(context).pop();
+                            } else {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return HomePage();
+                                  },
+                                ),
+                              );
+                            }
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              SizedBox(height: MediaQuery.of(context).padding.bottom + 32),
+            ],
           ),
         ),
       ),

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/exchanged_cards_provider.dart';
-import '../../utils/colors.dart';
 import 'search.dart';
 
 class SearchWindow extends ConsumerWidget {
@@ -19,7 +17,12 @@ class SearchWindow extends ConsumerWidget {
       ),
       child: Container(
         height: 52,
-        margin: const EdgeInsets.fromLTRB(24, 16, 24, 8),
+        margin: EdgeInsets.fromLTRB(
+          24,
+          16 + MediaQuery.of(context).padding.top,
+          24,
+          8,
+        ),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.5),
           borderRadius: BorderRadius.circular(30),
@@ -27,23 +30,13 @@ class SearchWindow extends ConsumerWidget {
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {
-            Navigator.of(context)
-                .push(
+            Navigator.of(context).push(
               PageRouteBuilder(
                 pageBuilder: (context, animation, secondaryAnimation) =>
                     Search(exchangedCardIds: exchangedCards),
                 transitionDuration: const Duration(seconds: 0),
               ),
-            )
-                .then((value) {
-              SystemChrome.setSystemUIOverlayStyle(
-                SystemUiOverlayStyle(
-                  systemNavigationBarColor: alphaBlend(
-                      Theme.of(context).colorScheme.primary.withOpacity(0.08),
-                      Theme.of(context).colorScheme.surface),
-                ),
-              );
-            });
+            );
           },
           child: Row(
             children: [

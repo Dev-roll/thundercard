@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
@@ -50,11 +49,6 @@ class _ChatPageState extends State<ChatPage> {
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           return Scaffold(
             appBar: AppBar(
-              systemOverlayStyle:
-                  Theme.of(context).colorScheme.background.computeLuminance() <
-                          0.5
-                      ? SystemUiOverlayStyle.light
-                      : SystemUiOverlayStyle.dark,
               title: Text(snapshot.data!),
             ),
             body: StreamBuilder<types.Room>(

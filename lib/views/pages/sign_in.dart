@@ -140,434 +140,431 @@ class _SignInState extends State<SignIn> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        body: SafeArea(
-          child: SizedBox(
-            width: double.infinity,
-            child: Center(
-              child: SingleChildScrollView(
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxWidth: 800,
+        body: SizedBox(
+          width: double.infinity,
+          child: Center(
+            child: SingleChildScrollView(
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxWidth: 800,
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      24,
+                      24 + MediaQuery.of(context).padding.top,
+                      24,
+                      24 + MediaQuery.of(context).padding.bottom,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text(
-                            'サインイン',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w500,
-                            ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          'サインイン',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
                           ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          Icon(
-                            Icons.login_rounded,
-                            size: 32,
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                          const SizedBox(
-                            height: 32,
-                          ),
-                          Form(
-                            key: formKey,
-                            child: Column(
-                              children: [
-                                AutofillGroup(
-                                  child: Column(
-                                    children: [
-                                      TextFormField(
-                                        controller: _emailController,
-                                        keyboardType:
-                                            TextInputType.emailAddress,
-                                        autocorrect: true,
-                                        autofillHints: const [
-                                          AutofillHints.email
-                                        ],
-                                        onFieldSubmitted: (value) {
-                                          if (_emailController.text
-                                                  .contains('@') &&
-                                              _passwordController.text.length >=
-                                                  8 &&
-                                              formKey.currentState!
-                                                  .validate()) {
-                                            FocusManager.instance.primaryFocus
-                                                ?.unfocus();
-                                            try {
-                                              Navigator.of(context)
-                                                  .pushReplacement(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        AuthGate()),
-                                              );
-                                              FirebaseAuth.instance
-                                                  .signInWithEmailAndPassword(
-                                                      email:
-                                                          _emailController.text,
-                                                      password:
-                                                          _passwordController
-                                                              .text)
-                                                  .then((value) {});
-                                            } catch (e) {
-                                              debugPrint('$e');
-                                            }
-                                          }
-                                        },
-                                        textInputAction: TextInputAction.next,
-                                        decoration: const InputDecoration(
-                                          icon: Icon(Icons.mail_rounded),
-                                          hintText: 'example@example.com',
-                                          labelText: 'メールアドレス',
-                                        ),
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'メールアドレスが入力されていません';
-                                          }
-                                          if (!value.contains('@')) {
-                                            return 'メールアドレスが正しくありません';
-                                          }
-                                          return null;
-                                        },
-                                        onChanged: (String value) {
-                                          setState(() {});
-                                        },
-                                      ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      TextFormField(
-                                        controller: _passwordController,
-                                        obscureText: hidePassword,
-                                        keyboardType:
-                                            TextInputType.visiblePassword,
-                                        autofillHints: const [
-                                          AutofillHints.password
-                                        ],
-                                        onFieldSubmitted: (value) {
-                                          if (_emailController.text
-                                                  .contains('@') &&
-                                              _passwordController.text.length >=
-                                                  8 &&
-                                              formKey.currentState!
-                                                  .validate()) {
-                                            FocusManager.instance.primaryFocus
-                                                ?.unfocus();
-                                            try {
-                                              Navigator.of(context)
-                                                  .pushReplacement(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        AuthGate()),
-                                              );
-                                              FirebaseAuth.instance
-                                                  .signInWithEmailAndPassword(
-                                                      email:
-                                                          _emailController.text,
-                                                      password:
-                                                          _passwordController
-                                                              .text)
-                                                  .then((value) {});
-                                            } catch (e) {
-                                              debugPrint('$e');
-                                            }
-                                          }
-                                        },
-                                        textInputAction: TextInputAction.go,
-                                        decoration: InputDecoration(
-                                          icon: const Icon(Icons.lock_rounded),
-                                          labelText: 'パスワード',
-                                          suffixIcon: IconButton(
-                                            splashRadius: 20,
-                                            icon: Icon(
-                                              hidePassword
-                                                  ? Icons.visibility_off_rounded
-                                                  : Icons.visibility_rounded,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                hidePassword = !hidePassword;
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                        maxLength: 64,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'パスワードが入力されていません';
-                                          }
-                                          if (value.length < 8) {
-                                            return '8文字以上にしてください';
-                                          }
-                                          return null;
-                                        },
-                                        onChanged: (String value) {
-                                          setState(() {});
-                                        },
-                                      ),
-                                      const SizedBox(height: 40),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          elevation: 0,
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          foregroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary,
-                                        ),
-                                        onPressed: !_emailController.text
-                                                    .contains('@') ||
-                                                _passwordController
-                                                        .text.length <
-                                                    8
-                                            ? null
-                                            : () {
-                                                if (formKey.currentState!
-                                                    .validate()) {
-                                                  FocusManager
-                                                      .instance.primaryFocus
-                                                      ?.unfocus();
-                                                  try {
-                                                    Navigator.of(context)
-                                                        .pushReplacement(
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              AuthGate()),
-                                                    );
-                                                    FirebaseAuth.instance
-                                                        .signInWithEmailAndPassword(
-                                                            email:
-                                                                _emailController
-                                                                    .text,
-                                                            password:
-                                                                _passwordController
-                                                                    .text)
-                                                        .then((value) {});
-                                                  } catch (e) {
-                                                    debugPrint('$e');
-                                                  }
-                                                }
-                                              },
-                                        child: const Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            SizedBox(width: 8),
-                                            Icon(Icons.login_rounded),
-                                            SizedBox(width: 8),
-                                            Text('サインイン'),
-                                            SizedBox(width: 8),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 60,
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                              backgroundColor: Colors.transparent,
-                            ),
-                            onPressed: () => _onSignInWithAnonymousUser(),
-                            child: const Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.person_off_rounded),
-                                SizedBox(width: 8),
-                                Text('登録せず利用'),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          if (!kIsWeb && Platform.isAndroid)
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                backgroundColor: Colors.transparent,
-                              ),
-                              onPressed: () => _onSignInGoogle(),
-                              child: const Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    FontAwesomeIcons.google,
-                                    size: 20,
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text('Googleでログイン'),
-                                ],
-                              ),
-                            ),
-                          if (kIsWeb)
-                            ConstrainedBox(
-                              constraints: const BoxConstraints(
-                                maxWidth: 400,
-                              ),
-                              child: const GoogleSignInButton(
-                                  clientId:
-                                      '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com'),
-                            ),
-                          // if (!kIsWeb && Platform.isIOS)
-                          //   const GoogleSignInButton(
-                          //       clientId:
-                          //           '277870400251-7s65salaj527fnrhcr1ls4jq2k7le21f.apps.googleusercontent.com'),
-                          // if (!kIsWeb && Platform.isMacOS)
-                          //   const GoogleSignInButton(
-                          //       clientId:
-                          //           '277870400251-g3q7bmmb90ptq3krepjv1bhngm687icd.apps.googleusercontent.com'),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          if (!kIsWeb && (Platform.isIOS || Platform.isMacOS))
-                            SignInButton(
-                              Buttons.Apple,
-                              onPressed: () {
-                                _onSignInWithApple(user);
-                              },
-                            ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Icon(
+                          Icons.login_rounded,
+                          size: 32,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                        Form(
+                          key: formKey,
+                          child: Column(
                             children: [
-                              Text(
-                                'アカウント未登録の場合は',
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurfaceVariant
-                                      .withOpacity(0.8),
-                                  fontSize: 12,
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                      builder: (context) => SignUp(
-                                        email: _emailController.text,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Row(
+                              AutofillGroup(
+                                child: Column(
                                   children: [
+                                    TextFormField(
+                                      controller: _emailController,
+                                      keyboardType: TextInputType.emailAddress,
+                                      autocorrect: true,
+                                      autofillHints: const [
+                                        AutofillHints.email
+                                      ],
+                                      onFieldSubmitted: (value) {
+                                        if (_emailController.text
+                                                .contains('@') &&
+                                            _passwordController.text.length >=
+                                                8 &&
+                                            formKey.currentState!.validate()) {
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                          try {
+                                            Navigator.of(context)
+                                                .pushReplacement(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AuthGate()),
+                                            );
+                                            FirebaseAuth.instance
+                                                .signInWithEmailAndPassword(
+                                                    email:
+                                                        _emailController.text,
+                                                    password:
+                                                        _passwordController
+                                                            .text)
+                                                .then((value) {});
+                                          } catch (e) {
+                                            debugPrint('$e');
+                                          }
+                                        }
+                                      },
+                                      textInputAction: TextInputAction.next,
+                                      decoration: const InputDecoration(
+                                        icon: Icon(Icons.mail_rounded),
+                                        hintText: 'example@example.com',
+                                        labelText: 'メールアドレス',
+                                      ),
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'メールアドレスが入力されていません';
+                                        }
+                                        if (!value.contains('@')) {
+                                          return 'メールアドレスが正しくありません';
+                                        }
+                                        return null;
+                                      },
+                                      onChanged: (String value) {
+                                        setState(() {});
+                                      },
+                                    ),
                                     const SizedBox(
-                                      width: 8,
-                                      height: 40,
+                                      height: 20,
                                     ),
-                                    Icon(
-                                      Icons.person_add_alt,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
+                                    TextFormField(
+                                      controller: _passwordController,
+                                      obscureText: hidePassword,
+                                      keyboardType:
+                                          TextInputType.visiblePassword,
+                                      autofillHints: const [
+                                        AutofillHints.password
+                                      ],
+                                      onFieldSubmitted: (value) {
+                                        if (_emailController.text
+                                                .contains('@') &&
+                                            _passwordController.text.length >=
+                                                8 &&
+                                            formKey.currentState!.validate()) {
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                          try {
+                                            Navigator.of(context)
+                                                .pushReplacement(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AuthGate()),
+                                            );
+                                            FirebaseAuth.instance
+                                                .signInWithEmailAndPassword(
+                                                    email:
+                                                        _emailController.text,
+                                                    password:
+                                                        _passwordController
+                                                            .text)
+                                                .then((value) {});
+                                          } catch (e) {
+                                            debugPrint('$e');
+                                          }
+                                        }
+                                      },
+                                      textInputAction: TextInputAction.go,
+                                      decoration: InputDecoration(
+                                        icon: const Icon(Icons.lock_rounded),
+                                        labelText: 'パスワード',
+                                        suffixIcon: IconButton(
+                                          splashRadius: 20,
+                                          icon: Icon(
+                                            hidePassword
+                                                ? Icons.visibility_off_rounded
+                                                : Icons.visibility_rounded,
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              hidePassword = !hidePassword;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      maxLength: 64,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'パスワードが入力されていません';
+                                        }
+                                        if (value.length < 8) {
+                                          return '8文字以上にしてください';
+                                        }
+                                        return null;
+                                      },
+                                      onChanged: (String value) {
+                                        setState(() {});
+                                      },
                                     ),
-                                    const SizedBox(
-                                      width: 4,
-                                    ),
-                                    Text(
-                                      'サインアップ',
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary),
-                                    ),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
+                                    const SizedBox(height: 40),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        elevation: 0,
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        foregroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary,
+                                      ),
+                                      onPressed: !_emailController.text
+                                                  .contains('@') ||
+                                              _passwordController.text.length <
+                                                  8
+                                          ? null
+                                          : () {
+                                              if (formKey.currentState!
+                                                  .validate()) {
+                                                FocusManager
+                                                    .instance.primaryFocus
+                                                    ?.unfocus();
+                                                try {
+                                                  Navigator.of(context)
+                                                      .pushReplacement(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            AuthGate()),
+                                                  );
+                                                  FirebaseAuth.instance
+                                                      .signInWithEmailAndPassword(
+                                                          email:
+                                                              _emailController
+                                                                  .text,
+                                                          password:
+                                                              _passwordController
+                                                                  .text)
+                                                      .then((value) {});
+                                                } catch (e) {
+                                                  debugPrint('$e');
+                                                }
+                                              }
+                                            },
+                                      child: const Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SizedBox(width: 8),
+                                          Icon(Icons.login_rounded),
+                                          SizedBox(width: 8),
+                                          Text('サインイン'),
+                                          SizedBox(width: 8),
+                                        ],
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 40,
+                        ),
+                        const SizedBox(
+                          height: 60,
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor: Colors.transparent,
                           ),
-                          Text.rich(
-                            TextSpan(
-                              style: const TextStyle(height: 1.6),
+                          onPressed: () => _onSignInWithAnonymousUser(),
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.person_off_rounded),
+                              SizedBox(width: 8),
+                              Text('登録せず利用'),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        if (!kIsWeb && Platform.isAndroid)
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              backgroundColor: Colors.transparent,
+                            ),
+                            onPressed: () => _onSignInGoogle(),
+                            child: const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                TextSpan(
-                                  text: 'このサービスのご利用を開始することで、',
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground),
+                                Icon(
+                                  FontAwesomeIcons.google,
+                                  size: 20,
                                 ),
-                                TextSpan(
-                                  text: 'プライバシーポリシー',
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return const MdPage(
-                                              title: Text('プライバシーポリシー'),
-                                              data: privacyPolicyData,
-                                            );
-                                          },
-                                        ),
-                                      );
-                                    },
-                                ),
-                                TextSpan(
-                                  text: 'および',
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground),
-                                ),
-                                TextSpan(
-                                  text: '利用規約',
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return const MdPage(
-                                              title: Text('利用規約'),
-                                              data: termsOfUseData,
-                                            );
-                                          },
-                                        ),
-                                      );
-                                    },
-                                ),
-                                TextSpan(
-                                  text: 'に同意したものとみなします。',
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground),
-                                ),
+                                SizedBox(width: 8),
+                                Text('Googleでログイン'),
                               ],
                             ),
                           ),
-                        ],
-                      ),
+                        if (kIsWeb)
+                          ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              maxWidth: 400,
+                            ),
+                            child: const GoogleSignInButton(
+                                clientId:
+                                    '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com'),
+                          ),
+                        // if (!kIsWeb && Platform.isIOS)
+                        //   const GoogleSignInButton(
+                        //       clientId:
+                        //           '277870400251-7s65salaj527fnrhcr1ls4jq2k7le21f.apps.googleusercontent.com'),
+                        // if (!kIsWeb && Platform.isMacOS)
+                        //   const GoogleSignInButton(
+                        //       clientId:
+                        //           '277870400251-g3q7bmmb90ptq3krepjv1bhngm687icd.apps.googleusercontent.com'),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        if (!kIsWeb && (Platform.isIOS || Platform.isMacOS))
+                          SignInButton(
+                            Buttons.Apple,
+                            onPressed: () {
+                              _onSignInWithApple(user);
+                            },
+                          ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'アカウント未登録の場合は',
+                              style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant
+                                    .withOpacity(0.8),
+                                fontSize: 12,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => SignUp(
+                                      email: _emailController.text,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 8,
+                                    height: 40,
+                                  ),
+                                  Icon(
+                                    Icons.person_add_alt,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                  const SizedBox(
+                                    width: 4,
+                                  ),
+                                  Text(
+                                    'サインアップ',
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        Text.rich(
+                          TextSpan(
+                            style: const TextStyle(height: 1.6),
+                            children: [
+                              TextSpan(
+                                text: 'このサービスのご利用を開始することで、',
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground),
+                              ),
+                              TextSpan(
+                                text: 'プライバシーポリシー',
+                                style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return const MdPage(
+                                            title: Text('プライバシーポリシー'),
+                                            data: privacyPolicyData,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                              ),
+                              TextSpan(
+                                text: 'および',
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground),
+                              ),
+                              TextSpan(
+                                text: '利用規約',
+                                style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return const MdPage(
+                                            title: Text('利用規約'),
+                                            data: termsOfUseData,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                              ),
+                              TextSpan(
+                                text: 'に同意したものとみなします。',
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

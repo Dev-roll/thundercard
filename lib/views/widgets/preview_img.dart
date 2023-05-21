@@ -97,37 +97,38 @@ class _PreviewImgState extends State<PreviewImg> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: InteractiveViewer(
-                    minScale: 1,
-                    maxScale: 4,
-                    transformationController: _transformationController,
-                    onInteractionStart: _onInteractionStart,
-                    child: GestureDetector(
-                      onDoubleTap: (() {
-                        _transformationController.value == Matrix4.identity()
-                            ? _expandAnimation(
-                                MediaQuery.of(context).size.width,
-                                MediaQuery.of(context).size.height,
-                              )
-                            : _shrinkAnimation();
-                      }),
-                      child: Hero(
-                        tag: 'card_image',
-                        child: widget.image,
-                      ),
+      body: Stack(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: InteractiveViewer(
+                  minScale: 1,
+                  maxScale: 4,
+                  transformationController: _transformationController,
+                  onInteractionStart: _onInteractionStart,
+                  child: GestureDetector(
+                    onDoubleTap: (() {
+                      _transformationController.value == Matrix4.identity()
+                          ? _expandAnimation(
+                              MediaQuery.of(context).size.width,
+                              MediaQuery.of(context).size.height,
+                            )
+                          : _shrinkAnimation();
+                    }),
+                    child: Hero(
+                      tag: 'card_image',
+                      child: widget.image,
                     ),
                   ),
                 ),
-              ],
-            ),
-            IconButton(
+              ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            child: IconButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -137,8 +138,8 @@ class _PreviewImgState extends State<PreviewImg> with TickerProviderStateMixin {
               ),
               padding: const EdgeInsets.all(12),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
