@@ -28,15 +28,15 @@ ThemeData createTheme(
     colorSchemeSeed: isAndroid ? null : colorScheme.primary,
     brightness: brightness,
     visualDensity: VisualDensity.standard,
-    textTheme: !isApple && brightness == Brightness.light
-        ? GoogleFonts.interTextTheme(Theme.of(context).textTheme)
-        : !isApple && brightness == Brightness.dark
-            ? GoogleFonts.interTextTheme(Theme.of(context).primaryTextTheme)
-            : kIsWeb && brightness == Brightness.light
-                ? GoogleFonts.zenKakuGothicNewTextTheme(
-                    Theme.of(context).textTheme)
-                : kIsWeb && brightness == Brightness.dark
-                    ? GoogleFonts.zenKakuGothicNewTextTheme(
+    textTheme: kIsWeb && brightness == Brightness.light
+        ? GoogleFonts.zenKakuGothicNewTextTheme(Theme.of(context).textTheme)
+        : kIsWeb && brightness == Brightness.dark
+            ? GoogleFonts.zenKakuGothicNewTextTheme(
+                Theme.of(context).primaryTextTheme)
+            : !isApple && brightness == Brightness.light
+                ? GoogleFonts.interTextTheme(Theme.of(context).textTheme)
+                : !isApple && brightness == Brightness.dark
+                    ? GoogleFonts.interTextTheme(
                         Theme.of(context).primaryTextTheme)
                     : null,
   );
