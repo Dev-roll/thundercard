@@ -42,6 +42,7 @@ class SmallCard extends ConsumerWidget {
                 final String name = c10r20u10d10?['name'];
                 final Map profiles = c10r21u10d10?['profiles'];
                 final List links = c10r21u10d10?['account']['links'];
+                final String iconUrl = c10r20u10d10?['icon_url'] ?? '';
 
                 return SizedBox(
                   width: 91 * vw,
@@ -68,7 +69,7 @@ class SmallCard extends ConsumerWidget {
                               child: Row(
                                 children: [
                                   // avatar
-                                  const Avatar(),
+                                  Avatar(iconUrl: iconUrl),
                                   // name etc
                                   Flexible(
                                     child: Container(

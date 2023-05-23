@@ -56,6 +56,7 @@ class CardInfo extends ConsumerWidget {
           ),
           loading: () => const SkeletonCardInfo(),
           data: (c10r20u10d10) {
+            final String iconUrl = c10r20u10d10?['icon_url'] ?? '';
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -71,10 +72,10 @@ class CardInfo extends ConsumerWidget {
                                 : Brightness.dark,
                         useMaterial3: true,
                       ),
-                      child: const SizedBox(
+                      child: SizedBox(
                         width: 68,
                         height: 68,
-                        child: FittedBox(child: Avatar()),
+                        child: FittedBox(child: Avatar(iconUrl: iconUrl)),
                       ),
                     ),
                     const SizedBox(

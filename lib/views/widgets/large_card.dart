@@ -44,6 +44,7 @@ class LargeCard extends ConsumerWidget {
                 final links = c10r21u10d10?['account']['links'];
                 const dataTypeList = dataTypes;
                 final name = c10r20u10d10?['name'];
+                final String iconUrl = c10r20u10d10?['icon_url'] ?? '';
 
                 return SizedBox(
                   width: 91 * vw,
@@ -80,7 +81,7 @@ class LargeCard extends ConsumerWidget {
                               height: 36 * vw,
                               child: Column(
                                 children: [
-                                  const Avatar(),
+                                  Avatar(iconUrl: iconUrl),
                                   Flexible(
                                       child: name == null
                                           ? Container()

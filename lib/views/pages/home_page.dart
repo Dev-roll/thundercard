@@ -154,6 +154,7 @@ class HomePage extends ConsumerWidget {
                   ),
                   data: (c10r20u10d10) {
                     final name = c10r20u10d10?['name'];
+                    final String iconUrl = c10r20u10d10?['icon_url'] ?? '';
                     return Drawer(
                       backgroundColor: alphaBlend(
                           Theme.of(context)
@@ -231,12 +232,12 @@ class HomePage extends ConsumerWidget {
                                             padding: const EdgeInsets.only(
                                                 right: 12),
                                             child: ListTile(
-                                              leading: const SizedBox(
+                                              leading: SizedBox(
                                                 width: 32,
                                                 child: Center(
                                                   child: FittedBox(
                                                     child: Avatar(
-                                                      isCurrentUser: true,
+                                                      iconUrl: iconUrl,
                                                     ),
                                                   ),
                                                 ),
