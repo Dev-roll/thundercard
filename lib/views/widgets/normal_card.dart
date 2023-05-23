@@ -44,6 +44,8 @@ class NormalCard extends ConsumerWidget {
                 final String name = c10r20u10d10?['name'];
                 final Map profiles = c10r21u10d10?['profiles'];
                 final List links = c10r21u10d10?['account']['links'];
+                final String iconUrl = c10r20u10d10?['icon_url'] ?? '';
+
                 int profileLen = 0;
                 if (profiles.isNotEmpty) {
                   for (var i = 0; i < dataTypes.length; i++) {
@@ -94,7 +96,7 @@ class NormalCard extends ConsumerWidget {
                               child: Row(
                                 children: [
                                   // avatar
-                                  const Avatar(),
+                                  Avatar(iconUrl: iconUrl),
                                   // name etc
                                   Flexible(
                                     child:

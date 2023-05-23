@@ -58,6 +58,7 @@ class InputLink extends ConsumerWidget {
               ),
               data: (c10r20u10d10) {
                 final name = c10r20u10d10?['name'];
+                final String iconUrl = c10r20u10d10?['icon_url'] ?? '';
                 return Column(
                   children: [
                     Container(
@@ -73,12 +74,12 @@ class InputLink extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const SizedBox(
+                            SizedBox(
                               width: 40,
                               height: 40,
                               child: FittedBox(
                                 child: Avatar(
-                                  isCurrentUser: true,
+                                  iconUrl: iconUrl,
                                 ),
                               ),
                             ),
