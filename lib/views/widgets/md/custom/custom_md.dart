@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:thundercard/views/widgets/image_with_url.dart';
+import 'package:thundercard/views/widgets/md/custom/custom_pre.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../image_with_url.dart';
-import 'custom_pre.dart';
 
 class CustomMd extends StatelessWidget {
   const CustomMd({super.key, required this.data});
+
   final String data;
 
   @override

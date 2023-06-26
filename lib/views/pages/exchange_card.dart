@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../../utils/colors.dart';
-import '../widgets/input_link.dart';
-import '../widgets/scan_qr_code.dart';
+import 'package:thundercard/utils/colors.dart';
+import 'package:thundercard/views/widgets/input_link.dart';
+import 'package:thundercard/views/widgets/scan_qr_code.dart';
 
 class ExchangeCard extends StatefulWidget {
   const ExchangeCard({super.key, required this.currentCardId});
@@ -80,7 +79,11 @@ class _ExchangeCardState extends State<ExchangeCard>
             alignment: Alignment.topLeft,
             child: Padding(
               padding: EdgeInsets.fromLTRB(
-                  8, 8 + MediaQuery.of(context).padding.top, 0, 0),
+                8,
+                8 + MediaQuery.of(context).padding.top,
+                0,
+                0,
+              ),
               child: Hero(
                 tag: 'back_button',
                 child: IconButton(
@@ -100,8 +103,9 @@ class _ExchangeCardState extends State<ExchangeCard>
       ),
       bottomNavigationBar: Container(
         color: alphaBlend(
-            Theme.of(context).colorScheme.primary.withOpacity(0.08),
-            Theme.of(context).colorScheme.surface),
+          Theme.of(context).colorScheme.primary.withOpacity(0.08),
+          Theme.of(context).colorScheme.surface,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

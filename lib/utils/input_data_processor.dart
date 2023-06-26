@@ -1,7 +1,6 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
-
-import 'constants.dart';
+import 'package:thundercard/utils/constants.dart';
 
 Future<String?> inputToId(String inputData) async {
   final Uri shortUri = Uri.parse(inputData);

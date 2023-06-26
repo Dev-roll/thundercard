@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../widgets/md/custom/custom_md.dart';
+import 'package:thundercard/views/widgets/md/custom/custom_md.dart';
 
 class MdPage extends StatelessWidget {
   const MdPage({
@@ -8,6 +7,7 @@ class MdPage extends StatelessWidget {
     required this.title,
     required this.data,
   });
+
   final Widget title;
   final String data;
 

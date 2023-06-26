@@ -2,27 +2,26 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:thundercard/providers/current_card_id_provider.dart';
+import 'package:thundercard/providers/firebase_firestore.dart';
+import 'package:thundercard/providers/index.dart';
 import 'package:thundercard/providers/notifications_count_provider.dart';
-
-import '../../providers/current_card_id_provider.dart';
-import '../../providers/firebase_firestore.dart';
-import '../../providers/index.dart';
-import '../../utils/colors.dart';
-import '../../utils/firebase_auth.dart';
-import '../widgets/avatar.dart';
-import '../widgets/error_message.dart';
-import '../widgets/md/about_app.dart';
-import '../widgets/md/authors.dart';
-import '../widgets/md/privacy_policy.dart';
-import '../widgets/md/terms_of_use.dart';
-import '../widgets/md/version.dart';
-import 'account.dart';
-import 'add_card.dart';
-import 'cards_list_page.dart';
-import 'md_page.dart';
-import 'notifications.dart';
-import 'share_app.dart';
-import 'thundercard.dart';
+import 'package:thundercard/utils/colors.dart';
+import 'package:thundercard/utils/firebase_auth.dart';
+import 'package:thundercard/views/pages/account.dart';
+import 'package:thundercard/views/pages/add_card.dart';
+import 'package:thundercard/views/pages/cards_list_page.dart';
+import 'package:thundercard/views/pages/md_page.dart';
+import 'package:thundercard/views/pages/notifications.dart';
+import 'package:thundercard/views/pages/share_app.dart';
+import 'package:thundercard/views/pages/thundercard.dart';
+import 'package:thundercard/views/widgets/avatar.dart';
+import 'package:thundercard/views/widgets/error_message.dart';
+import 'package:thundercard/views/widgets/md/about_app.dart';
+import 'package:thundercard/views/widgets/md/authors.dart';
+import 'package:thundercard/views/widgets/md/privacy_policy.dart';
+import 'package:thundercard/views/widgets/md/terms_of_use.dart';
+import 'package:thundercard/views/widgets/md/version.dart';
 
 final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
 
@@ -157,11 +156,9 @@ class HomePage extends ConsumerWidget {
                     final String iconUrl = c10r20u10d10?['icon_url'] ?? '';
                     return Drawer(
                       backgroundColor: alphaBlend(
-                          Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withOpacity(0.05),
-                          Theme.of(context).colorScheme.surface),
+                        Theme.of(context).colorScheme.primary.withOpacity(0.05),
+                        Theme.of(context).colorScheme.surface,
+                      ),
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                           topRight: Radius.circular(16),
@@ -221,7 +218,8 @@ class HomePage extends ConsumerWidget {
                                 return SingleChildScrollView(
                                   child: ConstrainedBox(
                                     constraints: BoxConstraints(
-                                        minHeight: constrains.maxHeight),
+                                      minHeight: constrains.maxHeight,
+                                    ),
                                     child: IntrinsicHeight(
                                       child: Column(
                                         children: [
@@ -230,7 +228,8 @@ class HomePage extends ConsumerWidget {
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(
-                                                right: 12),
+                                              right: 12,
+                                            ),
                                             child: ListTile(
                                               leading: SizedBox(
                                                 width: 32,
@@ -245,7 +244,11 @@ class HomePage extends ConsumerWidget {
                                               title: Padding(
                                                 padding:
                                                     const EdgeInsets.fromLTRB(
-                                                        0, 10, 10, 10),
+                                                  0,
+                                                  10,
+                                                  10,
+                                                  10,
+                                                ),
                                                 child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -253,8 +256,9 @@ class HomePage extends ConsumerWidget {
                                                     Text(
                                                       name,
                                                       style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold),
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
                                                     ),
                                                     const SizedBox(
                                                       height: 4,
@@ -262,13 +266,14 @@ class HomePage extends ConsumerWidget {
                                                     Text(
                                                       '@$cardId',
                                                       style: TextStyle(
-                                                          fontSize: 12,
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .colorScheme
-                                                                  .primary
-                                                                  .withOpacity(
-                                                                      0.8)),
+                                                        fontSize: 12,
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .primary
+                                                            .withOpacity(
+                                                              0.8,
+                                                            ),
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -306,7 +311,8 @@ class HomePage extends ConsumerWidget {
                                           ListTile(
                                             leading: Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 12),
+                                                left: 12,
+                                              ),
                                               child: Icon(
                                                 Icons.description_outlined,
                                                 color: Theme.of(context)
@@ -321,21 +327,24 @@ class HomePage extends ConsumerWidget {
                                             onTap: () {
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(
-                                                    builder: (context) {
-                                                  return MdPage(
-                                                    title: const Text(
-                                                        'Thundercardについて'),
-                                                    data:
-                                                        '$aboutAppData$authorsData## バージョン情報\n${versionData.split('\n')[0]}',
-                                                  );
-                                                }),
+                                                  builder: (context) {
+                                                    return MdPage(
+                                                      title: const Text(
+                                                        'Thundercardについて',
+                                                      ),
+                                                      data:
+                                                          '$aboutAppData$authorsData## バージョン情報\n${versionData.split('\n')[0]}',
+                                                    );
+                                                  },
+                                                ),
                                               );
                                             },
                                           ),
                                           ListTile(
                                             leading: Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 12),
+                                                left: 12,
+                                              ),
                                               child: Icon(
                                                 Icons.share_rounded,
                                                 color: Theme.of(context)
@@ -349,16 +358,18 @@ class HomePage extends ConsumerWidget {
                                             onTap: () {
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(
-                                                    builder: (context) {
-                                                  return const ShareApp();
-                                                }),
+                                                  builder: (context) {
+                                                    return const ShareApp();
+                                                  },
+                                                ),
                                               );
                                             },
                                           ),
                                           ListTile(
                                             leading: Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 12),
+                                                left: 12,
+                                              ),
                                               child: Icon(
                                                 Icons.policy_outlined,
                                                 color: Theme.of(context)
@@ -372,19 +383,21 @@ class HomePage extends ConsumerWidget {
                                             onTap: () {
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(
-                                                    builder: (context) {
-                                                  return const MdPage(
-                                                    title: Text('プライバシーポリシー'),
-                                                    data: privacyPolicyData,
-                                                  );
-                                                }),
+                                                  builder: (context) {
+                                                    return const MdPage(
+                                                      title: Text('プライバシーポリシー'),
+                                                      data: privacyPolicyData,
+                                                    );
+                                                  },
+                                                ),
                                               );
                                             },
                                           ),
                                           ListTile(
                                             leading: Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 12),
+                                                left: 12,
+                                              ),
                                               child: Icon(
                                                 Icons.gavel_rounded,
                                                 color: Theme.of(context)
@@ -398,12 +411,13 @@ class HomePage extends ConsumerWidget {
                                             onTap: () {
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(
-                                                    builder: (context) {
-                                                  return const MdPage(
-                                                    title: Text('利用規約'),
-                                                    data: termsOfUseData,
-                                                  );
-                                                }),
+                                                  builder: (context) {
+                                                    return const MdPage(
+                                                      title: Text('利用規約'),
+                                                      data: termsOfUseData,
+                                                    );
+                                                  },
+                                                ),
                                               );
                                             },
                                           ),
@@ -457,7 +471,8 @@ class HomePage extends ConsumerWidget {
                               0
                           ? Badge(
                               label: Text(
-                                  '${notificationsCount['notifications_count']}'),
+                                '${notificationsCount['notifications_count']}',
+                              ),
                               backgroundColor:
                                   Theme.of(context).colorScheme.tertiary,
                               child: const Icon(Icons.notifications_rounded),
@@ -469,7 +484,8 @@ class HomePage extends ConsumerWidget {
                       icon: notificationsCount['notifications_count'] != 0
                           ? Badge(
                               label: Text(
-                                  '${notificationsCount['notifications_count']}'),
+                                '${notificationsCount['notifications_count']}',
+                              ),
                               backgroundColor:
                                   Theme.of(context).colorScheme.tertiary,
                               child:

@@ -1,27 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:thundercard/providers/index.dart';
-import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
-
-import '../../providers/firebase_firestore.dart';
-import '../../utils/colors.dart';
-import '../../utils/constants.dart';
-import '../../utils/current_brightness.dart';
-import '../../utils/firebase_auth.dart';
-import '../widgets/custom_progress_indicator.dart';
-import '../widgets/error_message.dart';
-import '../widgets/positioned_snack_bar.dart';
-import 'auth_gate.dart';
+import 'package:thundercard/providers/firebase_firestore.dart';
+import 'package:thundercard/providers/index.dart';
+import 'package:thundercard/utils/colors.dart';
+import 'package:thundercard/utils/constants.dart';
+import 'package:thundercard/utils/current_brightness.dart';
+import 'package:thundercard/utils/firebase_auth.dart';
+import 'package:thundercard/views/pages/auth_gate.dart';
+import 'package:thundercard/views/widgets/custom_progress_indicator.dart';
+import 'package:thundercard/views/widgets/error_message.dart';
+import 'package:thundercard/views/widgets/positioned_snack_bar.dart';
+import 'package:uuid/uuid.dart';
 
 class AccountEditor extends ConsumerStatefulWidget {
-  const AccountEditor(
-      {Key? key,
-      required this.isRegistration,
-      required this.isUser,
-      this.cardId = ''})
-      : super(key: key);
+  const AccountEditor({
+    Key? key,
+    required this.isRegistration,
+    required this.isUser,
+    this.cardId = '',
+  }) : super(key: key);
   final bool isRegistration;
   final bool isUser;
   final String cardId;
@@ -94,6 +93,7 @@ class ReorderableMultiTextFieldController
 
 class ReorderableMultiTextField extends ConsumerStatefulWidget {
   final ReorderableMultiTextFieldController controllerController;
+
   const ReorderableMultiTextField({
     super.key,
     required this.controllerController,
@@ -152,10 +152,12 @@ class _ReorderableMultiTextFieldState
         var links = linkTypes;
 
         final linksDropdownMenuItem = links
-            .map((entry) => DropdownMenuItem(
-                  value: entry,
-                  alignment: AlignmentDirectional.center,
-                  child: Row(children: [
+            .map(
+              (entry) => DropdownMenuItem(
+                value: entry,
+                alignment: AlignmentDirectional.center,
+                child: Row(
+                  children: [
                     const SizedBox(
                       width: 4,
                     ),
@@ -163,8 +165,10 @@ class _ReorderableMultiTextFieldState
                       linkTypeToIconData[entry],
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
                     )
-                  ]),
-                ))
+                  ],
+                ),
+              ),
+            )
             .toList();
 
         return ReorderableListView(
@@ -231,9 +235,9 @@ class _ReorderableMultiTextFieldState
                     Expanded(
                       child: TextField(
                         style: TextStyle(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onPrimaryContainer),
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
+                        ),
                         controller: textFieldState.controller,
                         cursorHeight: 20,
                         decoration: const InputDecoration(
@@ -347,12 +351,16 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
         } else {
           Navigator.of(context).pop();
         }
-        final values = controller.value.map(((e) {
-          return e.controller.text;
-        })).toList();
-        final keys = controller.value.map(((e) {
-          return e.selector;
-        })).toList();
+        final values = controller.value.map(
+          ((e) {
+            return e.controller.text;
+          }),
+        ).toList();
+        final keys = controller.value.map(
+          ((e) {
+            return e.selector;
+          }),
+        ).toList();
 
         var links = [];
         for (var i = 0; i < keys.length; i++) {
@@ -560,41 +568,44 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
               .doc(widget.cardId)
               .collection('visibility')
               .doc('c10r21u10d10')
-              .set({
-            'account': {
-              'links': links,
+              .set(
+            {
+              'account': {
+                'links': links,
+              },
+              'profiles': {
+                'bio': {
+                  'value': _bioController.text,
+                  'display': {
+                    'normal': true,
+                    'large': true,
+                  }
+                },
+                'company': {
+                  'value': _companyController.text,
+                  'display': {
+                    'normal': true,
+                    'large': true,
+                  }
+                },
+                'position': {
+                  'value': _positionController.text,
+                  'display': {
+                    'normal': true,
+                    'large': true,
+                  }
+                },
+                'address': {
+                  'value': _addressController.text,
+                  'display': {
+                    'normal': true,
+                    'large': true,
+                  }
+                },
+              }
             },
-            'profiles': {
-              'bio': {
-                'value': _bioController.text,
-                'display': {
-                  'normal': true,
-                  'large': true,
-                }
-              },
-              'company': {
-                'value': _companyController.text,
-                'display': {
-                  'normal': true,
-                  'large': true,
-                }
-              },
-              'position': {
-                'value': _positionController.text,
-                'display': {
-                  'normal': true,
-                  'large': true,
-                }
-              },
-              'address': {
-                'value': _addressController.text,
-                'display': {
-                  'normal': true,
-                  'large': true,
-                }
-              },
-            }
-          }, SetOptions(merge: true)).then((value) {
+            SetOptions(merge: true),
+          ).then((value) {
             debugPrint('c10r21u10d10: Registered');
           }).catchError((error) {
             debugPrint('カードの登録に失敗しました: $error');
@@ -625,29 +636,33 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
               .doc(widget.cardId)
               .collection('visibility')
               .doc('c10r20u10d10')
-              .set({
-            'name': _nameController.text,
-            // 'public': false,
-            // 'icon_url': '',
-            'thundercard': {
-              // 'color': {
-              //   'seed': 0,
-              //   'tertiary': 0,
-              // },
-              'light_theme': currentBrightness(Theme.of(context).colorScheme) ==
-                  Brightness.light,
-              // 'rounded': true,
-              // 'radius': 3,
-              // 'layout': 0,
-              // 'font_size': {
-              //   'title': 3,
-              //   'id': 1.5,
-              //   'bio': 1.3,
-              //   'profiles': 1,
-              //   'links': 1,
-              // }
+              .set(
+            {
+              'name': _nameController.text,
+              // 'public': false,
+              // 'icon_url': '',
+              'thundercard': {
+                // 'color': {
+                //   'seed': 0,
+                //   'tertiary': 0,
+                // },
+                'light_theme':
+                    currentBrightness(Theme.of(context).colorScheme) ==
+                        Brightness.light,
+                // 'rounded': true,
+                // 'radius': 3,
+                // 'layout': 0,
+                // 'font_size': {
+                //   'title': 3,
+                //   'id': 1.5,
+                //   'bio': 1.3,
+                //   'profiles': 1,
+                //   'links': 1,
+                // }
+              },
             },
-          }, SetOptions(merge: true)).then((value) {
+            SetOptions(merge: true),
+          ).then((value) {
             debugPrint('Card Updated (1/2)');
           }).catchError((error) {
             debugPrint('Failed to update card: $error');
@@ -676,8 +691,10 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
                           _nameController.text == '') {
                         if ((isUser && _cardIdController.text == '') &&
                             _nameController.text == '') {
-                          showErrorMessage(context,
-                              message: 'カードIDと表示名を入力してください。');
+                          showErrorMessage(
+                            context,
+                            message: 'カードIDと表示名を入力してください。',
+                          );
                         } else if (isUser && _cardIdController.text == '') {
                           showErrorMessage(context, message: 'カードIDを入力してください。');
                         } else {
@@ -1004,13 +1021,17 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
               final initName =
                   TextEditingController(text: c10r20u10d10?['name'] ?? '');
               final initBio = TextEditingController(
-                  text: c10r21u10d10?['profiles']['bio']['value'] ?? '');
+                text: c10r21u10d10?['profiles']['bio']['value'] ?? '',
+              );
               final initCompany = TextEditingController(
-                  text: c10r21u10d10?['profiles']['company']['value'] ?? '');
+                text: c10r21u10d10?['profiles']['company']['value'] ?? '',
+              );
               final initPosition = TextEditingController(
-                  text: c10r21u10d10?['profiles']['position']['value'] ?? '');
+                text: c10r21u10d10?['profiles']['position']['value'] ?? '',
+              );
               final initAddress = TextEditingController(
-                  text: c10r21u10d10?['profiles']['address']['value'] ?? '');
+                text: c10r21u10d10?['profiles']['address']['value'] ?? '',
+              );
 
               _nameController = initName;
               _bioController = initBio;

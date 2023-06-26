@@ -5,8 +5,7 @@ class DialogUtil {
     required BuildContext context,
     required Widget Function(
       BuildContext context,
-    )
-        builder,
+    ) builder,
   }) async {
     await showDialog(
       barrierDismissible: false,

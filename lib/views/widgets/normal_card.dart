@@ -3,15 +3,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../../providers/firebase_firestore.dart';
-import '../../utils/constants.dart';
-import '../../utils/return_url.dart';
-import 'avatar.dart';
-import 'card_element.dart';
-import 'custom_skeletons/skeleton_card.dart';
-import 'error_message.dart';
-import 'open_app.dart';
+import 'package:thundercard/providers/firebase_firestore.dart';
+import 'package:thundercard/utils/constants.dart';
+import 'package:thundercard/utils/return_url.dart';
+import 'package:thundercard/views/widgets/avatar.dart';
+import 'package:thundercard/views/widgets/card_element.dart';
+import 'package:thundercard/views/widgets/custom_skeletons/skeleton_card.dart';
+import 'package:thundercard/views/widgets/error_message.dart';
+import 'package:thundercard/views/widgets/open_app.dart';
 
 class NormalCard extends ConsumerWidget {
   const NormalCard({
@@ -105,7 +104,11 @@ class NormalCard extends ConsumerWidget {
                                         //     :
                                         Container(
                                       padding: EdgeInsets.fromLTRB(
-                                          2 * vw, 0 * vw, 0 * vw, 0 * vw),
+                                        2 * vw,
+                                        0 * vw,
+                                        0 * vw,
+                                        0 * vw,
+                                      ),
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -148,7 +151,11 @@ class NormalCard extends ConsumerWidget {
                                           ? Container()
                                           : Container(
                                               padding: EdgeInsets.fromLTRB(
-                                                  vw, 2 * vw, 0, vw),
+                                                vw,
+                                                2 * vw,
+                                                0,
+                                                vw,
+                                              ),
                                               child: SingleChildScrollView(
                                                 physics:
                                                     const NeverScrollableScrollPhysics(),
@@ -160,9 +167,9 @@ class NormalCard extends ConsumerWidget {
                                                     for (var i = 0;
                                                         i <
                                                             min(
-                                                                dataTypes
-                                                                    .length,
-                                                                5);
+                                                              dataTypes.length,
+                                                              5,
+                                                            );
                                                         i++)
                                                       if (profiles[dataTypes[i]]
                                                                   ['value'] !=
@@ -176,10 +183,11 @@ class NormalCard extends ConsumerWidget {
                                                                 padding:
                                                                     EdgeInsets
                                                                         .fromLTRB(
-                                                                            0,
-                                                                            vw,
-                                                                            0,
-                                                                            vw),
+                                                                  0,
+                                                                  vw,
+                                                                  0,
+                                                                  vw,
+                                                                ),
                                                                 child: OpenApp(
                                                                   url:
                                                                       returnUrl(
@@ -194,10 +202,11 @@ class NormalCard extends ConsumerWidget {
                                                                 padding:
                                                                     EdgeInsets
                                                                         .fromLTRB(
-                                                                            0,
-                                                                            vw,
-                                                                            0,
-                                                                            vw),
+                                                                  0,
+                                                                  vw,
+                                                                  0,
+                                                                  vw,
+                                                                ),
                                                                 child:
                                                                     CardElement(
                                                                   txt: profiles[
@@ -238,7 +247,11 @@ class NormalCard extends ConsumerWidget {
                                           ? Container()
                                           : Container(
                                               padding: EdgeInsets.fromLTRB(
-                                                  vw, 2 * vw, 0, 0),
+                                                vw,
+                                                2 * vw,
+                                                0,
+                                                0,
+                                              ),
                                               child: SingleChildScrollView(
                                                 physics:
                                                     const NeverScrollableScrollPhysics(),
@@ -249,15 +262,21 @@ class NormalCard extends ConsumerWidget {
                                                   children: [
                                                     for (var i = 0;
                                                         i <
-                                                            min(links.length,
-                                                                5);
+                                                            min(
+                                                              links.length,
+                                                              5,
+                                                            );
                                                         i++)
                                                       if (links[i]['display']
                                                           ['normal'])
                                                         Container(
                                                           padding: EdgeInsets
                                                               .fromLTRB(
-                                                                  0, vw, 0, vw),
+                                                            0,
+                                                            vw,
+                                                            0,
+                                                            vw,
+                                                          ),
                                                           child: OpenApp(
                                                             url: returnUrl(
                                                               links[i]['key'],

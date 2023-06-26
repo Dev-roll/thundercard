@@ -4,19 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:thundercard/main.dart';
+import 'package:thundercard/providers/firebase_firestore.dart';
+import 'package:thundercard/providers/index.dart';
+import 'package:thundercard/utils/constants.dart';
+import 'package:thundercard/utils/firebase_auth.dart';
+import 'package:thundercard/views/pages/auth_gate.dart';
+import 'package:thundercard/views/pages/link_auth.dart';
 import 'package:thundercard/views/widgets/available_auth.dart';
-
-import '../../main.dart';
-import '../../providers/firebase_firestore.dart';
-import '../../providers/index.dart';
-import '../../utils/constants.dart';
-import '../../utils/firebase_auth.dart';
-import '../widgets/card_info.dart';
-import '../widgets/custom_progress_indicator.dart';
-import '../widgets/error_message.dart';
-import '../widgets/my_card.dart';
-import 'auth_gate.dart';
-import 'link_auth.dart';
+import 'package:thundercard/views/widgets/card_info.dart';
+import 'package:thundercard/views/widgets/custom_progress_indicator.dart';
+import 'package:thundercard/views/widgets/error_message.dart';
+import 'package:thundercard/views/widgets/my_card.dart';
 
 class Account extends ConsumerWidget {
   const Account({Key? key}) : super(key: key);
@@ -48,7 +47,11 @@ class Account extends ConsumerWidget {
                     children: [
                       Padding(
                         padding: EdgeInsets.fromLTRB(
-                            16, 16 + MediaQuery.of(context).padding.top, 16, 0),
+                          16,
+                          16 + MediaQuery.of(context).padding.top,
+                          16,
+                          0,
+                        ),
                         child: CardInfo(cardId: currentCardId, editable: true),
                       ),
                       Divider(
@@ -84,11 +87,14 @@ class Account extends ConsumerWidget {
                                     return AlertDialog(
                                       icon: [
                                         const Icon(
-                                            Icons.brightness_medium_rounded),
+                                          Icons.brightness_medium_rounded,
+                                        ),
                                         const Icon(
-                                            Icons.brightness_low_rounded),
+                                          Icons.brightness_low_rounded,
+                                        ),
                                         const Icon(
-                                            Icons.brightness_high_rounded),
+                                          Icons.brightness_high_rounded,
+                                        ),
                                       ][customTheme.currentAppThemeIdx],
                                       title: const Text('アプリのテーマ'),
                                       content: Column(
@@ -180,66 +186,69 @@ class Account extends ConsumerWidget {
                                   if (customTheme.currentAppThemeIdx !=
                                       customTheme.appThemeIdx) {
                                     customTheme.appThemeChange(
-                                        customTheme.appThemeIdx);
+                                      customTheme.appThemeIdx,
+                                    );
                                   }
                                 });
                               },
                               child: Container(
                                 padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
-                                child: Row(children: [
-                                  [
-                                    Icon(
-                                      Icons.brightness_medium_rounded,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
+                                child: Row(
+                                  children: [
+                                    [
+                                      Icon(
+                                        Icons.brightness_medium_rounded,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurfaceVariant,
+                                      ),
+                                      Icon(
+                                        Icons.brightness_low_rounded,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurfaceVariant,
+                                      ),
+                                      Icon(
+                                        Icons.brightness_high_rounded,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurfaceVariant,
+                                      ),
+                                    ][customTheme.currentAppThemeIdx],
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'アプリのテーマ',
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurfaceVariant,
+                                      ),
                                     ),
-                                    Icon(
-                                      Icons.brightness_low_rounded,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
-                                    ),
-                                    Icon(
-                                      Icons.brightness_high_rounded,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
-                                    ),
-                                  ][customTheme.currentAppThemeIdx],
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    'アプリのテーマ',
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurfaceVariant,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 16),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.centerRight,
-                                      child: [
-                                        const Text(
-                                          '自動切り替え',
-                                          softWrap: false,
-                                          overflow: TextOverflow.fade,
-                                        ),
-                                        const Text(
-                                          'ダークモード',
-                                          softWrap: false,
-                                          overflow: TextOverflow.fade,
-                                        ),
-                                        const Text(
-                                          'ライトモード',
-                                          softWrap: false,
-                                          overflow: TextOverflow.fade,
-                                        )
-                                      ][customTheme.currentAppThemeIdx],
-                                    ),
-                                  )
-                                ]),
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: Container(
+                                        alignment: Alignment.centerRight,
+                                        child: [
+                                          const Text(
+                                            '自動切り替え',
+                                            softWrap: false,
+                                            overflow: TextOverflow.fade,
+                                          ),
+                                          const Text(
+                                            'ダークモード',
+                                            softWrap: false,
+                                            overflow: TextOverflow.fade,
+                                          ),
+                                          const Text(
+                                            'ライトモード',
+                                            softWrap: false,
+                                            overflow: TextOverflow.fade,
+                                          )
+                                        ][customTheme.currentAppThemeIdx],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                             GestureDetector(
@@ -250,7 +259,8 @@ class Account extends ConsumerWidget {
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       icon: const Icon(
-                                          Icons.settings_brightness_rounded),
+                                        Icons.settings_brightness_rounded,
+                                      ),
                                       title: const Text('カードのテーマ'),
                                       scrollable: true,
                                       content: Column(
@@ -284,7 +294,11 @@ class Account extends ConsumerWidget {
                                             child: Container(
                                               padding:
                                                   const EdgeInsets.fromLTRB(
-                                                      16, 8, 16, 8),
+                                                16,
+                                                8,
+                                                16,
+                                                8,
+                                              ),
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -358,7 +372,8 @@ class Account extends ConsumerWidget {
                                                     .currentDisplayCardThemeIdx,
                                                 onChanged: (value) {
                                                   customTheme.cardThemeChange(
-                                                      value as int);
+                                                    value as int,
+                                                  );
                                                 },
                                               ),
                                               RadioListTile(
@@ -382,7 +397,8 @@ class Account extends ConsumerWidget {
                                                     .currentDisplayCardThemeIdx,
                                                 onChanged: (value) {
                                                   customTheme.cardThemeChange(
-                                                      value as int);
+                                                    value as int,
+                                                  );
                                                 },
                                               ),
                                               RadioListTile(
@@ -406,7 +422,8 @@ class Account extends ConsumerWidget {
                                                     .currentDisplayCardThemeIdx,
                                                 onChanged: (value) {
                                                   customTheme.cardThemeChange(
-                                                      value as int);
+                                                    value as int,
+                                                  );
                                                 },
                                               ),
                                               RadioListTile(
@@ -430,7 +447,8 @@ class Account extends ConsumerWidget {
                                                     .currentDisplayCardThemeIdx,
                                                 onChanged: (value) {
                                                   customTheme.cardThemeChange(
-                                                      value as int);
+                                                    value as int,
+                                                  );
                                                 },
                                               ),
                                             ],
@@ -473,57 +491,61 @@ class Account extends ConsumerWidget {
                                   if (customTheme.currentDisplayCardThemeIdx !=
                                       customTheme.displayCardThemeIdx) {
                                     customTheme.cardThemeChange(
-                                        customTheme.displayCardThemeIdx);
+                                      customTheme.displayCardThemeIdx,
+                                    );
                                   }
                                 });
                               },
                               child: Container(
                                 padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
-                                child: Row(children: [
-                                  Icon(
-                                    Icons.settings_brightness_rounded,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
-                                  ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    'カードのテーマ',
-                                    style: TextStyle(
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.settings_brightness_rounded,
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onSurfaceVariant,
                                     ),
-                                  ),
-                                  const SizedBox(width: 16),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.centerRight,
-                                      child: [
-                                        const Text(
-                                          'オリジナル',
-                                          softWrap: false,
-                                          overflow: TextOverflow.fade,
-                                        ),
-                                        const Text(
-                                          '自動切り替え',
-                                          softWrap: false,
-                                          overflow: TextOverflow.fade,
-                                        ),
-                                        const Text(
-                                          'ダークモード',
-                                          softWrap: false,
-                                          overflow: TextOverflow.fade,
-                                        ),
-                                        const Text(
-                                          'ライトモード',
-                                          softWrap: false,
-                                          overflow: TextOverflow.fade,
-                                        )
-                                      ][customTheme.currentDisplayCardThemeIdx],
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'カードのテーマ',
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurfaceVariant,
+                                      ),
                                     ),
-                                  )
-                                ]),
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                      child: Container(
+                                        alignment: Alignment.centerRight,
+                                        child: [
+                                          const Text(
+                                            'オリジナル',
+                                            softWrap: false,
+                                            overflow: TextOverflow.fade,
+                                          ),
+                                          const Text(
+                                            '自動切り替え',
+                                            softWrap: false,
+                                            overflow: TextOverflow.fade,
+                                          ),
+                                          const Text(
+                                            'ダークモード',
+                                            softWrap: false,
+                                            overflow: TextOverflow.fade,
+                                          ),
+                                          const Text(
+                                            'ライトモード',
+                                            softWrap: false,
+                                            overflow: TextOverflow.fade,
+                                          )
+                                        ][customTheme
+                                            .currentDisplayCardThemeIdx],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ],
@@ -657,12 +679,13 @@ class Account extends ConsumerWidget {
                                       final path =
                                           await getApplicationDocumentsDirectory()
                                               .then((value) => value.path);
-                                      Share.shareXFiles(
+                                      await Share.shareXFiles(
                                         [
                                           // '$path/list.txt',
                                           XFile('$path/appThemeIdx.txt'),
                                           XFile(
-                                              '$path/displayCardThemeIdx.txt'),
+                                            '$path/displayCardThemeIdx.txt',
+                                          ),
                                         ],
                                         text: 'Thundercardアプリのデータ',
                                         subject: 'Thundercardアプリのデータ共有',
@@ -750,8 +773,10 @@ class Account extends ConsumerWidget {
                                                   (_) => false,
                                                 );
                                                 ref
-                                                    .watch(currentIndexProvider
-                                                        .notifier)
+                                                    .watch(
+                                                      currentIndexProvider
+                                                          .notifier,
+                                                    )
                                                     .state = 0;
                                               },
                                               onLongPress: null,
@@ -782,7 +807,8 @@ class Account extends ConsumerWidget {
                                         context: context,
                                         builder: (context) => AlertDialog(
                                           icon: const Icon(
-                                              Icons.person_off_rounded),
+                                            Icons.person_off_rounded,
+                                          ),
                                           title: const Text('アカウントを削除'),
                                           content: SingleChildScrollView(
                                             child: Column(
@@ -829,8 +855,10 @@ class Account extends ConsumerWidget {
                                                   (_) => false,
                                                 );
                                                 ref
-                                                    .watch(currentIndexProvider
-                                                        .notifier)
+                                                    .watch(
+                                                      currentIndexProvider
+                                                          .notifier,
+                                                    )
                                                     .state = 0;
                                                 final data = {
                                                   'uid': uid,
@@ -846,16 +874,18 @@ class Account extends ConsumerWidget {
                                                     .then((_) {})
                                                     .catchError((e) {
                                                       debugPrint(
-                                                          'Failed to delete user: $e');
+                                                        'Failed to delete user: $e',
+                                                      );
                                                     });
                                               },
                                               onLongPress: null,
                                               child: Text(
                                                 'アカウントを削除',
                                                 style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .error),
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .error,
+                                                ),
                                               ),
                                             ),
                                           ],

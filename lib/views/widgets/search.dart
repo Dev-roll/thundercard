@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
-import '../../providers/firebase_firestore.dart';
-import '../../utils/constants.dart';
-import '../pages/card_details.dart';
-import 'my_card.dart';
+import 'package:thundercard/providers/firebase_firestore.dart';
+import 'package:thundercard/utils/constants.dart';
+import 'package:thundercard/views/pages/card_details.dart';
+import 'package:thundercard/views/widgets/my_card.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key, required this.exchangedCardIds}) : super(key: key);
@@ -29,10 +28,12 @@ class _SearchState extends State<Search> {
         searchedCards = cardsToSearch;
       } else {
         searchedCards = cardsToSearch
-            .where((element) =>
-                element['isUser'] &&
-                    element['cardId']!.toLowerCase().contains(kw) ||
-                element['name']!.toLowerCase().contains(kw))
+            .where(
+              (element) =>
+                  element['isUser'] &&
+                      element['cardId']!.toLowerCase().contains(kw) ||
+                  element['name']!.toLowerCase().contains(kw),
+            )
             .toList();
       }
     });
@@ -210,9 +211,9 @@ class _SearchState extends State<Search> {
                                     ),
                                     child: FittedBox(
                                       child: MyCard(
-                                          cardId: searchedCards[index]
-                                              ['cardId'],
-                                          cardType: CardType.normal),
+                                        cardId: searchedCards[index]['cardId'],
+                                        cardType: CardType.normal,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -239,9 +240,10 @@ class _SearchState extends State<Search> {
                               Text(
                                 '検索結果はありません',
                                 style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant,
+                                ),
                               ),
                             ],
                           ),

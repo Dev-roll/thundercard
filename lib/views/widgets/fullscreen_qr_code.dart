@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'my_qr_code.dart';
+import 'package:thundercard/views/widgets/my_qr_code.dart';
 
 class FullscreenQrCode extends StatelessWidget {
   const FullscreenQrCode({Key? key, required this.name}) : super(key: key);

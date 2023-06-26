@@ -1,4 +1,4 @@
-import 'constants.dart';
+import 'package:thundercard/utils/constants.dart';
 
 IconType returnIconType(String url) {
   var ret = IconType.url;

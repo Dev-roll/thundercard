@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../utils/constants.dart';
-import '../pages/add_card.dart';
-import '../pages/home_page.dart';
+import 'package:thundercard/utils/constants.dart';
+import 'package:thundercard/views/pages/add_card.dart';
+import 'package:thundercard/views/pages/home_page.dart';
 
 class NotificationItemPage extends ConsumerWidget {
   const NotificationItemPage({
@@ -236,12 +235,18 @@ class NotificationItemPage extends ConsumerWidget {
                                 ),
                               );
                             }
-                            notificationItemDoc.set({
-                              'tags': FieldValue.arrayRemove(['apply'])
-                            }, SetOptions(merge: true));
-                            notificationItemDoc.set({
-                              'tags': FieldValue.arrayUnion(['applied'])
-                            }, SetOptions(merge: true));
+                            notificationItemDoc.set(
+                              {
+                                'tags': FieldValue.arrayRemove(['apply'])
+                              },
+                              SetOptions(merge: true),
+                            );
+                            notificationItemDoc.set(
+                              {
+                                'tags': FieldValue.arrayUnion(['applied'])
+                              },
+                              SetOptions(merge: true),
+                            );
                             verifyCard(myCardId, notificationId);
                           },
                         ),

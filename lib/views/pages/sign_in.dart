@@ -6,15 +6,14 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:flutterfire_ui/auth.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
-import '../widgets/md/privacy_policy.dart';
-import '../widgets/md/terms_of_use.dart';
-import 'auth_gate.dart';
-import 'md_page.dart';
-import 'sign_up.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:thundercard/views/pages/auth_gate.dart';
+import 'package:thundercard/views/pages/md_page.dart';
+import 'package:thundercard/views/pages/sign_up.dart';
+import 'package:thundercard/views/widgets/md/privacy_policy.dart';
+import 'package:thundercard/views/widgets/md/terms_of_use.dart';
 
 // import 'package:flutterfire_ui/auth.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -40,7 +39,7 @@ class _SignInState extends State<SignIn> {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     try {
       if (!mounted) return;
-      Navigator.of(context).pushReplacement(
+      await Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => AuthGate()),
       );
       await firebaseAuth.signInAnonymously();
@@ -59,14 +58,16 @@ class _SignInState extends State<SignIn> {
   Future<void> _onSignInGoogle() async {
     try {
       if (!mounted) return;
-      Navigator.of(context).pushReplacement(
+      await Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => AuthGate()),
       );
 
-      final googleLogin = GoogleSignIn(scopes: [
-        'email',
-        'profile',
-      ]);
+      final googleLogin = GoogleSignIn(
+        scopes: [
+          'email',
+          'profile',
+        ],
+      );
 
       GoogleSignInAccount? signinAccount = await googleLogin.signIn();
       if (signinAccount == null) return;
@@ -116,7 +117,7 @@ class _SignInState extends State<SignIn> {
         if (Navigator.of(context).canPop()) {
           Navigator.of(context).pop();
         } else {
-          Navigator.of(context).pushReplacement(
+          await Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => AuthGate()),
           );
         }
@@ -125,13 +126,14 @@ class _SignInState extends State<SignIn> {
       }
     } catch (e) {
       await showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text('エラー'),
-              content: Text(e.toString()),
-            );
-          });
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('エラー'),
+            content: Text(e.toString()),
+          );
+        },
+      );
     }
   }
 
@@ -203,16 +205,16 @@ class _SignInState extends State<SignIn> {
                                             Navigator.of(context)
                                                 .pushReplacement(
                                               MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      AuthGate()),
+                                                builder: (context) =>
+                                                    AuthGate(),
+                                              ),
                                             );
                                             FirebaseAuth.instance
                                                 .signInWithEmailAndPassword(
-                                                    email:
-                                                        _emailController.text,
-                                                    password:
-                                                        _passwordController
-                                                            .text)
+                                                  email: _emailController.text,
+                                                  password:
+                                                      _passwordController.text,
+                                                )
                                                 .then((value) {});
                                           } catch (e) {
                                             debugPrint('$e');
@@ -261,16 +263,16 @@ class _SignInState extends State<SignIn> {
                                             Navigator.of(context)
                                                 .pushReplacement(
                                               MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      AuthGate()),
+                                                builder: (context) =>
+                                                    AuthGate(),
+                                              ),
                                             );
                                             FirebaseAuth.instance
                                                 .signInWithEmailAndPassword(
-                                                    email:
-                                                        _emailController.text,
-                                                    password:
-                                                        _passwordController
-                                                            .text)
+                                                  email: _emailController.text,
+                                                  password:
+                                                      _passwordController.text,
+                                                )
                                                 .then((value) {});
                                           } catch (e) {
                                             debugPrint('$e');
@@ -335,17 +337,18 @@ class _SignInState extends State<SignIn> {
                                                   Navigator.of(context)
                                                       .pushReplacement(
                                                     MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            AuthGate()),
+                                                      builder: (context) =>
+                                                          AuthGate(),
+                                                    ),
                                                   );
                                                   FirebaseAuth.instance
                                                       .signInWithEmailAndPassword(
-                                                          email:
-                                                              _emailController
-                                                                  .text,
-                                                          password:
-                                                              _passwordController
-                                                                  .text)
+                                                        email: _emailController
+                                                            .text,
+                                                        password:
+                                                            _passwordController
+                                                                .text,
+                                                      )
                                                       .then((value) {});
                                                 } catch (e) {
                                                   debugPrint('$e');
@@ -419,8 +422,9 @@ class _SignInState extends State<SignIn> {
                               maxWidth: 400,
                             ),
                             child: const GoogleSignInButton(
-                                clientId:
-                                    '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com'),
+                              clientId:
+                                  '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com',
+                            ),
                           ),
                         // if (!kIsWeb && Platform.isIOS)
                         //   const GoogleSignInButton(
@@ -483,9 +487,9 @@ class _SignInState extends State<SignIn> {
                                   Text(
                                     'サインアップ',
                                     style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary),
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
                                   ),
                                   const SizedBox(
                                     width: 8,
@@ -505,15 +509,16 @@ class _SignInState extends State<SignIn> {
                               TextSpan(
                                 text: 'このサービスのご利用を開始することで、',
                                 style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
+                                ),
                               ),
                               TextSpan(
                                 text: 'プライバシーポリシー',
                                 style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     Navigator.of(context).push(
@@ -531,15 +536,16 @@ class _SignInState extends State<SignIn> {
                               TextSpan(
                                 text: 'および',
                                 style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
+                                ),
                               ),
                               TextSpan(
                                 text: '利用規約',
                                 style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     Navigator.of(context).push(
@@ -557,9 +563,10 @@ class _SignInState extends State<SignIn> {
                               TextSpan(
                                 text: 'に同意したものとみなします。',
                                 style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
+                                ),
                               ),
                             ],
                           ),

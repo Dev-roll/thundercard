@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../providers/exchanged_cards_provider.dart';
-import '../../utils/constants.dart';
-import '../pages/card_details.dart';
-import 'my_card.dart';
+import 'package:thundercard/providers/exchanged_cards_provider.dart';
+import 'package:thundercard/utils/constants.dart';
+import 'package:thundercard/views/pages/card_details.dart';
+import 'package:thundercard/views/widgets/my_card.dart';
 
 class CardsList extends ConsumerWidget {
   const CardsList({Key? key}) : super(key: key);
@@ -25,11 +24,13 @@ class CardsList extends ConsumerWidget {
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CardDetails(
-                            cardId: exchangedCards[cardIndex],
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => CardDetails(
+                              cardId: exchangedCards[cardIndex],
+                            ),
                           ),
-                        ));
+                        );
                       },
                       child: ConstrainedBox(
                         constraints: const BoxConstraints(
@@ -63,7 +64,8 @@ class CardsList extends ConsumerWidget {
                 Text(
                   'まだカードがありません',
                   style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant),
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ],
             ),

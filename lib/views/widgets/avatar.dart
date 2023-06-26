@@ -63,9 +63,10 @@ class Avatar extends StatelessWidget {
                 shape: BoxShape.circle,
                 image: iconUrl != ''
                     ? DecorationImage(
-                        image: NetworkImage(iconUrl
-                            // FirebaseAuth.instance.currentUser!.photoURL!,
-                            ),
+                        image: NetworkImage(
+                          iconUrl,
+                          // FirebaseAuth.instance.currentUser!.photoURL!,
+                        ),
                         fit: BoxFit.cover,
                       )
                     : null,

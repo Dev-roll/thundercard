@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-import 'avatar.dart';
-import 'card_element.dart';
+import 'package:thundercard/views/widgets/avatar.dart';
+import 'package:thundercard/views/widgets/card_element.dart';
 
 class PreviewCard extends StatelessWidget {
   const PreviewCard({

@@ -41,10 +41,13 @@ class MyQrCode extends ConsumerWidget {
                     version: QrVersions.auto,
                     size: 200,
                     eyeStyle: const QrEyeStyle(
-                        color: Color(0xFFCCCCCC), eyeShape: QrEyeShape.square),
+                      color: Color(0xFFCCCCCC),
+                      eyeShape: QrEyeShape.square,
+                    ),
                     dataModuleStyle: const QrDataModuleStyle(
-                        color: Color(0xFFCCCCCC),
-                        dataModuleShape: QrDataModuleShape.circle),
+                      color: Color(0xFFCCCCCC),
+                      dataModuleShape: QrDataModuleShape.circle,
+                    ),
                     backgroundColor: Theme.of(context).colorScheme.onSecondary,
                     errorCorrectionLevel: QrErrorCorrectLevel.M,
                     padding: const EdgeInsets.all(20),
@@ -64,8 +67,11 @@ class MyQrCode extends ConsumerWidget {
             ),
           ),
           Align(
-            child: SvgPicture.asset('images/svg/qr/icon_for_qr.svg',
-                width: 24, height: 24),
+            child: SvgPicture.asset(
+              'images/svg/qr/icon_for_qr.svg',
+              width: 24,
+              height: 24,
+            ),
           ),
         ],
       ),

@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
-import 'auth_gate.dart';
+import 'package:thundercard/views/pages/auth_gate.dart';
 
 // import 'package:flutterfire_ui/auth.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -31,7 +30,7 @@ class _LinkAuthState extends State<LinkAuth> {
   final formKey = GlobalKey<FormState>();
   final user = FirebaseAuth.instance.currentUser;
 
-  void googleSignIn() async {
+  Future<void> googleSignIn() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     // Obtain the auth details from the request
     final GoogleSignInAuthentication googleAuth =
@@ -43,7 +42,7 @@ class _LinkAuthState extends State<LinkAuth> {
       idToken: googleAuth.idToken,
     );
     try {
-      FirebaseAuth.instance.currentUser
+      await FirebaseAuth.instance.currentUser
           ?.linkWithCredential(credential)
           .then((value) {
         Navigator.of(context).pushReplacement(
@@ -190,22 +189,26 @@ class _LinkAuthState extends State<LinkAuth> {
                                             );
                                             FirebaseAuth.instance.currentUser
                                                 ?.linkWithCredential(
-                                                    credential);
+                                              credential,
+                                            );
                                             Navigator.of(context)
                                                 .pushReplacement(
                                               MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      AuthGate()),
+                                                builder: (context) =>
+                                                    AuthGate(),
+                                              ),
                                             );
                                           } on FirebaseAuthException catch (e) {
                                             switch (e.code) {
                                               case 'provider-already-linked':
                                                 debugPrint(
-                                                    'The provider has already been linked to the user.');
+                                                  'The provider has already been linked to the user.',
+                                                );
                                                 break;
                                               case 'invalid-credential':
                                                 debugPrint(
-                                                    'The provider\'s credential is not valid.');
+                                                  'The provider\'s credential is not valid.',
+                                                );
                                                 break;
                                               case 'credential-already-in-use':
                                                 debugPrint(
@@ -269,22 +272,26 @@ class _LinkAuthState extends State<LinkAuth> {
                                             );
                                             FirebaseAuth.instance.currentUser
                                                 ?.linkWithCredential(
-                                                    credential);
+                                              credential,
+                                            );
                                             Navigator.of(context)
                                                 .pushReplacement(
                                               MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      AuthGate()),
+                                                builder: (context) =>
+                                                    AuthGate(),
+                                              ),
                                             );
                                           } on FirebaseAuthException catch (e) {
                                             switch (e.code) {
                                               case 'provider-already-linked':
                                                 debugPrint(
-                                                    'The provider has already been linked to the user.');
+                                                  'The provider has already been linked to the user.',
+                                                );
                                                 break;
                                               case 'invalid-credential':
                                                 debugPrint(
-                                                    'The provider\'s credential is not valid.');
+                                                  'The provider\'s credential is not valid.',
+                                                );
                                                 break;
                                               case 'credential-already-in-use':
                                                 debugPrint(
@@ -360,22 +367,26 @@ class _LinkAuthState extends State<LinkAuth> {
                                             );
                                             FirebaseAuth.instance.currentUser
                                                 ?.linkWithCredential(
-                                                    credential);
+                                              credential,
+                                            );
                                             Navigator.of(context)
                                                 .pushReplacement(
                                               MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      AuthGate()),
+                                                builder: (context) =>
+                                                    AuthGate(),
+                                              ),
                                             );
                                           } on FirebaseAuthException catch (e) {
                                             switch (e.code) {
                                               case 'provider-already-linked':
                                                 debugPrint(
-                                                    'The provider has already been linked to the user.');
+                                                  'The provider has already been linked to the user.',
+                                                );
                                                 break;
                                               case 'invalid-credential':
                                                 debugPrint(
-                                                    'The provider\'s credential is not valid.');
+                                                  'The provider\'s credential is not valid.',
+                                                );
                                                 break;
                                               case 'credential-already-in-use':
                                                 debugPrint(
@@ -462,23 +473,27 @@ class _LinkAuthState extends State<LinkAuth> {
                                                   FirebaseAuth
                                                       .instance.currentUser
                                                       ?.linkWithCredential(
-                                                          credential);
+                                                    credential,
+                                                  );
                                                   Navigator.of(context).pop();
                                                   Navigator.of(context)
                                                       .pushReplacement(
                                                     MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            AuthGate()),
+                                                      builder: (context) =>
+                                                          AuthGate(),
+                                                    ),
                                                   );
                                                 } on FirebaseAuthException catch (e) {
                                                   switch (e.code) {
                                                     case 'provider-already-linked':
                                                       debugPrint(
-                                                          'The provider has already been linked to the user.');
+                                                        'The provider has already been linked to the user.',
+                                                      );
                                                       break;
                                                     case 'invalid-credential':
                                                       debugPrint(
-                                                          'The provider\'s credential is not valid.');
+                                                        'The provider\'s credential is not valid.',
+                                                      );
                                                       break;
                                                     case 'credential-already-in-use':
                                                       debugPrint(
@@ -488,7 +503,8 @@ class _LinkAuthState extends State<LinkAuth> {
                                                     // See the API reference for the full list of error codes.
                                                     default:
                                                       debugPrint(
-                                                          'Unknown error.');
+                                                        'Unknown error.',
+                                                      );
                                                   }
                                                 }
                                               }
@@ -541,8 +557,9 @@ class _LinkAuthState extends State<LinkAuth> {
                               maxWidth: 400,
                             ),
                             child: const GoogleSignInButton(
-                                clientId:
-                                    '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com'),
+                              clientId:
+                                  '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com',
+                            ),
                           ),
                         // if (!kIsWeb && Platform.isIOS)
                         //   const GoogleSignInButton(

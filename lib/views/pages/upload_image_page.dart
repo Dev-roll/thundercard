@@ -7,9 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:thundercard/views/widgets/positioned_snack_bar.dart';
 import 'package:timeline_tile/timeline_tile.dart';
-
-import '../widgets/positioned_snack_bar.dart';
 
 // import 'dart:math' as math;
 // import 'package:google_fonts/google_fonts.dart';
@@ -91,9 +90,12 @@ class _UploadImagePageState extends State<UploadImagePage> {
           .doc('2')
           .collection('cards')
           .doc(docId)
-          .set({
-        'card_id': docId,
-      }, SetOptions(merge: true)).then((element) {
+          .set(
+        {
+          'card_id': docId,
+        },
+        SetOptions(merge: true),
+      ).then((element) {
         debugPrint('set cardid directory: completed');
       });
 
@@ -112,11 +114,14 @@ class _UploadImagePageState extends State<UploadImagePage> {
       newCard
           .doc('c21r20u00d11')
           .set(c21r20u00d11, SetOptions(merge: true))
-          .then((value) {
-        debugPrint('Card successfully added!');
-      }, onError: (e) {
-        debugPrint('Error updating document $e');
-      });
+          .then(
+        (value) {
+          debugPrint('Card successfully added!');
+        },
+        onError: (e) {
+          debugPrint('Error updating document $e');
+        },
+      );
 
       final c10r20u10d10 = {
         'public': false,
@@ -126,11 +131,14 @@ class _UploadImagePageState extends State<UploadImagePage> {
       newCard
           .doc('c10r20u10d10')
           .set(c10r20u10d10, SetOptions(merge: true))
-          .then((value) {
-        debugPrint('Card successfully added!');
-      }, onError: (e) {
-        debugPrint('Error updating document $e');
-      });
+          .then(
+        (value) {
+          debugPrint('Card successfully added!');
+        },
+        onError: (e) {
+          debugPrint('Error updating document $e');
+        },
+      );
 
       newCard.doc('c20r11u11d11').set({
         'card_url': imageURL,
@@ -158,11 +166,14 @@ class _UploadImagePageState extends State<UploadImagePage> {
         'account': {
           'links': [],
         },
-      }).then((value) {
-        debugPrint('DocumentSnapshot successfully updated!');
-      }, onError: (e) {
-        debugPrint('Error updating document $e');
-      });
+      }).then(
+        (value) {
+          debugPrint('DocumentSnapshot successfully updated!');
+        },
+        onError: (e) {
+          debugPrint('Error updating document $e');
+        },
+      );
     }
 
     void updateExchangedCards() {
@@ -175,14 +186,17 @@ class _UploadImagePageState extends State<UploadImagePage> {
           .doc('c10r10u11d10');
       doc.update({
         'exchanged_cards': FieldValue.arrayUnion([docId])
-      }).then((value) {
-        debugPrint('DocumentSnapshot successfully updated!');
-      }, onError: (e) {
-        debugPrint('Error updating document $e');
-      });
+      }).then(
+        (value) {
+          debugPrint('DocumentSnapshot successfully updated!');
+        },
+        onError: (e) {
+          debugPrint('Error updating document $e');
+        },
+      );
     }
 
-    void uploadPic() async {
+    Future<void> uploadPic() async {
       setState(() {
         isCompleted = true;
         uploadButtonPressed = true;
@@ -265,7 +279,11 @@ class _UploadImagePageState extends State<UploadImagePage> {
                     ),
                     startChild: const Padding(
                       padding: EdgeInsets.only(
-                          left: 16, right: 12, top: 0, bottom: 0),
+                        left: 16,
+                        right: 12,
+                        top: 0,
+                        bottom: 0,
+                      ),
                       child: Column(
                         // alignment: const Alignment(0.0, 0),
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -282,7 +300,11 @@ class _UploadImagePageState extends State<UploadImagePage> {
                     ),
                     endChild: const Padding(
                       padding: EdgeInsets.only(
-                          left: 12, right: 32, top: 0, bottom: 0),
+                        left: 12,
+                        right: 32,
+                        top: 0,
+                        bottom: 0,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -398,7 +420,11 @@ class _UploadImagePageState extends State<UploadImagePage> {
                     ),
                     startChild: const Padding(
                       padding: EdgeInsets.only(
-                          left: 16, right: 12, top: 0, bottom: 0),
+                        left: 16,
+                        right: 12,
+                        top: 0,
+                        bottom: 0,
+                      ),
                       child: Column(
                         // alignment: const Alignment(0.0, 0),
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -415,7 +441,11 @@ class _UploadImagePageState extends State<UploadImagePage> {
                     ),
                     endChild: const Padding(
                       padding: EdgeInsets.only(
-                          left: 12, right: 32, top: 0, bottom: 0),
+                        left: 12,
+                        right: 32,
+                        top: 0,
+                        bottom: 0,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -445,7 +475,11 @@ class _UploadImagePageState extends State<UploadImagePage> {
                     hasIndicator: false,
                     endChild: Padding(
                       padding: const EdgeInsets.only(
-                          left: 28, right: 32, top: 24, bottom: 36),
+                        left: 28,
+                        right: 32,
+                        top: 24,
+                        bottom: 36,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -495,7 +529,11 @@ class _UploadImagePageState extends State<UploadImagePage> {
                     ),
                     startChild: const Padding(
                       padding: EdgeInsets.only(
-                          left: 16, right: 12, top: 0, bottom: 0),
+                        left: 16,
+                        right: 12,
+                        top: 0,
+                        bottom: 0,
+                      ),
                       child: Column(
                         // alignment: const Alignment(0.0, 0),
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -512,7 +550,11 @@ class _UploadImagePageState extends State<UploadImagePage> {
                     ),
                     endChild: const Padding(
                       padding: EdgeInsets.only(
-                          left: 12, right: 32, top: 0, bottom: 0),
+                        left: 12,
+                        right: 32,
+                        top: 0,
+                        bottom: 0,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -542,7 +584,11 @@ class _UploadImagePageState extends State<UploadImagePage> {
                     hasIndicator: false,
                     endChild: Padding(
                       padding: const EdgeInsets.only(
-                          left: 28, right: 32, top: 24, bottom: 48),
+                        left: 28,
+                        right: 32,
+                        top: 24,
+                        bottom: 48,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -608,7 +654,11 @@ class _UploadImagePageState extends State<UploadImagePage> {
                     ),
                     startChild: const Padding(
                       padding: EdgeInsets.only(
-                          left: 16, right: 12, top: 0, bottom: 0),
+                        left: 16,
+                        right: 12,
+                        top: 0,
+                        bottom: 0,
+                      ),
                       child: Column(
                         // alignment: const Alignment(0.0, 0),
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -625,7 +675,11 @@ class _UploadImagePageState extends State<UploadImagePage> {
                     ),
                     endChild: const Padding(
                       padding: EdgeInsets.only(
-                          left: 12, right: 32, top: 0, bottom: 0),
+                        left: 12,
+                        right: 32,
+                        top: 0,
+                        bottom: 0,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[

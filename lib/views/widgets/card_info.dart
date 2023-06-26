@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../providers/firebase_firestore.dart';
-import '../../utils/constants.dart';
-import '../../utils/current_brightness.dart';
-import '../../utils/return_original_color.dart';
-import '../pages/account_editor.dart';
-import 'avatar.dart';
-import 'custom_skeletons/skeleton_card_info.dart';
+import 'package:thundercard/providers/firebase_firestore.dart';
+import 'package:thundercard/utils/constants.dart';
+import 'package:thundercard/utils/current_brightness.dart';
+import 'package:thundercard/utils/return_original_color.dart';
+import 'package:thundercard/views/pages/account_editor.dart';
+import 'package:thundercard/views/widgets/avatar.dart';
+import 'package:thundercard/views/widgets/custom_skeletons/skeleton_card_info.dart';
 
 class CardInfo extends ConsumerWidget {
   const CardInfo({
@@ -127,15 +126,17 @@ class CardInfo extends ConsumerWidget {
                         margin: const EdgeInsets.only(left: 8),
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) {
-                                return AccountEditor(
-                                  isRegistration: false,
-                                  isUser: isUser,
-                                  cardId: cardId,
-                                );
-                              },
-                            ));
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return AccountEditor(
+                                    isRegistration: false,
+                                    isUser: isUser,
+                                    cardId: cardId,
+                                  );
+                                },
+                              ),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             elevation: 0,

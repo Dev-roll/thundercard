@@ -211,9 +211,11 @@ const Map<IconType, IconData> iconTypeToIconData = {
 List<String> linkTypes = linkTypeToBaseUrl.keys.toList().sublist(1);
 
 Map<String, IconData> linkTypeToIconData = Map.fromIterables(
-    linkTypes,
-    linkTypes.map((e) =>
-        iconTypeToIconData[linkTypeToIconType[e]] ?? Icons.link_rounded));
+  linkTypes,
+  linkTypes.map(
+    (e) => iconTypeToIconData[linkTypeToIconType[e]] ?? Icons.link_rounded,
+  ),
+);
 
 // 色
 const Color white = Color(0xFFFAFAFA);

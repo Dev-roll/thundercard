@@ -2,18 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../providers/firebase_firestore.dart';
-import '../../providers/index.dart';
-import '../../utils/constants.dart';
-import '../widgets/card_img.dart';
-import '../widgets/card_info.dart';
-import '../widgets/custom_progress_indicator.dart';
-import '../widgets/custom_skeletons/skeleton_card.dart';
-import '../widgets/error_message.dart';
-import '../widgets/my_card.dart';
-import 'chat.dart';
-import 'home_page.dart';
+import 'package:thundercard/providers/firebase_firestore.dart';
+import 'package:thundercard/providers/index.dart';
+import 'package:thundercard/utils/constants.dart';
+import 'package:thundercard/views/pages/chat.dart';
+import 'package:thundercard/views/pages/home_page.dart';
+import 'package:thundercard/views/widgets/card_img.dart';
+import 'package:thundercard/views/widgets/card_info.dart';
+import 'package:thundercard/views/widgets/custom_progress_indicator.dart';
+import 'package:thundercard/views/widgets/custom_skeletons/skeleton_card.dart';
+import 'package:thundercard/views/widgets/error_message.dart';
+import 'package:thundercard/views/widgets/my_card.dart';
 
 class CardDetails extends ConsumerWidget {
   const CardDetails({Key? key, required this.cardId}) : super(key: key);
@@ -67,18 +66,21 @@ class CardDetails extends ConsumerWidget {
                   .doc('c10r10u11d10')
                   .update({
                 'exchanged_cards': FieldValue.arrayRemove([cardId])
-              }).then((value) {
-                ref.watch(currentIndexProvider.notifier).state = 1;
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (context) => HomePage(),
-                  ),
-                  (_) => false,
-                );
-                debugPrint('DocumentSnapshot successfully updated!');
-              }, onError: (e) {
-                debugPrint('Error updating document $e');
-              });
+              }).then(
+                (value) {
+                  ref.watch(currentIndexProvider.notifier).state = 1;
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(),
+                    ),
+                    (_) => false,
+                  );
+                  debugPrint('DocumentSnapshot successfully updated!');
+                },
+                onError: (e) {
+                  debugPrint('Error updating document $e');
+                },
+              );
             }
 
             Future openAlertDialog1(BuildContext context) async {
@@ -117,7 +119,8 @@ class CardDetails extends ConsumerWidget {
                 actions: <Widget>[
                   PopupMenuButton<String>(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4)),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
                     splashRadius: 20,
                     elevation: 8,
                     position: PopupMenuPosition.under,
@@ -185,8 +188,10 @@ class CardDetails extends ConsumerWidget {
                         if (isUser)
                           FutureBuilder(
                             future: getRoom(cardId),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<Room> snapshot) {
+                            builder: (
+                              BuildContext context,
+                              AsyncSnapshot<Room> snapshot,
+                            ) {
                               if (snapshot.hasError) {
                                 debugPrint('${snapshot.error}');
                                 return const Text('問題が発生しました');
@@ -231,7 +236,8 @@ class CardDetails extends ConsumerWidget {
                             },
                           ),
                         SizedBox(
-                            height: MediaQuery.of(context).padding.bottom + 32),
+                          height: MediaQuery.of(context).padding.bottom + 32,
+                        ),
                       ],
                     ),
                   ),

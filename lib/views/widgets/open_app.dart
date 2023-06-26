@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:thundercard/utils/constants.dart';
+import 'package:thundercard/utils/return_display_id.dart';
+import 'package:thundercard/utils/return_icon_type.dart';
+import 'package:thundercard/views/widgets/card_element.dart';
+import 'package:thundercard/views/widgets/positioned_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../utils/constants.dart';
-import '../../utils/return_display_id.dart';
-import '../../utils/return_icon_type.dart';
-import 'card_element.dart';
-import 'positioned_snack_bar.dart';
 
 class OpenApp extends StatefulWidget {
   const OpenApp({

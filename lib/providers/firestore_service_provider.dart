@@ -1,8 +1,7 @@
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../services/firestore_service.dart';
-import '../utils/firebase_auth.dart';
+import 'package:thundercard/services/firestore_service.dart';
+import 'package:thundercard/utils/firebase_auth.dart';
 
 // final firebaseAuthProvider =
 //     Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
