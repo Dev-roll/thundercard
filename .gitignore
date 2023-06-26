@@ -16,6 +16,10 @@ migrate_working_dir/
 *.iws
 .idea/
 
+!/.idea/dictionaries
+/.idea/dictionaries/*
+!/.idea/dictionaries/thundercardDictionary.xml
+
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
