@@ -1,0 +1,32 @@
+name: Deploy to Live Channel
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_live_website:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: subosito/flutter-action@v2.8.0
+        with:
+          channel: stable
+
+      - name: Doctor
+        run: flutter doctor
+
+      - name: Install dependencies
+        run: flutter packages get
+
+      - name: Build web
+        run: flutter build web
+
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_THUNDERCARD_TEST }}"
+          projectId: thundercard-test
+          channelId: live
