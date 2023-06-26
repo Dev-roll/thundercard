@@ -3,7 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thundercard/app.dart';
+import 'package:thundercard/data/di/shared_preferences_provider.dart';
 import 'package:thundercard/firebase_options.dart';
 import 'package:thundercard/providers/custom_theme.dart';
 
@@ -23,8 +25,13 @@ void main() async {
     // androidDebugProvider: true,
   );
   runApp(
-    const ProviderScope(
-      child: ThundercardApp(),
+    ProviderScope(
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(
+          await SharedPreferences.getInstance(),
+        )
+      ],
+      child: const ThundercardApp(),
     ),
   );
 }
