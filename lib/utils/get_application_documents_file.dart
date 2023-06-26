@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 Future<File> getApplicationDocumentsFile(
-    String text, List<int> imageData) async {
+  String text,
+  List<int> imageData,
+) async {
   final directory = await getApplicationDocumentsDirectory();
 
   final exportFile = File('${directory.path}/$text.png');

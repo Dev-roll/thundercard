@@ -1,7 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,20 +12,18 @@ import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:flutter/foundation.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/providers/dynamic_links_provider.dart';
+import 'package:thundercard/utils/constants.dart';
+import 'package:thundercard/utils/export_to_image.dart';
+import 'package:thundercard/utils/get_application_documents_file.dart';
+import 'package:thundercard/utils/input_data_processor.dart';
 import 'package:thundercard/utils/launch_url.dart';
+import 'package:thundercard/views/pages/add_card.dart';
+import 'package:thundercard/views/widgets/fullscreen_qr_code.dart';
+import 'package:thundercard/views/widgets/my_qr_code.dart';
+import 'package:thundercard/views/widgets/positioned_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../utils/constants.dart';
-import '../../utils/export_to_image.dart';
-import '../../utils/get_application_documents_file.dart';
-import '../../utils/input_data_processor.dart';
-import '../pages/add_card.dart';
-import 'fullscreen_qr_code.dart';
-import 'my_qr_code.dart';
-import 'positioned_snack_bar.dart';
 
 class ScanQrCode extends ConsumerStatefulWidget {
   const ScanQrCode({Key? key, required this.currentCardId}) : super(key: key);
@@ -123,7 +124,7 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
                         child: GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onTap: (() async {
-                            controller?.pauseCamera();
+                            await controller?.pauseCamera();
                             await Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => Theme(
@@ -147,7 +148,7 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
                                 ),
                               ),
                             );
-                            controller?.resumeCamera();
+                            await controller?.resumeCamera();
                           }),
                           child: RepaintBoundary(
                             key: _globalKey,
@@ -180,10 +181,14 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
                           onPressed: () async {
                             final bytes = await exportToImage(_globalKey);
                             final widgetImageBytes = bytes?.buffer.asUint8List(
-                                bytes.offsetInBytes, bytes.lengthInBytes);
+                              bytes.offsetInBytes,
+                              bytes.lengthInBytes,
+                            );
                             final applicationDocumentsFile =
                                 await getApplicationDocumentsFile(
-                                    myCardId, widgetImageBytes!);
+                              myCardId,
+                              widgetImageBytes!,
+                            );
 
                             final path = applicationDocumentsFile.path;
 
@@ -194,7 +199,7 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
                               text: dynamicLinksValue,
                               subject: '$myCardIdさんのThundercardアカウントの共有',
                             );
-                            applicationDocumentsFile.delete();
+                            await applicationDocumentsFile.delete();
                           },
                           icon: const Icon(Icons.share_rounded),
                           padding: const EdgeInsets.all(20),
@@ -206,7 +211,9 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
                           onPressed: () async {
                             final bytes = await exportToImage(_globalKey);
                             final widgetImageBytes = bytes?.buffer.asUint8List(
-                                bytes.offsetInBytes, bytes.lengthInBytes);
+                              bytes.offsetInBytes,
+                              bytes.lengthInBytes,
+                            );
                             await ImageGallerySaver.saveImage(
                               widgetImageBytes!,
                               name: myCardId,
@@ -229,7 +236,7 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
                         padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
                         child: IconButton(
                           onPressed: () async {
-                            controller?.pauseCamera();
+                            await controller?.pauseCamera();
                             await Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => Theme(
@@ -253,7 +260,7 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
                                 ),
                               ),
                             );
-                            controller?.resumeCamera();
+                            await controller?.resumeCamera();
                           },
                           icon: const Icon(Icons.fullscreen_rounded),
                           padding: const EdgeInsets.all(20),
@@ -284,11 +291,12 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
           key: qrKey,
           onQRViewCreated: _onQRViewCreated,
           overlay: QrScannerOverlayShape(
-              borderColor: const Color(0xFFFFFFFF),
-              borderRadius: 12,
-              borderLength: 0,
-              borderWidth: 0,
-              cutOutSize: scanArea),
+            borderColor: const Color(0xFFFFFFFF),
+            borderRadius: 12,
+            borderLength: 0,
+            borderWidth: 0,
+            cutOutSize: scanArea,
+          ),
           onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
         ),
         Align(
@@ -327,34 +335,35 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
-                  margin: const EdgeInsets.all(8),
-                  child: IconButton(
-                    onPressed: () async {
-                      final String data = await scanSelectedImage() ?? '';
-                      final String? id = await inputToId(data);
-                      if (id != null) {
-                        _transitionToNextPage(id);
-                      } else if (data != '') {
-                        _showScanData(data);
-                      } else {
-                        if (!mounted) return;
-                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          PositionedSnackBar(
-                            context,
-                            'QRコードを読み取れませんでした',
-                            bottom: 48,
-                            foreground: Theme.of(context).colorScheme.onError,
-                          ),
-                        );
-                      }
-                    },
-                    icon: const Icon(Icons.collections_rounded),
-                    padding: const EdgeInsets.all(20),
-                    style: IconButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                    ),
-                  )),
+                margin: const EdgeInsets.all(8),
+                child: IconButton(
+                  onPressed: () async {
+                    final String data = await scanSelectedImage() ?? '';
+                    final String? id = await inputToId(data);
+                    if (id != null) {
+                      await _transitionToNextPage(id);
+                    } else if (data != '') {
+                      await _showScanData(data);
+                    } else {
+                      if (!mounted) return;
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        PositionedSnackBar(
+                          context,
+                          'QRコードを読み取れませんでした',
+                          bottom: 48,
+                          foreground: Theme.of(context).colorScheme.onError,
+                        ),
+                      );
+                    }
+                  },
+                  icon: const Icon(Icons.collections_rounded),
+                  padding: const EdgeInsets.all(20),
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -368,7 +377,7 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
     controller.scannedDataStream.listen(
       (scanData) async {
         log(scanData.code.toString());
-        HapticFeedback.vibrate();
+        await HapticFeedback.vibrate();
         if (scanData.code == null) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
@@ -384,12 +393,12 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
           final nowDate = DateTime.now();
           final String? id = await inputToId(str);
           if (id != null) {
-            _transitionToNextPage(id);
+            await _transitionToNextPage(id);
           } else if (openUrl != str ||
               nowDate.difference(_lastChangedDate).inSeconds >= linkTime) {
             openUrl = str;
             _lastChangedDate = nowDate;
-            _showScanData(openUrl);
+            await _showScanData(openUrl);
           }
         }
       },
@@ -493,14 +502,16 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
 
   Future<void> _transitionToNextPage(String data) async {
     if (!_isScanned) {
-      controller?.pauseCamera();
+      await controller?.pauseCamera();
       _isScanned = true;
     }
 
     await Navigator.of(context)
-        .push(MaterialPageRoute(
-      builder: (context) => AddCard(applyingId: myCardId, cardId: data),
-    ))
+        .push(
+      MaterialPageRoute(
+        builder: (context) => AddCard(applyingId: myCardId, cardId: data),
+      ),
+    )
         .then((value) {
       controller?.resumeCamera();
       _isScanned = false;
@@ -528,94 +539,94 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
     super.dispose();
   }
 
-  // Future<Uint8List> convertWidgetToImage(GlobalKey widgetGlobalKey) async {
-  //   // RenderObjectを取得
-  //   RenderRepaintBoundary boundary =
-  //       widgetGlobalKey.currentContext.findRenderObject();
-  //   // RenderObject を dart:ui の Image に変換する
-  //   ui.Image image = await boundary.toImage();
-  //   ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-  //   return byteData.buffer.asUint8List();
-  // }
+// Future<Uint8List> convertWidgetToImage(GlobalKey widgetGlobalKey) async {
+//   // RenderObjectを取得
+//   RenderRepaintBoundary boundary =
+//       widgetGlobalKey.currentContext.findRenderObject();
+//   // RenderObject を dart:ui の Image に変換する
+//   ui.Image image = await boundary.toImage();
+//   ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+//   return byteData.buffer.asUint8List();
+// }
 
-  // Future<void> _doCapture() async {
-  //   final image = await _convertWidgetToImage();
-  //   setState(() {
-  //     _image = image;
-  //   });
-  //   // return image;
-  // }
-  // Future<Image?> _convertWidgetToImage() async {
-  //   try {
-  //     final boundary = _globalKey.currentContext!.findRenderObject()
-  //         as RenderRepaintBoundary;
-  //     final image = await boundary.toImage(pixelRatio: 3.0);
-  //     final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-  //     var pngBytes = byteData!.buffer.asUint8List();
-  //     return Image.memory(pngBytes);
-  //   } catch (e) {
-  //     debugPrint(e);
-  //   }
-  //   return null;
-  // }
+// Future<void> _doCapture() async {
+//   final image = await _convertWidgetToImage();
+//   setState(() {
+//     _image = image;
+//   });
+//   // return image;
+// }
+// Future<Image?> _convertWidgetToImage() async {
+//   try {
+//     final boundary = _globalKey.currentContext!.findRenderObject()
+//         as RenderRepaintBoundary;
+//     final image = await boundary.toImage(pixelRatio: 3.0);
+//     final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+//     var pngBytes = byteData!.buffer.asUint8List();
+//     return Image.memory(pngBytes);
+//   } catch (e) {
+//     debugPrint(e);
+//   }
+//   return null;
+// }
 
-  // Future launchURL(String url, {String? secondUrl}) async {
-  //   if (await canLaunchUrl(Uri.parse(url))) {
-  //     await launchUrl(
-  //       Uri.parse(url),
-  //       // mode: LaunchMode.platformDefault,
-  //     );
-  //   } else if (secondUrl != null && await canLaunchUrl(Uri.parse(secondUrl))) {
-  //     await launchUrl(
-  //       Uri.parse(secondUrl),
-  //       // mode: LaunchMode.externalNonBrowserApplication,
-  //     );
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //       backgroundColor: Color(0xff333333),
-  //       behavior: SnackBarBehavior.floating,
-  //       clipBehavior: Clip.antiAlias,
-  //       content: Row(
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         children: [
-  //           Padding(
-  //             padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-  //             child: Icon(
-  //               Icons.error_outline_rounded,
-  //               color: error,
-  //             ),
-  //           ),
-  //           Expanded(
-  //             child: const Text(
-  //               'アプリを開けません',
-  //               style: TextStyle(color: white),
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //       duration: const Duration(seconds: 2),
-  //       action: SnackBarAction(
-  //         label: 'OK',
-  //         onPressed: () {},
-  //       ),
-  //       shape: RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.circular(28),
-  //       ),
-  //     ));
-  //   }
-  // }
+// Future launchURL(String url, {String? secondUrl}) async {
+//   if (await canLaunchUrl(Uri.parse(url))) {
+//     await launchUrl(
+//       Uri.parse(url),
+//       // mode: LaunchMode.platformDefault,
+//     );
+//   } else if (secondUrl != null && await canLaunchUrl(Uri.parse(secondUrl))) {
+//     await launchUrl(
+//       Uri.parse(secondUrl),
+//       // mode: LaunchMode.externalNonBrowserApplication,
+//     );
+//   } else {
+//     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+//       backgroundColor: Color(0xff333333),
+//       behavior: SnackBarBehavior.floating,
+//       clipBehavior: Clip.antiAlias,
+//       content: Row(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           Padding(
+//             padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+//             child: Icon(
+//               Icons.error_outline_rounded,
+//               color: error,
+//             ),
+//           ),
+//           Expanded(
+//             child: const Text(
+//               'アプリを開けません',
+//               style: TextStyle(color: white),
+//             ),
+//           ),
+//         ],
+//       ),
+//       duration: const Duration(seconds: 2),
+//       action: SnackBarAction(
+//         label: 'OK',
+//         onPressed: () {},
+//       ),
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(28),
+//       ),
+//     ));
+//   }
+// }
 
-  // Future pickImage() async {
-  //   try {
-  //     final picedFile =
-  //         await ImagePicker().pickImage(source: ImageSource.gallery);
-  //     if (picedFile == null) return;
-  //     // final imageTemp = File(picedFile.path);
-  //     // if (await canLaunchUrl(Uri.parse(picedFile.path))) {
-  //     //   await launchUrl(Uri.parse(picedFile.path));
-  //     // }
-  //   } on PlatformException catch (e) {
-  //     debugPrint('Failed to pick image: $e');
-  //   }
-  // }
+// Future pickImage() async {
+//   try {
+//     final picedFile =
+//         await ImagePicker().pickImage(source: ImageSource.gallery);
+//     if (picedFile == null) return;
+//     // final imageTemp = File(picedFile.path);
+//     // if (await canLaunchUrl(Uri.parse(picedFile.path))) {
+//     //   await launchUrl(Uri.parse(picedFile.path));
+//     // }
+//   } on PlatformException catch (e) {
+//     debugPrint('Failed to pick image: $e');
+//   }
+// }
 }

@@ -2,15 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
-
-import '../../utils/constants.dart';
-import '../widgets/my_card.dart';
-import 'home_page.dart';
+import 'package:thundercard/utils/constants.dart';
+import 'package:thundercard/views/pages/home_page.dart';
+import 'package:thundercard/views/widgets/my_card.dart';
 
 class AddCard extends StatefulWidget {
   const AddCard({Key? key, required this.applyingId, required this.cardId})
       : super(key: key);
   final String applyingId;
+
   // final applyingId;
   final String cardId;
 
@@ -18,7 +18,7 @@ class AddCard extends StatefulWidget {
   State<AddCard> createState() => _AddCardState();
 }
 
-void applyCard(String myCardId, String anotherCardId) async {
+Future<void> applyCard(String myCardId, String anotherCardId) async {
   // 1
   final DocumentReference myc10r10u10d10 = FirebaseFirestore.instance
       .collection('version')
@@ -27,13 +27,19 @@ void applyCard(String myCardId, String anotherCardId) async {
       .doc(myCardId)
       .collection('visibility')
       .doc('c10r10u10d10');
-  myc10r10u10d10.set({
-    'applying_cards': FieldValue.arrayUnion([anotherCardId]),
-  }, SetOptions(merge: true)).then((value) {
-    debugPrint('DocumentSnapshot successfully updated');
-  }, onError: (e) {
-    debugPrint('Error updating document $e');
-  });
+  await myc10r10u10d10.set(
+    {
+      'applying_cards': FieldValue.arrayUnion([anotherCardId]),
+    },
+    SetOptions(merge: true),
+  ).then(
+    (value) {
+      debugPrint('DocumentSnapshot successfully updated');
+    },
+    onError: (e) {
+      debugPrint('Error updating document $e');
+    },
+  );
 
   // 2
   final DocumentReference anotherc10r10u21d10 = FirebaseFirestore.instance
@@ -43,13 +49,19 @@ void applyCard(String myCardId, String anotherCardId) async {
       .doc(anotherCardId)
       .collection('visibility')
       .doc('c10r10u21d10');
-  anotherc10r10u21d10.set({
-    'verified_cards': FieldValue.arrayUnion([myCardId]),
-  }, SetOptions(merge: true)).then((value) {
-    debugPrint('DocumentSnapshot successfully updated');
-  }, onError: (e) {
-    debugPrint('Error updating document $e');
-  });
+  await anotherc10r10u21d10.set(
+    {
+      'verified_cards': FieldValue.arrayUnion([myCardId]),
+    },
+    SetOptions(merge: true),
+  ).then(
+    (value) {
+      debugPrint('DocumentSnapshot successfully updated');
+    },
+    onError: (e) {
+      debugPrint('Error updating document $e');
+    },
+  );
 
   // my room
   final DocumentReference anotherc21r20u00d11 = FirebaseFirestore.instance
@@ -74,13 +86,19 @@ void applyCard(String myCardId, String anotherCardId) async {
       .doc(myCardId)
       .collection('visibility')
       .doc('c10r21u21d10');
-  myc10r21u21d10.set({
-    'rooms': {anotherCardId: room.toJson()}
-  }, SetOptions(merge: true)).then((value) {
-    debugPrint('DocumentSnapshot successfully updated');
-  }, onError: (e) {
-    debugPrint('Error updating document $e');
-  });
+  await myc10r21u21d10.set(
+    {
+      'rooms': {anotherCardId: room.toJson()}
+    },
+    SetOptions(merge: true),
+  ).then(
+    (value) {
+      debugPrint('DocumentSnapshot successfully updated');
+    },
+    onError: (e) {
+      debugPrint('Error updating document $e');
+    },
+  );
 
   // my notification
   final addApplyingNotificationData = {
@@ -94,7 +112,7 @@ void applyCard(String myCardId, String anotherCardId) async {
     'tags': ['interaction'],
     'notification_id': '',
   };
-  FirebaseFirestore.instance
+  await FirebaseFirestore.instance
       .collection('version')
       .doc('2')
       .collection('cards')
@@ -113,7 +131,7 @@ void applyCard(String myCardId, String anotherCardId) async {
     'tags': ['interaction', 'apply', 'important'],
     'notification_id': myCardId,
   };
-  FirebaseFirestore.instance
+  await FirebaseFirestore.instance
       .collection('version')
       .doc('2')
       .collection('cards')
@@ -124,7 +142,7 @@ void applyCard(String myCardId, String anotherCardId) async {
       .add(addVerifiedNotificationData);
 }
 
-void verifyCard(String anotherCardId, String myCardId) async {
+Future<void> verifyCard(String anotherCardId, String myCardId) async {
   // 3
   final DocumentReference anotherc10r10u10d10 = FirebaseFirestore.instance
       .collection('version')
@@ -133,13 +151,19 @@ void verifyCard(String anotherCardId, String myCardId) async {
       .doc(anotherCardId)
       .collection('visibility')
       .doc('c10r10u10d10');
-  anotherc10r10u10d10.set({
-    'applying_cards': FieldValue.arrayUnion([myCardId]),
-  }, SetOptions(merge: true)).then((value) {
-    debugPrint('DocumentSnapshot successfully updated');
-  }, onError: (e) {
-    debugPrint('Error updating document $e');
-  });
+  await anotherc10r10u10d10.set(
+    {
+      'applying_cards': FieldValue.arrayUnion([myCardId]),
+    },
+    SetOptions(merge: true),
+  ).then(
+    (value) {
+      debugPrint('DocumentSnapshot successfully updated');
+    },
+    onError: (e) {
+      debugPrint('Error updating document $e');
+    },
+  );
 
   // 4
   final DocumentReference myc10r10u21d10 = FirebaseFirestore.instance
@@ -149,13 +173,19 @@ void verifyCard(String anotherCardId, String myCardId) async {
       .doc(myCardId)
       .collection('visibility')
       .doc('c10r10u21d10');
-  myc10r10u21d10.set({
-    'verified_cards': FieldValue.arrayUnion([anotherCardId]),
-  }, SetOptions(merge: true)).then((value) {
-    debugPrint('DocumentSnapshot successfully updated');
-  }, onError: (e) {
-    debugPrint('Error updating document $e');
-  });
+  await myc10r10u21d10.set(
+    {
+      'verified_cards': FieldValue.arrayUnion([anotherCardId]),
+    },
+    SetOptions(merge: true),
+  ).then(
+    (value) {
+      debugPrint('DocumentSnapshot successfully updated');
+    },
+    onError: (e) {
+      debugPrint('Error updating document $e');
+    },
+  );
 
   // 5
   final DocumentReference anotherc10r10u11d10 = FirebaseFirestore.instance
@@ -165,13 +195,19 @@ void verifyCard(String anotherCardId, String myCardId) async {
       .doc(anotherCardId)
       .collection('visibility')
       .doc('c10r10u11d10');
-  anotherc10r10u11d10.set({
-    'exchanged_cards': FieldValue.arrayUnion([myCardId]),
-  }, SetOptions(merge: true)).then((value) {
-    debugPrint('DocumentSnapshot successfully updated');
-  }, onError: (e) {
-    debugPrint('Error updating document $e');
-  });
+  await anotherc10r10u11d10.set(
+    {
+      'exchanged_cards': FieldValue.arrayUnion([myCardId]),
+    },
+    SetOptions(merge: true),
+  ).then(
+    (value) {
+      debugPrint('DocumentSnapshot successfully updated');
+    },
+    onError: (e) {
+      debugPrint('Error updating document $e');
+    },
+  );
 
   // 6
   final DocumentReference myc10r10u11d10 = FirebaseFirestore.instance
@@ -181,13 +217,19 @@ void verifyCard(String anotherCardId, String myCardId) async {
       .doc(myCardId)
       .collection('visibility')
       .doc('c10r10u11d10');
-  myc10r10u11d10.set({
-    'exchanged_cards': FieldValue.arrayUnion([anotherCardId]),
-  }, SetOptions(merge: true)).then((value) {
-    debugPrint('DocumentSnapshot successfully updated');
-  }, onError: (e) {
-    debugPrint('Error updating document $e');
-  });
+  await myc10r10u11d10.set(
+    {
+      'exchanged_cards': FieldValue.arrayUnion([anotherCardId]),
+    },
+    SetOptions(merge: true),
+  ).then(
+    (value) {
+      debugPrint('DocumentSnapshot successfully updated');
+    },
+    onError: (e) {
+      debugPrint('Error updating document $e');
+    },
+  );
 
   // another room
   final DocumentReference anotherc21r20u00d11 = FirebaseFirestore.instance
@@ -212,13 +254,19 @@ void verifyCard(String anotherCardId, String myCardId) async {
       .doc(anotherCardId)
       .collection('visibility')
       .doc('c10r21u21d10');
-  anotherc10r21u21d10.set({
-    'rooms': {myCardId: room.toJson()}
-  }, SetOptions(merge: true)).then((value) {
-    debugPrint('DocumentSnapshot successfully updated');
-  }, onError: (e) {
-    debugPrint('Error updating document $e');
-  });
+  await anotherc10r21u21d10.set(
+    {
+      'rooms': {myCardId: room.toJson()}
+    },
+    SetOptions(merge: true),
+  ).then(
+    (value) {
+      debugPrint('DocumentSnapshot successfully updated');
+    },
+    onError: (e) {
+      debugPrint('Error updating document $e');
+    },
+  );
 
   // another notification
   final addverifyingNotificationData = {
@@ -229,7 +277,7 @@ void verifyCard(String anotherCardId, String myCardId) async {
     'tags': ['interaction', 'done'],
     'notification_id': '',
   };
-  FirebaseFirestore.instance
+  await FirebaseFirestore.instance
       .collection('version')
       .doc('2')
       .collection('cards')
@@ -248,7 +296,7 @@ void verifyCard(String anotherCardId, String myCardId) async {
     'tags': ['interaction', 'done'],
     'notification_id': '',
   };
-  FirebaseFirestore.instance
+  await FirebaseFirestore.instance
       .collection('version')
       .doc('2')
       .collection('cards')

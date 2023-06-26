@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-
-import '../../utils/colors.dart';
+import 'package:thundercard/utils/colors.dart';
 
 class InfoBottomSheet extends StatelessWidget {
   const InfoBottomSheet({super.key, required this.data});
+
   final String data;
 
   @override

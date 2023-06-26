@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../providers/firebase_firestore.dart';
-import 'custom_skeletons/skeleton_card.dart';
-import 'image_with_url.dart';
+import 'package:thundercard/providers/firebase_firestore.dart';
+import 'package:thundercard/views/widgets/custom_skeletons/skeleton_card.dart';
+import 'package:thundercard/views/widgets/image_with_url.dart';
 
 class CardImg extends ConsumerWidget {
   const CardImg({Key? key, required this.cardId}) : super(key: key);

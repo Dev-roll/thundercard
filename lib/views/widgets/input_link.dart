@@ -3,17 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/providers/dynamic_links_provider.dart';
+import 'package:thundercard/providers/firebase_firestore.dart';
+import 'package:thundercard/utils/constants.dart';
 import 'package:thundercard/utils/input_data_processor.dart';
-
-import '../../providers/firebase_firestore.dart';
-import '../../utils/constants.dart';
-import '../pages/add_card.dart';
-import 'avatar.dart';
-import 'custom_progress_indicator.dart';
-import 'error_message.dart';
-import 'info_bottom_sheet.dart';
-import 'positioned_snack_bar.dart';
-import 'unfocus.dart';
+import 'package:thundercard/views/pages/add_card.dart';
+import 'package:thundercard/views/widgets/avatar.dart';
+import 'package:thundercard/views/widgets/custom_progress_indicator.dart';
+import 'package:thundercard/views/widgets/error_message.dart';
+import 'package:thundercard/views/widgets/info_bottom_sheet.dart';
+import 'package:thundercard/views/widgets/positioned_snack_bar.dart';
+import 'package:thundercard/views/widgets/unfocus.dart';
 
 class InputLink extends ConsumerWidget {
   const InputLink({super.key});
@@ -154,7 +153,11 @@ class InputLink extends ConsumerWidget {
                                     scrollDirection: Axis.horizontal,
                                     child: Padding(
                                       padding: const EdgeInsets.fromLTRB(
-                                          16, 0, 16, 0),
+                                        16,
+                                        0,
+                                        16,
+                                        0,
+                                      ),
                                       child: Text(
                                         dynamicLinksValue,
                                         style: TextStyle(
@@ -189,7 +192,7 @@ class InputLink extends ConsumerWidget {
                                       const EdgeInsets.fromLTRB(4, 0, 4, 0),
                                   child: IconButton(
                                     onPressed: () async {
-                                      Share.share(dynamicLinksValue);
+                                      await Share.share(dynamicLinksValue);
                                     },
                                     icon: const Icon(Icons.share_rounded),
                                     padding: const EdgeInsets.all(20),
@@ -310,7 +313,9 @@ class InputLink extends ConsumerWidget {
                                     ? null
                                     : () {
                                         _transitionToNextPage(
-                                            context, myCardId);
+                                          context,
+                                          myCardId,
+                                        );
                                       },
                                 icon: const Icon(Icons.search_rounded),
                                 label: const Text('検索'),
@@ -340,7 +345,9 @@ class InputLink extends ConsumerWidget {
   }
 
   Future<void> _transitionToNextPage(
-      BuildContext context, String myCardId) async {
+    BuildContext context,
+    String myCardId,
+  ) async {
     await inputToId(_controller.text).then((id) {
       Navigator.of(context).push(
         MaterialPageRoute(

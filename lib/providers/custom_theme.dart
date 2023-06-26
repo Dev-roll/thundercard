@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../utils/constants.dart';
-import './app_theme_storage.dart';
-import './card_theme_storage.dart';
+import 'package:thundercard/providers/app_theme_storage.dart';
+import 'package:thundercard/providers/card_theme_storage.dart';
+import 'package:thundercard/utils/constants.dart';
 
 class CustomTheme extends ChangeNotifier {
   CustomTheme() {
@@ -47,7 +46,7 @@ class CustomTheme extends ChangeNotifier {
   }
 
   void appThemeUpdate() {
-    // TODO: currentAppThemeIdxをデータベースのapp_themeに保存
+    // TODO(noname): currentAppThemeIdxをデータベースのapp_themeに保存
     appThemeIdx = currentAppThemeIdx;
     appThemeStorage.writeAppTheme(appThemeIdx);
   }
@@ -63,7 +62,7 @@ class CustomTheme extends ChangeNotifier {
   }
 
   void cardThemeUpdate() {
-    // TODO: currentDisplayCardThemeIdxをデータベースのapp_themeに保存
+    // TODO(noname): currentDisplayCardThemeIdxをデータベースのapp_themeに保存
     displayCardThemeIdx = currentDisplayCardThemeIdx;
     cardThemeStorage.writeCardTheme(displayCardThemeIdx);
   }

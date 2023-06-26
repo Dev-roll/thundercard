@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../providers/firebase_firestore.dart';
-import '../../utils/constants.dart';
-import '../../utils/return_url.dart';
-import 'avatar.dart';
-import 'card_element.dart';
-import 'custom_skeletons/skeleton_card.dart';
-import 'error_message.dart';
-import 'open_app.dart';
+import 'package:thundercard/providers/firebase_firestore.dart';
+import 'package:thundercard/utils/constants.dart';
+import 'package:thundercard/utils/return_url.dart';
+import 'package:thundercard/views/widgets/avatar.dart';
+import 'package:thundercard/views/widgets/card_element.dart';
+import 'package:thundercard/views/widgets/custom_skeletons/skeleton_card.dart';
+import 'package:thundercard/views/widgets/error_message.dart';
+import 'package:thundercard/views/widgets/open_app.dart';
 
 class SmallCard extends ConsumerWidget {
   const SmallCard({
@@ -74,7 +73,11 @@ class SmallCard extends ConsumerWidget {
                                   Flexible(
                                     child: Container(
                                       padding: EdgeInsets.fromLTRB(
-                                          2 * vw, 0 * vw, 0 * vw, 0 * vw),
+                                        2 * vw,
+                                        0 * vw,
+                                        0 * vw,
+                                        0 * vw,
+                                      ),
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -111,7 +114,11 @@ class SmallCard extends ConsumerWidget {
                                   Flexible(
                                     child: Container(
                                       padding: EdgeInsets.fromLTRB(
-                                          1 * vw, 0 * vw, 0 * vw, 0 * vw),
+                                        1 * vw,
+                                        0 * vw,
+                                        0 * vw,
+                                        0 * vw,
+                                      ),
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
@@ -127,9 +134,11 @@ class SmallCard extends ConsumerWidget {
                                               dataTypeList[i] == 'address'
                                                   ? OpenApp(
                                                       url: returnUrl(
-                                                          'address',
-                                                          profiles[dataTypeList[
-                                                              i]]['value']),
+                                                        'address',
+                                                        profiles[
+                                                                dataTypeList[i]]
+                                                            ['value'],
+                                                      ),
                                                     )
                                                   : CardElement(
                                                       txt: profiles[
@@ -159,7 +168,11 @@ class SmallCard extends ConsumerWidget {
                                   Flexible(
                                     child: Container(
                                       padding: EdgeInsets.fromLTRB(
-                                          1 * vw, 1 * vw, 1 * vw, 1 * vw),
+                                        1 * vw,
+                                        1 * vw,
+                                        1 * vw,
+                                        1 * vw,
+                                      ),
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
@@ -169,8 +182,9 @@ class SmallCard extends ConsumerWidget {
                                               Expanded(
                                                 child: OpenApp(
                                                   url: returnUrl(
-                                                      links[i]['key'],
-                                                      links[i]['value']),
+                                                    links[i]['key'],
+                                                    links[i]['value'],
+                                                  ),
                                                 ),
                                               ),
                                         ],

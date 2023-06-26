@@ -72,7 +72,9 @@ class AvailableAuthState extends State<AvailableAuth> {
                 Text(
                   'ログイン情報が登録されていません。',
                   style: TextStyle(
-                      height: 1.6, color: Theme.of(context).colorScheme.error),
+                    height: 1.6,
+                    color: Theme.of(context).colorScheme.error,
+                  ),
                 ),
                 const Text(
                   'ログイン機能を利用するには以下のボタンから認証方法を追加してください。',
@@ -146,7 +148,8 @@ class AvailableAuthState extends State<AvailableAuth> {
                                           .colorScheme
                                           .onSurfaceVariant
                                           .withOpacity(
-                                              0.4), // 認証されていない場合はグレーアウト
+                                            0.4,
+                                          ), // 認証されていない場合はグレーアウト
                                 ),
                               ),
                             ],

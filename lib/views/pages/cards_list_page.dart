@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../providers/exchanged_cards_provider.dart';
-import '../widgets/cards_list.dart';
-import '../widgets/cards_list_floating_action_button.dart';
-import '../widgets/error_message.dart';
-import '../widgets/search_window.dart';
+import 'package:thundercard/providers/exchanged_cards_provider.dart';
+import 'package:thundercard/views/widgets/cards_list.dart';
+import 'package:thundercard/views/widgets/cards_list_floating_action_button.dart';
+import 'package:thundercard/views/widgets/error_message.dart';
+import 'package:thundercard/views/widgets/search_window.dart';
 
 class CardsListPage extends ConsumerWidget {
   const CardsListPage({super.key});
@@ -17,7 +16,7 @@ class CardsListPage extends ConsumerWidget {
     return exchangedCards.when(
       loading: () => const Scaffold(
         body: Center(
-          // TODO: skeleton
+          // TODO(noname): skeleton
           child: CircularProgressIndicator(
             strokeWidth: 3,
           ),

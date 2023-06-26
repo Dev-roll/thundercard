@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
-import '../widgets/custom_progress_indicator.dart';
-import 'error_message.dart';
+import 'package:thundercard/views/widgets/custom_progress_indicator.dart';
+import 'package:thundercard/views/widgets/error_message.dart';
 
 class MyCards extends StatefulWidget {
   const MyCards({Key? key, required this.uid}) : super(key: key);

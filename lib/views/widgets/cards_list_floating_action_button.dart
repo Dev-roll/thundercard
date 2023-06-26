@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-
-import '../../providers/current_card_id_provider.dart';
-import '../pages/exchange_card.dart';
-import '../pages/upload_image_page.dart';
+import 'package:thundercard/providers/current_card_id_provider.dart';
+import 'package:thundercard/views/pages/exchange_card.dart';
+import 'package:thundercard/views/pages/upload_image_page.dart';
 
 class CardsListFloatingActionButton extends ConsumerWidget {
   CardsListFloatingActionButton({super.key});
@@ -49,11 +48,11 @@ class CardsListFloatingActionButton extends ConsumerWidget {
               );
             }
           : null,
-      buttonSize:
-          buttonSize, // it's the SpeedDial size which defaults to 56 itself
+      buttonSize: buttonSize,
+      // it's the SpeedDial size which defaults to 56 itself
       iconTheme: const IconThemeData(size: 24),
-      label:
-          extend ? const Text('Open') : null, // The label of the main button.
+      label: extend ? const Text('Open') : null,
+      // The label of the main button.
       /// The active label of the main button, Defaults to label if not specified.
       activeLabel: extend ? const Text('Close') : null,
 
@@ -118,12 +117,14 @@ class CardsListFloatingActionButton extends ConsumerWidget {
           foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
           label: '画像をもとに追加',
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => UploadImagePage(
-                cardId: currentCardId,
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => UploadImagePage(
+                  cardId: currentCardId,
+                ),
+                fullscreenDialog: true,
               ),
-              fullscreenDialog: true,
-            ));
+            );
           },
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),

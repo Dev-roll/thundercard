@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../providers/exchanged_cards_provider.dart';
-import 'search.dart';
+import 'package:thundercard/providers/exchanged_cards_provider.dart';
+import 'package:thundercard/views/widgets/search.dart';
 
 class SearchWindow extends ConsumerWidget {
   const SearchWindow({super.key});

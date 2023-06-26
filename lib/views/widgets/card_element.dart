@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../utils/constants.dart';
+import 'package:thundercard/utils/constants.dart';
 
 class CardElement extends StatelessWidget {
   const CardElement({
@@ -77,7 +76,8 @@ class CardElement extends StatelessWidget {
                               .onTertiaryContainer
                               .withOpacity(opacity)
                           : Theme.of(
-                                  context) //company,positon: onSecondaryContainer
+                              context,
+                            ) //company,positon: onSecondaryContainer
                               .colorScheme
                               .onSecondaryContainer
                               .withOpacity(opacity),

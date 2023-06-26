@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-
-import '../../utils/constants.dart';
-import '../widgets/my_card.dart';
+import 'package:thundercard/utils/constants.dart';
+import 'package:thundercard/views/widgets/my_card.dart';
 
 class MyCardDetails extends StatelessWidget {
   const MyCardDetails({super.key, required this.cardId});
+
   final String cardId;
 
   @override

@@ -1,4 +1,4 @@
-import 'constants.dart';
+import 'package:thundercard/utils/constants.dart';
 
 String returnDisplayId(String url) {
   var ret = url;

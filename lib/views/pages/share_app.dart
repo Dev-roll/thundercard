@@ -9,9 +9,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/providers/dynamic_links_provider.dart';
-
-import '../../utils/constants.dart';
-import '../widgets/positioned_snack_bar.dart';
+import 'package:thundercard/utils/constants.dart';
+import 'package:thundercard/views/widgets/positioned_snack_bar.dart';
 
 class ShareApp extends ConsumerWidget {
   const ShareApp({super.key});

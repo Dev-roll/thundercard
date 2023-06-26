@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../../providers/firebase_firestore.dart';
-import '../../utils/constants.dart';
-import '../../utils/return_url.dart';
-import 'avatar.dart';
-import 'card_element.dart';
-import 'custom_skeletons/skeleton_card.dart';
-import 'error_message.dart';
-import 'open_app.dart';
+import 'package:thundercard/providers/firebase_firestore.dart';
+import 'package:thundercard/utils/constants.dart';
+import 'package:thundercard/utils/return_url.dart';
+import 'package:thundercard/views/widgets/avatar.dart';
+import 'package:thundercard/views/widgets/card_element.dart';
+import 'package:thundercard/views/widgets/custom_skeletons/skeleton_card.dart';
+import 'package:thundercard/views/widgets/error_message.dart';
+import 'package:thundercard/views/widgets/open_app.dart';
 
 class LargeCard extends ConsumerWidget {
   const LargeCard({
@@ -83,64 +82,64 @@ class LargeCard extends ConsumerWidget {
                                 children: [
                                   Avatar(iconUrl: iconUrl),
                                   Flexible(
-                                      child: name == null
-                                          ? Container()
-                                          : Container(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  2 * vw,
-                                                  0 * vw,
-                                                  2 * vw,
-                                                  0 * vw),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  SingleChildScrollView(
-                                                    scrollDirection:
-                                                        Axis.horizontal,
-                                                    child: Text(
-                                                      name,
-                                                      style: TextStyle(
-                                                        fontSize: 2 * vw * 3,
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .onSecondaryContainer
-                                                            .withOpacity(0.7),
-                                                        height: 1.2,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        letterSpacing: 1.5,
-                                                      ),
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.fade,
-                                                      softWrap: false,
+                                    child: name == null
+                                        ? Container()
+                                        : Container(
+                                            padding: EdgeInsets.fromLTRB(
+                                              2 * vw,
+                                              0 * vw,
+                                              2 * vw,
+                                              0 * vw,
+                                            ),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                SingleChildScrollView(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  child: Text(
+                                                    name,
+                                                    style: TextStyle(
+                                                      fontSize: 2 * vw * 3,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onSecondaryContainer
+                                                          .withOpacity(0.7),
+                                                      height: 1.2,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      letterSpacing: 1.5,
                                                     ),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.fade,
+                                                    softWrap: false,
                                                   ),
-                                                  if (c21r20u00d11?['is_user'])
-                                                    Text(
-                                                      '@$cardId',
-                                                      style: TextStyle(
-                                                        fontSize: 2 * vw * 1.5,
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .onSecondaryContainer
-                                                            .withOpacity(0.5),
-                                                        height: 1.2,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        letterSpacing: 0.2,
-                                                      ),
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.fade,
-                                                      softWrap: false,
+                                                ),
+                                                if (c21r20u00d11?['is_user'])
+                                                  Text(
+                                                    '@$cardId',
+                                                    style: TextStyle(
+                                                      fontSize: 2 * vw * 1.5,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onSecondaryContainer
+                                                          .withOpacity(0.5),
+                                                      height: 1.2,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      letterSpacing: 0.2,
                                                     ),
-                                                ],
-                                              ),
-                                            )),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.fade,
+                                                    softWrap: false,
+                                                  ),
+                                              ],
+                                            ),
+                                          ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -161,7 +160,11 @@ class LargeCard extends ConsumerWidget {
                                   : SingleChildScrollView(
                                       child: Container(
                                         padding: EdgeInsets.fromLTRB(
-                                            4 * vw, 0 * vw, 4 * vw, 0 * vw),
+                                          4 * vw,
+                                          0 * vw,
+                                          4 * vw,
+                                          0 * vw,
+                                        ),
                                         child: Column(
                                           children: [
                                             const SizedBox(height: 16),
@@ -177,29 +180,31 @@ class LargeCard extends ConsumerWidget {
                                                     ? Container(
                                                         padding:
                                                             EdgeInsets.fromLTRB(
-                                                                0,
-                                                                paddingX,
-                                                                0,
-                                                                paddingX),
+                                                          0,
+                                                          paddingX,
+                                                          0,
+                                                          paddingX,
+                                                        ),
                                                         alignment:
                                                             Alignment.center,
                                                         child: OpenApp(
                                                           url: returnUrl(
-                                                              'address',
-                                                              profiles[
-                                                                      dataTypeList[
-                                                                          i]]
-                                                                  ['value']),
+                                                            'address',
+                                                            profiles[
+                                                                dataTypeList[
+                                                                    i]]['value'],
+                                                          ),
                                                           large: true,
                                                         ),
                                                       )
                                                     : Container(
                                                         padding:
                                                             EdgeInsets.fromLTRB(
-                                                                0,
-                                                                paddingX,
-                                                                0,
-                                                                paddingX),
+                                                          0,
+                                                          paddingX,
+                                                          0,
+                                                          paddingX,
+                                                        ),
                                                         alignment:
                                                             Alignment.center,
                                                         child: CardElement(
@@ -232,12 +237,17 @@ class LargeCard extends ConsumerWidget {
                                               if (links[i]['display']['normal'])
                                                 Container(
                                                   padding: EdgeInsets.fromLTRB(
-                                                      0, paddingX, 0, paddingX),
+                                                    0,
+                                                    paddingX,
+                                                    0,
+                                                    paddingX,
+                                                  ),
                                                   alignment: Alignment.center,
                                                   child: OpenApp(
                                                     url: returnUrl(
-                                                        links[i]['key'],
-                                                        links[i]['value']),
+                                                      links[i]['key'],
+                                                      links[i]['value'],
+                                                    ),
                                                     large: true,
                                                   ),
                                                 ),

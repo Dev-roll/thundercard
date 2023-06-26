@@ -1,22 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../main.dart';
-import '../../providers/firebase_firestore.dart';
-import '../../utils/constants.dart';
-import '../../utils/current_brightness.dart';
-import '../../utils/return_original_color.dart';
-import '../pages/add_card.dart';
-import '../pages/home_page.dart';
-import 'custom_progress_indicator.dart';
-import 'custom_skeletons/skeleton_card.dart';
-import 'custom_skeletons/skeleton_card_large.dart';
-import 'error_message.dart';
-import 'not_found_card.dart';
-import 'positioned_snack_bar.dart';
-import 'preview_card.dart';
-import 'switch_card.dart';
+import 'package:thundercard/main.dart';
+import 'package:thundercard/providers/firebase_firestore.dart';
+import 'package:thundercard/utils/constants.dart';
+import 'package:thundercard/utils/current_brightness.dart';
+import 'package:thundercard/utils/return_original_color.dart';
+import 'package:thundercard/views/pages/add_card.dart';
+import 'package:thundercard/views/pages/home_page.dart';
+import 'package:thundercard/views/widgets/custom_progress_indicator.dart';
+import 'package:thundercard/views/widgets/custom_skeletons/skeleton_card.dart';
+import 'package:thundercard/views/widgets/custom_skeletons/skeleton_card_large.dart';
+import 'package:thundercard/views/widgets/error_message.dart';
+import 'package:thundercard/views/widgets/not_found_card.dart';
+import 'package:thundercard/views/widgets/positioned_snack_bar.dart';
+import 'package:thundercard/views/widgets/preview_card.dart';
+import 'package:thundercard/views/widgets/switch_card.dart';
 
 class MyCard extends ConsumerWidget {
   const MyCard({
@@ -134,7 +133,7 @@ class MyCard extends ConsumerWidget {
               lightTheme = true;
               // lightTheme = cardIds[0]?['visibility']['c10r20u10d10']
               //     ['thundercard']['light_theme'];
-              // TODO: firestoreと同期
+              // TODO(noname): firestoreと同期
             } catch (e) {
               debugPrint('$e');
             }

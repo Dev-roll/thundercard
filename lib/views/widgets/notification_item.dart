@@ -2,8 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-import 'notification_item_page.dart';
+import 'package:thundercard/views/widgets/notification_item_page.dart';
 
 class NotificationItem extends StatefulWidget {
   const NotificationItem({

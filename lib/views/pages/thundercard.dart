@@ -7,22 +7,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:thundercard/providers/current_card_id_provider.dart';
 import 'package:thundercard/providers/dynamic_links_provider.dart';
+import 'package:thundercard/utils/constants.dart';
+import 'package:thundercard/utils/current_brightness.dart';
+import 'package:thundercard/utils/export_to_image.dart';
+import 'package:thundercard/utils/firebase_auth.dart';
+import 'package:thundercard/utils/get_application_documents_file.dart';
+import 'package:thundercard/utils/return_original_color.dart';
+import 'package:thundercard/views/pages/exchange_card.dart';
+import 'package:thundercard/views/pages/home_page.dart';
+import 'package:thundercard/views/pages/my_card_details.dart';
 import 'package:thundercard/views/widgets/custom_progress_indicator.dart';
+import 'package:thundercard/views/widgets/my_card.dart';
 import 'package:thundercard/views/widgets/notification_item.dart';
-
-import '../../providers/current_card_id_provider.dart';
-import '../../utils/constants.dart';
-import '../../utils/current_brightness.dart';
-import '../../utils/export_to_image.dart';
-import '../../utils/firebase_auth.dart';
-import '../../utils/get_application_documents_file.dart';
-import '../../utils/return_original_color.dart';
-import '../widgets/my_card.dart';
-import '../widgets/positioned_snack_bar.dart';
-import 'exchange_card.dart';
-import 'home_page.dart';
-import 'my_card_details.dart';
+import 'package:thundercard/views/widgets/positioned_snack_bar.dart';
 
 class Thundercard extends ConsumerStatefulWidget {
   const Thundercard({Key? key}) : super(key: key);
@@ -113,9 +112,11 @@ class _ThundercardState extends ConsumerState<Thundercard> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(
-                                0.03 * MediaQuery.of(context).size.width),
+                              0.03 * MediaQuery.of(context).size.width,
+                            ),
                             boxShadow: currentBrightness(
-                                        Theme.of(context).colorScheme) ==
+                                      Theme.of(context).colorScheme,
+                                    ) ==
                                     Brightness.light
                                 ? [
                                     BoxShadow(
@@ -198,13 +199,17 @@ class _ThundercardState extends ConsumerState<Thundercard> {
                                       final bytes =
                                           await exportToImage(_myCardKey);
                                       //byte data→Uint8List
-                                      final widgetImageBytes = bytes?.buffer
-                                          .asUint8List(bytes.offsetInBytes,
-                                              bytes.lengthInBytes);
+                                      final widgetImageBytes =
+                                          bytes?.buffer.asUint8List(
+                                        bytes.offsetInBytes,
+                                        bytes.lengthInBytes,
+                                      );
                                       //App directoryファイルに保存
                                       final applicationDocumentsFile =
                                           await getApplicationDocumentsFile(
-                                              myCardId, widgetImageBytes!);
+                                        myCardId,
+                                        widgetImageBytes!,
+                                      );
 
                                       final path =
                                           applicationDocumentsFile.path;
@@ -216,7 +221,7 @@ class _ThundercardState extends ConsumerState<Thundercard> {
                                         subject: '$myCardIdさんのThundercardの共有',
                                       );
                                       debugPrint(dynamicLinksValue);
-                                      applicationDocumentsFile.delete();
+                                      await applicationDocumentsFile.delete();
                                     },
                                     icon: const Icon(Icons.share_rounded),
                                     padding: const EdgeInsets.all(20),
@@ -326,46 +331,48 @@ class _ThundercardState extends ConsumerState<Thundercard> {
                                 ? SingleChildScrollView(
                                     child: Container(
                                       padding: const EdgeInsets.fromLTRB(
-                                          0, 12, 0, 16),
+                                        0,
+                                        12,
+                                        0,
+                                        16,
+                                      ),
                                       child: Center(
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
                                             ListView.builder(
-                                                shrinkWrap: true,
-                                                physics:
-                                                    const NeverScrollableScrollPhysics(),
-                                                itemCount: interactionsLength,
-                                                itemBuilder: (context, index) {
-                                                  DateTime time =
-                                                      interactions[index]
-                                                              ['created_at']
-                                                          .toDate();
-                                                  return Center(
-                                                    child: NotificationItem(
-                                                      title: interactions[index]
-                                                          ['title'],
-                                                      content:
-                                                          interactions[index]
-                                                              ['content'],
-                                                      createdAt:
-                                                          time.toString(),
-                                                      read: interactions[index]
-                                                          ['read'],
-                                                      index: 0,
-                                                      myCardId: myCardId,
-                                                      tags: interactions[index]
-                                                          ['tags'],
-                                                      notificationId:
-                                                          interactions[index][
-                                                              'notification_id'],
-                                                      documentId:
-                                                          interactions[index]
-                                                              .id,
-                                                    ),
-                                                  );
-                                                }),
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              itemCount: interactionsLength,
+                                              itemBuilder: (context, index) {
+                                                DateTime time =
+                                                    interactions[index]
+                                                            ['created_at']
+                                                        .toDate();
+                                                return Center(
+                                                  child: NotificationItem(
+                                                    title: interactions[index]
+                                                        ['title'],
+                                                    content: interactions[index]
+                                                        ['content'],
+                                                    createdAt: time.toString(),
+                                                    read: interactions[index]
+                                                        ['read'],
+                                                    index: 0,
+                                                    myCardId: myCardId,
+                                                    tags: interactions[index]
+                                                        ['tags'],
+                                                    notificationId:
+                                                        interactions[index]
+                                                            ['notification_id'],
+                                                    documentId:
+                                                        interactions[index].id,
+                                                  ),
+                                                );
+                                              },
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -398,9 +405,10 @@ class _ThundercardState extends ConsumerState<Thundercard> {
                                             Text(
                                               'まだ通知はありません',
                                               style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onSurfaceVariant),
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurfaceVariant,
+                                              ),
                                             ),
                                           ],
                                         ),

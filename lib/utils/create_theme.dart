@@ -15,7 +15,10 @@ bool isAndroidPlatform() {
 }
 
 ThemeData createTheme(
-    ColorScheme? dynamicColor, Brightness brightness, BuildContext context) {
+  ColorScheme? dynamicColor,
+  Brightness brightness,
+  BuildContext context,
+) {
   bool isApple = isApplePlatform();
   bool isAndroid = isAndroidPlatform();
 
@@ -32,12 +35,14 @@ ThemeData createTheme(
         ? GoogleFonts.zenKakuGothicNewTextTheme(Theme.of(context).textTheme)
         : kIsWeb && brightness == Brightness.dark
             ? GoogleFonts.zenKakuGothicNewTextTheme(
-                Theme.of(context).primaryTextTheme)
+                Theme.of(context).primaryTextTheme,
+              )
             : !isApple && brightness == Brightness.light
                 ? GoogleFonts.interTextTheme(Theme.of(context).textTheme)
                 : !isApple && brightness == Brightness.dark
                     ? GoogleFonts.interTextTheme(
-                        Theme.of(context).primaryTextTheme)
+                        Theme.of(context).primaryTextTheme,
+                      )
                     : null,
   );
 }
