@@ -2,6 +2,7 @@
 
 ![](https://badgen.net/github/checks/Dev-roll/thundercard/main)
 ![](https://badgen.net/github/release/Dev-roll/thundercard)
+[![codecov](https://codecov.io/gh/Dev-roll/thundercard/branch/main/graph/badge.svg?token=03RW9TGA12)](https://codecov.io/gh/Dev-roll/thundercard)
 
 Thundercard is a completely new SNS inspired by business cards. It is ideal for the young people, engineers and creators who have a lot of profiles to introduce.
 
