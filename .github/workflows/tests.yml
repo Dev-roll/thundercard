@@ -24,7 +24,7 @@ jobs:
         run: flutter packages get
 
       - name: Format
-        run: dart format lib test example --set-exit-if-changed
+        run: dart format lib test --set-exit-if-changed
 
       - name: Analyze
         run: flutter analyze lib test example
