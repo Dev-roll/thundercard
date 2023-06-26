@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  analyze:
+  format:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -18,9 +18,9 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
-      - name: Analyze
-        run: flutter analyze --no-pub
+      - name: Format
+        run: dart format lib test
       - uses: reviewdog/action-suggester@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          tool_name: flutter analyze
+          tool_name: dart format
