@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterfire_ui/auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:thundercard/ui/screen/auth_gate.dart';
@@ -559,6 +559,7 @@ class _LinkAuthState extends State<LinkAuth> {
                             child: const GoogleSignInButton(
                               clientId:
                                   '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com',
+                              loadingIndicator: CircularProgressIndicator(),
                             ),
                           ),
                         // if (!kIsWeb && Platform.isIOS)
