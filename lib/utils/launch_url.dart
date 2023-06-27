@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:thundercard/views/widgets/positioned_snack_bar.dart';
+import 'package:thundercard/ui/component/positioned_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Future launchURL(String url, BuildContext context, {String? secondUrl}) async {
