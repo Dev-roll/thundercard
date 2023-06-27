@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:thundercard/main.dart';
+import 'package:thundercard/ui/screen/auth_gate.dart';
 import 'package:thundercard/utils/create_theme.dart';
-import 'package:thundercard/views/pages/auth_gate.dart';
 
 class ThundercardApp extends ConsumerWidget {
   const ThundercardApp({Key? key}) : super(key: key);
