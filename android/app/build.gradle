@@ -95,5 +95,5 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.google.firebase:firebase-appcheck-debug:17.0.0'
+    implementation 'com.google.firebase:firebase-appcheck-debug:17.0.1'
 }
