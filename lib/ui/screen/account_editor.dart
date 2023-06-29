@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 import 'package:thundercard/providers/firebase_firestore.dart';
 import 'package:thundercard/providers/index.dart';
 import 'package:thundercard/ui/component/custom_progress_indicator.dart';
@@ -323,9 +324,9 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
         .get()
         .then((snapshot) {
       final data = snapshot.docs;
-      debugPrint('$data');
+      Logger().d('$data');
       if (widget.isRegistration && data.isNotEmpty) {
-        debugPrint(data[0]['card_id']);
+        Logger().d(data[0]['card_id']);
         forbiddenId = _cardIdController.text;
         return ScaffoldMessenger.of(context).showSnackBar(
           PositionedSnackBar(
@@ -373,7 +374,7 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
             },
           });
         }
-        debugPrint('$links');
+        Logger().d('$links');
 
         if (widget.isRegistration) {
           // c10r21u10d10
@@ -416,30 +417,30 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
               },
             }
           }).then((value) {
-            debugPrint('c10r21u10d10: Registered');
+            Logger().d('c10r21u10d10: Registered');
           }).catchError((error) {
-            debugPrint('カードの登録に失敗しました: $error');
+            Logger().e('カードの登録に失敗しました: $error');
           });
 
           version2.doc(_cardIdController.text).set({
             'card_id': _cardIdController.text,
           }).then((element) {
-            debugPrint('set cardid directory: completed');
+            Logger().e('set cardid directory: completed');
           });
 
           // users
           users.doc(uid).set({'Thundercard': 'cool'}).then((value) {
-            debugPrint('User Added');
+            Logger().d('User Added');
           }).catchError((error) {
-            debugPrint('Failed to add user: $error');
+            Logger().e('Failed to add user: $error');
           });
 
           users.doc(uid).collection('cards').doc('my_cards').set({
             'my_cards': [_cardIdController.text]
           }).then((value) {
-            debugPrint('User Added');
+            Logger().d('User Added');
           }).catchError((error) {
-            debugPrint('Failed to add user: $error');
+            Logger().e('Failed to add user: $error');
           });
 
           users
@@ -447,9 +448,9 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
               .collection('card')
               .doc('current_card')
               .set({'current_card': _cardIdController.text}).then((value) {
-            debugPrint('User Added');
+            Logger().d('User Added');
           }).catchError((error) {
-            debugPrint('Failed to add user: $error');
+            Logger().e('Failed to add user: $error');
           });
 
           final registerNotificationData = {
@@ -484,9 +485,9 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
             },
             'applying_cards': [],
           }).then((value) {
-            debugPrint('c10r10u10d10: Registered');
+            Logger().d('c10r10u10d10: Registered');
           }).catchError((error) {
-            debugPrint('カードの登録に失敗しました: $error');
+            Logger().e('カードの登録に失敗しました: $error');
           });
 
           // c10r10u21d10
@@ -497,9 +498,9 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
               .set({
             'verified_cards': [],
           }).then((value) {
-            debugPrint('c10r10u21d10: Registered');
+            Logger().d('c10r10u21d10: Registered');
           }).catchError((error) {
-            debugPrint('カードの登録に失敗しました: $error');
+            Logger().e('カードの登録に失敗しました: $error');
           });
 
           // c10r10u11d10
@@ -510,9 +511,9 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
               .set({
             'exchanged_cards': [],
           }).then((value) {
-            debugPrint('c10r10u11d10: Registered');
+            Logger().d('c10r10u11d10: Registered');
           }).catchError((error) {
-            debugPrint('カードの登録に失敗しました: $error');
+            Logger().e('カードの登録に失敗しました: $error');
           });
 
           // c10r20u10d10
@@ -543,9 +544,9 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
               }
             },
           }).then((value) {
-            debugPrint('c10r20u10d10: Registered');
+            Logger().d('c10r20u10d10: Registered');
           }).catchError((error) {
-            debugPrint('カードの登録に失敗しました: $error');
+            Logger().e('カードの登録に失敗しました: $error');
           });
 
           // c21r20u00d11
@@ -558,9 +559,9 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
             'uid': uid,
             'card_id': _cardIdController.text,
           }).then((value) {
-            debugPrint('c21r20u00d11: Registered');
+            Logger().d('c21r20u00d11: Registered');
           }).catchError((error) {
-            debugPrint('カードの登録に失敗しました: $error');
+            Logger().e('カードの登録に失敗しました: $error');
           });
         } else {
           // c10r21u10d10
@@ -606,9 +607,9 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
             },
             SetOptions(merge: true),
           ).then((value) {
-            debugPrint('c10r21u10d10: Registered');
+            Logger().d('c10r21u10d10: Registered');
           }).catchError((error) {
-            debugPrint('カードの登録に失敗しました: $error');
+            Logger().e('カードの登録に失敗しました: $error');
           });
 
           final updateNotificationData = {
@@ -663,9 +664,9 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
             },
             SetOptions(merge: true),
           ).then((value) {
-            debugPrint('Card Updated (1/2)');
+            Logger().d('Card Updated (1/2)');
           }).catchError((error) {
-            debugPrint('Failed to update card: $error');
+            Logger().e('Failed to update card: $error');
           });
         }
       }

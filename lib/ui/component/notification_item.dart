@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:thundercard/ui/component/notification_item_page.dart';
 
 class NotificationItem extends StatefulWidget {
@@ -55,7 +56,7 @@ class _NotificationItemState extends State<NotificationItem> {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        debugPrint(widget.documentId);
+        Logger().d(widget.documentId);
         FirebaseFirestore.instance
             .collection('version')
             .doc('2')

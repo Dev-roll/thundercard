@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:logger/logger.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/providers/dynamic_links_provider.dart';
@@ -59,7 +60,7 @@ class _ScanQrCodeState extends ConsumerState<ScanQrCode> {
       final imageTemp = File(inputImage.path);
       return await scanCode(imageTemp.path);
     } on PlatformException catch (e) {
-      debugPrint('Failed to pick image: $e');
+      Logger().e('Failed to pick image: $e');
       return null;
     }
   }

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:logger/logger.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/providers/current_card_id_provider.dart';
 import 'package:thundercard/providers/dynamic_links_provider.dart';
@@ -220,7 +221,7 @@ class _ThundercardState extends ConsumerState<Thundercard> {
                                         text: dynamicLinksValue,
                                         subject: '$myCardIdさんのThundercardの共有',
                                       );
-                                      debugPrint(dynamicLinksValue);
+                                      Logger().d(dynamicLinksValue);
                                       await applicationDocumentsFile.delete();
                                     },
                                     icon: const Icon(Icons.share_rounded),
@@ -274,7 +275,7 @@ class _ThundercardState extends ConsumerState<Thundercard> {
                                         ClipboardData(text: dynamicLinksValue),
                                       ).then(
                                         (value) {
-                                          debugPrint(dynamicLinksValue);
+                                          Logger().d(dynamicLinksValue);
                                           return ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             PositionedSnackBar(
@@ -310,7 +311,7 @@ class _ThundercardState extends ConsumerState<Thundercard> {
                               .snapshots(),
                           builder: (context, snapshot) {
                             if (snapshot.hasError) {
-                              debugPrint('${snapshot.error}');
+                              Logger().e('${snapshot.error}');
                               return Text('エラーが発生しました: ${snapshot.error}');
                             }
 

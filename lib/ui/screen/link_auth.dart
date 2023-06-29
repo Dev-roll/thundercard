@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:logger/logger.dart';
 import 'package:thundercard/ui/screen/auth_gate.dart';
 
 // import 'package:flutterfire_ui/auth.dart';
@@ -52,19 +53,19 @@ class _LinkAuthState extends State<LinkAuth> {
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'provider-already-linked':
-          debugPrint('The provider has already been linked to the user.');
+          Logger().d('The provider has already been linked to the user.');
           break;
         case 'invalid-credential':
-          debugPrint('The provider\'s credential is not valid.');
+          Logger().d('The provider\'s credential is not valid.');
           break;
         case 'credential-already-in-use':
-          debugPrint(
-              'The account corresponding to the credential already exists, '
-              'or is already linked to a Firebase User.');
+          Logger()
+              .d('The account corresponding to the credential already exists, '
+                  'or is already linked to a Firebase User.');
           break;
         // See the API reference for the full list of error codes.
         default:
-          debugPrint('Unknown error.');
+          Logger().d('Unknown error.');
       }
     }
   }
@@ -201,23 +202,23 @@ class _LinkAuthState extends State<LinkAuth> {
                                           } on FirebaseAuthException catch (e) {
                                             switch (e.code) {
                                               case 'provider-already-linked':
-                                                debugPrint(
+                                                Logger().d(
                                                   'The provider has already been linked to the user.',
                                                 );
                                                 break;
                                               case 'invalid-credential':
-                                                debugPrint(
+                                                Logger().d(
                                                   'The provider\'s credential is not valid.',
                                                 );
                                                 break;
                                               case 'credential-already-in-use':
-                                                debugPrint(
+                                                Logger().d(
                                                     'The account corresponding to the credential already exists, '
                                                     'or is already linked to a Firebase User.');
                                                 break;
                                               // See the API reference for the full list of error codes.
                                               default:
-                                                debugPrint('Unknown error.');
+                                                Logger().d('Unknown error.');
                                             }
                                           }
                                         }
@@ -284,23 +285,23 @@ class _LinkAuthState extends State<LinkAuth> {
                                           } on FirebaseAuthException catch (e) {
                                             switch (e.code) {
                                               case 'provider-already-linked':
-                                                debugPrint(
+                                                Logger().d(
                                                   'The provider has already been linked to the user.',
                                                 );
                                                 break;
                                               case 'invalid-credential':
-                                                debugPrint(
+                                                Logger().d(
                                                   'The provider\'s credential is not valid.',
                                                 );
                                                 break;
                                               case 'credential-already-in-use':
-                                                debugPrint(
+                                                Logger().d(
                                                     'The account corresponding to the credential already exists, '
                                                     'or is already linked to a Firebase User.');
                                                 break;
                                               // See the API reference for the full list of error codes.
                                               default:
-                                                debugPrint('Unknown error.');
+                                                Logger().d('Unknown error.');
                                             }
                                           }
                                         }
@@ -379,23 +380,23 @@ class _LinkAuthState extends State<LinkAuth> {
                                           } on FirebaseAuthException catch (e) {
                                             switch (e.code) {
                                               case 'provider-already-linked':
-                                                debugPrint(
+                                                Logger().d(
                                                   'The provider has already been linked to the user.',
                                                 );
                                                 break;
                                               case 'invalid-credential':
-                                                debugPrint(
+                                                Logger().d(
                                                   'The provider\'s credential is not valid.',
                                                 );
                                                 break;
                                               case 'credential-already-in-use':
-                                                debugPrint(
+                                                Logger().d(
                                                     'The account corresponding to the credential already exists, '
                                                     'or is already linked to a Firebase User.');
                                                 break;
                                               // See the API reference for the full list of error codes.
                                               default:
-                                                debugPrint('Unknown error.');
+                                                Logger().d('Unknown error.');
                                             }
                                           }
                                         }
@@ -486,23 +487,23 @@ class _LinkAuthState extends State<LinkAuth> {
                                                 } on FirebaseAuthException catch (e) {
                                                   switch (e.code) {
                                                     case 'provider-already-linked':
-                                                      debugPrint(
+                                                      Logger().d(
                                                         'The provider has already been linked to the user.',
                                                       );
                                                       break;
                                                     case 'invalid-credential':
-                                                      debugPrint(
+                                                      Logger().d(
                                                         'The provider\'s credential is not valid.',
                                                       );
                                                       break;
                                                     case 'credential-already-in-use':
-                                                      debugPrint(
+                                                      Logger().d(
                                                           'The account corresponding to the credential already exists, '
                                                           'or is already linked to a Firebase User.');
                                                       break;
                                                     // See the API reference for the full list of error codes.
                                                     default:
-                                                      debugPrint(
+                                                      Logger().d(
                                                         'Unknown error.',
                                                       );
                                                   }

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:logger/logger.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:thundercard/ui/component/md/privacy_policy.dart';
 import 'package:thundercard/ui/component/md/terms_of_use.dart';
@@ -217,7 +218,7 @@ class _SignInState extends State<SignIn> {
                                                 )
                                                 .then((value) {});
                                           } catch (e) {
-                                            debugPrint('$e');
+                                            Logger().e('$e');
                                           }
                                         }
                                       },
@@ -275,7 +276,7 @@ class _SignInState extends State<SignIn> {
                                                 )
                                                 .then((value) {});
                                           } catch (e) {
-                                            debugPrint('$e');
+                                            Logger().e('$e');
                                           }
                                         }
                                       },
@@ -351,7 +352,7 @@ class _SignInState extends State<SignIn> {
                                                       )
                                                       .then((value) {});
                                                 } catch (e) {
-                                                  debugPrint('$e');
+                                                  Logger().e('$e');
                                                 }
                                               }
                                             },

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:thundercard/providers/firebase_firestore.dart';
 import 'package:thundercard/providers/index.dart';
 import 'package:thundercard/ui/component/card_img.dart';
@@ -75,10 +76,10 @@ class CardDetails extends ConsumerWidget {
                     ),
                     (_) => false,
                   );
-                  debugPrint('DocumentSnapshot successfully updated!');
+                  Logger().d('DocumentSnapshot successfully updated!');
                 },
                 onError: (e) {
-                  debugPrint('Error updating document $e');
+                  Logger().e('Error updating document $e');
                 },
               );
             }
@@ -193,7 +194,7 @@ class CardDetails extends ConsumerWidget {
                               AsyncSnapshot<Room> snapshot,
                             ) {
                               if (snapshot.hasError) {
-                                debugPrint('${snapshot.error}');
+                                Logger().e('${snapshot.error}');
                                 return const Text('問題が発生しました');
                               }
 

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:thundercard/main.dart';
 import 'package:thundercard/providers/firebase_firestore.dart';
 import 'package:thundercard/ui/component/custom_progress_indicator.dart';
@@ -135,7 +136,7 @@ class MyCard extends ConsumerWidget {
               //     ['thundercard']['light_theme'];
               // TODO(noname): firestoreと同期
             } catch (e) {
-              debugPrint('$e');
+              Logger().e('$e');
             }
 
             return Column(

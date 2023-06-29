@@ -2,6 +2,7 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:logger/logger.dart';
 import 'package:thundercard/providers/current_card_id_provider.dart';
 import 'package:thundercard/providers/firebase_firestore.dart';
 import 'package:thundercard/providers/index.dart';
@@ -119,7 +120,7 @@ class HomePage extends ConsumerWidget {
             },
           ).onError(
             (error) {
-              debugPrint('error: $error');
+              Logger().e('error: $error');
             },
           );
 
