@@ -85,6 +85,7 @@ dependencies:
   shared_preferences: ^2.1.2
   firebase_ui_auth: ^1.4.0
   firebase_ui_oauth_google: ^1.0.21
+  logger: ^1.4.0
 
 # 一時的
 dependency_overrides:
