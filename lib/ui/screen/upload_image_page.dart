@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:logger/logger.dart';
 import 'package:thundercard/ui/component/positioned_snack_bar.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
@@ -43,7 +44,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
         _recognizedTextController.text = recognizedTextTemp;
       });
     } on PlatformException catch (e) {
-      debugPrint('Failed to pick image: $e');
+      Logger().e('Failed to pick image: $e');
     }
   }
 
@@ -60,7 +61,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
         _recognizedTextController.text = recognizedTextTemp;
       });
     } on PlatformException catch (e) {
-      debugPrint('Failed to pick image: $e');
+      Logger().e('Failed to pick image: $e');
     }
   }
 
@@ -96,7 +97,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
         },
         SetOptions(merge: true),
       ).then((element) {
-        debugPrint('set cardid directory: completed');
+        Logger().d('set cardid directory: completed');
       });
 
       final CollectionReference newCard = FirebaseFirestore.instance
@@ -116,10 +117,10 @@ class _UploadImagePageState extends State<UploadImagePage> {
           .set(c21r20u00d11, SetOptions(merge: true))
           .then(
         (value) {
-          debugPrint('Card successfully added!');
+          Logger().d('Card successfully added!');
         },
         onError: (e) {
-          debugPrint('Error updating document $e');
+          Logger().e('Error updating document $e');
         },
       );
 
@@ -133,10 +134,10 @@ class _UploadImagePageState extends State<UploadImagePage> {
           .set(c10r20u10d10, SetOptions(merge: true))
           .then(
         (value) {
-          debugPrint('Card successfully added!');
+          Logger().d('Card successfully added!');
         },
         onError: (e) {
-          debugPrint('Error updating document $e');
+          Logger().e('Error updating document $e');
         },
       );
 
@@ -168,10 +169,10 @@ class _UploadImagePageState extends State<UploadImagePage> {
         },
       }).then(
         (value) {
-          debugPrint('DocumentSnapshot successfully updated!');
+          Logger().d('DocumentSnapshot successfully updated!');
         },
         onError: (e) {
-          debugPrint('Error updating document $e');
+          Logger().e('Error updating document $e');
         },
       );
     }
@@ -188,10 +189,10 @@ class _UploadImagePageState extends State<UploadImagePage> {
         'exchanged_cards': FieldValue.arrayUnion([docId])
       }).then(
         (value) {
-          debugPrint('DocumentSnapshot successfully updated!');
+          Logger().d('DocumentSnapshot successfully updated!');
         },
         onError: (e) {
-          debugPrint('Error updating document $e');
+          Logger().e('Error updating document $e');
         },
       );
     }
@@ -212,7 +213,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
             .child('version/2/cards/not_user/$docId/$uploadName');
         final task = await storageRef.putFile(file);
         final String imageURL = await task.ref.getDownloadURL();
-        debugPrint('ここ大事 -> $imageURL');
+        Logger().d('ここ大事 -> $imageURL');
         updateDocumentData(imageURL);
         updateExchangedCards();
         if (!mounted) return;
@@ -225,7 +226,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
           ),
         );
       } catch (e) {
-        debugPrint('$e');
+        Logger().e('$e');
       }
     }
 

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:thundercard/main.dart';
@@ -873,7 +874,7 @@ class Account extends ConsumerWidget {
                                                     })
                                                     .then((_) {})
                                                     .catchError((e) {
-                                                      debugPrint(
+                                                      Logger().e(
                                                         'Failed to delete user: $e',
                                                       );
                                                     });

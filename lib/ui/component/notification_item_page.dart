@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:thundercard/ui/screen/add_card.dart';
 import 'package:thundercard/ui/screen/home_page.dart';
 import 'package:thundercard/utils/constants.dart';
@@ -47,13 +48,13 @@ class NotificationItemPage extends ConsumerWidget {
         .doc(documentId);
 
     void deleteThisNotification() {
-      debugPrint(documentId);
+      Logger().d(documentId);
       notificationItemDoc.delete().then(
         (doc) {
-          debugPrint('Document deleted');
+          Logger().d('Document deleted');
         },
         onError: (e) {
-          debugPrint('Error updating document $e');
+          Logger().e('Error updating document $e');
         },
       );
     }
@@ -136,7 +137,7 @@ class NotificationItemPage extends ConsumerWidget {
                     Navigator.of(context).pop();
                   },
                   onError: (e) {
-                    debugPrint('Error updating document $e');
+                    Logger().e('Error updating document $e');
                   },
                 );
               } else if (s == '削除') {

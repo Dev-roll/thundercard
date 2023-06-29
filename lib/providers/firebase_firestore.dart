@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:thundercard/utils/firebase_auth.dart';
 
 final uid = getUid();
@@ -29,7 +29,7 @@ Future<bool> getIsUser(String cardId) async {
     final data = res.data() as Map<String, dynamic>;
     return data['is_user'];
   }).catchError((error) {
-    debugPrint('Failed to add user: $error');
+    Logger().e('Failed to add user: $error');
     return false;
   });
   return isUser;
@@ -47,7 +47,7 @@ Future<String> getDisplayName(String cardId) async {
     final data = res.data() as Map<String, dynamic>;
     return data['name'];
   }).catchError((error) {
-    debugPrint('Failed to add user: $error');
+    Logger().e('Failed to add user: $error');
     return 'Cannot get name';
   });
   return displayName;

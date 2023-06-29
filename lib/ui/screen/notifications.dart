@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:thundercard/providers/current_card_id_provider.dart';
 import 'package:thundercard/providers/notifications_count_provider.dart';
 import 'package:thundercard/ui/component/custom_progress_indicator.dart';
@@ -151,7 +152,7 @@ class _NotificationsState extends ConsumerState<Notifications> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  debugPrint('${snapshot.error}');
+                  Logger().e('${snapshot.error}');
                   return Text('エラーが発生しました: ${snapshot.error}');
                 }
 
@@ -244,7 +245,7 @@ class _NotificationsState extends ConsumerState<Notifications> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  debugPrint('${snapshot.error}');
+                  Logger().e('${snapshot.error}');
                   return Text('エラーが発生しました: ${snapshot.error}');
                 }
 

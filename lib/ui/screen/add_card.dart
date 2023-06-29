@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:logger/logger.dart';
 import 'package:thundercard/ui/component/my_card.dart';
 import 'package:thundercard/ui/screen/home_page.dart';
 import 'package:thundercard/utils/constants.dart';
@@ -34,10 +35,10 @@ Future<void> applyCard(String myCardId, String anotherCardId) async {
     SetOptions(merge: true),
   ).then(
     (value) {
-      debugPrint('DocumentSnapshot successfully updated');
+      Logger().d('DocumentSnapshot successfully updated');
     },
     onError: (e) {
-      debugPrint('Error updating document $e');
+      Logger().e('Error updating document $e');
     },
   );
 
@@ -56,10 +57,10 @@ Future<void> applyCard(String myCardId, String anotherCardId) async {
     SetOptions(merge: true),
   ).then(
     (value) {
-      debugPrint('DocumentSnapshot successfully updated');
+      Logger().d('DocumentSnapshot successfully updated');
     },
     onError: (e) {
-      debugPrint('Error updating document $e');
+      Logger().e('Error updating document $e');
     },
   );
 
@@ -93,10 +94,10 @@ Future<void> applyCard(String myCardId, String anotherCardId) async {
     SetOptions(merge: true),
   ).then(
     (value) {
-      debugPrint('DocumentSnapshot successfully updated');
+      Logger().d('DocumentSnapshot successfully updated');
     },
     onError: (e) {
-      debugPrint('Error updating document $e');
+      Logger().e('Error updating document $e');
     },
   );
 
@@ -158,10 +159,10 @@ Future<void> verifyCard(String anotherCardId, String myCardId) async {
     SetOptions(merge: true),
   ).then(
     (value) {
-      debugPrint('DocumentSnapshot successfully updated');
+      Logger().d('DocumentSnapshot successfully updated');
     },
     onError: (e) {
-      debugPrint('Error updating document $e');
+      Logger().e('Error updating document $e');
     },
   );
 
@@ -180,10 +181,10 @@ Future<void> verifyCard(String anotherCardId, String myCardId) async {
     SetOptions(merge: true),
   ).then(
     (value) {
-      debugPrint('DocumentSnapshot successfully updated');
+      Logger().d('DocumentSnapshot successfully updated');
     },
     onError: (e) {
-      debugPrint('Error updating document $e');
+      Logger().e('Error updating document $e');
     },
   );
 
@@ -202,10 +203,10 @@ Future<void> verifyCard(String anotherCardId, String myCardId) async {
     SetOptions(merge: true),
   ).then(
     (value) {
-      debugPrint('DocumentSnapshot successfully updated');
+      Logger().d('DocumentSnapshot successfully updated');
     },
     onError: (e) {
-      debugPrint('Error updating document $e');
+      Logger().e('Error updating document $e');
     },
   );
 
@@ -224,10 +225,10 @@ Future<void> verifyCard(String anotherCardId, String myCardId) async {
     SetOptions(merge: true),
   ).then(
     (value) {
-      debugPrint('DocumentSnapshot successfully updated');
+      Logger().d('DocumentSnapshot successfully updated');
     },
     onError: (e) {
-      debugPrint('Error updating document $e');
+      Logger().e('Error updating document $e');
     },
   );
 
@@ -261,10 +262,10 @@ Future<void> verifyCard(String anotherCardId, String myCardId) async {
     SetOptions(merge: true),
   ).then(
     (value) {
-      debugPrint('DocumentSnapshot successfully updated');
+      Logger().d('DocumentSnapshot successfully updated');
     },
     onError: (e) {
-      debugPrint('Error updating document $e');
+      Logger().e('Error updating document $e');
     },
   );
 
