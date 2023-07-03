@@ -54,3 +54,6 @@ app.*.map.json
 keystore.properties
 
 lib/ui/component/maintenance.dart
+
+# fvm
+.fvm/flutter_sdk
