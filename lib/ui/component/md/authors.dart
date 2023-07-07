@@ -3,7 +3,7 @@ const String authorsData = '''
 
 このアプリケーションは以下のメンバーによって開発されました。
 
-- [@notchcoder](https://github.com/notchcoder)
+- [@chnotchy](https://github.com/chnotchy)
 - [@cardseditor](https://github.com/cardseditor)
 - [@keigomichi](https://github.com/keigomichi)
 ''';
