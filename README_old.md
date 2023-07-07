@@ -76,7 +76,7 @@ Material Design 3 のカラーシステムを採用したため、色弱の方�
 
 このアプリケーションは以下のメンバーによって開発されました。
 
-- [@notchcoder](https://github.com/notchcoder)
+- [@chnotchy](https://github.com/chnotchy)
 - [@cardseditor](https://github.com/cardseditor)
 - [@keigomichi](https://github.com/keigomichi)
 
