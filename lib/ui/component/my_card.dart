@@ -70,7 +70,7 @@ class MyCard extends ConsumerWidget {
               .collection('version')
               .doc('2')
               .collection('cards')
-              .where('card_id', isEqualTo: cardId)
+              .doc(cardId)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
@@ -86,8 +86,8 @@ class MyCard extends ConsumerWidget {
             }
 
             dynamic data = snapshot.data;
-            final cardIds = data?.docs;
-            if (cardIds.length == 0) {
+            final card = data?.data();
+            if (card == null) {
               return Column(
                 children: [
                   NotFoundCard(cardId: cardId),
@@ -128,11 +128,11 @@ class MyCard extends ConsumerWidget {
                 ],
               );
             }
-            // final account = cardIds[0]?['account'];
+            // final account = card[0]?['account'];
             late bool lightTheme;
             try {
               lightTheme = true;
-              // lightTheme = cardIds[0]?['visibility']['c10r20u10d10']
+              // lightTheme = card[0]?['visibility']['c10r20u10d10']
               //     ['thundercard']['light_theme'];
               // TODO(noname): firestoreと同期
             } catch (e) {
