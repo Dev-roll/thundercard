@@ -86,6 +86,7 @@ dependencies:
   firebase_ui_auth: ^1.4.0
   firebase_ui_oauth_google: ^1.0.21
   logger: ^1.4.0
+  cached_network_image: ^3.2.3
 
 # 一時的
 dependency_overrides:
