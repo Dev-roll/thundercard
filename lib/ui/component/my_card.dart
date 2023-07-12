@@ -128,12 +128,9 @@ class MyCard extends ConsumerWidget {
                 ],
               );
             }
-            // final account = card[0]?['account'];
             late bool lightTheme;
             try {
               lightTheme = true;
-              // lightTheme = card[0]?['visibility']['c10r20u10d10']
-              //     ['thundercard']['light_theme'];
               // TODO(noname): firestoreと同期
             } catch (e) {
               Logger().e('$e');
