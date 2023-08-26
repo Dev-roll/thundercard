@@ -65,7 +65,7 @@ dependencies:
   firebase_app_check: ^0.1.4+1
   flutter_riverpod: ^2.3.6
   skeletons: ^0.0.3
-  flutter_svg: ^1.0.0
+  flutter_svg: ^2.0.0
   firebase_core_platform_interface: ^4.5.2
   firebase_messaging: ^14.6.1
   flutter_launcher_icons: ^0.13.1
