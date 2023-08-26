@@ -13,6 +13,7 @@ class CustomProgressIndicator extends StatelessWidget {
           height: 30,
           child: CircularProgressIndicator(
             strokeWidth: 3,
+            strokeCap: StrokeCap.round,
           ),
         ),
       ),

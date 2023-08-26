@@ -37,6 +37,7 @@ class ImageWithUrl extends StatelessWidget {
                               .colorScheme
                               .onPrimary
                               .withOpacity(0.5),
+                          strokeCap: StrokeCap.round,
                         ),
                       ),
                     );
@@ -74,6 +75,7 @@ class ImageWithUrl extends StatelessWidget {
                         .colorScheme
                         .onPrimary
                         .withOpacity(0.5),
+                    strokeCap: StrokeCap.round,
                   ),
                 ),
               ),

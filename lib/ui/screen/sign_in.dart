@@ -425,7 +425,9 @@ class _SignInState extends State<SignIn> {
                             child: const GoogleSignInButton(
                               clientId:
                                   '277870400251-aaolhktu6ilde08bn6cuhpi7q8adgr48.apps.googleusercontent.com',
-                              loadingIndicator: CircularProgressIndicator(),
+                              loadingIndicator: CircularProgressIndicator(
+                                strokeCap: StrokeCap.round,
+                              ),
                             ),
                           ),
                         // if (!kIsWeb && Platform.isIOS)
