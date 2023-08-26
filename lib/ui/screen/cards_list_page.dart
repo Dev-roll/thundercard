@@ -19,6 +19,7 @@ class CardsListPage extends ConsumerWidget {
           // TODO(noname): skeleton
           child: CircularProgressIndicator(
             strokeWidth: 3,
+            strokeCap: StrokeCap.round,
           ),
         ),
       ),

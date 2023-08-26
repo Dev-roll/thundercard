@@ -603,7 +603,8 @@ class _UploadImagePageState extends State<UploadImagePage> {
                                       height: 24,
                                       width: 24,
                                       child: CircularProgressIndicator(
-                                        strokeWidth: 3.0,
+                                        strokeWidth: 3,
+                                        strokeCap: StrokeCap.round,
                                       ),
                                     ),
                                   ),
