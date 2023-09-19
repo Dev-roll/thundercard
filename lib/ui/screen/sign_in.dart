@@ -192,7 +192,7 @@ class _SignInState extends State<SignIn> {
                                       keyboardType: TextInputType.emailAddress,
                                       autocorrect: true,
                                       autofillHints: const [
-                                        AutofillHints.email
+                                        AutofillHints.email,
                                       ],
                                       onFieldSubmitted: (value) {
                                         if (_emailController.text
@@ -203,20 +203,21 @@ class _SignInState extends State<SignIn> {
                                           FocusManager.instance.primaryFocus
                                               ?.unfocus();
                                           try {
-                                            Navigator.of(context)
-                                                .pushReplacement(
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    AuthGate(),
-                                              ),
-                                            );
                                             FirebaseAuth.instance
                                                 .signInWithEmailAndPassword(
-                                                  email: _emailController.text,
-                                                  password:
-                                                      _passwordController.text,
-                                                )
-                                                .then((value) {});
+                                              email: _emailController.text,
+                                              password:
+                                                  _passwordController.text,
+                                            )
+                                                .then((value) {
+                                              Navigator.of(context)
+                                                  .pushReplacement(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AuthGate(),
+                                                ),
+                                              );
+                                            });
                                           } catch (e) {
                                             Logger().e('$e');
                                           }
@@ -250,7 +251,7 @@ class _SignInState extends State<SignIn> {
                                       keyboardType:
                                           TextInputType.visiblePassword,
                                       autofillHints: const [
-                                        AutofillHints.password
+                                        AutofillHints.password,
                                       ],
                                       onFieldSubmitted: (value) {
                                         if (_emailController.text
@@ -261,20 +262,21 @@ class _SignInState extends State<SignIn> {
                                           FocusManager.instance.primaryFocus
                                               ?.unfocus();
                                           try {
-                                            Navigator.of(context)
-                                                .pushReplacement(
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    AuthGate(),
-                                              ),
-                                            );
                                             FirebaseAuth.instance
                                                 .signInWithEmailAndPassword(
-                                                  email: _emailController.text,
-                                                  password:
-                                                      _passwordController.text,
-                                                )
-                                                .then((value) {});
+                                              email: _emailController.text,
+                                              password:
+                                                  _passwordController.text,
+                                            )
+                                                .then((value) {
+                                              Navigator.of(context)
+                                                  .pushReplacement(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AuthGate(),
+                                                ),
+                                              );
+                                            });
                                           } catch (e) {
                                             Logger().e('$e');
                                           }
@@ -335,22 +337,23 @@ class _SignInState extends State<SignIn> {
                                                     .instance.primaryFocus
                                                     ?.unfocus();
                                                 try {
-                                                  Navigator.of(context)
-                                                      .pushReplacement(
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          AuthGate(),
-                                                    ),
-                                                  );
                                                   FirebaseAuth.instance
                                                       .signInWithEmailAndPassword(
-                                                        email: _emailController
+                                                    email:
+                                                        _emailController.text,
+                                                    password:
+                                                        _passwordController
                                                             .text,
-                                                        password:
-                                                            _passwordController
-                                                                .text,
-                                                      )
-                                                      .then((value) {});
+                                                  )
+                                                      .then((value) {
+                                                    Navigator.of(context)
+                                                        .pushReplacement(
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            AuthGate(),
+                                                      ),
+                                                    );
+                                                  });
                                                 } catch (e) {
                                                   Logger().e('$e');
                                                 }
@@ -368,7 +371,7 @@ class _SignInState extends State<SignIn> {
                                           SizedBox(width: 8),
                                         ],
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
