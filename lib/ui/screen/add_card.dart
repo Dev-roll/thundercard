@@ -89,7 +89,7 @@ Future<void> applyCard(String myCardId, String anotherCardId) async {
       .doc('c10r21u21d10');
   await myc10r21u21d10.set(
     {
-      'rooms': {anotherCardId: room.toJson()}
+      'rooms': {anotherCardId: room.toJson()},
     },
     SetOptions(merge: true),
   ).then(
@@ -257,7 +257,7 @@ Future<void> verifyCard(String anotherCardId, String myCardId) async {
       .doc('c10r21u21d10');
   await anotherc10r21u21d10.set(
     {
-      'rooms': {myCardId: room.toJson()}
+      'rooms': {myCardId: room.toJson()},
     },
     SetOptions(merge: true),
   ).then(

@@ -233,7 +233,7 @@ enum CardType {
 final List<ThemeMode> themeList = [
   ThemeMode.system,
   ThemeMode.dark,
-  ThemeMode.light
+  ThemeMode.light,
 ];
 
 // メニュー

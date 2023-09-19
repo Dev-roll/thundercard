@@ -259,7 +259,7 @@ class LargeCard extends ConsumerWidget {
                             ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 );

@@ -128,6 +128,7 @@ class _SignUpState extends State<SignUp> {
         }
       }
     } catch (e) {
+      if (!mounted) return;
       await showDialog(
         context: context,
         builder: (context) {
@@ -194,7 +195,7 @@ class _SignUpState extends State<SignUp> {
                                       keyboardType: TextInputType.emailAddress,
                                       autocorrect: true,
                                       autofillHints: const [
-                                        AutofillHints.email
+                                        AutofillHints.email,
                                       ],
                                       onFieldSubmitted: (value) {
                                         if (_emailController.text
@@ -256,7 +257,7 @@ class _SignUpState extends State<SignUp> {
                                           TextInputType.visiblePassword,
                                       autocorrect: true,
                                       autofillHints: const [
-                                        AutofillHints.password
+                                        AutofillHints.password,
                                       ],
                                       onFieldSubmitted: (value) {
                                         if (_emailController.text
@@ -330,7 +331,7 @@ class _SignUpState extends State<SignUp> {
                                           TextInputType.visiblePassword,
                                       autocorrect: true,
                                       autofillHints: const [
-                                        AutofillHints.password
+                                        AutofillHints.password,
                                       ],
                                       onFieldSubmitted: (value) {
                                         if (_emailController.text
@@ -458,7 +459,7 @@ class _SignUpState extends State<SignUp> {
                                           SizedBox(width: 8),
                                         ],
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),

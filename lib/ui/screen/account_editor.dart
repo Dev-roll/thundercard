@@ -165,7 +165,7 @@ class _ReorderableMultiTextFieldState
                     Icon(
                       linkTypeToIconData[entry],
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -392,30 +392,30 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
                 'display': {
                   'normal': true,
                   'large': true,
-                }
+                },
               },
               'company': {
                 'value': _companyController.text,
                 'display': {
                   'normal': true,
                   'large': true,
-                }
+                },
               },
               'position': {
                 'value': _positionController.text,
                 'display': {
                   'normal': true,
                   'large': true,
-                }
+                },
               },
               'address': {
                 'value': _addressController.text,
                 'display': {
                   'normal': true,
                   'large': true,
-                }
+                },
               },
-            }
+            },
           }).then((value) {
             Logger().d('c10r21u10d10: Registered');
           }).catchError((error) {
@@ -436,7 +436,7 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
           });
 
           users.doc(uid).collection('cards').doc('my_cards').set({
-            'my_cards': [_cardIdController.text]
+            'my_cards': [_cardIdController.text],
           }).then((value) {
             Logger().d('User Added');
           }).catchError((error) {
@@ -481,7 +481,7 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
             'settings': {
               'linkable': false,
               'app_theme': 0,
-              'display_card_theme': 0
+              'display_card_theme': 0,
             },
             'applying_cards': [],
           }).then((value) {
@@ -541,7 +541,7 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
                 'bio': 1.3,
                 'profiles': 1,
                 'links': 1,
-              }
+              },
             },
           }).then((value) {
             Logger().d('c10r20u10d10: Registered');
@@ -580,30 +580,30 @@ class _AccountEditorState extends ConsumerState<AccountEditor> {
                   'display': {
                     'normal': true,
                     'large': true,
-                  }
+                  },
                 },
                 'company': {
                   'value': _companyController.text,
                   'display': {
                     'normal': true,
                     'large': true,
-                  }
+                  },
                 },
                 'position': {
                   'value': _positionController.text,
                   'display': {
                     'normal': true,
                     'large': true,
-                  }
+                  },
                 },
                 'address': {
                   'value': _addressController.text,
                   'display': {
                     'normal': true,
                     'large': true,
-                  }
+                  },
                 },
-              }
+              },
             },
             SetOptions(merge: true),
           ).then((value) {

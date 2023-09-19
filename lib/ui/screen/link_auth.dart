@@ -169,7 +169,7 @@ class _LinkAuthState extends State<LinkAuth> {
                                       keyboardType: TextInputType.emailAddress,
                                       autocorrect: true,
                                       autofillHints: const [
-                                        AutofillHints.email
+                                        AutofillHints.email,
                                       ],
                                       onFieldSubmitted: (value) {
                                         if (_emailController.text
@@ -252,7 +252,7 @@ class _LinkAuthState extends State<LinkAuth> {
                                           TextInputType.visiblePassword,
                                       autocorrect: true,
                                       autofillHints: const [
-                                        AutofillHints.password
+                                        AutofillHints.password,
                                       ],
                                       onFieldSubmitted: (value) {
                                         if (_emailController.text
@@ -347,7 +347,7 @@ class _LinkAuthState extends State<LinkAuth> {
                                           TextInputType.visiblePassword,
                                       autocorrect: true,
                                       autofillHints: const [
-                                        AutofillHints.password
+                                        AutofillHints.password,
                                       ],
                                       onFieldSubmitted: (value) {
                                         if (_emailController.text
@@ -525,7 +525,7 @@ class _LinkAuthState extends State<LinkAuth> {
                                     ),
                                   ],
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),

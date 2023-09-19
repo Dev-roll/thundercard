@@ -5,6 +5,7 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   desktop_webview_auth
   dynamic_color
+  file_selector_windows
   firebase_core
   share_plus
   url_launcher_windows

@@ -130,7 +130,7 @@ class HomePage extends ConsumerWidget {
             ],
             child: ProviderScope(
               overrides: [
-                notificationsCountProvider.overrideWithValue(notificationsCount)
+                notificationsCountProvider.overrideWithValue(notificationsCount),
               ],
               child: Scaffold(
                 key: drawerKey,

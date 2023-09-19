@@ -5,6 +5,7 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   desktop_webview_auth
   dynamic_color
+  file_selector_linux
   url_launcher_linux
 )
 

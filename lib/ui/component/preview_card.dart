@@ -70,7 +70,7 @@ class PreviewCard extends StatelessWidget {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
