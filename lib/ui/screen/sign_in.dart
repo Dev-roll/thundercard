@@ -35,9 +35,14 @@ class _SignInState extends State<SignIn> {
   bool hidePassword = true;
   final formKey = GlobalKey<FormState>();
   final user = FirebaseAuth.instance.currentUser;
+  late bool _isLoading = false;
 
   Future _onSignInWithAnonymousUser() async {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    setState(() {
+      _isLoading = true; // ローディング開始
+    });
+
     try {
       if (!mounted) return;
       await Navigator.of(context).pushReplacement(
@@ -45,18 +50,26 @@ class _SignInState extends State<SignIn> {
       );
       await firebaseAuth.signInAnonymously();
     } catch (e) {
-      // await showsnac(
-      //     context: context,
-      //     builder: (context) {
-      //       return AlertDialog(
-      //         title: Text('エラー'),
-      //         content: Text(e.toString()),
-      //       );
-      //     });
+      if (!mounted) return;
+      final snackBar = SnackBar(
+        content: Text('ログイン失敗: $e'),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+      Logger().e('$e');
+    } finally {
+      setState(() {
+        _isLoading = false; // ローディング終了
+      });
     }
   }
 
   Future<void> _onSignInGoogle() async {
+    setState(() {
+      _isLoading = true; // ローディング開始
+    });
+
     try {
       if (!mounted) return;
       await Navigator.of(context).pushReplacement(
@@ -80,19 +93,26 @@ class _SignInState extends State<SignIn> {
       );
       await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
-      // await showDialog(
-      //     context: context,
-      //     builder: (context) {
-      //       return AlertDialog(
-      //         title: Text('エラー'),
-      //         content: Text(e.toString()),
-      //       );
-      //     }
-      // );
+      if (!mounted) return;
+      final snackBar = SnackBar(
+        content: Text('ログイン失敗: $e'),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+      Logger().e('$e');
+    } finally {
+      setState(() {
+        _isLoading = false; // ローディング終了
+      });
     }
   }
 
   Future<void> _onSignInWithApple(User? user) async {
+    setState(() {
+      _isLoading = true; // ローディング開始
+    });
+
     try {
       // AuthorizationCredentialAppleIDのインスタンスを取得
       final appleCredential = await SignInWithApple.getAppleIDCredential(
@@ -126,6 +146,7 @@ class _SignInState extends State<SignIn> {
         await FirebaseAuth.instance.signInWithCredential(credential);
       }
     } catch (e) {
+      if (!mounted) return;
       await showDialog(
         context: context,
         builder: (context) {
@@ -135,6 +156,10 @@ class _SignInState extends State<SignIn> {
           );
         },
       );
+    } finally {
+      setState(() {
+        _isLoading = false; // ローディング終了
+      });
     }
   }
 
@@ -202,6 +227,10 @@ class _SignInState extends State<SignIn> {
                                             formKey.currentState!.validate()) {
                                           FocusManager.instance.primaryFocus
                                               ?.unfocus();
+                                          setState(() {
+                                            _isLoading = true;
+                                          });
+
                                           try {
                                             FirebaseAuth.instance
                                                 .signInWithEmailAndPassword(
@@ -219,7 +248,20 @@ class _SignInState extends State<SignIn> {
                                               );
                                             });
                                           } catch (e) {
+                                            final snackBar = SnackBar(
+                                              content: Text('ログイン失敗: $e'),
+                                              backgroundColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .error,
+                                            );
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
+
                                             Logger().e('$e');
+                                          } finally {
+                                            setState(() {
+                                              _isLoading = false;
+                                            });
                                           }
                                         }
                                       },
@@ -261,6 +303,10 @@ class _SignInState extends State<SignIn> {
                                             formKey.currentState!.validate()) {
                                           FocusManager.instance.primaryFocus
                                               ?.unfocus();
+                                          setState(() {
+                                            _isLoading = true;
+                                          });
+
                                           try {
                                             FirebaseAuth.instance
                                                 .signInWithEmailAndPassword(
@@ -278,7 +324,20 @@ class _SignInState extends State<SignIn> {
                                               );
                                             });
                                           } catch (e) {
+                                            final snackBar = SnackBar(
+                                              content: Text('ログイン失敗: $e'),
+                                              backgroundColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .error,
+                                            );
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
+
                                             Logger().e('$e');
+                                          } finally {
+                                            setState(() {
+                                              _isLoading = false;
+                                            });
                                           }
                                         }
                                       },
@@ -336,6 +395,10 @@ class _SignInState extends State<SignIn> {
                                                 FocusManager
                                                     .instance.primaryFocus
                                                     ?.unfocus();
+                                                setState(() {
+                                                  _isLoading = true;
+                                                });
+
                                                 try {
                                                   FirebaseAuth.instance
                                                       .signInWithEmailAndPassword(
@@ -355,20 +418,44 @@ class _SignInState extends State<SignIn> {
                                                     );
                                                   });
                                                 } catch (e) {
+                                                  final snackBar = SnackBar(
+                                                    content: Text('ログイン失敗: $e'),
+                                                    backgroundColor:
+                                                        Theme.of(context)
+                                                            .colorScheme
+                                                            .error,
+                                                  );
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(snackBar);
+
                                                   Logger().e('$e');
+                                                } finally {
+                                                  setState(() {
+                                                    _isLoading = false;
+                                                  });
                                                 }
                                               }
                                             },
-                                      child: const Row(
+                                      child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          SizedBox(width: 8),
-                                          Icon(Icons.login_rounded),
-                                          SizedBox(width: 8),
-                                          Text('サインイン'),
-                                          SizedBox(width: 8),
+                                          const SizedBox(width: 8),
+                                          const Icon(Icons.login_rounded),
+                                          const SizedBox(width: 8),
+                                          _isLoading
+                                              ? const SizedBox(
+                                                  width: 20,
+                                                  height: 20,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    strokeWidth: 2,
+                                                    color: Colors.white,
+                                                  ),
+                                                )
+                                              : const Text('サインイン'),
+                                          const SizedBox(width: 8),
                                         ],
                                       ),
                                     ),
