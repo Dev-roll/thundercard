@@ -47,7 +47,7 @@ dependencies:
   image_picker: ^0.8.7+5
   firebase_storage: ^11.2.1
   path_provider: ^2.0.15
-  google_fonts: ^4.0.4
+  google_fonts: ^6.0.0
   share_plus: ^7.0.1
   image_gallery_saver: ^2.0.2
   url_launcher: ^6.1.11
