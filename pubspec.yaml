@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.5
   firebase_core: ^2.13.0
   firebase_auth: ^4.6.1
-  google_sign_in: ^5.2.1
+  google_sign_in: ^6.0.0
   cloud_firestore: ^4.7.1
   qr_flutter: ^4.1.0
   qr_code_scanner: ^1.0.1
