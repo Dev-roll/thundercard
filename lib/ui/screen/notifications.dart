@@ -127,10 +127,10 @@ class _NotificationsState extends ConsumerState<Notifications> {
                               ],
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

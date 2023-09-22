@@ -144,7 +144,7 @@ class NotificationItemPage extends ConsumerWidget {
                 openAlertDialog1(context);
               }
             },
-          )
+          ),
         ],
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
       ),
@@ -189,7 +189,7 @@ class NotificationItemPage extends ConsumerWidget {
                             height: 2,
                           ),
                         ),
-                        const SizedBox(width: 12)
+                        const SizedBox(width: 12),
                       ],
                     ),
                     Divider(
@@ -238,13 +238,13 @@ class NotificationItemPage extends ConsumerWidget {
                             }
                             notificationItemDoc.set(
                               {
-                                'tags': FieldValue.arrayRemove(['apply'])
+                                'tags': FieldValue.arrayRemove(['apply']),
                               },
                               SetOptions(merge: true),
                             );
                             notificationItemDoc.set(
                               {
-                                'tags': FieldValue.arrayUnion(['applied'])
+                                'tags': FieldValue.arrayUnion(['applied']),
                               },
                               SetOptions(merge: true),
                             );

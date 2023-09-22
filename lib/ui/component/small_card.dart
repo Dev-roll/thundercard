@@ -196,7 +196,7 @@ class SmallCard extends ConsumerWidget {
                             ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 );

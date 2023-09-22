@@ -29,7 +29,7 @@ void main() async {
       overrides: [
         sharedPreferencesProvider.overrideWithValue(
           await SharedPreferences.getInstance(),
-        )
+        ),
       ],
       child: const ThundercardApp(),
     ),

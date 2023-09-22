@@ -186,7 +186,7 @@ class _UploadImagePageState extends State<UploadImagePage> {
           .collection('visibility')
           .doc('c10r10u11d10');
       doc.update({
-        'exchanged_cards': FieldValue.arrayUnion([docId])
+        'exchanged_cards': FieldValue.arrayUnion([docId]),
       }).then(
         (value) {
           Logger().d('DocumentSnapshot successfully updated!');

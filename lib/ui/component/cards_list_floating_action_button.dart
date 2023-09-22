@@ -104,7 +104,7 @@ class CardsListFloatingActionButton extends ConsumerWidget {
                         blurRadius: 8,
                         offset: Offset(0, 4),
                         spreadRadius: -2,
-                      )
+                      ),
                     ],
                   ),
                   child: Icon(
@@ -147,7 +147,7 @@ class CardsListFloatingActionButton extends ConsumerWidget {
                         blurRadius: 8,
                         offset: Offset(0, 4),
                         spreadRadius: -2,
-                      )
+                      ),
                     ],
                   ),
                   child: Icon(
