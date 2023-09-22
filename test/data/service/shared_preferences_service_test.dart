@@ -93,7 +93,7 @@ void main() {
         expectedUserDataWhenThemeModeIsDark,
         expectedUserDataWhenCardThemeModeIsLight,
         expectedUserDataWhenCardThemeModeIsDark,
-        expectedUserDataWhenShouldHideOnBoardingIsTrue
+        expectedUserDataWhenShouldHideOnBoardingIsTrue,
       ]),
     );
 

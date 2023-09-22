@@ -47,7 +47,7 @@ class CardElement extends StatelessWidget {
                   ),
                   SizedBox(
                     width: 1.5 * vw,
-                  )
+                  ),
                 ],
               )
             : const Text(''),

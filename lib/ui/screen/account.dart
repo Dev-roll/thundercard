@@ -244,10 +244,10 @@ class Account extends ConsumerWidget {
                                             'ライトモード',
                                             softWrap: false,
                                             overflow: TextOverflow.fade,
-                                          )
+                                          ),
                                         ][customTheme.currentAppThemeIdx],
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -484,7 +484,7 @@ class Account extends ConsumerWidget {
                                             }
                                           },
                                           child: const Text('決定'),
-                                        )
+                                        ),
                                       ],
                                     );
                                   },
@@ -540,11 +540,11 @@ class Account extends ConsumerWidget {
                                             'ライトモード',
                                             softWrap: false,
                                             overflow: TextOverflow.fade,
-                                          )
+                                          ),
                                         ][customTheme
                                             .currentDisplayCardThemeIdx],
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),

@@ -73,7 +73,7 @@ class Avatar extends StatelessWidget {
               ),
               clipBehavior: Clip.hardEdge,
             ),
-          )
+          ),
       ],
     );
   }

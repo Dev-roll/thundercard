@@ -66,7 +66,7 @@ class CardDetails extends ConsumerWidget {
                   .collection('visibility')
                   .doc('c10r10u11d10')
                   .update({
-                'exchanged_cards': FieldValue.arrayRemove([cardId])
+                'exchanged_cards': FieldValue.arrayRemove([cardId]),
               }).then(
                 (value) {
                   ref.watch(currentIndexProvider.notifier).state = 1;
@@ -151,7 +151,7 @@ class CardDetails extends ConsumerWidget {
                         openAlertDialog1(context);
                       }
                     },
-                  )
+                  ),
                 ],
               ),
               body: SingleChildScrollView(

@@ -294,7 +294,7 @@ class NormalCard extends ConsumerWidget {
                             ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 );

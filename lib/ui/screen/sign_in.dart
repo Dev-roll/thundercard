@@ -126,6 +126,8 @@ class _SignInState extends State<SignIn> {
         await FirebaseAuth.instance.signInWithCredential(credential);
       }
     } catch (e) {
+      final mounted = context.mounted;
+      if (!mounted) return;
       await showDialog(
         context: context,
         builder: (context) {
@@ -192,7 +194,7 @@ class _SignInState extends State<SignIn> {
                                       keyboardType: TextInputType.emailAddress,
                                       autocorrect: true,
                                       autofillHints: const [
-                                        AutofillHints.email
+                                        AutofillHints.email,
                                       ],
                                       onFieldSubmitted: (value) {
                                         if (_emailController.text
@@ -250,7 +252,7 @@ class _SignInState extends State<SignIn> {
                                       keyboardType:
                                           TextInputType.visiblePassword,
                                       autofillHints: const [
-                                        AutofillHints.password
+                                        AutofillHints.password,
                                       ],
                                       onFieldSubmitted: (value) {
                                         if (_emailController.text
@@ -368,7 +370,7 @@ class _SignInState extends State<SignIn> {
                                           SizedBox(width: 8),
                                         ],
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),

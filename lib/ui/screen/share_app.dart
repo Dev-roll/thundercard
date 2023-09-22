@@ -342,7 +342,7 @@ class ShareApp extends ConsumerWidget {
                   Theme.of(context).colorScheme.onSecondaryContainer,
               backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
             ),
-          )
+          ),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
