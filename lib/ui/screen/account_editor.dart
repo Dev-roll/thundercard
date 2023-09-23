@@ -16,7 +16,7 @@ import 'package:thundercard/utils/firebase_auth.dart';
 import 'package:uuid/uuid.dart';
 
 class AccountEditor extends ConsumerStatefulWidget {
-  const AccountEditor({
+  const AccountEditor( {
     Key? key,
     required this.isRegistration,
     required this.isUser,
